@@ -1,2 +1,0 @@
-# Workaround https://github.com/bazelbuild/bazel/issues/3645.
-build --local_resources=2048,2.0,1.0
