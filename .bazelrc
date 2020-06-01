@@ -1,1 +1,2 @@
+build -c opt
 build --cxxopt=-std=c++17
