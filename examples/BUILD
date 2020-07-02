@@ -4,6 +4,12 @@
 # https://docs.bazel.build/versions/master/be/overview.html#rules
 
 cc_binary(
+    name = "app",
+    srcs = ["app.cc"],
+    deps = ["@cpr"],
+)
+
+cc_binary(
     name = "minimal_main",
     srcs = [
         "minimal_main.cc",
