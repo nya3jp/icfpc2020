@@ -1,0 +1,13 @@
+steps:
+  - name: golang
+    args: ["go", "build", "./cmd/api-server"]
+    dir: "draftcode"
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - "build"
+      - "."
+      - "-t"
+      - "gcr.io/$PROJECT_ID/api-server"
+      - "-f"
+      - "draftcode/dockerfiles/api-server.dockerfile"
+images: ["gcr.io/$PROJECT_ID/api-server"]

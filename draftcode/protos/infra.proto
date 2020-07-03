@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option go_package = "github.com/nya3jp/icfpc2020/draftcode/protos";
+
+import "google/protobuf/empty.proto";
+
+service ControlService {
+  rpc Ping(google.protobuf.Empty) returns (google.protobuf.Empty) {}
+}
