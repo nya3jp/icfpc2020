@@ -1,0 +1,13 @@
+[package]
+name = "oka"
+version = "0.1.0"
+authors = ["Keigo Oka <ogiekako@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+image = "0.23.6"
+clap = "2.33.1"
+tempfile = "3.1.0"
+lazy_static = "1.4.0"
