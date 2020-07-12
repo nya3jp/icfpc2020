@@ -12,7 +12,6 @@ This is infra practice code so that we can use some parts as a scaffold.
 
 ## TODO
 
-- Serve static files
 - Cloud SQL Postgres server setup & DB migrations
 - Small task queue system
 - Cloud Build config for Bazel & task triggering
@@ -83,3 +82,4 @@ should be accessible directly.
   runs behind Cloud Run, it cannot receive requests as HTTP/2 (then why the
   standalone gRPC server can receive requests?). I cannot make a gRPC/HTTP
   hybrid server work.
+- Files in `draftcode/static` are served from `/static/`.
