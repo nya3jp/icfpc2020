@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "Bazel",
+            "includePath": [
+                "${workspaceFolder}",
+                "${workspaceFolder}/bazel-bin",
+                "${workspaceFolder}/bazel-bin/external/com_github_gflags_gflags/_virtual_includes/gflags",
+                "${workspaceFolder}/bazel-bin/external/com_github_google_glog/_virtual_includes/glog",
+                "${workspaceFolder}/bazel-icfpc2020/external/com_github_google_googletest/googletest/include",
+                "${workspaceFolder}/bazel-icfpc2020/external/com_google_absl",
+                "${workspaceFolder}/bazel-icfpc2020/external/com_google_protobuf/src",
+                "${workspaceFolder}/bazel-icfpc2020/external/cpr/include",
+                "${workspaceFolder}/bazel-icfpc2020/external/curl/include",
+                "${workspaceFolder}/bazel-icfpc2020/external/zlib"
+            ],
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
