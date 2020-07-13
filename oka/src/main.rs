@@ -111,7 +111,7 @@ fn output_svg(w: &mut Writer, grid: &Grid, glyphs: &Vec<Glyph>) -> Result<(), st
             let (x1,x2) = (g.rows.start * SZ, g.rows.end * SZ);
             let (y1,y2) = (g.cols.start * SZ, g.cols.end * SZ);
             let color = match g.k {
-                Kind::Int(_) | Kind::Var(_) => "yellow",
+                Kind::Int(_) | Kind::Var(_) | Kind::Molecule(_) => "yellow",
                 Kind::Ellipsis => "black",
                 Kind::Unknown(_) => "red",
                 _ => "green",
@@ -154,6 +154,7 @@ enum Kind {
     Dec,
     Plus,
     Molecule(&'static str),
+    Life(&'static str),
     Unknown(isize),
 }
 
@@ -177,6 +178,7 @@ impl ToString for Kind {
             Kind::Dec => "dec".into(),
             Kind::Plus => "+".into(),
             Kind::Molecule(s) => s.to_string(),
+            Kind::Life(s) => s.to_string(),
             Kind::Unknown(x) => format!("?{}", x),
         }
     }
@@ -228,6 +230,40 @@ lazy_static! {
         m.insert(134, Kind::Molecule("-CH2-C6H4-OH"));
         m
     };
+    static ref FIXED: Vec<(Vec<&'static str>, Kind)> = vec![
+        (vec!["1010101", "0000000",], Kind::Ellipsis),
+        (vec!["1000", "0100", "1100", "0011"], Kind::Molecule("D")),
+        (vec!["1000", "0111", "1100", "0011"], Kind::Molecule("T")),
+        (
+            vec!["1010", "0101", "1101", "1000"],
+            Kind::Molecule("amino")
+        ),
+        (vec!["101", "010", "101"], Kind::Molecule("bond")),
+        (vec!["1000", "0111", "0111", "0010"], Kind::Life("X")),
+        (vec!["1001", "0111", "0010", "0010"], Kind::Life("Y")),
+        (vec!["1000", "0111", "0010", "0111"], Kind::Life("Z")),
+        (vec!["1000", "0111", "0111", "0101"], Kind::Life("A")),
+        (vec!["1001", "0111", "0101", "0101"], Kind::Life("B")),
+        (vec!["1000", "0111", "0101", "0111"], Kind::Life("C")),
+        (vec!["1010", "0101", "1101", "0010"], Kind::Molecule("x?")),
+        (vec!["1010", "0101", "1101", "0101"], Kind::Molecule("a?")),
+        (
+            vec!["1011", "0111", "1111", "0010"],
+            Kind::Molecule("X DNA?")
+        ),
+        (
+            vec!["1011", "0111", "1111", "0101"],
+            Kind::Molecule("A DNA?")
+        ),
+        (
+            vec!["1011", "0111", "1111", "0101"],
+            Kind::Molecule("A DNA?")
+        ),
+        (vec!["1000", "0111", "0111", "0111"], Kind::Life("home?")),
+        (vec!["1011", "0111", "1111", "1111"], Kind::Life("13-1")),
+        (vec!["1010", "0111", "0101", "0111"], Kind::Life("14-1")),
+        (vec!["1010", "0111", "0101", "0111"], Kind::Life("14-1")),
+    ];
 }
 
 fn glyph(grid: &Grid, x: usize, y: usize, flip: bool) -> Result<Glyph, Error> {
@@ -241,6 +277,17 @@ fn glyph(grid: &Grid, x: usize, y: usize, flip: bool) -> Result<Glyph, Error> {
             k,
         })
     };
+
+    for (fig, k) in FIXED.iter() {
+        let mut ok = true;
+        if fig.iter().enumerate().all(|(i, row)| {
+            row.chars()
+                .enumerate()
+                .all(|(j, c)| (c == '1') == get(i, j))
+        }) {
+            return gen_glyph(fig.len(), fig[0].len(), k.clone());
+        }
+    }
 
     let mut n = 0;
     while get(0, n + 1) && get(n + 1, 0) {
@@ -312,14 +359,7 @@ fn glyph(grid: &Grid, x: usize, y: usize, flip: bool) -> Result<Glyph, Error> {
 
 fn parse_glyph(x: usize, y: usize, grid: &Grid) -> Result<Glyph, Error> {
     dbg!(x, y);
-    // ellipsis
-    if (y..y + 7).all(|yy| grid[x].get(yy) == Some(&((yy - y) % 2 == 0))) {
-        return Ok(Glyph {
-            rows: x..x + 1,
-            cols: y..y + 7,
-            k: Kind::Ellipsis,
-        });
-    }
+
     glyph(&grid, x, y, false)
 }
 
