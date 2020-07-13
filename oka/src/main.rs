@@ -5,6 +5,8 @@ extern crate image;
 #[macro_use]
 extern crate lazy_static;
 extern crate tempfile;
+#[macro_use]
+extern crate itertools;
 
 use clap::{App, Arg, SubCommand};
 use std::io::Read;
@@ -70,7 +72,7 @@ fn run() -> Result<(), Error> {
 }
 
 fn output_svg(w: &mut Writer, grid: &Grid, glyphs: &Vec<Glyph>) -> Result<(), std::io::Error> {
-    const SZ: usize = 4;
+    const SZ: usize = 10;
     let H = grid.len();
     let W = grid[0].len();
     let out = format!(
@@ -116,7 +118,7 @@ fn output_svg(w: &mut Writer, grid: &Grid, glyphs: &Vec<Glyph>) -> Result<(), st
             };
             format!(
                 r#"<rect y="{}" x="{}" height="{}" width="{}" fill="{}" fill-opacity="0.4"/>
-<text y="{}" x="{}" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 10px'>{}</text>
+<text y="{}" x="{}" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>{}</text>
 "#,
             x1,
             y1,
@@ -151,6 +153,7 @@ enum Kind {
     Inc,
     Dec,
     Plus,
+    Molecule(&'static str),
     Unknown(isize),
 }
 
@@ -158,19 +161,30 @@ impl ToString for Kind {
     fn to_string(&self) -> String {
         match self {
             Kind::Ellipsis => "...".into(),
-            Kind::Int(n) => format!("{}", n),
+            Kind::Int(n) => format!(
+                "{}{}",
+                n,
+                if 1 <= *n && (*n as usize) - 1 < ELEMENTS.len() {
+                    format!("({})", ELEMENTS[*n as usize - 1])
+                } else {
+                    "".into()
+                }
+            ),
             Kind::Var(i) => format!("x{}", i),
             Kind::Equal => "==".into(),
             Kind::Apply => "ap".into(),
             Kind::Inc => "inc".into(),
             Kind::Dec => "dec".into(),
             Kind::Plus => "+".into(),
+            Kind::Molecule(s) => s.to_string(),
             Kind::Unknown(x) => format!("?{}", x),
         }
     }
 }
 
 lazy_static! {
+    static ref ELEMENTS: Vec<&'static str> =
+        vec!["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P"];
     static ref NUM_TO_KIND: std::collections::HashMap<isize, Kind> = {
         let mut m = std::collections::HashMap::new();
         m.insert(0, Kind::Apply);
@@ -178,16 +192,59 @@ lazy_static! {
         m.insert(365, Kind::Plus);
         m.insert(401, Kind::Dec);
         m.insert(417, Kind::Inc);
+        m.insert(16, Kind::Molecule("CH4"));
+        m.insert(17, Kind::Molecule("NH3"));
+        m.insert(18, Kind::Molecule("H2O"));
+        m.insert(28, Kind::Molecule("N2"));
+        m.insert(32, Kind::Molecule("O2"));
+        m.insert(46, Kind::Molecule("CO2"));
+        m.insert(48, Kind::Molecule("O3"));
+        m.insert(328, Kind::Molecule("Al2O3"));
+        m.insert(74, Kind::Molecule("NaNO3"));
+        m.insert(85, Kind::Molecule("MgCl2"));
+        m.insert(95, Kind::Molecule("Fe2O3"));
+        m.insert(104, Kind::Molecule("NaNO3"));
+
+        m.insert(56, Kind::Molecule("-NH-C(R)H-C(=O)-"));
+        m.insert(20, Kind::Molecule("-CH(NH2)-CH3"));
+        m.insert(29, Kind::Molecule("-CH2-CH3"));
+        m.insert(30, Kind::Molecule("-CH2-NH2"));
+        m.insert(31, Kind::Molecule("Ser"));
+        m.insert(44, Kind::Molecule("Thr"));
+        m.insert(45, Kind::Molecule("-CH2-CH2-OH"));
+        m.insert(58, Kind::Molecule("Asn"));
+
+        m.insert(59, Kind::Molecule("-CH2-C(=O)-OH"));
+        m.insert(72, Kind::Molecule("-C2H4-C(=O)-NH2"));
+        m.insert(9, Kind::Molecule("-C2H4-C(=O)-OH"));
+        m.insert(84, Kind::Molecule("-CH2-CH(-CH3)2"));
+        m.insert(86, Kind::Molecule("-CH2-CH2-NH-C(NH2)(NH)"));
+        m.insert(87, Kind::Molecule("-CH2-CH2-CH2-COOH"));
+        m.insert(100, Kind::Molecule("-CH2-CH2-CH2-NH-C(NH2)(NH)"));
+        m.insert(118, Kind::Molecule("-CH2-C6H5"));
+        m.insert(134, Kind::Molecule("-CH2-C6H4-OH"));
         m
     };
 }
 
 fn glyph(grid: &Grid, x: usize, y: usize, flip: bool) -> Result<Glyph, Error> {
-    let get = |i: usize, j: usize| grid[x + i][y + j] ^ flip;
+    let inside = |i: usize, j: usize| x + i < grid.len() && y + j < grid[0].len();
+    let get = |i: usize, j: usize| inside(i, j) && (grid[x + i][y + j] ^ flip);
+
+    let gen_glyph = |h: usize, w: usize, k: Kind| {
+        Ok(Glyph {
+            rows: x..x + h,
+            cols: y..y + w,
+            k,
+        })
+    };
 
     let mut n = 1;
-    while get(0, n + 1) {
+    while get(0, n + 1) && get(n + 1, 0) {
         n += 1;
+    }
+    if !inside(0, n + 1) || !inside(n + 1, 0) {
+        return gen_glyph(1, 1, Kind::Unknown(-1));
     }
 
     let is_var = (0..=n).all(|i| get(i, 0) && get(i, n) && get(0, i) && get(n, i));
@@ -195,7 +252,7 @@ fn glyph(grid: &Grid, x: usize, y: usize, flip: bool) -> Result<Glyph, Error> {
         return match glyph(grid, x + 1, y + 1, !flip)?.k {
             Kind::Int(i) => {
                 if i < 0 {
-                    Err("negative value inside var".into())
+                    gen_glyph(1, 1, Kind::Unknown(-1))
                 } else {
                     Ok(Glyph {
                         rows: x..x + n + 1,
@@ -204,7 +261,8 @@ fn glyph(grid: &Grid, x: usize, y: usize, flip: bool) -> Result<Glyph, Error> {
                     })
                 }
             }
-            _ => Err("invalid glyph".into()),
+            _ => gen_glyph(1, 1, Kind::Unknown(-1)),
+            // _ => Err("invalid glyph".into()),
         };
     }
 
@@ -244,8 +302,9 @@ fn glyph(grid: &Grid, x: usize, y: usize, flip: bool) -> Result<Glyph, Error> {
 }
 
 fn parse_glyph(x: usize, y: usize, grid: &Grid) -> Result<Glyph, Error> {
+    dbg!(x, y);
     // ellipsis
-    if (y..y + 7).all(|yy| grid[x][yy] == ((yy - y) % 2 == 0)) {
+    if (y..y + 7).all(|yy| grid[x].get(yy) == Some(&((yy - y) % 2 == 0))) {
         return Ok(Glyph {
             rows: x..x + 1,
             cols: y..y + 7,
@@ -309,14 +368,28 @@ fn parse_txt(file: &str) -> Result<Grid, Error> {
 
 fn parse_img(file: &str) -> Result<Grid, Error> {
     let img = image::open(file)?;
-    let img = img.into_luma();
+    let img = img.into_rgb();
 
-    const SZ: usize = 4;
-    Ok((2..img.height())
-        .step_by(SZ)
+    // const SZ: usize = 4;
+    let H = img.height();
+    let W = img.width();
+
+    let (x0, y0) = iproduct!(0..W, 0..H)
+        .find(|(x, y)| img.get_pixel(*x, *y)[0] > 250)
+        .ok_or(Error::from("white not found"))?;
+    let SZ = (0..)
+        .find(|i| img.get_pixel(x0 + i, y0 + i)[0] < 5)
+        .ok_or(Error::from("black not found"))?;
+    let (mut x1, mut y1) = iproduct!((0..W).rev(), (0..H).rev())
+        .find(|(x, y)| img.get_pixel(*x, *y)[0] > 250)
+        .ok_or(Error::from("white not found"))?;
+    let (x1, y1) = (x1 + 1, y1 + 1);
+
+    Ok((y0..y1)
+        .step_by(SZ as usize)
         .map(|y| {
-            (2..img.width())
-                .step_by(SZ)
+            (x0..x1)
+                .step_by(SZ as usize)
                 .map(|x| {
                     if img.get_pixel(x, y)[0] < 128 {
                         false

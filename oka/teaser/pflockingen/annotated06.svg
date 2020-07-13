@@ -1,0 +1,1341 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" height="1470" width="480">
+  <rect y="0" x="0" height="1470" width="480" fill="black" />
+  <rect y="0" x="0" height="10" width="10" fill="white"/>
+    <rect y="0" x="10" height="10" width="10" fill="white"/>
+    <rect y="0" x="20" height="10" width="10" fill="white"/>
+    <rect y="0" x="30" height="10" width="10" fill="white"/>
+    <rect y="0" x="40" height="10" width="10" fill="white"/>
+    <rect y="0" x="50" height="10" width="10" fill="white"/>
+    <rect y="0" x="60" height="10" width="10" fill="white"/>
+    <rect y="0" x="70" height="10" width="10" fill="white"/>
+    <rect y="0" x="80" height="10" width="10" fill="white"/>
+    <rect y="0" x="90" height="10" width="10" fill="white"/>
+    <rect y="0" x="100" height="10" width="10" fill="white"/>
+    <rect y="0" x="110" height="10" width="10" fill="white"/>
+    <rect y="0" x="120" height="10" width="10" fill="white"/>
+    <rect y="0" x="130" height="10" width="10" fill="white"/>
+    <rect y="0" x="140" height="10" width="10" fill="white"/>
+    <rect y="0" x="150" height="10" width="10" fill="white"/>
+    <rect y="0" x="160" height="10" width="10" fill="white"/>
+    <rect y="0" x="170" height="10" width="10" fill="white"/>
+    <rect y="0" x="180" height="10" width="10" fill="white"/>
+    <rect y="0" x="190" height="10" width="10" fill="white"/>
+    <rect y="0" x="200" height="10" width="10" fill="white"/>
+    <rect y="0" x="210" height="10" width="10" fill="white"/>
+    <rect y="0" x="220" height="10" width="10" fill="white"/>
+    <rect y="0" x="230" height="10" width="10" fill="white"/>
+    <rect y="0" x="240" height="10" width="10" fill="white"/>
+    <rect y="0" x="250" height="10" width="10" fill="white"/>
+    <rect y="0" x="260" height="10" width="10" fill="white"/>
+    <rect y="0" x="270" height="10" width="10" fill="white"/>
+    <rect y="0" x="280" height="10" width="10" fill="white"/>
+    <rect y="0" x="290" height="10" width="10" fill="white"/>
+    <rect y="0" x="300" height="10" width="10" fill="white"/>
+    <rect y="0" x="310" height="10" width="10" fill="white"/>
+    <rect y="0" x="320" height="10" width="10" fill="white"/>
+    <rect y="0" x="330" height="10" width="10" fill="white"/>
+    <rect y="0" x="340" height="10" width="10" fill="white"/>
+    <rect y="0" x="350" height="10" width="10" fill="white"/>
+    <rect y="0" x="360" height="10" width="10" fill="white"/>
+    <rect y="0" x="370" height="10" width="10" fill="white"/>
+    <rect y="0" x="380" height="10" width="10" fill="white"/>
+    <rect y="0" x="390" height="10" width="10" fill="white"/>
+    <rect y="0" x="400" height="10" width="10" fill="white"/>
+    <rect y="0" x="410" height="10" width="10" fill="white"/>
+    <rect y="0" x="420" height="10" width="10" fill="white"/>
+    <rect y="0" x="430" height="10" width="10" fill="white"/>
+    <rect y="0" x="440" height="10" width="10" fill="white"/>
+    <rect y="0" x="450" height="10" width="10" fill="white"/>
+    <rect y="0" x="460" height="10" width="10" fill="white"/>
+    <rect y="0" x="470" height="10" width="10" fill="white"/>
+    <rect y="10" x="0" height="10" width="10" fill="white"/>
+    <rect y="10" x="400" height="10" width="10" fill="white"/>
+    <rect y="10" x="470" height="10" width="10" fill="white"/>
+    <rect y="20" x="0" height="10" width="10" fill="white"/>
+    <rect y="20" x="220" height="10" width="10" fill="white"/>
+    <rect y="20" x="400" height="10" width="10" fill="white"/>
+    <rect y="20" x="420" height="10" width="10" fill="white"/>
+    <rect y="20" x="440" height="10" width="10" fill="white"/>
+    <rect y="20" x="470" height="10" width="10" fill="white"/>
+    <rect y="30" x="0" height="10" width="10" fill="white"/>
+    <rect y="30" x="210" height="10" width="10" fill="white"/>
+    <rect y="30" x="400" height="10" width="10" fill="white"/>
+    <rect y="30" x="430" height="10" width="10" fill="white"/>
+    <rect y="30" x="450" height="10" width="10" fill="white"/>
+    <rect y="30" x="470" height="10" width="10" fill="white"/>
+    <rect y="40" x="0" height="10" width="10" fill="white"/>
+    <rect y="40" x="400" height="10" width="10" fill="white"/>
+    <rect y="40" x="420" height="10" width="10" fill="white"/>
+    <rect y="40" x="430" height="10" width="10" fill="white"/>
+    <rect y="40" x="450" height="10" width="10" fill="white"/>
+    <rect y="40" x="470" height="10" width="10" fill="white"/>
+    <rect y="50" x="0" height="10" width="10" fill="white"/>
+    <rect y="50" x="20" height="10" width="10" fill="white"/>
+    <rect y="50" x="30" height="10" width="10" fill="white"/>
+    <rect y="50" x="40" height="10" width="10" fill="white"/>
+    <rect y="50" x="50" height="10" width="10" fill="white"/>
+    <rect y="50" x="90" height="10" width="10" fill="white"/>
+    <rect y="50" x="130" height="10" width="10" fill="white"/>
+    <rect y="50" x="140" height="10" width="10" fill="white"/>
+    <rect y="50" x="170" height="10" width="10" fill="white"/>
+    <rect y="50" x="190" height="10" width="10" fill="white"/>
+    <rect y="50" x="230" height="10" width="10" fill="white"/>
+    <rect y="50" x="240" height="10" width="10" fill="white"/>
+    <rect y="50" x="270" height="10" width="10" fill="white"/>
+    <rect y="50" x="290" height="10" width="10" fill="white"/>
+    <rect y="50" x="330" height="10" width="10" fill="white"/>
+    <rect y="50" x="340" height="10" width="10" fill="white"/>
+    <rect y="50" x="370" height="10" width="10" fill="white"/>
+    <rect y="50" x="400" height="10" width="10" fill="white"/>
+    <rect y="50" x="420" height="10" width="10" fill="white"/>
+    <rect y="50" x="470" height="10" width="10" fill="white"/>
+    <rect y="60" x="0" height="10" width="10" fill="white"/>
+    <rect y="60" x="20" height="10" width="10" fill="white"/>
+    <rect y="60" x="100" height="10" width="10" fill="white"/>
+    <rect y="60" x="120" height="10" width="10" fill="white"/>
+    <rect y="60" x="130" height="10" width="10" fill="white"/>
+    <rect y="60" x="140" height="10" width="10" fill="white"/>
+    <rect y="60" x="160" height="10" width="10" fill="white"/>
+    <rect y="60" x="200" height="10" width="10" fill="white"/>
+    <rect y="60" x="220" height="10" width="10" fill="white"/>
+    <rect y="60" x="240" height="10" width="10" fill="white"/>
+    <rect y="60" x="260" height="10" width="10" fill="white"/>
+    <rect y="60" x="300" height="10" width="10" fill="white"/>
+    <rect y="60" x="320" height="10" width="10" fill="white"/>
+    <rect y="60" x="340" height="10" width="10" fill="white"/>
+    <rect y="60" x="360" height="10" width="10" fill="white"/>
+    <rect y="60" x="400" height="10" width="10" fill="white"/>
+    <rect y="60" x="470" height="10" width="10" fill="white"/>
+    <rect y="70" x="0" height="10" width="10" fill="white"/>
+    <rect y="70" x="20" height="10" width="10" fill="white"/>
+    <rect y="70" x="30" height="10" width="10" fill="white"/>
+    <rect y="70" x="40" height="10" width="10" fill="white"/>
+    <rect y="70" x="50" height="10" width="10" fill="white"/>
+    <rect y="70" x="120" height="10" width="10" fill="white"/>
+    <rect y="70" x="130" height="10" width="10" fill="white"/>
+    <rect y="70" x="220" height="10" width="10" fill="white"/>
+    <rect y="70" x="230" height="10" width="10" fill="white"/>
+    <rect y="70" x="320" height="10" width="10" fill="white"/>
+    <rect y="70" x="330" height="10" width="10" fill="white"/>
+    <rect y="70" x="400" height="10" width="10" fill="white"/>
+    <rect y="70" x="410" height="10" width="10" fill="white"/>
+    <rect y="70" x="420" height="10" width="10" fill="white"/>
+    <rect y="70" x="430" height="10" width="10" fill="white"/>
+    <rect y="70" x="440" height="10" width="10" fill="white"/>
+    <rect y="70" x="450" height="10" width="10" fill="white"/>
+    <rect y="70" x="460" height="10" width="10" fill="white"/>
+    <rect y="70" x="470" height="10" width="10" fill="white"/>
+    <rect y="80" x="0" height="10" width="10" fill="white"/>
+    <rect y="80" x="20" height="10" width="10" fill="white"/>
+    <rect y="80" x="470" height="10" width="10" fill="white"/>
+    <rect y="90" x="0" height="10" width="10" fill="white"/>
+    <rect y="90" x="120" height="10" width="10" fill="white"/>
+    <rect y="90" x="140" height="10" width="10" fill="white"/>
+    <rect y="90" x="220" height="10" width="10" fill="white"/>
+    <rect y="90" x="240" height="10" width="10" fill="white"/>
+    <rect y="90" x="310" height="10" width="10" fill="white"/>
+    <rect y="90" x="340" height="10" width="10" fill="white"/>
+    <rect y="90" x="470" height="10" width="10" fill="white"/>
+    <rect y="100" x="0" height="10" width="10" fill="white"/>
+    <rect y="100" x="110" height="10" width="10" fill="white"/>
+    <rect y="100" x="150" height="10" width="10" fill="white"/>
+    <rect y="100" x="210" height="10" width="10" fill="white"/>
+    <rect y="100" x="250" height="10" width="10" fill="white"/>
+    <rect y="100" x="320" height="10" width="10" fill="white"/>
+    <rect y="100" x="350" height="10" width="10" fill="white"/>
+    <rect y="100" x="470" height="10" width="10" fill="white"/>
+    <rect y="110" x="0" height="10" width="10" fill="white"/>
+    <rect y="110" x="130" height="10" width="10" fill="white"/>
+    <rect y="110" x="230" height="10" width="10" fill="white"/>
+    <rect y="110" x="470" height="10" width="10" fill="white"/>
+    <rect y="120" x="0" height="10" width="10" fill="white"/>
+    <rect y="120" x="120" height="10" width="10" fill="white"/>
+    <rect y="120" x="130" height="10" width="10" fill="white"/>
+    <rect y="120" x="220" height="10" width="10" fill="white"/>
+    <rect y="120" x="230" height="10" width="10" fill="white"/>
+    <rect y="120" x="320" height="10" width="10" fill="white"/>
+    <rect y="120" x="350" height="10" width="10" fill="white"/>
+    <rect y="120" x="470" height="10" width="10" fill="white"/>
+    <rect y="130" x="0" height="10" width="10" fill="white"/>
+    <rect y="130" x="310" height="10" width="10" fill="white"/>
+    <rect y="130" x="340" height="10" width="10" fill="white"/>
+    <rect y="130" x="470" height="10" width="10" fill="white"/>
+    <rect y="140" x="0" height="10" width="10" fill="white"/>
+    <rect y="140" x="470" height="10" width="10" fill="white"/>
+    <rect y="150" x="0" height="10" width="10" fill="white"/>
+    <rect y="150" x="330" height="10" width="10" fill="white"/>
+    <rect y="150" x="340" height="10" width="10" fill="white"/>
+    <rect y="150" x="470" height="10" width="10" fill="white"/>
+    <rect y="160" x="0" height="10" width="10" fill="white"/>
+    <rect y="160" x="320" height="10" width="10" fill="white"/>
+    <rect y="160" x="470" height="10" width="10" fill="white"/>
+    <rect y="170" x="0" height="10" width="10" fill="white"/>
+    <rect y="170" x="320" height="10" width="10" fill="white"/>
+    <rect y="170" x="340" height="10" width="10" fill="white"/>
+    <rect y="170" x="470" height="10" width="10" fill="white"/>
+    <rect y="180" x="0" height="10" width="10" fill="white"/>
+    <rect y="180" x="470" height="10" width="10" fill="white"/>
+    <rect y="190" x="0" height="10" width="10" fill="white"/>
+    <rect y="190" x="470" height="10" width="10" fill="white"/>
+    <rect y="200" x="0" height="10" width="10" fill="white"/>
+    <rect y="200" x="130" height="10" width="10" fill="white"/>
+    <rect y="200" x="230" height="10" width="10" fill="white"/>
+    <rect y="200" x="470" height="10" width="10" fill="white"/>
+    <rect y="210" x="0" height="10" width="10" fill="white"/>
+    <rect y="210" x="120" height="10" width="10" fill="white"/>
+    <rect y="210" x="130" height="10" width="10" fill="white"/>
+    <rect y="210" x="220" height="10" width="10" fill="white"/>
+    <rect y="210" x="230" height="10" width="10" fill="white"/>
+    <rect y="210" x="470" height="10" width="10" fill="white"/>
+    <rect y="220" x="0" height="10" width="10" fill="white"/>
+    <rect y="220" x="470" height="10" width="10" fill="white"/>
+    <rect y="230" x="0" height="10" width="10" fill="white"/>
+    <rect y="230" x="120" height="10" width="10" fill="white"/>
+    <rect y="230" x="140" height="10" width="10" fill="white"/>
+    <rect y="230" x="220" height="10" width="10" fill="white"/>
+    <rect y="230" x="240" height="10" width="10" fill="white"/>
+    <rect y="230" x="470" height="10" width="10" fill="white"/>
+    <rect y="240" x="0" height="10" width="10" fill="white"/>
+    <rect y="240" x="110" height="10" width="10" fill="white"/>
+    <rect y="240" x="150" height="10" width="10" fill="white"/>
+    <rect y="240" x="210" height="10" width="10" fill="white"/>
+    <rect y="240" x="250" height="10" width="10" fill="white"/>
+    <rect y="240" x="470" height="10" width="10" fill="white"/>
+    <rect y="250" x="0" height="10" width="10" fill="white"/>
+    <rect y="250" x="470" height="10" width="10" fill="white"/>
+    <rect y="260" x="0" height="10" width="10" fill="white"/>
+    <rect y="260" x="20" height="10" width="10" fill="white"/>
+    <rect y="260" x="30" height="10" width="10" fill="white"/>
+    <rect y="260" x="40" height="10" width="10" fill="white"/>
+    <rect y="260" x="50" height="10" width="10" fill="white"/>
+    <rect y="260" x="90" height="10" width="10" fill="white"/>
+    <rect y="260" x="130" height="10" width="10" fill="white"/>
+    <rect y="260" x="140" height="10" width="10" fill="white"/>
+    <rect y="260" x="170" height="10" width="10" fill="white"/>
+    <rect y="260" x="190" height="10" width="10" fill="white"/>
+    <rect y="260" x="230" height="10" width="10" fill="white"/>
+    <rect y="260" x="240" height="10" width="10" fill="white"/>
+    <rect y="260" x="270" height="10" width="10" fill="white"/>
+    <rect y="260" x="290" height="10" width="10" fill="white"/>
+    <rect y="260" x="330" height="10" width="10" fill="white"/>
+    <rect y="260" x="470" height="10" width="10" fill="white"/>
+    <rect y="270" x="0" height="10" width="10" fill="white"/>
+    <rect y="270" x="20" height="10" width="10" fill="white"/>
+    <rect y="270" x="50" height="10" width="10" fill="white"/>
+    <rect y="270" x="100" height="10" width="10" fill="white"/>
+    <rect y="270" x="120" height="10" width="10" fill="white"/>
+    <rect y="270" x="140" height="10" width="10" fill="white"/>
+    <rect y="270" x="160" height="10" width="10" fill="white"/>
+    <rect y="270" x="200" height="10" width="10" fill="white"/>
+    <rect y="270" x="220" height="10" width="10" fill="white"/>
+    <rect y="270" x="240" height="10" width="10" fill="white"/>
+    <rect y="270" x="260" height="10" width="10" fill="white"/>
+    <rect y="270" x="300" height="10" width="10" fill="white"/>
+    <rect y="270" x="320" height="10" width="10" fill="white"/>
+    <rect y="270" x="330" height="10" width="10" fill="white"/>
+    <rect y="270" x="470" height="10" width="10" fill="white"/>
+    <rect y="280" x="0" height="10" width="10" fill="white"/>
+    <rect y="280" x="20" height="10" width="10" fill="white"/>
+    <rect y="280" x="40" height="10" width="10" fill="white"/>
+    <rect y="280" x="120" height="10" width="10" fill="white"/>
+    <rect y="280" x="130" height="10" width="10" fill="white"/>
+    <rect y="280" x="220" height="10" width="10" fill="white"/>
+    <rect y="280" x="230" height="10" width="10" fill="white"/>
+    <rect y="280" x="470" height="10" width="10" fill="white"/>
+    <rect y="290" x="0" height="10" width="10" fill="white"/>
+    <rect y="290" x="20" height="10" width="10" fill="white"/>
+    <rect y="290" x="250" height="10" width="10" fill="white"/>
+    <rect y="290" x="470" height="10" width="10" fill="white"/>
+    <rect y="300" x="0" height="10" width="10" fill="white"/>
+    <rect y="300" x="120" height="10" width="10" fill="white"/>
+    <rect y="300" x="140" height="10" width="10" fill="white"/>
+    <rect y="300" x="260" height="10" width="10" fill="white"/>
+    <rect y="300" x="470" height="10" width="10" fill="white"/>
+    <rect y="310" x="0" height="10" width="10" fill="white"/>
+    <rect y="310" x="110" height="10" width="10" fill="white"/>
+    <rect y="310" x="150" height="10" width="10" fill="white"/>
+    <rect y="310" x="280" height="10" width="10" fill="white"/>
+    <rect y="310" x="310" height="10" width="10" fill="white"/>
+    <rect y="310" x="470" height="10" width="10" fill="white"/>
+    <rect y="320" x="0" height="10" width="10" fill="white"/>
+    <rect y="320" x="270" height="10" width="10" fill="white"/>
+    <rect y="320" x="300" height="10" width="10" fill="white"/>
+    <rect y="320" x="310" height="10" width="10" fill="white"/>
+    <rect y="320" x="470" height="10" width="10" fill="white"/>
+    <rect y="330" x="0" height="10" width="10" fill="white"/>
+    <rect y="330" x="130" height="10" width="10" fill="white"/>
+    <rect y="330" x="140" height="10" width="10" fill="white"/>
+    <rect y="330" x="170" height="10" width="10" fill="white"/>
+    <rect y="330" x="190" height="10" width="10" fill="white"/>
+    <rect y="330" x="230" height="10" width="10" fill="white"/>
+    <rect y="330" x="470" height="10" width="10" fill="white"/>
+    <rect y="340" x="0" height="10" width="10" fill="white"/>
+    <rect y="340" x="120" height="10" width="10" fill="white"/>
+    <rect y="340" x="130" height="10" width="10" fill="white"/>
+    <rect y="340" x="140" height="10" width="10" fill="white"/>
+    <rect y="340" x="160" height="10" width="10" fill="white"/>
+    <rect y="340" x="200" height="10" width="10" fill="white"/>
+    <rect y="340" x="220" height="10" width="10" fill="white"/>
+    <rect y="340" x="230" height="10" width="10" fill="white"/>
+    <rect y="340" x="470" height="10" width="10" fill="white"/>
+    <rect y="350" x="0" height="10" width="10" fill="white"/>
+    <rect y="350" x="120" height="10" width="10" fill="white"/>
+    <rect y="350" x="130" height="10" width="10" fill="white"/>
+    <rect y="350" x="470" height="10" width="10" fill="white"/>
+    <rect y="360" x="0" height="10" width="10" fill="white"/>
+    <rect y="360" x="150" height="10" width="10" fill="white"/>
+    <rect y="360" x="470" height="10" width="10" fill="white"/>
+    <rect y="370" x="0" height="10" width="10" fill="white"/>
+    <rect y="370" x="160" height="10" width="10" fill="white"/>
+    <rect y="370" x="470" height="10" width="10" fill="white"/>
+    <rect y="380" x="0" height="10" width="10" fill="white"/>
+    <rect y="380" x="180" height="10" width="10" fill="white"/>
+    <rect y="380" x="210" height="10" width="10" fill="white"/>
+    <rect y="380" x="470" height="10" width="10" fill="white"/>
+    <rect y="390" x="0" height="10" width="10" fill="white"/>
+    <rect y="390" x="170" height="10" width="10" fill="white"/>
+    <rect y="390" x="200" height="10" width="10" fill="white"/>
+    <rect y="390" x="210" height="10" width="10" fill="white"/>
+    <rect y="390" x="470" height="10" width="10" fill="white"/>
+    <rect y="400" x="0" height="10" width="10" fill="white"/>
+    <rect y="400" x="470" height="10" width="10" fill="white"/>
+    <rect y="410" x="0" height="10" width="10" fill="white"/>
+    <rect y="410" x="470" height="10" width="10" fill="white"/>
+    <rect y="420" x="0" height="10" width="10" fill="white"/>
+    <rect y="420" x="130" height="10" width="10" fill="white"/>
+    <rect y="420" x="230" height="10" width="10" fill="white"/>
+    <rect y="420" x="470" height="10" width="10" fill="white"/>
+    <rect y="430" x="0" height="10" width="10" fill="white"/>
+    <rect y="430" x="120" height="10" width="10" fill="white"/>
+    <rect y="430" x="130" height="10" width="10" fill="white"/>
+    <rect y="430" x="220" height="10" width="10" fill="white"/>
+    <rect y="430" x="230" height="10" width="10" fill="white"/>
+    <rect y="430" x="470" height="10" width="10" fill="white"/>
+    <rect y="440" x="0" height="10" width="10" fill="white"/>
+    <rect y="440" x="470" height="10" width="10" fill="white"/>
+    <rect y="450" x="0" height="10" width="10" fill="white"/>
+    <rect y="450" x="120" height="10" width="10" fill="white"/>
+    <rect y="450" x="140" height="10" width="10" fill="white"/>
+    <rect y="450" x="220" height="10" width="10" fill="white"/>
+    <rect y="450" x="240" height="10" width="10" fill="white"/>
+    <rect y="450" x="470" height="10" width="10" fill="white"/>
+    <rect y="460" x="0" height="10" width="10" fill="white"/>
+    <rect y="460" x="110" height="10" width="10" fill="white"/>
+    <rect y="460" x="150" height="10" width="10" fill="white"/>
+    <rect y="460" x="210" height="10" width="10" fill="white"/>
+    <rect y="460" x="250" height="10" width="10" fill="white"/>
+    <rect y="460" x="470" height="10" width="10" fill="white"/>
+    <rect y="470" x="0" height="10" width="10" fill="white"/>
+    <rect y="470" x="470" height="10" width="10" fill="white"/>
+    <rect y="480" x="0" height="10" width="10" fill="white"/>
+    <rect y="480" x="20" height="10" width="10" fill="white"/>
+    <rect y="480" x="30" height="10" width="10" fill="white"/>
+    <rect y="480" x="40" height="10" width="10" fill="white"/>
+    <rect y="480" x="50" height="10" width="10" fill="white"/>
+    <rect y="480" x="90" height="10" width="10" fill="white"/>
+    <rect y="480" x="130" height="10" width="10" fill="white"/>
+    <rect y="480" x="140" height="10" width="10" fill="white"/>
+    <rect y="480" x="170" height="10" width="10" fill="white"/>
+    <rect y="480" x="190" height="10" width="10" fill="white"/>
+    <rect y="480" x="230" height="10" width="10" fill="white"/>
+    <rect y="480" x="240" height="10" width="10" fill="white"/>
+    <rect y="480" x="270" height="10" width="10" fill="white"/>
+    <rect y="480" x="290" height="10" width="10" fill="white"/>
+    <rect y="480" x="330" height="10" width="10" fill="white"/>
+    <rect y="480" x="470" height="10" width="10" fill="white"/>
+    <rect y="490" x="0" height="10" width="10" fill="white"/>
+    <rect y="490" x="20" height="10" width="10" fill="white"/>
+    <rect y="490" x="30" height="10" width="10" fill="white"/>
+    <rect y="490" x="50" height="10" width="10" fill="white"/>
+    <rect y="490" x="100" height="10" width="10" fill="white"/>
+    <rect y="490" x="120" height="10" width="10" fill="white"/>
+    <rect y="490" x="140" height="10" width="10" fill="white"/>
+    <rect y="490" x="160" height="10" width="10" fill="white"/>
+    <rect y="490" x="200" height="10" width="10" fill="white"/>
+    <rect y="490" x="220" height="10" width="10" fill="white"/>
+    <rect y="490" x="240" height="10" width="10" fill="white"/>
+    <rect y="490" x="260" height="10" width="10" fill="white"/>
+    <rect y="490" x="300" height="10" width="10" fill="white"/>
+    <rect y="490" x="320" height="10" width="10" fill="white"/>
+    <rect y="490" x="330" height="10" width="10" fill="white"/>
+    <rect y="490" x="470" height="10" width="10" fill="white"/>
+    <rect y="500" x="0" height="10" width="10" fill="white"/>
+    <rect y="500" x="20" height="10" width="10" fill="white"/>
+    <rect y="500" x="30" height="10" width="10" fill="white"/>
+    <rect y="500" x="40" height="10" width="10" fill="white"/>
+    <rect y="500" x="120" height="10" width="10" fill="white"/>
+    <rect y="500" x="130" height="10" width="10" fill="white"/>
+    <rect y="500" x="220" height="10" width="10" fill="white"/>
+    <rect y="500" x="230" height="10" width="10" fill="white"/>
+    <rect y="500" x="470" height="10" width="10" fill="white"/>
+    <rect y="510" x="0" height="10" width="10" fill="white"/>
+    <rect y="510" x="20" height="10" width="10" fill="white"/>
+    <rect y="510" x="250" height="10" width="10" fill="white"/>
+    <rect y="510" x="470" height="10" width="10" fill="white"/>
+    <rect y="520" x="0" height="10" width="10" fill="white"/>
+    <rect y="520" x="120" height="10" width="10" fill="white"/>
+    <rect y="520" x="140" height="10" width="10" fill="white"/>
+    <rect y="520" x="260" height="10" width="10" fill="white"/>
+    <rect y="520" x="470" height="10" width="10" fill="white"/>
+    <rect y="530" x="0" height="10" width="10" fill="white"/>
+    <rect y="530" x="110" height="10" width="10" fill="white"/>
+    <rect y="530" x="150" height="10" width="10" fill="white"/>
+    <rect y="530" x="280" height="10" width="10" fill="white"/>
+    <rect y="530" x="310" height="10" width="10" fill="white"/>
+    <rect y="530" x="470" height="10" width="10" fill="white"/>
+    <rect y="540" x="0" height="10" width="10" fill="white"/>
+    <rect y="540" x="130" height="10" width="10" fill="white"/>
+    <rect y="540" x="270" height="10" width="10" fill="white"/>
+    <rect y="540" x="300" height="10" width="10" fill="white"/>
+    <rect y="540" x="310" height="10" width="10" fill="white"/>
+    <rect y="540" x="470" height="10" width="10" fill="white"/>
+    <rect y="550" x="0" height="10" width="10" fill="white"/>
+    <rect y="550" x="120" height="10" width="10" fill="white"/>
+    <rect y="550" x="130" height="10" width="10" fill="white"/>
+    <rect y="550" x="470" height="10" width="10" fill="white"/>
+    <rect y="560" x="0" height="10" width="10" fill="white"/>
+    <rect y="560" x="470" height="10" width="10" fill="white"/>
+    <rect y="570" x="0" height="10" width="10" fill="white"/>
+    <rect y="570" x="470" height="10" width="10" fill="white"/>
+    <rect y="580" x="0" height="10" width="10" fill="white"/>
+    <rect y="580" x="130" height="10" width="10" fill="white"/>
+    <rect y="580" x="470" height="10" width="10" fill="white"/>
+    <rect y="590" x="0" height="10" width="10" fill="white"/>
+    <rect y="590" x="120" height="10" width="10" fill="white"/>
+    <rect y="590" x="130" height="10" width="10" fill="white"/>
+    <rect y="590" x="470" height="10" width="10" fill="white"/>
+    <rect y="600" x="0" height="10" width="10" fill="white"/>
+    <rect y="600" x="470" height="10" width="10" fill="white"/>
+    <rect y="610" x="0" height="10" width="10" fill="white"/>
+    <rect y="610" x="120" height="10" width="10" fill="white"/>
+    <rect y="610" x="140" height="10" width="10" fill="white"/>
+    <rect y="610" x="470" height="10" width="10" fill="white"/>
+    <rect y="620" x="0" height="10" width="10" fill="white"/>
+    <rect y="620" x="110" height="10" width="10" fill="white"/>
+    <rect y="620" x="150" height="10" width="10" fill="white"/>
+    <rect y="620" x="470" height="10" width="10" fill="white"/>
+    <rect y="630" x="0" height="10" width="10" fill="white"/>
+    <rect y="630" x="470" height="10" width="10" fill="white"/>
+    <rect y="640" x="0" height="10" width="10" fill="white"/>
+    <rect y="640" x="20" height="10" width="10" fill="white"/>
+    <rect y="640" x="30" height="10" width="10" fill="white"/>
+    <rect y="640" x="40" height="10" width="10" fill="white"/>
+    <rect y="640" x="50" height="10" width="10" fill="white"/>
+    <rect y="640" x="90" height="10" width="10" fill="white"/>
+    <rect y="640" x="130" height="10" width="10" fill="white"/>
+    <rect y="640" x="140" height="10" width="10" fill="white"/>
+    <rect y="640" x="170" height="10" width="10" fill="white"/>
+    <rect y="640" x="190" height="10" width="10" fill="white"/>
+    <rect y="640" x="230" height="10" width="10" fill="white"/>
+    <rect y="640" x="240" height="10" width="10" fill="white"/>
+    <rect y="640" x="270" height="10" width="10" fill="white"/>
+    <rect y="640" x="290" height="10" width="10" fill="white"/>
+    <rect y="640" x="330" height="10" width="10" fill="white"/>
+    <rect y="640" x="470" height="10" width="10" fill="white"/>
+    <rect y="650" x="0" height="10" width="10" fill="white"/>
+    <rect y="650" x="20" height="10" width="10" fill="white"/>
+    <rect y="650" x="40" height="10" width="10" fill="white"/>
+    <rect y="650" x="50" height="10" width="10" fill="white"/>
+    <rect y="650" x="100" height="10" width="10" fill="white"/>
+    <rect y="650" x="120" height="10" width="10" fill="white"/>
+    <rect y="650" x="140" height="10" width="10" fill="white"/>
+    <rect y="650" x="160" height="10" width="10" fill="white"/>
+    <rect y="650" x="200" height="10" width="10" fill="white"/>
+    <rect y="650" x="220" height="10" width="10" fill="white"/>
+    <rect y="650" x="230" height="10" width="10" fill="white"/>
+    <rect y="650" x="240" height="10" width="10" fill="white"/>
+    <rect y="650" x="260" height="10" width="10" fill="white"/>
+    <rect y="650" x="300" height="10" width="10" fill="white"/>
+    <rect y="650" x="320" height="10" width="10" fill="white"/>
+    <rect y="650" x="330" height="10" width="10" fill="white"/>
+    <rect y="650" x="470" height="10" width="10" fill="white"/>
+    <rect y="660" x="0" height="10" width="10" fill="white"/>
+    <rect y="660" x="20" height="10" width="10" fill="white"/>
+    <rect y="660" x="30" height="10" width="10" fill="white"/>
+    <rect y="660" x="40" height="10" width="10" fill="white"/>
+    <rect y="660" x="120" height="10" width="10" fill="white"/>
+    <rect y="660" x="130" height="10" width="10" fill="white"/>
+    <rect y="660" x="220" height="10" width="10" fill="white"/>
+    <rect y="660" x="230" height="10" width="10" fill="white"/>
+    <rect y="660" x="470" height="10" width="10" fill="white"/>
+    <rect y="670" x="0" height="10" width="10" fill="white"/>
+    <rect y="670" x="20" height="10" width="10" fill="white"/>
+    <rect y="670" x="250" height="10" width="10" fill="white"/>
+    <rect y="670" x="470" height="10" width="10" fill="white"/>
+    <rect y="680" x="0" height="10" width="10" fill="white"/>
+    <rect y="680" x="120" height="10" width="10" fill="white"/>
+    <rect y="680" x="140" height="10" width="10" fill="white"/>
+    <rect y="680" x="260" height="10" width="10" fill="white"/>
+    <rect y="680" x="470" height="10" width="10" fill="white"/>
+    <rect y="690" x="0" height="10" width="10" fill="white"/>
+    <rect y="690" x="110" height="10" width="10" fill="white"/>
+    <rect y="690" x="150" height="10" width="10" fill="white"/>
+    <rect y="690" x="280" height="10" width="10" fill="white"/>
+    <rect y="690" x="310" height="10" width="10" fill="white"/>
+    <rect y="690" x="470" height="10" width="10" fill="white"/>
+    <rect y="700" x="0" height="10" width="10" fill="white"/>
+    <rect y="700" x="130" height="10" width="10" fill="white"/>
+    <rect y="700" x="270" height="10" width="10" fill="white"/>
+    <rect y="700" x="300" height="10" width="10" fill="white"/>
+    <rect y="700" x="310" height="10" width="10" fill="white"/>
+    <rect y="700" x="470" height="10" width="10" fill="white"/>
+    <rect y="710" x="0" height="10" width="10" fill="white"/>
+    <rect y="710" x="120" height="10" width="10" fill="white"/>
+    <rect y="710" x="130" height="10" width="10" fill="white"/>
+    <rect y="710" x="470" height="10" width="10" fill="white"/>
+    <rect y="720" x="0" height="10" width="10" fill="white"/>
+    <rect y="720" x="470" height="10" width="10" fill="white"/>
+    <rect y="730" x="0" height="10" width="10" fill="white"/>
+    <rect y="730" x="470" height="10" width="10" fill="white"/>
+    <rect y="740" x="0" height="10" width="10" fill="white"/>
+    <rect y="740" x="130" height="10" width="10" fill="white"/>
+    <rect y="740" x="470" height="10" width="10" fill="white"/>
+    <rect y="750" x="0" height="10" width="10" fill="white"/>
+    <rect y="750" x="120" height="10" width="10" fill="white"/>
+    <rect y="750" x="130" height="10" width="10" fill="white"/>
+    <rect y="750" x="470" height="10" width="10" fill="white"/>
+    <rect y="760" x="0" height="10" width="10" fill="white"/>
+    <rect y="760" x="470" height="10" width="10" fill="white"/>
+    <rect y="770" x="0" height="10" width="10" fill="white"/>
+    <rect y="770" x="120" height="10" width="10" fill="white"/>
+    <rect y="770" x="140" height="10" width="10" fill="white"/>
+    <rect y="770" x="470" height="10" width="10" fill="white"/>
+    <rect y="780" x="0" height="10" width="10" fill="white"/>
+    <rect y="780" x="110" height="10" width="10" fill="white"/>
+    <rect y="780" x="150" height="10" width="10" fill="white"/>
+    <rect y="780" x="470" height="10" width="10" fill="white"/>
+    <rect y="790" x="0" height="10" width="10" fill="white"/>
+    <rect y="790" x="470" height="10" width="10" fill="white"/>
+    <rect y="800" x="0" height="10" width="10" fill="white"/>
+    <rect y="800" x="20" height="10" width="10" fill="white"/>
+    <rect y="800" x="30" height="10" width="10" fill="white"/>
+    <rect y="800" x="40" height="10" width="10" fill="white"/>
+    <rect y="800" x="50" height="10" width="10" fill="white"/>
+    <rect y="800" x="90" height="10" width="10" fill="white"/>
+    <rect y="800" x="130" height="10" width="10" fill="white"/>
+    <rect y="800" x="140" height="10" width="10" fill="white"/>
+    <rect y="800" x="170" height="10" width="10" fill="white"/>
+    <rect y="800" x="190" height="10" width="10" fill="white"/>
+    <rect y="800" x="230" height="10" width="10" fill="white"/>
+    <rect y="800" x="240" height="10" width="10" fill="white"/>
+    <rect y="800" x="470" height="10" width="10" fill="white"/>
+    <rect y="810" x="0" height="10" width="10" fill="white"/>
+    <rect y="810" x="20" height="10" width="10" fill="white"/>
+    <rect y="810" x="30" height="10" width="10" fill="white"/>
+    <rect y="810" x="40" height="10" width="10" fill="white"/>
+    <rect y="810" x="50" height="10" width="10" fill="white"/>
+    <rect y="810" x="100" height="10" width="10" fill="white"/>
+    <rect y="810" x="120" height="10" width="10" fill="white"/>
+    <rect y="810" x="140" height="10" width="10" fill="white"/>
+    <rect y="810" x="160" height="10" width="10" fill="white"/>
+    <rect y="810" x="200" height="10" width="10" fill="white"/>
+    <rect y="810" x="220" height="10" width="10" fill="white"/>
+    <rect y="810" x="470" height="10" width="10" fill="white"/>
+    <rect y="820" x="0" height="10" width="10" fill="white"/>
+    <rect y="820" x="20" height="10" width="10" fill="white"/>
+    <rect y="820" x="30" height="10" width="10" fill="white"/>
+    <rect y="820" x="40" height="10" width="10" fill="white"/>
+    <rect y="820" x="120" height="10" width="10" fill="white"/>
+    <rect y="820" x="130" height="10" width="10" fill="white"/>
+    <rect y="820" x="220" height="10" width="10" fill="white"/>
+    <rect y="820" x="240" height="10" width="10" fill="white"/>
+    <rect y="820" x="470" height="10" width="10" fill="white"/>
+    <rect y="830" x="0" height="10" width="10" fill="white"/>
+    <rect y="830" x="20" height="10" width="10" fill="white"/>
+    <rect y="830" x="470" height="10" width="10" fill="white"/>
+    <rect y="840" x="0" height="10" width="10" fill="white"/>
+    <rect y="840" x="120" height="10" width="10" fill="white"/>
+    <rect y="840" x="140" height="10" width="10" fill="white"/>
+    <rect y="840" x="220" height="10" width="10" fill="white"/>
+    <rect y="840" x="240" height="10" width="10" fill="white"/>
+    <rect y="840" x="470" height="10" width="10" fill="white"/>
+    <rect y="850" x="0" height="10" width="10" fill="white"/>
+    <rect y="850" x="110" height="10" width="10" fill="white"/>
+    <rect y="850" x="150" height="10" width="10" fill="white"/>
+    <rect y="850" x="210" height="10" width="10" fill="white"/>
+    <rect y="850" x="250" height="10" width="10" fill="white"/>
+    <rect y="850" x="470" height="10" width="10" fill="white"/>
+    <rect y="860" x="0" height="10" width="10" fill="white"/>
+    <rect y="860" x="130" height="10" width="10" fill="white"/>
+    <rect y="860" x="230" height="10" width="10" fill="white"/>
+    <rect y="860" x="470" height="10" width="10" fill="white"/>
+    <rect y="870" x="0" height="10" width="10" fill="white"/>
+    <rect y="870" x="120" height="10" width="10" fill="white"/>
+    <rect y="870" x="130" height="10" width="10" fill="white"/>
+    <rect y="870" x="220" height="10" width="10" fill="white"/>
+    <rect y="870" x="230" height="10" width="10" fill="white"/>
+    <rect y="870" x="470" height="10" width="10" fill="white"/>
+    <rect y="880" x="0" height="10" width="10" fill="white"/>
+    <rect y="880" x="470" height="10" width="10" fill="white"/>
+    <rect y="890" x="0" height="10" width="10" fill="white"/>
+    <rect y="890" x="470" height="10" width="10" fill="white"/>
+    <rect y="900" x="0" height="10" width="10" fill="white"/>
+    <rect y="900" x="130" height="10" width="10" fill="white"/>
+    <rect y="900" x="230" height="10" width="10" fill="white"/>
+    <rect y="900" x="470" height="10" width="10" fill="white"/>
+    <rect y="910" x="0" height="10" width="10" fill="white"/>
+    <rect y="910" x="120" height="10" width="10" fill="white"/>
+    <rect y="910" x="130" height="10" width="10" fill="white"/>
+    <rect y="910" x="220" height="10" width="10" fill="white"/>
+    <rect y="910" x="230" height="10" width="10" fill="white"/>
+    <rect y="910" x="470" height="10" width="10" fill="white"/>
+    <rect y="920" x="0" height="10" width="10" fill="white"/>
+    <rect y="920" x="470" height="10" width="10" fill="white"/>
+    <rect y="930" x="0" height="10" width="10" fill="white"/>
+    <rect y="930" x="120" height="10" width="10" fill="white"/>
+    <rect y="930" x="140" height="10" width="10" fill="white"/>
+    <rect y="930" x="220" height="10" width="10" fill="white"/>
+    <rect y="930" x="240" height="10" width="10" fill="white"/>
+    <rect y="930" x="470" height="10" width="10" fill="white"/>
+    <rect y="940" x="0" height="10" width="10" fill="white"/>
+    <rect y="940" x="110" height="10" width="10" fill="white"/>
+    <rect y="940" x="150" height="10" width="10" fill="white"/>
+    <rect y="940" x="210" height="10" width="10" fill="white"/>
+    <rect y="940" x="250" height="10" width="10" fill="white"/>
+    <rect y="940" x="470" height="10" width="10" fill="white"/>
+    <rect y="950" x="0" height="10" width="10" fill="white"/>
+    <rect y="950" x="470" height="10" width="10" fill="white"/>
+    <rect y="960" x="0" height="10" width="10" fill="white"/>
+    <rect y="960" x="20" height="10" width="10" fill="white"/>
+    <rect y="960" x="30" height="10" width="10" fill="white"/>
+    <rect y="960" x="40" height="10" width="10" fill="white"/>
+    <rect y="960" x="50" height="10" width="10" fill="white"/>
+    <rect y="960" x="90" height="10" width="10" fill="white"/>
+    <rect y="960" x="130" height="10" width="10" fill="white"/>
+    <rect y="960" x="140" height="10" width="10" fill="white"/>
+    <rect y="960" x="170" height="10" width="10" fill="white"/>
+    <rect y="960" x="190" height="10" width="10" fill="white"/>
+    <rect y="960" x="230" height="10" width="10" fill="white"/>
+    <rect y="960" x="240" height="10" width="10" fill="white"/>
+    <rect y="960" x="270" height="10" width="10" fill="white"/>
+    <rect y="960" x="290" height="10" width="10" fill="white"/>
+    <rect y="960" x="330" height="10" width="10" fill="white"/>
+    <rect y="960" x="470" height="10" width="10" fill="white"/>
+    <rect y="970" x="0" height="10" width="10" fill="white"/>
+    <rect y="970" x="20" height="10" width="10" fill="white"/>
+    <rect y="970" x="50" height="10" width="10" fill="white"/>
+    <rect y="970" x="100" height="10" width="10" fill="white"/>
+    <rect y="970" x="120" height="10" width="10" fill="white"/>
+    <rect y="970" x="140" height="10" width="10" fill="white"/>
+    <rect y="970" x="160" height="10" width="10" fill="white"/>
+    <rect y="970" x="200" height="10" width="10" fill="white"/>
+    <rect y="970" x="220" height="10" width="10" fill="white"/>
+    <rect y="970" x="240" height="10" width="10" fill="white"/>
+    <rect y="970" x="260" height="10" width="10" fill="white"/>
+    <rect y="970" x="300" height="10" width="10" fill="white"/>
+    <rect y="970" x="320" height="10" width="10" fill="white"/>
+    <rect y="970" x="330" height="10" width="10" fill="white"/>
+    <rect y="970" x="470" height="10" width="10" fill="white"/>
+    <rect y="980" x="0" height="10" width="10" fill="white"/>
+    <rect y="980" x="20" height="10" width="10" fill="white"/>
+    <rect y="980" x="30" height="10" width="10" fill="white"/>
+    <rect y="980" x="50" height="10" width="10" fill="white"/>
+    <rect y="980" x="120" height="10" width="10" fill="white"/>
+    <rect y="980" x="130" height="10" width="10" fill="white"/>
+    <rect y="980" x="220" height="10" width="10" fill="white"/>
+    <rect y="980" x="230" height="10" width="10" fill="white"/>
+    <rect y="980" x="470" height="10" width="10" fill="white"/>
+    <rect y="990" x="0" height="10" width="10" fill="white"/>
+    <rect y="990" x="20" height="10" width="10" fill="white"/>
+    <rect y="990" x="250" height="10" width="10" fill="white"/>
+    <rect y="990" x="470" height="10" width="10" fill="white"/>
+    <rect y="1000" x="0" height="10" width="10" fill="white"/>
+    <rect y="1000" x="120" height="10" width="10" fill="white"/>
+    <rect y="1000" x="140" height="10" width="10" fill="white"/>
+    <rect y="1000" x="260" height="10" width="10" fill="white"/>
+    <rect y="1000" x="470" height="10" width="10" fill="white"/>
+    <rect y="1010" x="0" height="10" width="10" fill="white"/>
+    <rect y="1010" x="110" height="10" width="10" fill="white"/>
+    <rect y="1010" x="150" height="10" width="10" fill="white"/>
+    <rect y="1010" x="280" height="10" width="10" fill="white"/>
+    <rect y="1010" x="310" height="10" width="10" fill="white"/>
+    <rect y="1010" x="470" height="10" width="10" fill="white"/>
+    <rect y="1020" x="0" height="10" width="10" fill="white"/>
+    <rect y="1020" x="270" height="10" width="10" fill="white"/>
+    <rect y="1020" x="300" height="10" width="10" fill="white"/>
+    <rect y="1020" x="310" height="10" width="10" fill="white"/>
+    <rect y="1020" x="470" height="10" width="10" fill="white"/>
+    <rect y="1030" x="0" height="10" width="10" fill="white"/>
+    <rect y="1030" x="130" height="10" width="10" fill="white"/>
+    <rect y="1030" x="140" height="10" width="10" fill="white"/>
+    <rect y="1030" x="170" height="10" width="10" fill="white"/>
+    <rect y="1030" x="190" height="10" width="10" fill="white"/>
+    <rect y="1030" x="230" height="10" width="10" fill="white"/>
+    <rect y="1030" x="470" height="10" width="10" fill="white"/>
+    <rect y="1040" x="0" height="10" width="10" fill="white"/>
+    <rect y="1040" x="120" height="10" width="10" fill="white"/>
+    <rect y="1040" x="160" height="10" width="10" fill="white"/>
+    <rect y="1040" x="200" height="10" width="10" fill="white"/>
+    <rect y="1040" x="220" height="10" width="10" fill="white"/>
+    <rect y="1040" x="230" height="10" width="10" fill="white"/>
+    <rect y="1040" x="470" height="10" width="10" fill="white"/>
+    <rect y="1050" x="0" height="10" width="10" fill="white"/>
+    <rect y="1050" x="120" height="10" width="10" fill="white"/>
+    <rect y="1050" x="140" height="10" width="10" fill="white"/>
+    <rect y="1050" x="470" height="10" width="10" fill="white"/>
+    <rect y="1060" x="0" height="10" width="10" fill="white"/>
+    <rect y="1060" x="470" height="10" width="10" fill="white"/>
+    <rect y="1070" x="0" height="10" width="10" fill="white"/>
+    <rect y="1070" x="470" height="10" width="10" fill="white"/>
+    <rect y="1080" x="0" height="10" width="10" fill="white"/>
+    <rect y="1080" x="130" height="10" width="10" fill="white"/>
+    <rect y="1080" x="230" height="10" width="10" fill="white"/>
+    <rect y="1080" x="470" height="10" width="10" fill="white"/>
+    <rect y="1090" x="0" height="10" width="10" fill="white"/>
+    <rect y="1090" x="120" height="10" width="10" fill="white"/>
+    <rect y="1090" x="130" height="10" width="10" fill="white"/>
+    <rect y="1090" x="220" height="10" width="10" fill="white"/>
+    <rect y="1090" x="230" height="10" width="10" fill="white"/>
+    <rect y="1090" x="470" height="10" width="10" fill="white"/>
+    <rect y="1100" x="0" height="10" width="10" fill="white"/>
+    <rect y="1100" x="470" height="10" width="10" fill="white"/>
+    <rect y="1110" x="0" height="10" width="10" fill="white"/>
+    <rect y="1110" x="120" height="10" width="10" fill="white"/>
+    <rect y="1110" x="140" height="10" width="10" fill="white"/>
+    <rect y="1110" x="220" height="10" width="10" fill="white"/>
+    <rect y="1110" x="240" height="10" width="10" fill="white"/>
+    <rect y="1110" x="470" height="10" width="10" fill="white"/>
+    <rect y="1120" x="0" height="10" width="10" fill="white"/>
+    <rect y="1120" x="110" height="10" width="10" fill="white"/>
+    <rect y="1120" x="150" height="10" width="10" fill="white"/>
+    <rect y="1120" x="210" height="10" width="10" fill="white"/>
+    <rect y="1120" x="250" height="10" width="10" fill="white"/>
+    <rect y="1120" x="470" height="10" width="10" fill="white"/>
+    <rect y="1130" x="0" height="10" width="10" fill="white"/>
+    <rect y="1130" x="470" height="10" width="10" fill="white"/>
+    <rect y="1140" x="0" height="10" width="10" fill="white"/>
+    <rect y="1140" x="20" height="10" width="10" fill="white"/>
+    <rect y="1140" x="30" height="10" width="10" fill="white"/>
+    <rect y="1140" x="40" height="10" width="10" fill="white"/>
+    <rect y="1140" x="50" height="10" width="10" fill="white"/>
+    <rect y="1140" x="90" height="10" width="10" fill="white"/>
+    <rect y="1140" x="130" height="10" width="10" fill="white"/>
+    <rect y="1140" x="140" height="10" width="10" fill="white"/>
+    <rect y="1140" x="170" height="10" width="10" fill="white"/>
+    <rect y="1140" x="190" height="10" width="10" fill="white"/>
+    <rect y="1140" x="230" height="10" width="10" fill="white"/>
+    <rect y="1140" x="240" height="10" width="10" fill="white"/>
+    <rect y="1140" x="270" height="10" width="10" fill="white"/>
+    <rect y="1140" x="290" height="10" width="10" fill="white"/>
+    <rect y="1140" x="330" height="10" width="10" fill="white"/>
+    <rect y="1140" x="340" height="10" width="10" fill="white"/>
+    <rect y="1140" x="470" height="10" width="10" fill="white"/>
+    <rect y="1150" x="0" height="10" width="10" fill="white"/>
+    <rect y="1150" x="20" height="10" width="10" fill="white"/>
+    <rect y="1150" x="30" height="10" width="10" fill="white"/>
+    <rect y="1150" x="50" height="10" width="10" fill="white"/>
+    <rect y="1150" x="100" height="10" width="10" fill="white"/>
+    <rect y="1150" x="120" height="10" width="10" fill="white"/>
+    <rect y="1150" x="140" height="10" width="10" fill="white"/>
+    <rect y="1150" x="160" height="10" width="10" fill="white"/>
+    <rect y="1150" x="200" height="10" width="10" fill="white"/>
+    <rect y="1150" x="220" height="10" width="10" fill="white"/>
+    <rect y="1150" x="240" height="10" width="10" fill="white"/>
+    <rect y="1150" x="260" height="10" width="10" fill="white"/>
+    <rect y="1150" x="300" height="10" width="10" fill="white"/>
+    <rect y="1150" x="320" height="10" width="10" fill="white"/>
+    <rect y="1150" x="470" height="10" width="10" fill="white"/>
+    <rect y="1160" x="0" height="10" width="10" fill="white"/>
+    <rect y="1160" x="20" height="10" width="10" fill="white"/>
+    <rect y="1160" x="30" height="10" width="10" fill="white"/>
+    <rect y="1160" x="50" height="10" width="10" fill="white"/>
+    <rect y="1160" x="120" height="10" width="10" fill="white"/>
+    <rect y="1160" x="130" height="10" width="10" fill="white"/>
+    <rect y="1160" x="220" height="10" width="10" fill="white"/>
+    <rect y="1160" x="230" height="10" width="10" fill="white"/>
+    <rect y="1160" x="320" height="10" width="10" fill="white"/>
+    <rect y="1160" x="340" height="10" width="10" fill="white"/>
+    <rect y="1160" x="470" height="10" width="10" fill="white"/>
+    <rect y="1170" x="0" height="10" width="10" fill="white"/>
+    <rect y="1170" x="20" height="10" width="10" fill="white"/>
+    <rect y="1170" x="470" height="10" width="10" fill="white"/>
+    <rect y="1180" x="0" height="10" width="10" fill="white"/>
+    <rect y="1180" x="120" height="10" width="10" fill="white"/>
+    <rect y="1180" x="140" height="10" width="10" fill="white"/>
+    <rect y="1180" x="220" height="10" width="10" fill="white"/>
+    <rect y="1180" x="240" height="10" width="10" fill="white"/>
+    <rect y="1180" x="320" height="10" width="10" fill="white"/>
+    <rect y="1180" x="340" height="10" width="10" fill="white"/>
+    <rect y="1180" x="470" height="10" width="10" fill="white"/>
+    <rect y="1190" x="0" height="10" width="10" fill="white"/>
+    <rect y="1190" x="110" height="10" width="10" fill="white"/>
+    <rect y="1190" x="150" height="10" width="10" fill="white"/>
+    <rect y="1190" x="210" height="10" width="10" fill="white"/>
+    <rect y="1190" x="250" height="10" width="10" fill="white"/>
+    <rect y="1190" x="310" height="10" width="10" fill="white"/>
+    <rect y="1190" x="350" height="10" width="10" fill="white"/>
+    <rect y="1190" x="470" height="10" width="10" fill="white"/>
+    <rect y="1200" x="0" height="10" width="10" fill="white"/>
+    <rect y="1200" x="130" height="10" width="10" fill="white"/>
+    <rect y="1200" x="230" height="10" width="10" fill="white"/>
+    <rect y="1200" x="330" height="10" width="10" fill="white"/>
+    <rect y="1200" x="470" height="10" width="10" fill="white"/>
+    <rect y="1210" x="0" height="10" width="10" fill="white"/>
+    <rect y="1210" x="120" height="10" width="10" fill="white"/>
+    <rect y="1210" x="130" height="10" width="10" fill="white"/>
+    <rect y="1210" x="220" height="10" width="10" fill="white"/>
+    <rect y="1210" x="230" height="10" width="10" fill="white"/>
+    <rect y="1210" x="320" height="10" width="10" fill="white"/>
+    <rect y="1210" x="330" height="10" width="10" fill="white"/>
+    <rect y="1210" x="470" height="10" width="10" fill="white"/>
+    <rect y="1220" x="0" height="10" width="10" fill="white"/>
+    <rect y="1220" x="470" height="10" width="10" fill="white"/>
+    <rect y="1230" x="0" height="10" width="10" fill="white"/>
+    <rect y="1230" x="470" height="10" width="10" fill="white"/>
+    <rect y="1240" x="0" height="10" width="10" fill="white"/>
+    <rect y="1240" x="130" height="10" width="10" fill="white"/>
+    <rect y="1240" x="470" height="10" width="10" fill="white"/>
+    <rect y="1250" x="0" height="10" width="10" fill="white"/>
+    <rect y="1250" x="120" height="10" width="10" fill="white"/>
+    <rect y="1250" x="130" height="10" width="10" fill="white"/>
+    <rect y="1250" x="470" height="10" width="10" fill="white"/>
+    <rect y="1260" x="0" height="10" width="10" fill="white"/>
+    <rect y="1260" x="470" height="10" width="10" fill="white"/>
+    <rect y="1270" x="0" height="10" width="10" fill="white"/>
+    <rect y="1270" x="120" height="10" width="10" fill="white"/>
+    <rect y="1270" x="140" height="10" width="10" fill="white"/>
+    <rect y="1270" x="470" height="10" width="10" fill="white"/>
+    <rect y="1280" x="0" height="10" width="10" fill="white"/>
+    <rect y="1280" x="110" height="10" width="10" fill="white"/>
+    <rect y="1280" x="150" height="10" width="10" fill="white"/>
+    <rect y="1280" x="470" height="10" width="10" fill="white"/>
+    <rect y="1290" x="0" height="10" width="10" fill="white"/>
+    <rect y="1290" x="470" height="10" width="10" fill="white"/>
+    <rect y="1300" x="0" height="10" width="10" fill="white"/>
+    <rect y="1300" x="20" height="10" width="10" fill="white"/>
+    <rect y="1300" x="30" height="10" width="10" fill="white"/>
+    <rect y="1300" x="40" height="10" width="10" fill="white"/>
+    <rect y="1300" x="50" height="10" width="10" fill="white"/>
+    <rect y="1300" x="90" height="10" width="10" fill="white"/>
+    <rect y="1300" x="130" height="10" width="10" fill="white"/>
+    <rect y="1300" x="140" height="10" width="10" fill="white"/>
+    <rect y="1300" x="170" height="10" width="10" fill="white"/>
+    <rect y="1300" x="190" height="10" width="10" fill="white"/>
+    <rect y="1300" x="230" height="10" width="10" fill="white"/>
+    <rect y="1300" x="240" height="10" width="10" fill="white"/>
+    <rect y="1300" x="270" height="10" width="10" fill="white"/>
+    <rect y="1300" x="290" height="10" width="10" fill="white"/>
+    <rect y="1300" x="330" height="10" width="10" fill="white"/>
+    <rect y="1300" x="340" height="10" width="10" fill="white"/>
+    <rect y="1300" x="370" height="10" width="10" fill="white"/>
+    <rect y="1300" x="390" height="10" width="10" fill="white"/>
+    <rect y="1300" x="430" height="10" width="10" fill="white"/>
+    <rect y="1300" x="470" height="10" width="10" fill="white"/>
+    <rect y="1310" x="0" height="10" width="10" fill="white"/>
+    <rect y="1310" x="20" height="10" width="10" fill="white"/>
+    <rect y="1310" x="40" height="10" width="10" fill="white"/>
+    <rect y="1310" x="100" height="10" width="10" fill="white"/>
+    <rect y="1310" x="120" height="10" width="10" fill="white"/>
+    <rect y="1310" x="140" height="10" width="10" fill="white"/>
+    <rect y="1310" x="160" height="10" width="10" fill="white"/>
+    <rect y="1310" x="200" height="10" width="10" fill="white"/>
+    <rect y="1310" x="220" height="10" width="10" fill="white"/>
+    <rect y="1310" x="240" height="10" width="10" fill="white"/>
+    <rect y="1310" x="260" height="10" width="10" fill="white"/>
+    <rect y="1310" x="300" height="10" width="10" fill="white"/>
+    <rect y="1310" x="320" height="10" width="10" fill="white"/>
+    <rect y="1310" x="330" height="10" width="10" fill="white"/>
+    <rect y="1310" x="340" height="10" width="10" fill="white"/>
+    <rect y="1310" x="360" height="10" width="10" fill="white"/>
+    <rect y="1310" x="400" height="10" width="10" fill="white"/>
+    <rect y="1310" x="420" height="10" width="10" fill="white"/>
+    <rect y="1310" x="430" height="10" width="10" fill="white"/>
+    <rect y="1310" x="470" height="10" width="10" fill="white"/>
+    <rect y="1320" x="0" height="10" width="10" fill="white"/>
+    <rect y="1320" x="20" height="10" width="10" fill="white"/>
+    <rect y="1320" x="30" height="10" width="10" fill="white"/>
+    <rect y="1320" x="40" height="10" width="10" fill="white"/>
+    <rect y="1320" x="50" height="10" width="10" fill="white"/>
+    <rect y="1320" x="120" height="10" width="10" fill="white"/>
+    <rect y="1320" x="130" height="10" width="10" fill="white"/>
+    <rect y="1320" x="220" height="10" width="10" fill="white"/>
+    <rect y="1320" x="230" height="10" width="10" fill="white"/>
+    <rect y="1320" x="320" height="10" width="10" fill="white"/>
+    <rect y="1320" x="330" height="10" width="10" fill="white"/>
+    <rect y="1320" x="470" height="10" width="10" fill="white"/>
+    <rect y="1330" x="0" height="10" width="10" fill="white"/>
+    <rect y="1330" x="20" height="10" width="10" fill="white"/>
+    <rect y="1330" x="350" height="10" width="10" fill="white"/>
+    <rect y="1330" x="470" height="10" width="10" fill="white"/>
+    <rect y="1340" x="0" height="10" width="10" fill="white"/>
+    <rect y="1340" x="120" height="10" width="10" fill="white"/>
+    <rect y="1340" x="140" height="10" width="10" fill="white"/>
+    <rect y="1340" x="210" height="10" width="10" fill="white"/>
+    <rect y="1340" x="240" height="10" width="10" fill="white"/>
+    <rect y="1340" x="360" height="10" width="10" fill="white"/>
+    <rect y="1340" x="470" height="10" width="10" fill="white"/>
+    <rect y="1350" x="0" height="10" width="10" fill="white"/>
+    <rect y="1350" x="110" height="10" width="10" fill="white"/>
+    <rect y="1350" x="150" height="10" width="10" fill="white"/>
+    <rect y="1350" x="220" height="10" width="10" fill="white"/>
+    <rect y="1350" x="250" height="10" width="10" fill="white"/>
+    <rect y="1350" x="380" height="10" width="10" fill="white"/>
+    <rect y="1350" x="410" height="10" width="10" fill="white"/>
+    <rect y="1350" x="470" height="10" width="10" fill="white"/>
+    <rect y="1360" x="0" height="10" width="10" fill="white"/>
+    <rect y="1360" x="130" height="10" width="10" fill="white"/>
+    <rect y="1360" x="370" height="10" width="10" fill="white"/>
+    <rect y="1360" x="400" height="10" width="10" fill="white"/>
+    <rect y="1360" x="410" height="10" width="10" fill="white"/>
+    <rect y="1360" x="470" height="10" width="10" fill="white"/>
+    <rect y="1370" x="0" height="10" width="10" fill="white"/>
+    <rect y="1370" x="120" height="10" width="10" fill="white"/>
+    <rect y="1370" x="130" height="10" width="10" fill="white"/>
+    <rect y="1370" x="220" height="10" width="10" fill="white"/>
+    <rect y="1370" x="250" height="10" width="10" fill="white"/>
+    <rect y="1370" x="470" height="10" width="10" fill="white"/>
+    <rect y="1380" x="0" height="10" width="10" fill="white"/>
+    <rect y="1380" x="210" height="10" width="10" fill="white"/>
+    <rect y="1380" x="240" height="10" width="10" fill="white"/>
+    <rect y="1380" x="470" height="10" width="10" fill="white"/>
+    <rect y="1390" x="0" height="10" width="10" fill="white"/>
+    <rect y="1390" x="470" height="10" width="10" fill="white"/>
+    <rect y="1400" x="0" height="10" width="10" fill="white"/>
+    <rect y="1400" x="230" height="10" width="10" fill="white"/>
+    <rect y="1400" x="240" height="10" width="10" fill="white"/>
+    <rect y="1400" x="470" height="10" width="10" fill="white"/>
+    <rect y="1410" x="0" height="10" width="10" fill="white"/>
+    <rect y="1410" x="220" height="10" width="10" fill="white"/>
+    <rect y="1410" x="470" height="10" width="10" fill="white"/>
+    <rect y="1420" x="0" height="10" width="10" fill="white"/>
+    <rect y="1420" x="220" height="10" width="10" fill="white"/>
+    <rect y="1420" x="240" height="10" width="10" fill="white"/>
+    <rect y="1420" x="470" height="10" width="10" fill="white"/>
+    <rect y="1430" x="0" height="10" width="10" fill="white"/>
+    <rect y="1430" x="470" height="10" width="10" fill="white"/>
+    <rect y="1440" x="0" height="10" width="10" fill="white"/>
+    <rect y="1440" x="20" height="10" width="10" fill="white"/>
+    <rect y="1440" x="40" height="10" width="10" fill="white"/>
+    <rect y="1440" x="60" height="10" width="10" fill="white"/>
+    <rect y="1440" x="80" height="10" width="10" fill="white"/>
+    <rect y="1440" x="100" height="10" width="10" fill="white"/>
+    <rect y="1440" x="120" height="10" width="10" fill="white"/>
+    <rect y="1440" x="470" height="10" width="10" fill="white"/>
+    <rect y="1450" x="0" height="10" width="10" fill="white"/>
+    <rect y="1450" x="470" height="10" width="10" fill="white"/>
+    <rect y="1460" x="0" height="10" width="10" fill="white"/>
+    <rect y="1460" x="10" height="10" width="10" fill="white"/>
+    <rect y="1460" x="20" height="10" width="10" fill="white"/>
+    <rect y="1460" x="30" height="10" width="10" fill="white"/>
+    <rect y="1460" x="40" height="10" width="10" fill="white"/>
+    <rect y="1460" x="50" height="10" width="10" fill="white"/>
+    <rect y="1460" x="60" height="10" width="10" fill="white"/>
+    <rect y="1460" x="70" height="10" width="10" fill="white"/>
+    <rect y="1460" x="80" height="10" width="10" fill="white"/>
+    <rect y="1460" x="90" height="10" width="10" fill="white"/>
+    <rect y="1460" x="100" height="10" width="10" fill="white"/>
+    <rect y="1460" x="110" height="10" width="10" fill="white"/>
+    <rect y="1460" x="120" height="10" width="10" fill="white"/>
+    <rect y="1460" x="130" height="10" width="10" fill="white"/>
+    <rect y="1460" x="140" height="10" width="10" fill="white"/>
+    <rect y="1460" x="150" height="10" width="10" fill="white"/>
+    <rect y="1460" x="160" height="10" width="10" fill="white"/>
+    <rect y="1460" x="170" height="10" width="10" fill="white"/>
+    <rect y="1460" x="180" height="10" width="10" fill="white"/>
+    <rect y="1460" x="190" height="10" width="10" fill="white"/>
+    <rect y="1460" x="200" height="10" width="10" fill="white"/>
+    <rect y="1460" x="210" height="10" width="10" fill="white"/>
+    <rect y="1460" x="220" height="10" width="10" fill="white"/>
+    <rect y="1460" x="230" height="10" width="10" fill="white"/>
+    <rect y="1460" x="240" height="10" width="10" fill="white"/>
+    <rect y="1460" x="250" height="10" width="10" fill="white"/>
+    <rect y="1460" x="260" height="10" width="10" fill="white"/>
+    <rect y="1460" x="270" height="10" width="10" fill="white"/>
+    <rect y="1460" x="280" height="10" width="10" fill="white"/>
+    <rect y="1460" x="290" height="10" width="10" fill="white"/>
+    <rect y="1460" x="300" height="10" width="10" fill="white"/>
+    <rect y="1460" x="310" height="10" width="10" fill="white"/>
+    <rect y="1460" x="320" height="10" width="10" fill="white"/>
+    <rect y="1460" x="330" height="10" width="10" fill="white"/>
+    <rect y="1460" x="340" height="10" width="10" fill="white"/>
+    <rect y="1460" x="350" height="10" width="10" fill="white"/>
+    <rect y="1460" x="360" height="10" width="10" fill="white"/>
+    <rect y="1460" x="370" height="10" width="10" fill="white"/>
+    <rect y="1460" x="380" height="10" width="10" fill="white"/>
+    <rect y="1460" x="390" height="10" width="10" fill="white"/>
+    <rect y="1460" x="400" height="10" width="10" fill="white"/>
+    <rect y="1460" x="410" height="10" width="10" fill="white"/>
+    <rect y="1460" x="420" height="10" width="10" fill="white"/>
+    <rect y="1460" x="430" height="10" width="10" fill="white"/>
+    <rect y="1460" x="440" height="10" width="10" fill="white"/>
+    <rect y="1460" x="450" height="10" width="10" fill="white"/>
+    <rect y="1460" x="460" height="10" width="10" fill="white"/>
+    <rect y="1460" x="470" height="10" width="10" fill="white"/>
+    
+  <rect y="10" x="400" height="20" width="20" fill="green" fill-opacity="0.4"/>
+<text y="20" x="410" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>ap</text>
+<rect y="20" x="210" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="30" x="220" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="20" x="420" height="30" width="30" fill="red" fill-opacity="0.4"/>
+<text y="35" x="435" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?-5</text>
+<rect y="30" x="400" height="20" width="20" fill="green" fill-opacity="0.4"/>
+<text y="40" x="410" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>ap</text>
+<rect y="30" x="450" height="20" width="20" fill="green" fill-opacity="0.4"/>
+<text y="40" x="460" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>ap</text>
+<rect y="50" x="20" height="40" width="40" fill="green" fill-opacity="0.4"/>
+<text y="70" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>-NH-C(R)H-C(=O)-</text>
+<rect y="50" x="90" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="60" x="100" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="50" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="65" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>7(N)</text>
+<rect y="50" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="60" x="170" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="50" x="190" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="60" x="200" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="50" x="220" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="65" x="235" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>6(C)</text>
+<rect y="50" x="260" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="60" x="270" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="50" x="290" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="60" x="300" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="50" x="320" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="65" x="335" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>6(C)</text>
+<rect y="50" x="360" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="60" x="370" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="50" x="400" height="30" width="30" fill="green" fill-opacity="0.4"/>
+<text y="65" x="415" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>==</text>
+<rect y="70" x="430" height="20" width="20" fill="green" fill-opacity="0.4"/>
+<text y="80" x="440" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>ap</text>
+<rect y="70" x="450" height="20" width="20" fill="green" fill-opacity="0.4"/>
+<text y="80" x="460" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>ap</text>
+<rect y="90" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="100" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="90" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="100" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="90" x="210" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="100" x="220" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="90" x="240" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="100" x="250" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="90" x="310" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="100" x="320" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="90" x="340" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="100" x="350" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="110" x="120" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="120" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="110" x="220" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="120" x="230" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="120" x="310" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="130" x="320" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="120" x="340" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="130" x="350" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="150" x="320" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="165" x="335" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>8(O)</text>
+<rect y="200" x="120" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="210" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="200" x="220" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="210" x="230" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="230" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="240" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="230" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="240" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="230" x="210" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="240" x="220" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="230" x="240" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="240" x="250" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="260" x="20" height="40" width="40" fill="green" fill-opacity="0.4"/>
+<text y="280" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>-CH(NH2)-CH3</text>
+<rect y="260" x="90" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="270" x="100" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="260" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="275" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>6(C)</text>
+<rect y="260" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="270" x="170" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="260" x="190" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="270" x="200" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="260" x="220" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="275" x="235" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>6(C)</text>
+<rect y="260" x="260" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="270" x="270" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="260" x="290" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="270" x="300" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="260" x="320" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="270" x="330" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="290" x="250" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="300" x="260" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="300" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="310" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="300" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="310" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="310" x="270" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="320" x="280" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="310" x="300" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="320" x="310" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="330" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="345" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>7(N)</text>
+<rect y="330" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="340" x="170" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="330" x="190" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="340" x="200" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="330" x="220" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="340" x="230" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="360" x="150" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="370" x="160" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="380" x="170" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="390" x="180" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="380" x="200" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="390" x="210" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="420" x="120" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="430" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="420" x="220" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="430" x="230" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="450" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="460" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="450" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="460" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="450" x="210" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="460" x="220" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="450" x="240" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="460" x="250" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="480" x="20" height="40" width="40" fill="green" fill-opacity="0.4"/>
+<text y="500" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>-CH2-CH3</text>
+<rect y="480" x="90" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="490" x="100" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="480" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="495" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>6(C)</text>
+<rect y="480" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="490" x="170" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="480" x="190" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="490" x="200" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="480" x="220" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="495" x="235" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>6(C)</text>
+<rect y="480" x="260" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="490" x="270" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="480" x="290" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="490" x="300" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="480" x="320" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="490" x="330" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="510" x="250" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="520" x="260" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="520" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="530" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="520" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="530" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="530" x="270" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="540" x="280" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="530" x="300" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="540" x="310" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="540" x="120" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="550" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="580" x="120" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="590" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="610" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="620" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="610" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="620" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="640" x="20" height="40" width="40" fill="green" fill-opacity="0.4"/>
+<text y="660" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>-CH2-NH2</text>
+<rect y="640" x="90" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="650" x="100" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="640" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="655" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>6(C)</text>
+<rect y="640" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="650" x="170" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="640" x="190" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="650" x="200" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="640" x="220" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="655" x="235" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>7(N)</text>
+<rect y="640" x="260" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="650" x="270" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="640" x="290" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="650" x="300" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="640" x="320" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="650" x="330" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="670" x="250" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="680" x="260" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="680" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="690" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="680" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="690" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="690" x="270" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="700" x="280" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="690" x="300" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="700" x="310" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="700" x="120" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="710" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="740" x="120" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="750" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="770" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="780" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="770" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="780" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="800" x="20" height="40" width="40" fill="green" fill-opacity="0.4"/>
+<text y="820" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>Ser</text>
+<rect y="800" x="90" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="810" x="100" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="800" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="815" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>6(C)</text>
+<rect y="800" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="810" x="170" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="800" x="190" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="810" x="200" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="800" x="220" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="815" x="235" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>8(O)</text>
+<rect y="840" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="850" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="840" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="850" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="840" x="210" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="850" x="220" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="840" x="240" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="850" x="250" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="860" x="120" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="870" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="860" x="220" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="870" x="230" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="900" x="120" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="910" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="900" x="220" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="910" x="230" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="930" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="940" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="930" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="940" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="930" x="210" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="940" x="220" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="930" x="240" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="940" x="250" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="960" x="20" height="40" width="40" fill="green" fill-opacity="0.4"/>
+<text y="980" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>Thr</text>
+<rect y="960" x="90" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="970" x="100" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="960" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="975" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>6(C)</text>
+<rect y="960" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="970" x="170" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="960" x="190" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="970" x="200" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="960" x="220" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="975" x="235" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>6(C)</text>
+<rect y="960" x="260" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="970" x="270" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="960" x="290" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="970" x="300" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="960" x="320" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="970" x="330" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="990" x="250" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1000" x="260" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1000" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1010" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1000" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1010" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1010" x="270" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1020" x="280" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1010" x="300" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1020" x="310" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="1030" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="1045" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>8(O)</text>
+<rect y="1030" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1040" x="170" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1030" x="190" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1040" x="200" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1030" x="220" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1040" x="230" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="1080" x="120" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1090" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="1080" x="220" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1090" x="230" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="1110" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1120" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1110" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1120" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1110" x="210" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1120" x="220" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1110" x="240" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1120" x="250" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1140" x="20" height="40" width="40" fill="green" fill-opacity="0.4"/>
+<text y="1160" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>-CH2-CH2-OH</text>
+<rect y="1140" x="90" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1150" x="100" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1140" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="1155" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>6(C)</text>
+<rect y="1140" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1150" x="170" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1140" x="190" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1150" x="200" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1140" x="220" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="1155" x="235" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>6(C)</text>
+<rect y="1140" x="260" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1150" x="270" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1140" x="290" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1150" x="300" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1140" x="320" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="1155" x="335" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>8(O)</text>
+<rect y="1180" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1190" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1180" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1190" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1180" x="210" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1190" x="220" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1180" x="240" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1190" x="250" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1180" x="310" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1190" x="320" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1180" x="340" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1190" x="350" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1200" x="120" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1210" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="1200" x="220" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1210" x="230" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="1200" x="320" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1210" x="330" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="1240" x="120" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1250" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="1270" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1280" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1270" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1280" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1300" x="20" height="40" width="40" fill="green" fill-opacity="0.4"/>
+<text y="1320" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>Asn</text>
+<rect y="1300" x="90" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1310" x="100" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1300" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="1315" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>6(C)</text>
+<rect y="1300" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1310" x="170" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1300" x="190" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1310" x="200" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1300" x="220" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="1315" x="235" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>6(C)</text>
+<rect y="1300" x="260" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1310" x="270" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1300" x="290" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1310" x="300" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1300" x="320" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="1315" x="335" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>7(N)</text>
+<rect y="1300" x="360" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1310" x="370" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1300" x="390" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1310" x="400" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1300" x="420" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1310" x="430" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="1330" x="350" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1340" x="360" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1340" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1350" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1340" x="140" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1350" x="150" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1340" x="210" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1350" x="220" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1340" x="240" height="20" width="20" fill="red" fill-opacity="0.4"/>
+<text y="1350" x="250" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?1</text>
+<rect y="1350" x="370" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1360" x="380" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1350" x="400" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1360" x="410" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="1360" x="120" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1370" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>1(H)</text>
+<rect y="1370" x="210" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1380" x="220" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1370" x="240" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+<text y="1380" x="250" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>0</text>
+<rect y="1400" x="220" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
+<text y="1415" x="235" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>8(O)</text>
+<rect y="1440" x="20" height="10" width="70" fill="black" fill-opacity="0.4"/>
+<text y="1445" x="55" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>...</text>
+<rect y="1440" x="100" height="10" width="10" fill="red" fill-opacity="0.4"/>
+<text y="1445" x="105" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>?-1</text>
+<rect y="1440" x="120" height="20" width="20" fill="green" fill-opacity="0.4"/>
+<text y="1450" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>ap</text>
+
+</svg>
