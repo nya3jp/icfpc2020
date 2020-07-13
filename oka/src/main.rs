@@ -129,7 +129,7 @@ fn output_svg(w: &mut Writer, grid: &Grid, glyphs: &Vec<Glyph>) -> Result<(), st
             (y1+y2)/2,
             {
                 let n = g.k.to_string().split("\n").count() as isize;
-                g.k.to_string().split("\n").into_iter().enumerate().map(|(i,s)|format!(r#"<tspan x="{}", dy="{}em">{}</tspan>"#, (y1+y2)/2, if i==0 {-(n/2) as f64} else {1.1}, s)).collect::<Vec<String>>().join("\n")
+                g.k.to_string().split("\n").into_iter().enumerate().map(|(i,s)|format!(r#"<tspan x="{}" dy="{}em">{}</tspan>"#, (y1+y2)/2, if i==0 {-(n/2) as f64} else {1.1}, s)).collect::<Vec<String>>().join("\n")
             },
             )
         }).collect::<Vec<String>>().join("")
