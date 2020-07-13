@@ -1626,14 +1626,15 @@
     
   <rect y="20" x="120" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
 <text y="30" x="130" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="130" dy="0em">1(H)</tspan></text>
-<rect y="20" x="660" height="40" width="40" fill="yellow" fill-opacity="0.4"/>
+<rect y="20" x="660" height="40" width="40" fill="blue" fill-opacity="0.4"/>
 <text y="40" x="680" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="680" dy="0em">amino</tspan></text>
 <rect y="50" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
 <text y="60" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="120" dy="0em">0</tspan></text>
-<rect y="80" x="20" height="40" width="40" fill="yellow" fill-opacity="0.4"/>
-<text y="100" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-1em">-CH2-</tspan>
+<rect y="80" x="20" height="40" width="40" fill="blue" fill-opacity="0.4"/>
+<text y="100" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-2em">-CH2-</tspan>
 <tspan x="40" dy="1.1em">C(=O)-</tspan>
-<tspan x="40" dy="1.1em">OH</tspan></text>
+<tspan x="40" dy="1.1em">OH</tspan>
+<tspan x="40" dy="1.1em">(59)</tspan></text>
 <rect y="80" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
 <text y="95" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="135" dy="0em">6(C)</tspan></text>
 <rect y="80" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
@@ -1666,10 +1667,11 @@
 <text y="270" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="120" dy="0em">0</tspan></text>
 <rect y="260" x="210" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
 <text y="270" x="220" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="220" dy="0em">0</tspan></text>
-<rect y="290" x="20" height="40" width="40" fill="yellow" fill-opacity="0.4"/>
-<text y="310" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-1em">-C2H4-</tspan>
+<rect y="290" x="20" height="40" width="40" fill="blue" fill-opacity="0.4"/>
+<text y="310" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-2em">-C2H4-</tspan>
 <tspan x="40" dy="1.1em">C(=O)-</tspan>
-<tspan x="40" dy="1.1em">NH2</tspan></text>
+<tspan x="40" dy="1.1em">NH2</tspan>
+<tspan x="40" dy="1.1em">(72)</tspan></text>
 <rect y="290" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
 <text y="305" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="135" dy="0em">6(C)</tspan></text>
 <rect y="290" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
@@ -1714,10 +1716,11 @@
 <text y="480" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="120" dy="0em">0</tspan></text>
 <rect y="470" x="210" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
 <text y="480" x="220" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="220" dy="0em">0</tspan></text>
-<rect y="500" x="20" height="40" width="40" fill="yellow" fill-opacity="0.4"/>
-<text y="520" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-1em">-C2H4-</tspan>
+<rect y="500" x="20" height="40" width="40" fill="blue" fill-opacity="0.4"/>
+<text y="520" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-2em">-C2H4-</tspan>
 <tspan x="40" dy="1.1em">C(=O)-</tspan>
-<tspan x="40" dy="1.1em">OH</tspan></text>
+<tspan x="40" dy="1.1em">OH</tspan>
+<tspan x="40" dy="1.1em">(9)</tspan></text>
 <rect y="500" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
 <text y="515" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="135" dy="0em">6(C)</tspan></text>
 <rect y="500" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
@@ -1766,9 +1769,10 @@
 <text y="720" x="410" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="410" dy="0em">1(H)</tspan></text>
 <rect y="720" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
 <text y="730" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="120" dy="0em">0</tspan></text>
-<rect y="750" x="20" height="40" width="40" fill="yellow" fill-opacity="0.4"/>
+<rect y="750" x="20" height="40" width="40" fill="blue" fill-opacity="0.4"/>
 <text y="770" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-1em">-CH2-</tspan>
-<tspan x="40" dy="1.1em">CH(-CH3)2</tspan></text>
+<tspan x="40" dy="1.1em">CH(-CH3)2</tspan>
+<tspan x="40" dy="1.1em">(84)</tspan></text>
 <rect y="750" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
 <text y="765" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="135" dy="0em">6(C)</tspan></text>
 <rect y="750" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
@@ -1823,10 +1827,11 @@
 <text y="950" x="500" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="500" dy="0em">0</tspan></text>
 <rect y="960" x="460" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
 <text y="970" x="470" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="470" dy="0em">0</tspan></text>
-<rect y="970" x="20" height="40" width="40" fill="yellow" fill-opacity="0.4"/>
-<text y="990" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-1em">-CH2-</tspan>
+<rect y="970" x="20" height="40" width="40" fill="blue" fill-opacity="0.4"/>
+<text y="990" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-2em">-CH2-</tspan>
 <tspan x="40" dy="1.1em">CH2-NH-</tspan>
-<tspan x="40" dy="1.1em">C(NH2)(NH)</tspan></text>
+<tspan x="40" dy="1.1em">C(NH2)(NH)</tspan>
+<tspan x="40" dy="1.1em">(86)</tspan></text>
 <rect y="970" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
 <text y="985" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="135" dy="0em">6(C)</tspan></text>
 <rect y="970" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
@@ -1875,10 +1880,11 @@
 <text y="1120" x="220" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="220" dy="0em">0</tspan></text>
 <rect y="1110" x="310" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
 <text y="1120" x="320" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="320" dy="0em">0</tspan></text>
-<rect y="1140" x="20" height="40" width="40" fill="yellow" fill-opacity="0.4"/>
-<text y="1160" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-1em">-CH2-</tspan>
+<rect y="1140" x="20" height="40" width="40" fill="blue" fill-opacity="0.4"/>
+<text y="1160" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-2em">-CH2-</tspan>
 <tspan x="40" dy="1.1em">CH2-CH2-</tspan>
-<tspan x="40" dy="1.1em">COOH</tspan></text>
+<tspan x="40" dy="1.1em">COOH</tspan>
+<tspan x="40" dy="1.1em">(87)</tspan></text>
 <rect y="1140" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
 <text y="1155" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="135" dy="0em">6(C)</tspan></text>
 <rect y="1140" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
@@ -1943,10 +1949,11 @@
 <text y="1340" x="600" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="600" dy="0em">0</tspan></text>
 <rect y="1350" x="560" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
 <text y="1360" x="570" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="570" dy="0em">0</tspan></text>
-<rect y="1360" x="20" height="40" width="40" fill="yellow" fill-opacity="0.4"/>
-<text y="1380" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-1em">-CH2-CH2-</tspan>
+<rect y="1360" x="20" height="40" width="40" fill="blue" fill-opacity="0.4"/>
+<text y="1380" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-2em">-CH2-CH2-</tspan>
 <tspan x="40" dy="1.1em">CH2-NH-</tspan>
-<tspan x="40" dy="1.1em">C(NH2)(NH)</tspan></text>
+<tspan x="40" dy="1.1em">C(NH2)(NH)</tspan>
+<tspan x="40" dy="1.1em">(100)</tspan></text>
 <rect y="1360" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
 <text y="1375" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="135" dy="0em">6(C)</tspan></text>
 <rect y="1360" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
@@ -2013,9 +2020,10 @@
 <text y="1530" x="450" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="450" dy="0em">0</tspan></text>
 <rect y="1530" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
 <text y="1540" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="120" dy="0em">0</tspan></text>
-<rect y="1560" x="20" height="40" width="40" fill="yellow" fill-opacity="0.4"/>
+<rect y="1560" x="20" height="40" width="40" fill="blue" fill-opacity="0.4"/>
 <text y="1580" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-1em">-CH2-</tspan>
-<tspan x="40" dy="1.1em">C6H5</tspan></text>
+<tspan x="40" dy="1.1em">C6H5</tspan>
+<tspan x="40" dy="1.1em">(118)</tspan></text>
 <rect y="1560" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
 <text y="1575" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="135" dy="0em">6(C)</tspan></text>
 <rect y="1560" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
@@ -2072,9 +2080,10 @@
 <text y="1780" x="450" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="450" dy="0em">0</tspan></text>
 <rect y="1780" x="110" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
 <text y="1790" x="120" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="120" dy="0em">0</tspan></text>
-<rect y="1810" x="20" height="40" width="40" fill="yellow" fill-opacity="0.4"/>
+<rect y="1810" x="20" height="40" width="40" fill="blue" fill-opacity="0.4"/>
 <text y="1830" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="-1em">-CH2-</tspan>
-<tspan x="40" dy="1.1em">C6H4-OH</tspan></text>
+<tspan x="40" dy="1.1em">C6H4-OH</tspan>
+<tspan x="40" dy="1.1em">(134)</tspan></text>
 <rect y="1810" x="120" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
 <text y="1825" x="135" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="135" dy="0em">6(C)</tspan></text>
 <rect y="1810" x="160" height="20" width="20" fill="yellow" fill-opacity="0.4"/>

@@ -111,7 +111,8 @@ fn output_svg(w: &mut Writer, grid: &Grid, glyphs: &Vec<Glyph>) -> Result<(), st
             let (x1,x2) = (g.rows.start * SZ, g.rows.end * SZ);
             let (y1,y2) = (g.cols.start * SZ, g.cols.end * SZ);
             let color = match g.k {
-                Kind::Int(_) | Kind::Var(_) | Kind::Molecule(_) => "yellow",
+                Kind::Int(_) | Kind::Var(_) => "yellow",
+                Kind::Molecule(_) => "blue",
                 Kind::Ellipsis => "black",
                 Kind::Unknown(_) => "red",
                 _ => "green",
@@ -180,7 +181,19 @@ impl ToString for Kind {
             Kind::Inc => "inc".into(),
             Kind::Dec => "dec".into(),
             Kind::Plus => "+".into(),
-            Kind::Molecule(s) => s.to_string(),
+            Kind::Molecule(s) => format!(
+                "{}{}",
+                s.to_string(),
+                NUM_TO_KIND
+                    .iter()
+                    .find(|(i, k)| if let Kind::Molecule(t) = k {
+                        t == s
+                    } else {
+                        false
+                    })
+                    .and_then(|(i, _)| Some(format!("\n({})", i)))
+                    .unwrap_or("".to_string()),
+            ),
             Kind::Life(s) => s.to_string(),
             Kind::Unknown(x) => format!("?{}", x),
         }

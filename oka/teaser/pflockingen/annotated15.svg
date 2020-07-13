@@ -841,7 +841,7 @@
 <text y="210" x="740" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="740" dy="0em">A</tspan></text>
 <rect y="190" x="910" height="40" width="40" fill="green" fill-opacity="0.4"/>
 <text y="210" x="930" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="930" dy="0em">A</tspan></text>
-<rect y="200" x="500" height="40" width="40" fill="yellow" fill-opacity="0.4"/>
+<rect y="200" x="500" height="40" width="40" fill="blue" fill-opacity="0.4"/>
 <text y="220" x="520" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="520" dy="0em">D</tspan></text>
 <rect y="210" x="1090" height="30" width="30" fill="yellow" fill-opacity="0.4"/>
 <text y="225" x="1105" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="1105" dy="0em">2(He)</tspan></text>
@@ -853,7 +853,7 @@
 <text y="250" x="170" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="170" dy="0em">1(H)</tspan></text>
 <rect y="240" x="720" height="40" width="40" fill="green" fill-opacity="0.4"/>
 <text y="260" x="740" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="740" dy="0em">X</tspan></text>
-<rect y="250" x="500" height="40" width="40" fill="yellow" fill-opacity="0.4"/>
+<rect y="250" x="500" height="40" width="40" fill="blue" fill-opacity="0.4"/>
 <text y="270" x="520" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="520" dy="0em">T</tspan></text>
 <rect y="250" x="1090" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
 <text y="260" x="1100" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="1100" dy="0em">1(H)</tspan></text>
