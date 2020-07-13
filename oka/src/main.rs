@@ -118,7 +118,7 @@ fn output_svg(w: &mut Writer, grid: &Grid, glyphs: &Vec<Glyph>) -> Result<(), st
             };
             format!(
                 r#"<rect y="{}" x="{}" height="{}" width="{}" fill="{}" fill-opacity="0.4"/>
-<text y="{}" x="{}" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 5px'>{}</text>
+<text y="{}" x="{}" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'>{}</text>
 "#,
             x1,
             y1,
@@ -127,7 +127,10 @@ fn output_svg(w: &mut Writer, grid: &Grid, glyphs: &Vec<Glyph>) -> Result<(), st
             color,
             (x1+x2)/2,
             (y1+y2)/2,
-            g.k.to_string(),
+            {
+                let n = g.k.to_string().split("\n").count() as isize;
+                g.k.to_string().split("\n").into_iter().enumerate().map(|(i,s)|format!(r#"<tspan x="{}", dy="{}em">{}</tspan>"#, (y1+y2)/2, if i==0 {-(n/2) as f64} else {1.1}, s)).collect::<Vec<String>>().join("\n")
+            },
             )
         }).collect::<Vec<String>>().join("")
     );
@@ -210,24 +213,24 @@ lazy_static! {
         m.insert(95, Kind::Molecule("MgCl2"));
         m.insert(104, Kind::Molecule("Fe2O3"));
 
-        m.insert(56, Kind::Molecule("-NH-C(R)H-C(=O)-"));
-        m.insert(20, Kind::Molecule("-CH(NH2)-CH3"));
-        m.insert(29, Kind::Molecule("-CH2-CH3"));
-        m.insert(30, Kind::Molecule("-CH2-NH2"));
+        m.insert(56, Kind::Molecule("-NH-\nC(R)H-\nC(=O)-"));
+        m.insert(20, Kind::Molecule("-CH(NH2)-\nCH3"));
+        m.insert(29, Kind::Molecule("-CH2-\nCH3"));
+        m.insert(30, Kind::Molecule("-CH2-\nNH2"));
         m.insert(31, Kind::Molecule("Ser"));
         m.insert(44, Kind::Molecule("Thr"));
-        m.insert(45, Kind::Molecule("-CH2-CH2-OH"));
+        m.insert(45, Kind::Molecule("-CH2-\nCH2-\nOH"));
         m.insert(58, Kind::Molecule("Asn"));
 
-        m.insert(59, Kind::Molecule("-CH2-C(=O)-OH"));
-        m.insert(72, Kind::Molecule("-C2H4-C(=O)-NH2"));
-        m.insert(9, Kind::Molecule("-C2H4-C(=O)-OH"));
-        m.insert(84, Kind::Molecule("-CH2-CH(-CH3)2"));
-        m.insert(86, Kind::Molecule("-CH2-CH2-NH-C(NH2)(NH)"));
-        m.insert(87, Kind::Molecule("-CH2-CH2-CH2-COOH"));
-        m.insert(100, Kind::Molecule("-CH2-CH2-CH2-NH-C(NH2)(NH)"));
-        m.insert(118, Kind::Molecule("-CH2-C6H5"));
-        m.insert(134, Kind::Molecule("-CH2-C6H4-OH"));
+        m.insert(59, Kind::Molecule("-CH2-\nC(=O)-\nOH"));
+        m.insert(72, Kind::Molecule("-C2H4-\nC(=O)-\nNH2"));
+        m.insert(9, Kind::Molecule("-C2H4-\nC(=O)-\nOH"));
+        m.insert(84, Kind::Molecule("-CH2-\nCH(-CH3)2"));
+        m.insert(86, Kind::Molecule("-CH2-\nCH2-NH-\nC(NH2)(NH)"));
+        m.insert(87, Kind::Molecule("-CH2-\nCH2-CH2-\nCOOH"));
+        m.insert(100, Kind::Molecule("-CH2-CH2-\nCH2-NH-\nC(NH2)(NH)"));
+        m.insert(118, Kind::Molecule("-CH2-\nC6H5"));
+        m.insert(134, Kind::Molecule("-CH2-\nC6H4-OH"));
         m
     };
     static ref FIXED: Vec<(Vec<&'static str>, Kind)> = vec![
@@ -266,17 +269,9 @@ lazy_static! {
     ];
 }
 
-fn glyph(grid: &Grid, x: usize, y: usize, flip: bool) -> Result<Glyph, Error> {
-    let inside = |i: usize, j: usize| x + i < grid.len() && y + j < grid[0].len();
-    let get = |i: usize, j: usize| inside(i, j) && (grid[x + i][y + j] ^ flip);
-
-    let gen_glyph = |h: usize, w: usize, k: Kind| {
-        Ok(Glyph {
-            rows: x..x + h,
-            cols: y..y + w,
-            k,
-        })
-    };
+fn parse_glyph(comp: &Grid, x: usize, y: usize, flip: bool) -> Option<Kind> {
+    let inside = |i: usize, j: usize| x + i < comp.len() && y + j < comp[0].len();
+    let get = |i: usize, j: usize| inside(i, j) && (comp[x + i][y + j] ^ flip);
 
     for (fig, k) in FIXED.iter() {
         let mut ok = true;
@@ -285,40 +280,36 @@ fn glyph(grid: &Grid, x: usize, y: usize, flip: bool) -> Result<Glyph, Error> {
                 .enumerate()
                 .all(|(j, c)| (c == '1') == get(i, j))
         }) {
-            return gen_glyph(fig.len(), fig[0].len(), k.clone());
+            return Some(k.clone());
         }
     }
 
-    let mut n = 0;
-    while get(0, n + 1) && get(n + 1, 0) {
-        n += 1;
+    if !((1..comp.len() - x).all(|i| get(i, 0)) && (1..comp[0].len() - y).all(|j| get(0, j))) {
+        return None;
     }
-    if !inside(0, n + 1) || !inside(n + 1, 0) {
-        return gen_glyph(1, 1, Kind::Unknown(-1));
-    }
+    let n = comp[0].len() - y - 1;
     if n == 0 {
-        return gen_glyph(1, 1, Kind::Unknown(-1));
+        return None;
     }
+    // FIXME ?
     if n > 8 {
-        return gen_glyph(1, 1, Kind::Unknown(-1));
+        return None;
+    }
+    if !(1..=n).all(|i| get(i, 0) && get(0, i)) {
+        return None;
     }
 
-    let is_var = (0..=n).all(|i| get(i, 0) && get(i, n) && get(0, i) && get(n, i));
+    let is_var = n > 2 && (0..=n).all(|i| get(i, 0) && get(i, n) && get(0, i) && get(n, i));
     if is_var {
-        return match glyph(grid, x + 1, y + 1, !flip)?.k {
+        return match parse_glyph(&comp, x + 1, y + 1, !flip)? {
             Kind::Int(i) => {
                 if i < 0 {
-                    gen_glyph(1, 1, Kind::Unknown(-1))
+                    None
                 } else {
-                    Ok(Glyph {
-                        rows: x..x + n + 1,
-                        cols: y..y + n + 1,
-                        k: Kind::Var(i as usize),
-                    })
+                    Some(Kind::Var(i as usize))
                 }
             }
-            _ => gen_glyph(1, 1, Kind::Unknown(-1)),
-            // _ => Err("invalid glyph".into()),
+            _ => None,
         };
     }
 
@@ -339,47 +330,81 @@ fn glyph(grid: &Grid, x: usize, y: usize, flip: bool) -> Result<Glyph, Error> {
     }
 
     if !get(0, 0) {
-        return Ok(Glyph {
-            rows: x..x + n + 1 + (if negative { 1 } else { 0 }),
-            cols: y..y + n + 1,
-            k: Kind::Int(num),
-        });
+        return Some(Kind::Int(num));
     }
 
-    Ok(Glyph {
-        rows: x..x + n + 1,
-        cols: y..y + n + 1,
-        k: if let Some(k) = NUM_TO_KIND.get(&num) {
-            k.clone()
-        } else {
-            Kind::Unknown(num)
-        },
-    })
+    NUM_TO_KIND.get(&num).map(Clone::clone)
 }
 
-fn parse_glyph(x: usize, y: usize, grid: &Grid) -> Result<Glyph, Error> {
-    dbg!(x, y);
+const DX: [isize; 8] = [-1, -1, -1, 0, 0, 1, 1, 1];
+const DY: [isize; 8] = [-1, 0, 1, -1, 1, -1, 0, 1];
 
-    glyph(&grid, x, y, false)
+fn component(grid: &Grid, x: usize, y: usize, used: &mut Grid, cells: &mut Vec<(usize, usize)>) {
+    if *used.get(x).and_then(|row| row.get(y)).unwrap_or(&true) || !grid[x][y] {
+        return;
+    }
+    used[x][y] = true;
+    cells.push((x, y));
+    for (dx, dy) in DX.iter().zip(DY.iter()) {
+        component(
+            grid,
+            (x as isize + dx) as usize,
+            (y as isize + dy) as usize,
+            used,
+            cells,
+        );
+    }
 }
 
 fn parse(grid: &Grid) -> Result<Vec<Glyph>, Error> {
     let (h, w) = (grid.len(), grid[0].len());
     let mut used = vec![vec![false; w]; h];
     let mut res = vec![];
-    for x in 1..h - 2 {
-        for y in 1..w - 2 {
-            if used[x][y] {
+    for x in 1..h - 1 {
+        for y in 1..w - 1 {
+            if used[x][y] || !grid[x][y] {
                 continue;
             }
-            if grid[x][y] || grid[x][y + 1] && grid[x + 1][y] {
-                let g = parse_glyph(x, y, &grid)?;
-                for i in g.rows.clone() {
-                    for j in g.cols.clone() {
-                        used[i][j] = true;
+
+            let mut cells = vec![];
+            component(&grid, x, y, &mut used, &mut cells);
+
+            let (x0, y0) = cells
+                .iter()
+                .fold((10000, 10000), |(xx, yy), (x, y)| (xx.min(*x), yy.min(*y)));
+            let (x1, y1) = cells
+                .iter()
+                .fold((0, 0), |(xx, yy), (x, y)| (xx.max(*x), yy.max(*y)));
+            let (x1, y1) = (x1 + 1, y1 + 1);
+
+            if (x0, y0) == (0, 0) {
+                continue;
+            }
+
+            let mut comp = vec![vec![false; y1 - y0]; x1 - x0];
+            for (i, j) in cells {
+                comp[i - x0][j - y0] = true;
+            }
+            let mut add = vec![];
+            // num / var
+            if (y0 + 1..y1).all(|j| grid[x0][j]) && (x0 + 1..x1).all(|i| grid[i][y0]) {
+                for (i, j) in iproduct!(x0..x1, y0..y1) {
+                    comp[i - x0][j - y0] = grid[i][j];
+                    if grid[i][j] {
+                        add.push((i, j));
                     }
                 }
-                res.push(g);
+            }
+
+            if let Some(k) = parse_glyph(&comp, 0, 0, false) {
+                res.push(Glyph {
+                    rows: x0..x1,
+                    cols: y0..y1,
+                    k,
+                });
+                for (i, j) in add {
+                    used[i][j] = true;
+                }
             }
         }
     }
