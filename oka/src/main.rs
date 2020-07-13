@@ -183,8 +183,11 @@ impl ToString for Kind {
 }
 
 lazy_static! {
-    static ref ELEMENTS: Vec<&'static str> =
-        vec!["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P"];
+    static ref ELEMENTS: Vec<&'static str> = vec![
+        "H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S",
+        "Cl", "Ar", "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga",
+        "Ge", "As", "Se", "Br"
+    ];
     static ref NUM_TO_KIND: std::collections::HashMap<isize, Kind> = {
         let mut m = std::collections::HashMap::new();
         m.insert(0, Kind::Apply);
@@ -197,13 +200,13 @@ lazy_static! {
         m.insert(18, Kind::Molecule("H2O"));
         m.insert(28, Kind::Molecule("N2"));
         m.insert(32, Kind::Molecule("O2"));
-        m.insert(46, Kind::Molecule("CO2"));
+        m.insert(46, Kind::Molecule("SiO2"));
         m.insert(48, Kind::Molecule("O3"));
-        m.insert(328, Kind::Molecule("Al2O3"));
-        m.insert(74, Kind::Molecule("NaNO3"));
-        m.insert(85, Kind::Molecule("MgCl2"));
-        m.insert(95, Kind::Molecule("Fe2O3"));
-        m.insert(104, Kind::Molecule("NaNO3"));
+        m.insert(328, Kind::Molecule("FeO"));
+        m.insert(74, Kind::Molecule("Al2O3"));
+        m.insert(85, Kind::Molecule("NaNo3"));
+        m.insert(95, Kind::Molecule("MgCl2"));
+        m.insert(104, Kind::Molecule("Fe2O3"));
 
         m.insert(56, Kind::Molecule("-NH-C(R)H-C(=O)-"));
         m.insert(20, Kind::Molecule("-CH(NH2)-CH3"));
@@ -239,11 +242,17 @@ fn glyph(grid: &Grid, x: usize, y: usize, flip: bool) -> Result<Glyph, Error> {
         })
     };
 
-    let mut n = 1;
+    let mut n = 0;
     while get(0, n + 1) && get(n + 1, 0) {
         n += 1;
     }
     if !inside(0, n + 1) || !inside(n + 1, 0) {
+        return gen_glyph(1, 1, Kind::Unknown(-1));
+    }
+    if n == 0 {
+        return gen_glyph(1, 1, Kind::Unknown(-1));
+    }
+    if n > 8 {
         return gen_glyph(1, 1, Kind::Unknown(-1));
     }
 
