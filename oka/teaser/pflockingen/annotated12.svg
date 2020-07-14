@@ -3127,13 +3127,13 @@
 <tspan x="476" dy="1.1em">protein</tspan></text>
 <rect y="1792" x="588" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
 <text y="1820" x="616" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="616" dy="-1em">Ser life</tspan>
-<tspan x="616" dy="1.1em">RNA</tspan></text>
+<tspan x="616" dy="1.1em">beta sheet</tspan></text>
 <rect y="1792" x="924" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
 <text y="1820" x="952" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="952" dy="-1em">Asp life</tspan>
 <tspan x="952" dy="1.1em">protein</tspan></text>
 <rect y="1792" x="1064" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
 <text y="1820" x="1092" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1092" dy="-1em">Asp life</tspan>
-<tspan x="1092" dy="1.1em">RNA</tspan></text>
+<tspan x="1092" dy="1.1em">beta sheet</tspan></text>
 <rect y="1904" x="686" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
 <text y="1932" x="714" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="714" dy="-1em">Ser life</tspan>
 <tspan x="714" dy="1.1em">protein</tspan></text>

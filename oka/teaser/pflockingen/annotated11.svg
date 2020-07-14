@@ -1706,7 +1706,7 @@
 <text y="56" x="980" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="980" dy="0em">Asp life</tspan></text>
 <rect y="28" x="1050" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
 <text y="56" x="1078" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1078" dy="-1em">Asp life</tspan>
-<tspan x="1078" dy="1.1em">RNA</tspan></text>
+<tspan x="1078" dy="1.1em">beta sheet</tspan></text>
 <rect y="28" x="1316" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
 <text y="42" x="1330" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1330" dy="-1em">1</tspan>
 <tspan x="1330" dy="1.1em">H</tspan></text>

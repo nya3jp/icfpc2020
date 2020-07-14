@@ -288,20 +288,20 @@ lazy_static! {
         (vec!["1000", "0111", "0111", "0010"], Kind::Life("Ser life")),
         (
             vec!["1001", "0111", "0010", "0010"],
-            Kind::Molecule("Ser life\nRNA")
+            Kind::Molecule("Ser life\nbeta sheet")
         ),
         (
             vec!["1000", "0111", "0010", "0111"],
-            Kind::Molecule("Ser life\nbeta sheet")
+            Kind::Molecule("Ser life\nDNA")
         ),
         (vec!["1000", "0111", "0111", "0101"], Kind::Life("Asp life")),
         (
             vec!["1001", "0111", "0101", "0101"],
-            Kind::Molecule("Asp life\nRNA")
+            Kind::Molecule("Asp life\nbeta sheet")
         ),
         (
             vec!["1000", "0111", "0101", "0111"],
-            Kind::Molecule("Asp life\nbeta sheet")
+            Kind::Molecule("Asp life\nDNA")
         ),
         (
             vec!["1010", "0101", "1101", "0010"],

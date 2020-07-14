@@ -2633,7 +2633,7 @@
 <text y="56" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1288" dy="0em">Asp life</tspan></text>
 <rect y="126" x="1260" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
 <text y="154" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1288" dy="-1em">Asp life</tspan>
-<tspan x="1288" dy="1.1em">RNA</tspan></text>
+<tspan x="1288" dy="1.1em">beta sheet</tspan></text>
 <rect y="140" x="476" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
 <text y="168" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="504" dy="0em">Peptide</tspan></text>
 <rect y="140" x="588" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
@@ -2646,7 +2646,7 @@
 <text y="168" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="854" dy="0em">Peptide</tspan></text>
 <rect y="224" x="1260" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
 <text y="252" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1288" dy="-1em">Asp life</tspan>
-<tspan x="1288" dy="1.1em">beta sheet</tspan></text>
+<tspan x="1288" dy="1.1em">DNA</tspan></text>
 <rect y="252" x="364" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
 <text y="280" x="392" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="392" dy="0em">Asp</tspan></text>
 <rect y="252" x="476" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
