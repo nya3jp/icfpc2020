@@ -812,61 +812,79 @@
     <rect y="672" x="1666" height="14" width="14" fill="#757575"/>
     
   <rect y="56" x="1596" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
-<text y="70" x="1610" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1610" dy="0em">1(H)</tspan></text>
+<text y="70" x="1610" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1610" dy="-1em">1</tspan>
+<tspan x="1610" dy="1.1em">H</tspan></text>
 <rect y="84" x="1036" height="56" width="56" fill="#827717" fill-opacity="0.5"/>
-<text y="112" x="1064" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1064" dy="-1em">Mother</tspan>
+<text y="112" x="1064" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1064" dy="-1em">Mother</tspan>
 <tspan x="1064" dy="1.1em">planet</tspan></text>
 <rect y="98" x="1596" height="42" width="42" fill="#004D40" fill-opacity="0.5"/>
-<text y="119" x="1617" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1617" dy="0em">2(He)</tspan></text>
+<text y="119" x="1617" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1617" dy="-1em">2</tspan>
+<tspan x="1617" dy="1.1em">He</tspan></text>
 <rect y="154" x="1596" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
-<text y="168" x="1610" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1610" dy="0em">1(H)</tspan></text>
+<text y="168" x="1610" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1610" dy="-1em">1</tspan>
+<tspan x="1610" dy="1.1em">H</tspan></text>
 <rect y="196" x="1596" height="42" width="42" fill="#004D40" fill-opacity="0.5"/>
-<text y="217" x="1617" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1617" dy="0em">2(He)</tspan></text>
+<text y="217" x="1617" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1617" dy="-1em">2</tspan>
+<tspan x="1617" dy="1.1em">He</tspan></text>
 <rect y="252" x="1526" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
-<text y="266" x="1540" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1540" dy="0em">1(H)</tspan></text>
+<text y="266" x="1540" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1540" dy="-1em">1</tspan>
+<tspan x="1540" dy="1.1em">H</tspan></text>
 <rect y="252" x="1596" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
-<text y="266" x="1610" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1610" dy="0em">1(H)</tspan></text>
+<text y="266" x="1610" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1610" dy="-1em">1</tspan>
+<tspan x="1610" dy="1.1em">H</tspan></text>
 <rect y="266" x="1008" height="56" width="56" fill="#827717" fill-opacity="0.5"/>
-<text y="294" x="1036" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1036" dy="0em">Asn life</tspan></text>
+<text y="294" x="1036" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1036" dy="0em">Asp life</tspan></text>
 <rect y="266" x="1274" height="56" width="56" fill="#827717" fill-opacity="0.5"/>
-<text y="294" x="1302" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1302" dy="0em">Asn life</tspan></text>
+<text y="294" x="1302" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1302" dy="0em">Asp life</tspan></text>
 <rect y="280" x="700" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="308" x="728" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="728" dy="0em">D</tspan></text>
+<text y="308" x="728" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="728" dy="0em">D</tspan></text>
 <rect y="294" x="1526" height="42" width="42" fill="#004D40" fill-opacity="0.5"/>
-<text y="315" x="1547" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1547" dy="0em">2(He)</tspan></text>
+<text y="315" x="1547" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1547" dy="-1em">2</tspan>
+<tspan x="1547" dy="1.1em">He</tspan></text>
 <rect y="294" x="1596" height="42" width="42" fill="#004D40" fill-opacity="0.5"/>
-<text y="315" x="1617" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1617" dy="0em">2(He)</tspan></text>
+<text y="315" x="1617" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1617" dy="-1em">2</tspan>
+<tspan x="1617" dy="1.1em">He</tspan></text>
 <rect y="322" x="546" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
-<text y="336" x="560" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="560" dy="0em">1(H)</tspan></text>
+<text y="336" x="560" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="560" dy="-1em">1</tspan>
+<tspan x="560" dy="1.1em">H</tspan></text>
 <rect y="336" x="224" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
-<text y="350" x="238" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="238" dy="0em">1(H)</tspan></text>
+<text y="350" x="238" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="238" dy="-1em">1</tspan>
+<tspan x="238" dy="1.1em">H</tspan></text>
 <rect y="336" x="1008" height="56" width="56" fill="#827717" fill-opacity="0.5"/>
-<text y="364" x="1036" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1036" dy="0em">Ser life</tspan></text>
+<text y="364" x="1036" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1036" dy="0em">Ser life</tspan></text>
 <rect y="350" x="700" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="378" x="728" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="728" dy="0em">T</tspan></text>
+<text y="378" x="728" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="728" dy="0em">T</tspan></text>
 <rect y="350" x="1526" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
-<text y="364" x="1540" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1540" dy="0em">1(H)</tspan></text>
+<text y="364" x="1540" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1540" dy="-1em">1</tspan>
+<tspan x="1540" dy="1.1em">H</tspan></text>
 <rect y="350" x="1596" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
-<text y="364" x="1610" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1610" dy="0em">1(H)</tspan></text>
+<text y="364" x="1610" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1610" dy="-1em">1</tspan>
+<tspan x="1610" dy="1.1em">H</tspan></text>
 <rect y="392" x="1526" height="42" width="42" fill="#004D40" fill-opacity="0.5"/>
-<text y="413" x="1547" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1547" dy="0em">2(He)</tspan></text>
+<text y="413" x="1547" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1547" dy="-1em">2</tspan>
+<tspan x="1547" dy="1.1em">He</tspan></text>
 <rect y="392" x="1596" height="42" width="42" fill="#004D40" fill-opacity="0.5"/>
-<text y="413" x="1617" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1617" dy="0em">2(He)</tspan></text>
+<text y="413" x="1617" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1617" dy="-1em">2</tspan>
+<tspan x="1617" dy="1.1em">He</tspan></text>
 <rect y="448" x="1596" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
-<text y="462" x="1610" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1610" dy="0em">1(H)</tspan></text>
+<text y="462" x="1610" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1610" dy="-1em">1</tspan>
+<tspan x="1610" dy="1.1em">H</tspan></text>
 <rect y="462" x="854" height="56" width="56" fill="#BF360C" fill-opacity="0.5"/>
-<text y="490" x="882" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="882" dy="0em">14-1?</tspan></text>
+<text y="490" x="882" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="882" dy="0em">14-1?</tspan></text>
 <rect y="462" x="1134" height="56" width="56" fill="#BF360C" fill-opacity="0.5"/>
-<text y="490" x="1162" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1162" dy="0em">14-1?</tspan></text>
+<text y="490" x="1162" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1162" dy="0em">14-1?</tspan></text>
 <rect y="476" x="266" height="56" width="56" fill="#BF360C" fill-opacity="0.5"/>
-<text y="504" x="294" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="294" dy="0em">13-1?</tspan></text>
+<text y="504" x="294" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="294" dy="0em">13-1?</tspan></text>
 <rect y="490" x="1596" height="42" width="42" fill="#004D40" fill-opacity="0.5"/>
-<text y="511" x="1617" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1617" dy="0em">2(He)</tspan></text>
+<text y="511" x="1617" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1617" dy="-1em">2</tspan>
+<tspan x="1617" dy="1.1em">He</tspan></text>
 <rect y="546" x="546" height="56" width="56" fill="#BF360C" fill-opacity="0.5"/>
-<text y="574" x="574" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="574" dy="0em">14-1?</tspan></text>
+<text y="574" x="574" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="574" dy="0em">14-1?</tspan></text>
 <rect y="546" x="1596" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
-<text y="560" x="1610" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1610" dy="0em">1(H)</tspan></text>
+<text y="560" x="1610" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1610" dy="-1em">1</tspan>
+<tspan x="1610" dy="1.1em">H</tspan></text>
 <rect y="588" x="1596" height="42" width="42" fill="#004D40" fill-opacity="0.5"/>
-<text y="609" x="1617" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1617" dy="0em">2(He)</tspan></text>
+<text y="609" x="1617" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1617" dy="-1em">2</tspan>
+<tspan x="1617" dy="1.1em">He</tspan></text>
 
 </svg>

@@ -143,14 +143,14 @@ fn output_svg(
             let (x1,x2) = (g.rows.start * SZ, g.rows.end * SZ);
             let (y1,y2) = (g.cols.start * SZ, g.cols.end * SZ);
             let color = match g.k {
-                Kind::Int(_) | Kind::Var(_) => "#004D40",
-                Kind::Molecule(_) => "#01579B",
-                Kind::Unnamed(_) => "#BF360C",
-                _ => "#827717",
+                Kind::Int(_) | Kind::Var(_) => "#004D40", // green
+                Kind::Molecule(_) | Kind::Amino(_,_) => "#01579B", // blue
+                Kind::Unnamed(_) => "#BF360C", // red
+                _ => "#827717", // yellow
             };
             format!(
                 r#"<rect y="{}" x="{}" height="{}" width="{}" fill="{}" fill-opacity="0.5"/>
-<text y="{}" x="{}" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'>{}</text>
+<text y="{}" x="{}" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'>{}</text>
 "#,
             x1,
             y1,
@@ -188,6 +188,7 @@ enum Kind {
     Dec,
     Plus,
     Molecule(&'static str),
+    Amino(&'static str, &'static str),
     Life(&'static str),
     Unnamed(&'static str),
 }
@@ -199,7 +200,7 @@ impl ToString for Kind {
                 "{}{}",
                 n,
                 if 1 <= *n && (*n as usize) - 1 < ELEMENTS.len() {
-                    format!("({})", ELEMENTS[*n as usize - 1])
+                    format!("\n{}", ELEMENTS[*n as usize - 1])
                 } else {
                     "".into()
                 }
@@ -223,6 +224,7 @@ impl ToString for Kind {
                     .and_then(|(i, _)| Some(format!("\n({})", i)))
                     .unwrap_or("".to_string()),
             ),
+            Kind::Amino(_, abbr) => format!("{}", abbr),
             Kind::Life(s) => s.to_string(),
             Kind::Unnamed(x) => format!("{}?", x),
         }
@@ -255,24 +257,24 @@ lazy_static! {
         m.insert(95, Kind::Molecule("MgCl2"));
         m.insert(104, Kind::Molecule("Fe2O3"));
 
-        m.insert(56, Kind::Molecule("-NH-\nC(R)H-\nC(=O)-"));
-        m.insert(20, Kind::Molecule("-CH(NH2)-\nCH3"));
-        m.insert(29, Kind::Molecule("-CH2-\nCH3"));
-        m.insert(30, Kind::Molecule("-CH2-\nNH2"));
-        m.insert(31, Kind::Molecule("Ser"));
-        m.insert(44, Kind::Molecule("Thr"));
-        m.insert(45, Kind::Molecule("-CH2-\nCH2-\nOH"));
-        m.insert(58, Kind::Molecule("Asn"));
+        m.insert(56, Kind::Amino("-NH-C(R)H-C(=O)-", "Peptide"));
+        m.insert(20, Kind::Amino("-CH(NH2)-CH3", "Bal"));
+        m.insert(29, Kind::Amino("-CH2-\nCH3", "Mal"));
+        m.insert(30, Kind::Amino("-CH2-\nNH2", "Aal"));
+        m.insert(31, Kind::Amino("-CH2-NH2", "Ser"));
+        m.insert(44, Kind::Amino("-CH(OH)-CH3", "Thr"));
+        m.insert(45, Kind::Amino("-CH2-\nCH2-\nOH", "Msr"));
+        m.insert(58, Kind::Amino("-CH2-C(=O)-NH2", "Asn"));
 
-        m.insert(59, Kind::Molecule("-CH2-\nC(=O)-\nOH"));
-        m.insert(72, Kind::Molecule("-C2H4-\nC(=O)-\nNH2"));
-        m.insert(9, Kind::Molecule("-C2H4-\nC(=O)-\nOH"));
-        m.insert(84, Kind::Molecule("-CH2-\nCH(-CH3)2"));
-        m.insert(86, Kind::Molecule("-CH2-\nCH2-NH-\nC(NH2)(NH)"));
-        m.insert(87, Kind::Molecule("-CH2-\nCH2-CH2-\nCOOH"));
-        m.insert(100, Kind::Molecule("-CH2-CH2-\nCH2-NH-\nC(NH2)(NH)"));
-        m.insert(118, Kind::Molecule("-CH2-\nC6H5"));
-        m.insert(134, Kind::Molecule("-CH2-\nC6H4-OH"));
+        m.insert(59, Kind::Amino("-CH2-\nC(=O)-\nOH", "Asp"));
+        m.insert(72, Kind::Amino("-C2H4-\nC(=O)-\nNH2", "Gln"));
+        m.insert(9, Kind::Amino("-C2H4-\nC(=O)-\nOH", "Glu"));
+        m.insert(84, Kind::Amino("-CH2-\nCH(-CH3)2", "Leu"));
+        m.insert(86, Kind::Amino("-CH2-\nCH2-NH-\nC(NH2)(NH)", "Arg"));
+        m.insert(87, Kind::Amino("-CH2-\nCH2-CH2-\nCOOH", "Mgu"));
+        m.insert(100, Kind::Amino("-CH2-CH2-\nCH2-NH-\nC(NH2)(NH)", "Mar"));
+        m.insert(118, Kind::Amino("-CH2-\nC6H5", "Phe"));
+        m.insert(134, Kind::Amino("-CH2-\nC6H4-OH", "Tyr"));
         m
     };
     static ref FIXED: Vec<(Vec<&'static str>, Kind)> = vec![
@@ -292,22 +294,22 @@ lazy_static! {
             vec!["1000", "0111", "0010", "0111"],
             Kind::Molecule("Ser life\nbeta sheet")
         ),
-        (vec!["1000", "0111", "0111", "0101"], Kind::Life("Asn life")),
+        (vec!["1000", "0111", "0111", "0101"], Kind::Life("Asp life")),
         (
             vec!["1001", "0111", "0101", "0101"],
-            Kind::Molecule("Asn life\nRNA")
+            Kind::Molecule("Asp life\nRNA")
         ),
         (
             vec!["1000", "0111", "0101", "0111"],
-            Kind::Molecule("Asn life\nbeta sheet")
+            Kind::Molecule("Asp life\nbeta sheet")
         ),
         (
             vec!["1010", "0101", "1101", "0010"],
-            Kind::Molecule("Ser life\nside-chain")
+            Kind::Molecule("Ser life\nR")
         ),
         (
             vec!["1010", "0101", "1101", "0101"],
-            Kind::Molecule("Asn life\nside-chain")
+            Kind::Molecule("Asp life\nR")
         ),
         (
             vec!["1011", "0111", "1111", "0010"],
@@ -315,7 +317,7 @@ lazy_static! {
         ),
         (
             vec!["1011", "0111", "1111", "0101"],
-            Kind::Molecule("Asn life\nprotein")
+            Kind::Molecule("Asp life\nprotein")
         ),
         (
             vec!["1000", "0111", "0111", "0111"],

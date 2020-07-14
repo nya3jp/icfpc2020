@@ -2622,660 +2622,296 @@
     <rect y="2730" x="1330" height="14" width="14" fill="#757575"/>
     
   <rect y="28" x="364" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="56" x="392" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="392" dy="-2em">-CH2-</tspan>
-<tspan x="392" dy="1.1em">C(=O)-</tspan>
-<tspan x="392" dy="1.1em">OH</tspan>
-<tspan x="392" dy="1.1em">(59)</tspan></text>
+<text y="56" x="392" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="392" dy="0em">Asp</tspan></text>
 <rect y="28" x="476" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="56" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="504" dy="-2em">-NH-</tspan>
-<tspan x="504" dy="1.1em">C(R)H-</tspan>
-<tspan x="504" dy="1.1em">C(=O)-</tspan>
-<tspan x="504" dy="1.1em">(56)</tspan></text>
+<text y="56" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="504" dy="0em">Peptide</tspan></text>
 <rect y="28" x="826" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="56" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="854" dy="-2em">-NH-</tspan>
-<tspan x="854" dy="1.1em">C(R)H-</tspan>
-<tspan x="854" dy="1.1em">C(=O)-</tspan>
-<tspan x="854" dy="1.1em">(56)</tspan></text>
+<text y="56" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="854" dy="0em">Peptide</tspan></text>
 <rect y="28" x="938" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="56" x="966" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="966" dy="-2em">-CH2-</tspan>
-<tspan x="966" dy="1.1em">C(=O)-</tspan>
-<tspan x="966" dy="1.1em">OH</tspan>
-<tspan x="966" dy="1.1em">(59)</tspan></text>
+<text y="56" x="966" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="966" dy="0em">Asp</tspan></text>
 <rect y="28" x="1260" height="56" width="56" fill="#827717" fill-opacity="0.5"/>
-<text y="56" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1288" dy="0em">Asn life</tspan></text>
+<text y="56" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1288" dy="0em">Asp life</tspan></text>
 <rect y="126" x="1260" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="154" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1288" dy="-1em">Asn life</tspan>
+<text y="154" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1288" dy="-1em">Asp life</tspan>
 <tspan x="1288" dy="1.1em">RNA</tspan></text>
 <rect y="140" x="476" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="168" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="504" dy="-2em">-NH-</tspan>
-<tspan x="504" dy="1.1em">C(R)H-</tspan>
-<tspan x="504" dy="1.1em">C(=O)-</tspan>
-<tspan x="504" dy="1.1em">(56)</tspan></text>
+<text y="168" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="504" dy="0em">Peptide</tspan></text>
 <rect y="140" x="588" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="168" x="616" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="616" dy="-1em">Asn</tspan>
-<tspan x="616" dy="1.1em">(58)</tspan></text>
+<text y="168" x="616" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="616" dy="0em">Asn</tspan></text>
 <rect y="140" x="658" height="42" width="42" fill="#01579B" fill-opacity="0.5"/>
-<text y="161" x="679" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="679" dy="0em">bond</tspan></text>
+<text y="161" x="679" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="679" dy="0em">bond</tspan></text>
 <rect y="140" x="714" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="168" x="742" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="742" dy="-1em">Thr</tspan>
-<tspan x="742" dy="1.1em">(44)</tspan></text>
+<text y="168" x="742" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="742" dy="0em">Thr</tspan></text>
 <rect y="140" x="826" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="168" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="854" dy="-2em">-NH-</tspan>
-<tspan x="854" dy="1.1em">C(R)H-</tspan>
-<tspan x="854" dy="1.1em">C(=O)-</tspan>
-<tspan x="854" dy="1.1em">(56)</tspan></text>
+<text y="168" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="854" dy="0em">Peptide</tspan></text>
 <rect y="224" x="1260" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="252" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1288" dy="-1em">Asn life</tspan>
+<text y="252" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1288" dy="-1em">Asp life</tspan>
 <tspan x="1288" dy="1.1em">beta sheet</tspan></text>
 <rect y="252" x="364" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="280" x="392" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="392" dy="-2em">-CH2-</tspan>
-<tspan x="392" dy="1.1em">C(=O)-</tspan>
-<tspan x="392" dy="1.1em">OH</tspan>
-<tspan x="392" dy="1.1em">(59)</tspan></text>
+<text y="280" x="392" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="392" dy="0em">Asp</tspan></text>
 <rect y="252" x="476" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="280" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="504" dy="-2em">-NH-</tspan>
-<tspan x="504" dy="1.1em">C(R)H-</tspan>
-<tspan x="504" dy="1.1em">C(=O)-</tspan>
-<tspan x="504" dy="1.1em">(56)</tspan></text>
+<text y="280" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="504" dy="0em">Peptide</tspan></text>
 <rect y="252" x="826" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="280" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="854" dy="-2em">-NH-</tspan>
-<tspan x="854" dy="1.1em">C(R)H-</tspan>
-<tspan x="854" dy="1.1em">C(=O)-</tspan>
-<tspan x="854" dy="1.1em">(56)</tspan></text>
+<text y="280" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="854" dy="0em">Peptide</tspan></text>
 <rect y="252" x="938" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="280" x="966" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="966" dy="-2em">-CH2-</tspan>
-<tspan x="966" dy="1.1em">C(=O)-</tspan>
-<tspan x="966" dy="1.1em">OH</tspan>
-<tspan x="966" dy="1.1em">(59)</tspan></text>
+<text y="280" x="966" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="966" dy="0em">Asp</tspan></text>
 <rect y="364" x="476" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="392" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="504" dy="-2em">-NH-</tspan>
-<tspan x="504" dy="1.1em">C(R)H-</tspan>
-<tspan x="504" dy="1.1em">C(=O)-</tspan>
-<tspan x="504" dy="1.1em">(56)</tspan></text>
+<text y="392" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="504" dy="0em">Peptide</tspan></text>
 <rect y="364" x="588" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="392" x="616" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="616" dy="-2em">-C2H4-</tspan>
-<tspan x="616" dy="1.1em">C(=O)-</tspan>
-<tspan x="616" dy="1.1em">OH</tspan>
-<tspan x="616" dy="1.1em">(9)</tspan></text>
+<text y="392" x="616" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="616" dy="0em">Glu</tspan></text>
 <rect y="364" x="658" height="42" width="42" fill="#01579B" fill-opacity="0.5"/>
-<text y="385" x="679" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="679" dy="0em">bond</tspan></text>
+<text y="385" x="679" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="679" dy="0em">bond</tspan></text>
 <rect y="364" x="714" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="392" x="742" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="742" dy="-2em">-CH2-CH2-</tspan>
-<tspan x="742" dy="1.1em">CH2-NH-</tspan>
-<tspan x="742" dy="1.1em">C(NH2)(NH)</tspan>
-<tspan x="742" dy="1.1em">(100)</tspan></text>
+<text y="392" x="742" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="742" dy="0em">Mar</tspan></text>
 <rect y="364" x="826" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="392" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="854" dy="-2em">-NH-</tspan>
-<tspan x="854" dy="1.1em">C(R)H-</tspan>
-<tspan x="854" dy="1.1em">C(=O)-</tspan>
-<tspan x="854" dy="1.1em">(56)</tspan></text>
+<text y="392" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="854" dy="0em">Peptide</tspan></text>
 <rect y="476" x="364" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="504" x="392" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="392" dy="-2em">-CH2-</tspan>
-<tspan x="392" dy="1.1em">C(=O)-</tspan>
-<tspan x="392" dy="1.1em">OH</tspan>
-<tspan x="392" dy="1.1em">(59)</tspan></text>
+<text y="504" x="392" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="392" dy="0em">Asp</tspan></text>
 <rect y="476" x="476" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="504" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="504" dy="-2em">-NH-</tspan>
-<tspan x="504" dy="1.1em">C(R)H-</tspan>
-<tspan x="504" dy="1.1em">C(=O)-</tspan>
-<tspan x="504" dy="1.1em">(56)</tspan></text>
+<text y="504" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="504" dy="0em">Peptide</tspan></text>
 <rect y="476" x="826" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="504" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="854" dy="-2em">-NH-</tspan>
-<tspan x="854" dy="1.1em">C(R)H-</tspan>
-<tspan x="854" dy="1.1em">C(=O)-</tspan>
-<tspan x="854" dy="1.1em">(56)</tspan></text>
+<text y="504" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="854" dy="0em">Peptide</tspan></text>
 <rect y="476" x="938" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="504" x="966" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="966" dy="-2em">-CH2-</tspan>
-<tspan x="966" dy="1.1em">C(=O)-</tspan>
-<tspan x="966" dy="1.1em">OH</tspan>
-<tspan x="966" dy="1.1em">(59)</tspan></text>
+<text y="504" x="966" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="966" dy="0em">Asp</tspan></text>
 <rect y="588" x="476" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="616" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="504" dy="-2em">-NH-</tspan>
-<tspan x="504" dy="1.1em">C(R)H-</tspan>
-<tspan x="504" dy="1.1em">C(=O)-</tspan>
-<tspan x="504" dy="1.1em">(56)</tspan></text>
+<text y="616" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="504" dy="0em">Peptide</tspan></text>
 <rect y="588" x="588" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="616" x="616" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="616" dy="-1em">Asn</tspan>
-<tspan x="616" dy="1.1em">(58)</tspan></text>
+<text y="616" x="616" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="616" dy="0em">Asn</tspan></text>
 <rect y="588" x="658" height="42" width="42" fill="#01579B" fill-opacity="0.5"/>
-<text y="609" x="679" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="679" dy="0em">bond</tspan></text>
+<text y="609" x="679" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="679" dy="0em">bond</tspan></text>
 <rect y="588" x="714" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="616" x="742" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="742" dy="-1em">Thr</tspan>
-<tspan x="742" dy="1.1em">(44)</tspan></text>
+<text y="616" x="742" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="742" dy="0em">Thr</tspan></text>
 <rect y="588" x="826" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="616" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="854" dy="-2em">-NH-</tspan>
-<tspan x="854" dy="1.1em">C(R)H-</tspan>
-<tspan x="854" dy="1.1em">C(=O)-</tspan>
-<tspan x="854" dy="1.1em">(56)</tspan></text>
+<text y="616" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="854" dy="0em">Peptide</tspan></text>
 <rect y="700" x="364" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="728" x="392" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="392" dy="-2em">-CH2-</tspan>
-<tspan x="392" dy="1.1em">C(=O)-</tspan>
-<tspan x="392" dy="1.1em">OH</tspan>
-<tspan x="392" dy="1.1em">(59)</tspan></text>
+<text y="728" x="392" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="392" dy="0em">Asp</tspan></text>
 <rect y="700" x="476" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="728" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="504" dy="-2em">-NH-</tspan>
-<tspan x="504" dy="1.1em">C(R)H-</tspan>
-<tspan x="504" dy="1.1em">C(=O)-</tspan>
-<tspan x="504" dy="1.1em">(56)</tspan></text>
+<text y="728" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="504" dy="0em">Peptide</tspan></text>
 <rect y="700" x="826" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="728" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="854" dy="-2em">-NH-</tspan>
-<tspan x="854" dy="1.1em">C(R)H-</tspan>
-<tspan x="854" dy="1.1em">C(=O)-</tspan>
-<tspan x="854" dy="1.1em">(56)</tspan></text>
+<text y="728" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="854" dy="0em">Peptide</tspan></text>
 <rect y="700" x="938" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="728" x="966" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="966" dy="-2em">-CH2-</tspan>
-<tspan x="966" dy="1.1em">C(=O)-</tspan>
-<tspan x="966" dy="1.1em">OH</tspan>
-<tspan x="966" dy="1.1em">(59)</tspan></text>
+<text y="728" x="966" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="966" dy="0em">Asp</tspan></text>
 <rect y="812" x="476" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="840" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="504" dy="-2em">-NH-</tspan>
-<tspan x="504" dy="1.1em">C(R)H-</tspan>
-<tspan x="504" dy="1.1em">C(=O)-</tspan>
-<tspan x="504" dy="1.1em">(56)</tspan></text>
+<text y="840" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="504" dy="0em">Peptide</tspan></text>
 <rect y="812" x="588" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="840" x="616" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="616" dy="-1em">Asn</tspan>
-<tspan x="616" dy="1.1em">(58)</tspan></text>
+<text y="840" x="616" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="616" dy="0em">Asn</tspan></text>
 <rect y="812" x="658" height="42" width="42" fill="#01579B" fill-opacity="0.5"/>
-<text y="833" x="679" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="679" dy="0em">bond</tspan></text>
+<text y="833" x="679" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="679" dy="0em">bond</tspan></text>
 <rect y="812" x="714" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="840" x="742" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="742" dy="-1em">Thr</tspan>
-<tspan x="742" dy="1.1em">(44)</tspan></text>
+<text y="840" x="742" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="742" dy="0em">Thr</tspan></text>
 <rect y="812" x="826" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="840" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="854" dy="-2em">-NH-</tspan>
-<tspan x="854" dy="1.1em">C(R)H-</tspan>
-<tspan x="854" dy="1.1em">C(=O)-</tspan>
-<tspan x="854" dy="1.1em">(56)</tspan></text>
+<text y="840" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="854" dy="0em">Peptide</tspan></text>
 <rect y="924" x="364" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="952" x="392" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="392" dy="-2em">-CH2-</tspan>
-<tspan x="392" dy="1.1em">C(=O)-</tspan>
-<tspan x="392" dy="1.1em">OH</tspan>
-<tspan x="392" dy="1.1em">(59)</tspan></text>
+<text y="952" x="392" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="392" dy="0em">Asp</tspan></text>
 <rect y="924" x="476" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="952" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="504" dy="-2em">-NH-</tspan>
-<tspan x="504" dy="1.1em">C(R)H-</tspan>
-<tspan x="504" dy="1.1em">C(=O)-</tspan>
-<tspan x="504" dy="1.1em">(56)</tspan></text>
+<text y="952" x="504" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="504" dy="0em">Peptide</tspan></text>
 <rect y="924" x="826" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="952" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="854" dy="-2em">-NH-</tspan>
-<tspan x="854" dy="1.1em">C(R)H-</tspan>
-<tspan x="854" dy="1.1em">C(=O)-</tspan>
-<tspan x="854" dy="1.1em">(56)</tspan></text>
+<text y="952" x="854" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="854" dy="0em">Peptide</tspan></text>
 <rect y="924" x="938" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="952" x="966" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="966" dy="-2em">-CH2-</tspan>
-<tspan x="966" dy="1.1em">C(=O)-</tspan>
-<tspan x="966" dy="1.1em">OH</tspan>
-<tspan x="966" dy="1.1em">(59)</tspan></text>
+<text y="952" x="966" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="966" dy="0em">Asp</tspan></text>
 <rect y="1064" x="406" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1092" x="434" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="434" dy="-2em">-NH-</tspan>
-<tspan x="434" dy="1.1em">C(R)H-</tspan>
-<tspan x="434" dy="1.1em">C(=O)-</tspan>
-<tspan x="434" dy="1.1em">(56)</tspan></text>
+<text y="1092" x="434" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="434" dy="0em">Peptide</tspan></text>
 <rect y="1064" x="518" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1092" x="546" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="546" dy="-2em">-C2H4-</tspan>
-<tspan x="546" dy="1.1em">C(=O)-</tspan>
-<tspan x="546" dy="1.1em">OH</tspan>
-<tspan x="546" dy="1.1em">(9)</tspan></text>
+<text y="1092" x="546" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="546" dy="0em">Glu</tspan></text>
 <rect y="1064" x="784" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1092" x="812" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="812" dy="-2em">-CH2-CH2-</tspan>
-<tspan x="812" dy="1.1em">CH2-NH-</tspan>
-<tspan x="812" dy="1.1em">C(NH2)(NH)</tspan>
-<tspan x="812" dy="1.1em">(100)</tspan></text>
+<text y="1092" x="812" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="812" dy="0em">Mar</tspan></text>
 <rect y="1064" x="896" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1092" x="924" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="924" dy="-2em">-NH-</tspan>
-<tspan x="924" dy="1.1em">C(R)H-</tspan>
-<tspan x="924" dy="1.1em">C(=O)-</tspan>
-<tspan x="924" dy="1.1em">(56)</tspan></text>
+<text y="1092" x="924" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="924" dy="0em">Peptide</tspan></text>
 <rect y="1204" x="224" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1232" x="252" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="252" dy="-2em">-CH2-</tspan>
-<tspan x="252" dy="1.1em">C(=O)-</tspan>
-<tspan x="252" dy="1.1em">OH</tspan>
-<tspan x="252" dy="1.1em">(59)</tspan></text>
+<text y="1232" x="252" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="252" dy="0em">Asp</tspan></text>
 <rect y="1204" x="336" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1232" x="364" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="364" dy="-2em">-NH-</tspan>
-<tspan x="364" dy="1.1em">C(R)H-</tspan>
-<tspan x="364" dy="1.1em">C(=O)-</tspan>
-<tspan x="364" dy="1.1em">(56)</tspan></text>
+<text y="1232" x="364" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="364" dy="0em">Peptide</tspan></text>
 <rect y="1204" x="966" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1232" x="994" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="994" dy="-2em">-NH-</tspan>
-<tspan x="994" dy="1.1em">C(R)H-</tspan>
-<tspan x="994" dy="1.1em">C(=O)-</tspan>
-<tspan x="994" dy="1.1em">(56)</tspan></text>
+<text y="1232" x="994" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="994" dy="0em">Peptide</tspan></text>
 <rect y="1204" x="1078" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1232" x="1106" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1106" dy="-2em">-CH2-</tspan>
-<tspan x="1106" dy="1.1em">C(=O)-</tspan>
-<tspan x="1106" dy="1.1em">OH</tspan>
-<tspan x="1106" dy="1.1em">(59)</tspan></text>
+<text y="1232" x="1106" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1106" dy="0em">Asp</tspan></text>
 <rect y="1344" x="266" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1372" x="294" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="294" dy="-2em">-NH-</tspan>
-<tspan x="294" dy="1.1em">C(R)H-</tspan>
-<tspan x="294" dy="1.1em">C(=O)-</tspan>
-<tspan x="294" dy="1.1em">(56)</tspan></text>
+<text y="1372" x="294" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="294" dy="0em">Peptide</tspan></text>
 <rect y="1344" x="378" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1372" x="406" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="406" dy="-1em">Asn</tspan>
-<tspan x="406" dy="1.1em">(58)</tspan></text>
+<text y="1372" x="406" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="406" dy="0em">Asn</tspan></text>
 <rect y="1344" x="910" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1372" x="938" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="938" dy="-1em">Thr</tspan>
-<tspan x="938" dy="1.1em">(44)</tspan></text>
+<text y="1372" x="938" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="938" dy="0em">Thr</tspan></text>
 <rect y="1344" x="1022" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1372" x="1050" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1050" dy="-2em">-NH-</tspan>
-<tspan x="1050" dy="1.1em">C(R)H-</tspan>
-<tspan x="1050" dy="1.1em">C(=O)-</tspan>
-<tspan x="1050" dy="1.1em">(56)</tspan></text>
+<text y="1372" x="1050" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1050" dy="0em">Peptide</tspan></text>
 <rect y="1484" x="98" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1512" x="126" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="126" dy="-2em">-CH2-</tspan>
-<tspan x="126" dy="1.1em">C(=O)-</tspan>
-<tspan x="126" dy="1.1em">OH</tspan>
-<tspan x="126" dy="1.1em">(59)</tspan></text>
+<text y="1512" x="126" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="126" dy="0em">Asp</tspan></text>
 <rect y="1484" x="210" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1512" x="238" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="238" dy="-2em">-NH-</tspan>
-<tspan x="238" dy="1.1em">C(R)H-</tspan>
-<tspan x="238" dy="1.1em">C(=O)-</tspan>
-<tspan x="238" dy="1.1em">(56)</tspan></text>
+<text y="1512" x="238" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="238" dy="0em">Peptide</tspan></text>
 <rect y="1484" x="1078" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1512" x="1106" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1106" dy="-2em">-NH-</tspan>
-<tspan x="1106" dy="1.1em">C(R)H-</tspan>
-<tspan x="1106" dy="1.1em">C(=O)-</tspan>
-<tspan x="1106" dy="1.1em">(56)</tspan></text>
+<text y="1512" x="1106" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1106" dy="0em">Peptide</tspan></text>
 <rect y="1484" x="1190" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1512" x="1218" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1218" dy="-2em">-CH2-</tspan>
-<tspan x="1218" dy="1.1em">C(=O)-</tspan>
-<tspan x="1218" dy="1.1em">OH</tspan>
-<tspan x="1218" dy="1.1em">(59)</tspan></text>
+<text y="1512" x="1218" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1218" dy="0em">Asp</tspan></text>
 <rect y="1540" x="434" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1568" x="462" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="462" dy="-2em">-CH2-CH2-</tspan>
-<tspan x="462" dy="1.1em">CH2-NH-</tspan>
-<tspan x="462" dy="1.1em">C(NH2)(NH)</tspan>
-<tspan x="462" dy="1.1em">(100)</tspan></text>
+<text y="1568" x="462" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="462" dy="0em">Mar</tspan></text>
 <rect y="1540" x="546" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1568" x="574" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="574" dy="-2em">-NH-</tspan>
-<tspan x="574" dy="1.1em">C(R)H-</tspan>
-<tspan x="574" dy="1.1em">C(=O)-</tspan>
-<tspan x="574" dy="1.1em">(56)</tspan></text>
+<text y="1568" x="574" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="574" dy="0em">Peptide</tspan></text>
 <rect y="1540" x="756" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1568" x="784" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="784" dy="-2em">-NH-</tspan>
-<tspan x="784" dy="1.1em">C(R)H-</tspan>
-<tspan x="784" dy="1.1em">C(=O)-</tspan>
-<tspan x="784" dy="1.1em">(56)</tspan></text>
+<text y="1568" x="784" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="784" dy="0em">Peptide</tspan></text>
 <rect y="1540" x="868" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1568" x="896" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="896" dy="-2em">-C2H4-</tspan>
-<tspan x="896" dy="1.1em">C(=O)-</tspan>
-<tspan x="896" dy="1.1em">OH</tspan>
-<tspan x="896" dy="1.1em">(9)</tspan></text>
+<text y="1568" x="896" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="896" dy="0em">Glu</tspan></text>
 <rect y="1624" x="140" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1652" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="168" dy="-2em">-NH-</tspan>
-<tspan x="168" dy="1.1em">C(R)H-</tspan>
-<tspan x="168" dy="1.1em">C(=O)-</tspan>
-<tspan x="168" dy="1.1em">(56)</tspan></text>
+<text y="1652" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="168" dy="0em">Peptide</tspan></text>
 <rect y="1624" x="252" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1652" x="280" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="280" dy="-2em">-C2H4-</tspan>
-<tspan x="280" dy="1.1em">C(=O)-</tspan>
-<tspan x="280" dy="1.1em">OH</tspan>
-<tspan x="280" dy="1.1em">(9)</tspan></text>
+<text y="1652" x="280" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="280" dy="0em">Glu</tspan></text>
 <rect y="1624" x="1036" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1652" x="1064" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1064" dy="-2em">-CH2-CH2-</tspan>
-<tspan x="1064" dy="1.1em">CH2-NH-</tspan>
-<tspan x="1064" dy="1.1em">C(NH2)(NH)</tspan>
-<tspan x="1064" dy="1.1em">(100)</tspan></text>
+<text y="1652" x="1064" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1064" dy="0em">Mar</tspan></text>
 <rect y="1624" x="1148" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1652" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1176" dy="-2em">-NH-</tspan>
-<tspan x="1176" dy="1.1em">C(R)H-</tspan>
-<tspan x="1176" dy="1.1em">C(=O)-</tspan>
-<tspan x="1176" dy="1.1em">(56)</tspan></text>
+<text y="1652" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1176" dy="0em">Peptide</tspan></text>
 <rect y="1666" x="630" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1694" x="658" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="658" dy="-2em">-CH2-</tspan>
-<tspan x="658" dy="1.1em">C(=O)-</tspan>
-<tspan x="658" dy="1.1em">OH</tspan>
-<tspan x="658" dy="1.1em">(59)</tspan></text>
+<text y="1694" x="658" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="658" dy="0em">Asp</tspan></text>
 <rect y="1708" x="518" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1736" x="546" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="546" dy="-2em">-NH-</tspan>
-<tspan x="546" dy="1.1em">C(R)H-</tspan>
-<tspan x="546" dy="1.1em">C(=O)-</tspan>
-<tspan x="546" dy="1.1em">(56)</tspan></text>
+<text y="1736" x="546" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="546" dy="0em">Peptide</tspan></text>
 <rect y="1708" x="770" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1736" x="798" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="798" dy="-2em">-NH-</tspan>
-<tspan x="798" dy="1.1em">C(R)H-</tspan>
-<tspan x="798" dy="1.1em">C(=O)-</tspan>
-<tspan x="798" dy="1.1em">(56)</tspan></text>
+<text y="1736" x="798" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="798" dy="0em">Peptide</tspan></text>
 <rect y="1736" x="28" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1764" x="56" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="56" dy="-2em">-CH2-</tspan>
-<tspan x="56" dy="1.1em">C(=O)-</tspan>
-<tspan x="56" dy="1.1em">OH</tspan>
-<tspan x="56" dy="1.1em">(59)</tspan></text>
+<text y="1764" x="56" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="56" dy="0em">Asp</tspan></text>
 <rect y="1736" x="140" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1764" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="168" dy="-2em">-NH-</tspan>
-<tspan x="168" dy="1.1em">C(R)H-</tspan>
-<tspan x="168" dy="1.1em">C(=O)-</tspan>
-<tspan x="168" dy="1.1em">(56)</tspan></text>
+<text y="1764" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="168" dy="0em">Peptide</tspan></text>
 <rect y="1736" x="1148" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1764" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1176" dy="-2em">-NH-</tspan>
-<tspan x="1176" dy="1.1em">C(R)H-</tspan>
-<tspan x="1176" dy="1.1em">C(=O)-</tspan>
-<tspan x="1176" dy="1.1em">(56)</tspan></text>
+<text y="1764" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1176" dy="0em">Peptide</tspan></text>
 <rect y="1736" x="1260" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1764" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1288" dy="-2em">-CH2-</tspan>
-<tspan x="1288" dy="1.1em">C(=O)-</tspan>
-<tspan x="1288" dy="1.1em">OH</tspan>
-<tspan x="1288" dy="1.1em">(59)</tspan></text>
+<text y="1764" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1288" dy="0em">Asp</tspan></text>
 <rect y="1750" x="658" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1778" x="686" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="686" dy="-2em">-CH2-</tspan>
-<tspan x="686" dy="1.1em">C(=O)-</tspan>
-<tspan x="686" dy="1.1em">OH</tspan>
-<tspan x="686" dy="1.1em">(59)</tspan></text>
+<text y="1778" x="686" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="686" dy="0em">Asp</tspan></text>
 <rect y="1848" x="140" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1876" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="168" dy="-2em">-NH-</tspan>
-<tspan x="168" dy="1.1em">C(R)H-</tspan>
-<tspan x="168" dy="1.1em">C(=O)-</tspan>
-<tspan x="168" dy="1.1em">(56)</tspan></text>
+<text y="1876" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="168" dy="0em">Peptide</tspan></text>
 <rect y="1848" x="252" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1876" x="280" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="280" dy="-2em">-C2H4-</tspan>
-<tspan x="280" dy="1.1em">C(=O)-</tspan>
-<tspan x="280" dy="1.1em">OH</tspan>
-<tspan x="280" dy="1.1em">(9)</tspan></text>
+<text y="1876" x="280" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="280" dy="0em">Glu</tspan></text>
 <rect y="1848" x="406" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1876" x="434" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="434" dy="-2em">-CH2-CH2-</tspan>
-<tspan x="434" dy="1.1em">CH2-NH-</tspan>
-<tspan x="434" dy="1.1em">C(NH2)(NH)</tspan>
-<tspan x="434" dy="1.1em">(100)</tspan></text>
+<text y="1876" x="434" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="434" dy="0em">Mar</tspan></text>
 <rect y="1848" x="518" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1876" x="546" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="546" dy="-2em">-NH-</tspan>
-<tspan x="546" dy="1.1em">C(R)H-</tspan>
-<tspan x="546" dy="1.1em">C(=O)-</tspan>
-<tspan x="546" dy="1.1em">(56)</tspan></text>
+<text y="1876" x="546" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="546" dy="0em">Peptide</tspan></text>
 <rect y="1848" x="784" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1876" x="812" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="812" dy="-2em">-NH-</tspan>
-<tspan x="812" dy="1.1em">C(R)H-</tspan>
-<tspan x="812" dy="1.1em">C(=O)-</tspan>
-<tspan x="812" dy="1.1em">(56)</tspan></text>
+<text y="1876" x="812" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="812" dy="0em">Peptide</tspan></text>
 <rect y="1848" x="896" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1876" x="924" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="924" dy="-2em">-C2H4-</tspan>
-<tspan x="924" dy="1.1em">C(=O)-</tspan>
-<tspan x="924" dy="1.1em">OH</tspan>
-<tspan x="924" dy="1.1em">(9)</tspan></text>
+<text y="1876" x="924" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="924" dy="0em">Glu</tspan></text>
 <rect y="1848" x="1036" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1876" x="1064" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1064" dy="-2em">-CH2-CH2-</tspan>
-<tspan x="1064" dy="1.1em">CH2-NH-</tspan>
-<tspan x="1064" dy="1.1em">C(NH2)(NH)</tspan>
-<tspan x="1064" dy="1.1em">(100)</tspan></text>
+<text y="1876" x="1064" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1064" dy="0em">Mar</tspan></text>
 <rect y="1848" x="1148" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1876" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1176" dy="-2em">-NH-</tspan>
-<tspan x="1176" dy="1.1em">C(R)H-</tspan>
-<tspan x="1176" dy="1.1em">C(=O)-</tspan>
-<tspan x="1176" dy="1.1em">(56)</tspan></text>
+<text y="1876" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1176" dy="0em">Peptide</tspan></text>
 <rect y="1960" x="28" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1988" x="56" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="56" dy="-2em">-CH2-</tspan>
-<tspan x="56" dy="1.1em">C(=O)-</tspan>
-<tspan x="56" dy="1.1em">OH</tspan>
-<tspan x="56" dy="1.1em">(59)</tspan></text>
+<text y="1988" x="56" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="56" dy="0em">Asp</tspan></text>
 <rect y="1960" x="140" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1988" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="168" dy="-2em">-NH-</tspan>
-<tspan x="168" dy="1.1em">C(R)H-</tspan>
-<tspan x="168" dy="1.1em">C(=O)-</tspan>
-<tspan x="168" dy="1.1em">(56)</tspan></text>
+<text y="1988" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="168" dy="0em">Peptide</tspan></text>
 <rect y="1960" x="490" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1988" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="518" dy="-2em">-NH-</tspan>
-<tspan x="518" dy="1.1em">C(R)H-</tspan>
-<tspan x="518" dy="1.1em">C(=O)-</tspan>
-<tspan x="518" dy="1.1em">(56)</tspan></text>
+<text y="1988" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="518" dy="0em">Peptide</tspan></text>
 <rect y="1960" x="602" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1988" x="630" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="630" dy="-2em">-CH2-</tspan>
-<tspan x="630" dy="1.1em">C(=O)-</tspan>
-<tspan x="630" dy="1.1em">OH</tspan>
-<tspan x="630" dy="1.1em">(59)</tspan></text>
+<text y="1988" x="630" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="630" dy="0em">Asp</tspan></text>
 <rect y="1960" x="686" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1988" x="714" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="714" dy="-2em">-CH2-</tspan>
-<tspan x="714" dy="1.1em">C(=O)-</tspan>
-<tspan x="714" dy="1.1em">OH</tspan>
-<tspan x="714" dy="1.1em">(59)</tspan></text>
+<text y="1988" x="714" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="714" dy="0em">Asp</tspan></text>
 <rect y="1960" x="798" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1988" x="826" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="826" dy="-2em">-NH-</tspan>
-<tspan x="826" dy="1.1em">C(R)H-</tspan>
-<tspan x="826" dy="1.1em">C(=O)-</tspan>
-<tspan x="826" dy="1.1em">(56)</tspan></text>
+<text y="1988" x="826" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="826" dy="0em">Peptide</tspan></text>
 <rect y="1960" x="1148" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1988" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1176" dy="-2em">-NH-</tspan>
-<tspan x="1176" dy="1.1em">C(R)H-</tspan>
-<tspan x="1176" dy="1.1em">C(=O)-</tspan>
-<tspan x="1176" dy="1.1em">(56)</tspan></text>
+<text y="1988" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1176" dy="0em">Peptide</tspan></text>
 <rect y="1960" x="1260" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="1988" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1288" dy="-2em">-CH2-</tspan>
-<tspan x="1288" dy="1.1em">C(=O)-</tspan>
-<tspan x="1288" dy="1.1em">OH</tspan>
-<tspan x="1288" dy="1.1em">(59)</tspan></text>
+<text y="1988" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1288" dy="0em">Asp</tspan></text>
 <rect y="2072" x="140" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2100" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="168" dy="-2em">-NH-</tspan>
-<tspan x="168" dy="1.1em">C(R)H-</tspan>
-<tspan x="168" dy="1.1em">C(=O)-</tspan>
-<tspan x="168" dy="1.1em">(56)</tspan></text>
+<text y="2100" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="168" dy="0em">Peptide</tspan></text>
 <rect y="2072" x="252" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2100" x="280" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="280" dy="-1em">Asn</tspan>
-<tspan x="280" dy="1.1em">(58)</tspan></text>
+<text y="2100" x="280" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="280" dy="0em">Asn</tspan></text>
 <rect y="2072" x="322" height="42" width="42" fill="#01579B" fill-opacity="0.5"/>
-<text y="2093" x="343" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="343" dy="0em">bond</tspan></text>
+<text y="2093" x="343" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="343" dy="0em">bond</tspan></text>
 <rect y="2072" x="378" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2100" x="406" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="406" dy="-1em">Thr</tspan>
-<tspan x="406" dy="1.1em">(44)</tspan></text>
+<text y="2100" x="406" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="406" dy="0em">Thr</tspan></text>
 <rect y="2072" x="490" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2100" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="518" dy="-2em">-NH-</tspan>
-<tspan x="518" dy="1.1em">C(R)H-</tspan>
-<tspan x="518" dy="1.1em">C(=O)-</tspan>
-<tspan x="518" dy="1.1em">(56)</tspan></text>
+<text y="2100" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="518" dy="0em">Peptide</tspan></text>
 <rect y="2072" x="798" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2100" x="826" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="826" dy="-2em">-NH-</tspan>
-<tspan x="826" dy="1.1em">C(R)H-</tspan>
-<tspan x="826" dy="1.1em">C(=O)-</tspan>
-<tspan x="826" dy="1.1em">(56)</tspan></text>
+<text y="2100" x="826" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="826" dy="0em">Peptide</tspan></text>
 <rect y="2072" x="910" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2100" x="938" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="938" dy="-1em">Asn</tspan>
-<tspan x="938" dy="1.1em">(58)</tspan></text>
+<text y="2100" x="938" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="938" dy="0em">Asn</tspan></text>
 <rect y="2072" x="980" height="42" width="42" fill="#01579B" fill-opacity="0.5"/>
-<text y="2093" x="1001" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1001" dy="0em">bond</tspan></text>
+<text y="2093" x="1001" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1001" dy="0em">bond</tspan></text>
 <rect y="2072" x="1036" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2100" x="1064" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1064" dy="-1em">Thr</tspan>
-<tspan x="1064" dy="1.1em">(44)</tspan></text>
+<text y="2100" x="1064" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1064" dy="0em">Thr</tspan></text>
 <rect y="2072" x="1148" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2100" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1176" dy="-2em">-NH-</tspan>
-<tspan x="1176" dy="1.1em">C(R)H-</tspan>
-<tspan x="1176" dy="1.1em">C(=O)-</tspan>
-<tspan x="1176" dy="1.1em">(56)</tspan></text>
+<text y="2100" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1176" dy="0em">Peptide</tspan></text>
 <rect y="2184" x="28" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2212" x="56" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="56" dy="-2em">-CH2-</tspan>
-<tspan x="56" dy="1.1em">C(=O)-</tspan>
-<tspan x="56" dy="1.1em">OH</tspan>
-<tspan x="56" dy="1.1em">(59)</tspan></text>
+<text y="2212" x="56" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="56" dy="0em">Asp</tspan></text>
 <rect y="2184" x="140" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2212" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="168" dy="-2em">-NH-</tspan>
-<tspan x="168" dy="1.1em">C(R)H-</tspan>
-<tspan x="168" dy="1.1em">C(=O)-</tspan>
-<tspan x="168" dy="1.1em">(56)</tspan></text>
+<text y="2212" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="168" dy="0em">Peptide</tspan></text>
 <rect y="2184" x="490" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2212" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="518" dy="-2em">-NH-</tspan>
-<tspan x="518" dy="1.1em">C(R)H-</tspan>
-<tspan x="518" dy="1.1em">C(=O)-</tspan>
-<tspan x="518" dy="1.1em">(56)</tspan></text>
+<text y="2212" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="518" dy="0em">Peptide</tspan></text>
 <rect y="2184" x="602" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2212" x="630" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="630" dy="-2em">-CH2-</tspan>
-<tspan x="630" dy="1.1em">C(=O)-</tspan>
-<tspan x="630" dy="1.1em">OH</tspan>
-<tspan x="630" dy="1.1em">(59)</tspan></text>
+<text y="2212" x="630" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="630" dy="0em">Asp</tspan></text>
 <rect y="2184" x="686" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2212" x="714" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="714" dy="-2em">-CH2-</tspan>
-<tspan x="714" dy="1.1em">C(=O)-</tspan>
-<tspan x="714" dy="1.1em">OH</tspan>
-<tspan x="714" dy="1.1em">(59)</tspan></text>
+<text y="2212" x="714" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="714" dy="0em">Asp</tspan></text>
 <rect y="2184" x="798" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2212" x="826" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="826" dy="-2em">-NH-</tspan>
-<tspan x="826" dy="1.1em">C(R)H-</tspan>
-<tspan x="826" dy="1.1em">C(=O)-</tspan>
-<tspan x="826" dy="1.1em">(56)</tspan></text>
+<text y="2212" x="826" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="826" dy="0em">Peptide</tspan></text>
 <rect y="2184" x="1148" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2212" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1176" dy="-2em">-NH-</tspan>
-<tspan x="1176" dy="1.1em">C(R)H-</tspan>
-<tspan x="1176" dy="1.1em">C(=O)-</tspan>
-<tspan x="1176" dy="1.1em">(56)</tspan></text>
+<text y="2212" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1176" dy="0em">Peptide</tspan></text>
 <rect y="2184" x="1260" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2212" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1288" dy="-2em">-CH2-</tspan>
-<tspan x="1288" dy="1.1em">C(=O)-</tspan>
-<tspan x="1288" dy="1.1em">OH</tspan>
-<tspan x="1288" dy="1.1em">(59)</tspan></text>
+<text y="2212" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1288" dy="0em">Asp</tspan></text>
 <rect y="2296" x="140" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2324" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="168" dy="-2em">-NH-</tspan>
-<tspan x="168" dy="1.1em">C(R)H-</tspan>
-<tspan x="168" dy="1.1em">C(=O)-</tspan>
-<tspan x="168" dy="1.1em">(56)</tspan></text>
+<text y="2324" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="168" dy="0em">Peptide</tspan></text>
 <rect y="2296" x="252" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2324" x="280" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="280" dy="-2em">-C2H4-</tspan>
-<tspan x="280" dy="1.1em">C(=O)-</tspan>
-<tspan x="280" dy="1.1em">OH</tspan>
-<tspan x="280" dy="1.1em">(9)</tspan></text>
+<text y="2324" x="280" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="280" dy="0em">Glu</tspan></text>
 <rect y="2296" x="322" height="42" width="42" fill="#01579B" fill-opacity="0.5"/>
-<text y="2317" x="343" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="343" dy="0em">bond</tspan></text>
+<text y="2317" x="343" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="343" dy="0em">bond</tspan></text>
 <rect y="2296" x="378" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2324" x="406" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="406" dy="-2em">-CH2-CH2-</tspan>
-<tspan x="406" dy="1.1em">CH2-NH-</tspan>
-<tspan x="406" dy="1.1em">C(NH2)(NH)</tspan>
-<tspan x="406" dy="1.1em">(100)</tspan></text>
+<text y="2324" x="406" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="406" dy="0em">Mar</tspan></text>
 <rect y="2296" x="490" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2324" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="518" dy="-2em">-NH-</tspan>
-<tspan x="518" dy="1.1em">C(R)H-</tspan>
-<tspan x="518" dy="1.1em">C(=O)-</tspan>
-<tspan x="518" dy="1.1em">(56)</tspan></text>
+<text y="2324" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="518" dy="0em">Peptide</tspan></text>
 <rect y="2296" x="798" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2324" x="826" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="826" dy="-2em">-NH-</tspan>
-<tspan x="826" dy="1.1em">C(R)H-</tspan>
-<tspan x="826" dy="1.1em">C(=O)-</tspan>
-<tspan x="826" dy="1.1em">(56)</tspan></text>
+<text y="2324" x="826" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="826" dy="0em">Peptide</tspan></text>
 <rect y="2296" x="910" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2324" x="938" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="938" dy="-2em">-C2H4-</tspan>
-<tspan x="938" dy="1.1em">C(=O)-</tspan>
-<tspan x="938" dy="1.1em">OH</tspan>
-<tspan x="938" dy="1.1em">(9)</tspan></text>
+<text y="2324" x="938" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="938" dy="0em">Glu</tspan></text>
 <rect y="2296" x="980" height="42" width="42" fill="#01579B" fill-opacity="0.5"/>
-<text y="2317" x="1001" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1001" dy="0em">bond</tspan></text>
+<text y="2317" x="1001" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1001" dy="0em">bond</tspan></text>
 <rect y="2296" x="1036" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2324" x="1064" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1064" dy="-2em">-CH2-CH2-</tspan>
-<tspan x="1064" dy="1.1em">CH2-NH-</tspan>
-<tspan x="1064" dy="1.1em">C(NH2)(NH)</tspan>
-<tspan x="1064" dy="1.1em">(100)</tspan></text>
+<text y="2324" x="1064" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1064" dy="0em">Mar</tspan></text>
 <rect y="2296" x="1148" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2324" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1176" dy="-2em">-NH-</tspan>
-<tspan x="1176" dy="1.1em">C(R)H-</tspan>
-<tspan x="1176" dy="1.1em">C(=O)-</tspan>
-<tspan x="1176" dy="1.1em">(56)</tspan></text>
+<text y="2324" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1176" dy="0em">Peptide</tspan></text>
 <rect y="2408" x="28" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2436" x="56" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="56" dy="-2em">-CH2-</tspan>
-<tspan x="56" dy="1.1em">C(=O)-</tspan>
-<tspan x="56" dy="1.1em">OH</tspan>
-<tspan x="56" dy="1.1em">(59)</tspan></text>
+<text y="2436" x="56" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="56" dy="0em">Asp</tspan></text>
 <rect y="2408" x="140" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2436" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="168" dy="-2em">-NH-</tspan>
-<tspan x="168" dy="1.1em">C(R)H-</tspan>
-<tspan x="168" dy="1.1em">C(=O)-</tspan>
-<tspan x="168" dy="1.1em">(56)</tspan></text>
+<text y="2436" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="168" dy="0em">Peptide</tspan></text>
 <rect y="2408" x="490" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2436" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="518" dy="-2em">-NH-</tspan>
-<tspan x="518" dy="1.1em">C(R)H-</tspan>
-<tspan x="518" dy="1.1em">C(=O)-</tspan>
-<tspan x="518" dy="1.1em">(56)</tspan></text>
+<text y="2436" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="518" dy="0em">Peptide</tspan></text>
 <rect y="2408" x="602" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2436" x="630" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="630" dy="-2em">-CH2-</tspan>
-<tspan x="630" dy="1.1em">C(=O)-</tspan>
-<tspan x="630" dy="1.1em">OH</tspan>
-<tspan x="630" dy="1.1em">(59)</tspan></text>
+<text y="2436" x="630" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="630" dy="0em">Asp</tspan></text>
 <rect y="2408" x="686" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2436" x="714" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="714" dy="-2em">-CH2-</tspan>
-<tspan x="714" dy="1.1em">C(=O)-</tspan>
-<tspan x="714" dy="1.1em">OH</tspan>
-<tspan x="714" dy="1.1em">(59)</tspan></text>
+<text y="2436" x="714" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="714" dy="0em">Asp</tspan></text>
 <rect y="2408" x="798" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2436" x="826" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="826" dy="-2em">-NH-</tspan>
-<tspan x="826" dy="1.1em">C(R)H-</tspan>
-<tspan x="826" dy="1.1em">C(=O)-</tspan>
-<tspan x="826" dy="1.1em">(56)</tspan></text>
+<text y="2436" x="826" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="826" dy="0em">Peptide</tspan></text>
 <rect y="2408" x="1148" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2436" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1176" dy="-2em">-NH-</tspan>
-<tspan x="1176" dy="1.1em">C(R)H-</tspan>
-<tspan x="1176" dy="1.1em">C(=O)-</tspan>
-<tspan x="1176" dy="1.1em">(56)</tspan></text>
+<text y="2436" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1176" dy="0em">Peptide</tspan></text>
 <rect y="2408" x="1260" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2436" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1288" dy="-2em">-CH2-</tspan>
-<tspan x="1288" dy="1.1em">C(=O)-</tspan>
-<tspan x="1288" dy="1.1em">OH</tspan>
-<tspan x="1288" dy="1.1em">(59)</tspan></text>
+<text y="2436" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1288" dy="0em">Asp</tspan></text>
 <rect y="2520" x="140" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2548" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="168" dy="-2em">-NH-</tspan>
-<tspan x="168" dy="1.1em">C(R)H-</tspan>
-<tspan x="168" dy="1.1em">C(=O)-</tspan>
-<tspan x="168" dy="1.1em">(56)</tspan></text>
+<text y="2548" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="168" dy="0em">Peptide</tspan></text>
 <rect y="2520" x="252" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2548" x="280" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="280" dy="-1em">Asn</tspan>
-<tspan x="280" dy="1.1em">(58)</tspan></text>
+<text y="2548" x="280" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="280" dy="0em">Asn</tspan></text>
 <rect y="2520" x="322" height="42" width="42" fill="#01579B" fill-opacity="0.5"/>
-<text y="2541" x="343" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="343" dy="0em">bond</tspan></text>
+<text y="2541" x="343" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="343" dy="0em">bond</tspan></text>
 <rect y="2520" x="378" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2548" x="406" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="406" dy="-1em">Thr</tspan>
-<tspan x="406" dy="1.1em">(44)</tspan></text>
+<text y="2548" x="406" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="406" dy="0em">Thr</tspan></text>
 <rect y="2520" x="490" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2548" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="518" dy="-2em">-NH-</tspan>
-<tspan x="518" dy="1.1em">C(R)H-</tspan>
-<tspan x="518" dy="1.1em">C(=O)-</tspan>
-<tspan x="518" dy="1.1em">(56)</tspan></text>
+<text y="2548" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="518" dy="0em">Peptide</tspan></text>
 <rect y="2520" x="798" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2548" x="826" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="826" dy="-2em">-NH-</tspan>
-<tspan x="826" dy="1.1em">C(R)H-</tspan>
-<tspan x="826" dy="1.1em">C(=O)-</tspan>
-<tspan x="826" dy="1.1em">(56)</tspan></text>
+<text y="2548" x="826" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="826" dy="0em">Peptide</tspan></text>
 <rect y="2520" x="910" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2548" x="938" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="938" dy="-1em">Asn</tspan>
-<tspan x="938" dy="1.1em">(58)</tspan></text>
+<text y="2548" x="938" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="938" dy="0em">Asn</tspan></text>
 <rect y="2520" x="980" height="42" width="42" fill="#01579B" fill-opacity="0.5"/>
-<text y="2541" x="1001" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1001" dy="0em">bond</tspan></text>
+<text y="2541" x="1001" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1001" dy="0em">bond</tspan></text>
 <rect y="2520" x="1036" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2548" x="1064" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1064" dy="-1em">Thr</tspan>
-<tspan x="1064" dy="1.1em">(44)</tspan></text>
+<text y="2548" x="1064" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1064" dy="0em">Thr</tspan></text>
 <rect y="2520" x="1148" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2548" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1176" dy="-2em">-NH-</tspan>
-<tspan x="1176" dy="1.1em">C(R)H-</tspan>
-<tspan x="1176" dy="1.1em">C(=O)-</tspan>
-<tspan x="1176" dy="1.1em">(56)</tspan></text>
+<text y="2548" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1176" dy="0em">Peptide</tspan></text>
 <rect y="2618" x="28" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2646" x="56" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="56" dy="-2em">-CH2-</tspan>
-<tspan x="56" dy="1.1em">C(=O)-</tspan>
-<tspan x="56" dy="1.1em">OH</tspan>
-<tspan x="56" dy="1.1em">(59)</tspan></text>
+<text y="2646" x="56" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="56" dy="0em">Asp</tspan></text>
 <rect y="2632" x="140" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2660" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="168" dy="-2em">-NH-</tspan>
-<tspan x="168" dy="1.1em">C(R)H-</tspan>
-<tspan x="168" dy="1.1em">C(=O)-</tspan>
-<tspan x="168" dy="1.1em">(56)</tspan></text>
+<text y="2660" x="168" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="168" dy="0em">Peptide</tspan></text>
 <rect y="2632" x="490" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2660" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="518" dy="-2em">-NH-</tspan>
-<tspan x="518" dy="1.1em">C(R)H-</tspan>
-<tspan x="518" dy="1.1em">C(=O)-</tspan>
-<tspan x="518" dy="1.1em">(56)</tspan></text>
+<text y="2660" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="518" dy="0em">Peptide</tspan></text>
 <rect y="2632" x="602" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2660" x="630" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="630" dy="-2em">-CH2-</tspan>
-<tspan x="630" dy="1.1em">C(=O)-</tspan>
-<tspan x="630" dy="1.1em">OH</tspan>
-<tspan x="630" dy="1.1em">(59)</tspan></text>
+<text y="2660" x="630" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="630" dy="0em">Asp</tspan></text>
 <rect y="2632" x="686" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2660" x="714" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="714" dy="-2em">-CH2-</tspan>
-<tspan x="714" dy="1.1em">C(=O)-</tspan>
-<tspan x="714" dy="1.1em">OH</tspan>
-<tspan x="714" dy="1.1em">(59)</tspan></text>
+<text y="2660" x="714" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="714" dy="0em">Asp</tspan></text>
 <rect y="2632" x="798" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2660" x="826" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="826" dy="-2em">-NH-</tspan>
-<tspan x="826" dy="1.1em">C(R)H-</tspan>
-<tspan x="826" dy="1.1em">C(=O)-</tspan>
-<tspan x="826" dy="1.1em">(56)</tspan></text>
+<text y="2660" x="826" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="826" dy="0em">Peptide</tspan></text>
 <rect y="2632" x="1148" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2660" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1176" dy="-2em">-NH-</tspan>
-<tspan x="1176" dy="1.1em">C(R)H-</tspan>
-<tspan x="1176" dy="1.1em">C(=O)-</tspan>
-<tspan x="1176" dy="1.1em">(56)</tspan></text>
+<text y="2660" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1176" dy="0em">Peptide</tspan></text>
 <rect y="2632" x="1260" height="56" width="56" fill="#01579B" fill-opacity="0.5"/>
-<text y="2660" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'><tspan x="1288" dy="-2em">-CH2-</tspan>
-<tspan x="1288" dy="1.1em">C(=O)-</tspan>
-<tspan x="1288" dy="1.1em">OH</tspan>
-<tspan x="1288" dy="1.1em">(59)</tspan></text>
+<text y="2660" x="1288" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1288" dy="0em">Asp</tspan></text>
 
 </svg>
