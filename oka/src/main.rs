@@ -8,17 +8,18 @@ extern crate tempfile;
 #[macro_use]
 extern crate itertools;
 
-use clap::{App, Arg, SubCommand};
 use std::io::Read;
 
 type Error = Box<dyn std::error::Error>;
-type Writer = Box<dyn std::io::Write>;
 
 fn main() {
-    run().unwrap_or_else(|s| eprintln!("{}", s))
+    run().unwrap_or_else(|s| {
+        eprintln!("{}", s);
+        std::process::exit(1);
+    });
 }
 
-fn writer(file: Option<&str>) -> Result<Writer, Error> {
+fn writer(file: Option<&str>) -> Result<Box<dyn std::io::Write>, Error> {
     Ok(if let Some(f) = file {
         Box::new(std::fs::File::create(f)?)
     } else {
@@ -26,9 +27,22 @@ fn writer(file: Option<&str>) -> Result<Writer, Error> {
     })
 }
 
+#[derive(PartialEq, Eq, Clone, Copy, Debug)]
+enum Lab {
+    Pegovka,     // numbers, variables, operators, ...
+    Pflockingen, // molecules, lives, ...
+}
+
+static mut LABORATORY: Lab = Lab::Pegovka;
+
+fn laboratory() -> Lab {
+    unsafe { LABORATORY }
+}
+
 fn run() -> Result<(), Error> {
+    use clap::{App, Arg, SubCommand};
+
     let matches = App::new("oka")
-        .version("1.0")
         .arg(
             Arg::with_name("output")
                 .short("o")
@@ -47,6 +61,14 @@ fn run() -> Result<(), Error> {
             SubCommand::with_name("annotate")
                 .about("annotate the given program file (png or txt) and output to stdout")
                 .arg(
+                    Arg::with_name("pflockingen")
+                        .short("f")
+                        .long("pflockingen")
+                        .help(
+                            "Annotates messages from the Pflockingen laboratory (default is pegovka)",
+                        ),
+                )
+                .arg(
                     Arg::with_name("INPUT")
                         .help("Sets the input file to use")
                         .index(1),
@@ -54,24 +76,35 @@ fn run() -> Result<(), Error> {
         ])
         .get_matches();
 
-    let mut out = writer(matches.value_of("output"))?;
+    let mut w = writer(matches.value_of("output"))?;
 
     match matches.subcommand() {
         ("png2txt", Some(m)) => {
             let grid = parse_file(m.value_of("INPUT"))?;
-            output(&mut out, &grid)?;
+            output(&mut w, &grid)?;
         }
         ("annotate", Some(m)) => {
+            if m.is_present("pflockingen") {
+                unsafe {
+                    LABORATORY = Lab::Pflockingen;
+                }
+            }
+            unsafe { dbg!(LABORATORY) };
             let grid = parse_file(m.value_of("INPUT"))?;
             let glyphs = parse(&grid)?;
-            output_svg(&mut out, &grid, &glyphs)?;
+
+            output_svg(&mut w, &grid, &glyphs)?;
         }
         _ => return Err("No such subcommand".into()),
     };
     Ok(())
 }
 
-fn output_svg(w: &mut Writer, grid: &Grid, glyphs: &Vec<Glyph>) -> Result<(), std::io::Error> {
+fn output_svg(
+    w: &mut impl std::io::Write,
+    grid: &Grid,
+    glyphs: &Vec<Glyph>,
+) -> Result<(), std::io::Error> {
     const SZ: usize = 10;
     let H = grid.len();
     let W = grid[0].len();
@@ -271,13 +304,8 @@ lazy_static! {
             vec!["1011", "0111", "1111", "0101"],
             Kind::Molecule("A DNA?")
         ),
-        (
-            vec!["1011", "0111", "1111", "0101"],
-            Kind::Molecule("A DNA?")
-        ),
         (vec!["1000", "0111", "0111", "0111"], Kind::Life("home?")),
         (vec!["1011", "0111", "1111", "1111"], Kind::Life("13-1")),
-        (vec!["1010", "0111", "0101", "0111"], Kind::Life("14-1")),
         (vec!["1010", "0111", "0101", "0111"], Kind::Life("14-1")),
     ];
 }
@@ -343,6 +371,9 @@ fn parse_glyph(comp: &Grid, x: usize, y: usize, flip: bool) -> Option<Kind> {
     }
 
     if !get(0, 0) {
+        if (laboratory() == Lab::Pflockingen) && (num == 0) {
+            return None;
+        }
         return Some(Kind::Int(num));
     }
 
@@ -373,58 +404,56 @@ fn parse(grid: &Grid) -> Result<Vec<Glyph>, Error> {
     let (h, w) = (grid.len(), grid[0].len());
     let mut used = vec![vec![false; w]; h];
     let mut res = vec![];
-    for x in 1..h - 1 {
-        for y in 1..w - 1 {
-            if used[x][y] || !grid[x][y] {
-                continue;
-            }
+    for (x, y) in iproduct!(1..h - 1, 1..w - 1) {
+        if used[x][y] || !grid[x][y] {
+            continue;
+        }
 
-            let mut cells = vec![];
-            component(&grid, x, y, &mut used, &mut cells);
+        let mut cells = vec![];
+        component(&grid, x, y, &mut used, &mut cells);
 
-            let (x0, y0) = cells
-                .iter()
-                .fold((10000, 10000), |(xx, yy), (x, y)| (xx.min(*x), yy.min(*y)));
-            let (x1, y1) = cells
-                .iter()
-                .fold((0, 0), |(xx, yy), (x, y)| (xx.max(*x), yy.max(*y)));
-            let (x1, y1) = (x1 + 1, y1 + 1);
+        let (x0, y0) = cells
+            .iter()
+            .fold((10000, 10000), |(xx, yy), (x, y)| (xx.min(*x), yy.min(*y)));
+        let (x1, y1) = cells
+            .iter()
+            .fold((0, 0), |(xx, yy), (x, y)| (xx.max(*x), yy.max(*y)));
+        let (x1, y1) = (x1 + 1, y1 + 1);
 
-            if (x0, y0) == (0, 0) {
-                continue;
-            }
+        if (x0, y0) == (0, 0) {
+            continue;
+        }
 
-            let mut comp = vec![vec![false; y1 - y0]; x1 - x0];
-            for (i, j) in cells {
-                comp[i - x0][j - y0] = true;
-            }
-            let mut add = vec![];
-            // num / var
-            if (y0 + 1..y1).all(|j| grid[x0][j]) && (x0 + 1..x1).all(|i| grid[i][y0]) {
-                for (i, j) in iproduct!(x0..x1, y0..y1) {
-                    comp[i - x0][j - y0] = grid[i][j];
-                    if grid[i][j] {
-                        add.push((i, j));
-                    }
+        let mut comp = vec![vec![false; y1 - y0]; x1 - x0];
+        for (i, j) in cells {
+            comp[i - x0][j - y0] = true;
+        }
+        let mut add = vec![];
+        // num / var
+        if (y0 + 1..y1).all(|j| grid[x0][j]) && (x0 + 1..x1).all(|i| grid[i][y0]) {
+            for (i, j) in iproduct!(x0..x1, y0..y1) {
+                comp[i - x0][j - y0] = grid[i][j];
+                if grid[i][j] {
+                    add.push((i, j));
                 }
             }
+        }
 
-            if let Some(k) = parse_glyph(&comp, 0, 0, false) {
-                res.push(Glyph {
-                    rows: x0..x1,
-                    cols: y0..y1,
-                    k,
-                });
-                for (i, j) in add {
-                    used[i][j] = true;
-                }
+        if let Some(k) = parse_glyph(&comp, 0, 0, false) {
+            res.push(Glyph {
+                rows: x0..x1,
+                cols: y0..y1,
+                k,
+            });
+            for (i, j) in add {
+                used[i][j] = true;
             }
         }
     }
     Ok(res)
 }
 
-fn output(w: &mut Writer, grid: &Grid) -> Result<(), std::io::Error> {
+fn output(w: &mut impl std::io::Write, grid: &Grid) -> Result<(), std::io::Error> {
     grid.iter().try_for_each(|row| {
         writeln!(
             w,
@@ -445,7 +474,7 @@ fn parse_txt(file: &str) -> Result<Grid, Error> {
             row.chars()
                 .map(|c| match c {
                     '0' => Ok(false),
-                    '1' => Ok(false),
+                    '1' => Ok(true),
                     _ => Err(Error::from(format!("invalid char {}", c))),
                 })
                 .collect()
@@ -457,7 +486,6 @@ fn parse_img(file: &str) -> Result<Grid, Error> {
     let img = image::open(file)?;
     let img = img.into_rgb();
 
-    // const SZ: usize = 4;
     let H = img.height();
     let W = img.width();
 
@@ -467,7 +495,7 @@ fn parse_img(file: &str) -> Result<Grid, Error> {
     let SZ = (0..)
         .find(|i| img.get_pixel(x0 + i, y0 + i)[0] < 5)
         .ok_or(Error::from("black not found"))?;
-    let (mut x1, mut y1) = iproduct!((0..W).rev(), (0..H).rev())
+    let (x1, y1) = iproduct!((0..W).rev(), (0..H).rev())
         .find(|(x, y)| img.get_pixel(*x, *y)[0] > 250)
         .ok_or(Error::from("white not found"))?;
     let (x1, y1) = (x1 + 1, y1 + 1);

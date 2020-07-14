@@ -266,16 +266,10 @@
     <rect y="480" x="220" height="10" width="10" fill="white"/>
     <rect y="480" x="230" height="10" width="10" fill="white"/>
     
-  <rect y="30" x="130" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
-<text y="40" x="140" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="140" dy="0em">0</tspan></text>
-<rect y="90" x="20" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
+  <rect y="90" x="20" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
 <text y="100" x="30" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="30" dy="0em">1(H)</tspan></text>
-<rect y="180" x="130" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
-<text y="190" x="140" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="140" dy="0em">0</tspan></text>
 <rect y="230" x="20" height="40" width="40" fill="blue" fill-opacity="0.4"/>
 <text y="250" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="0em">D</tspan></text>
-<rect y="330" x="130" height="20" width="20" fill="yellow" fill-opacity="0.4"/>
-<text y="340" x="140" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="140" dy="0em">0</tspan></text>
 <rect y="390" x="20" height="40" width="40" fill="blue" fill-opacity="0.4"/>
 <text y="410" x="40" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'><tspan x="40" dy="0em">T</tspan></text>
 
