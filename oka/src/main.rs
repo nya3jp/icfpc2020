@@ -52,14 +52,14 @@ fn run() -> Result<(), Error> {
         )
         .subcommands(vec![
             SubCommand::with_name("png2txt")
-                .about("parse given png image to txt format and output to stdout")
+                .about("parse given png image to txt format and output")
                 .arg(
                     Arg::with_name("INPUT")
                         .help("Sets the input file to use")
                         .index(1),
                 ),
             SubCommand::with_name("annotate")
-                .about("annotate the given program file (png or txt) and output to stdout")
+                .about("annotate the given program file (png or txt) and output")
                 .arg(
                     Arg::with_name("pflockingen")
                         .short("f")
@@ -89,7 +89,6 @@ fn run() -> Result<(), Error> {
                     LABORATORY = Lab::Pflockingen;
                 }
             }
-            unsafe { dbg!(LABORATORY) };
             let grid = parse_file(m.value_of("INPUT"))?;
             let glyphs = parse(&grid)?;
 
@@ -105,7 +104,7 @@ fn output_svg(
     grid: &Grid,
     glyphs: &Vec<Glyph>,
 ) -> Result<(), std::io::Error> {
-    const SZ: usize = 10;
+    const SZ: usize = 14;
     let H = grid.len();
     let W = grid[0].len();
     let out = format!(
@@ -125,8 +124,8 @@ fn output_svg(
                     .filter_map(|(j, c)| {
                         if *c {
                             Some(format!(
-                                r#"<rect y="{}" x="{}" height="{}" width="{}" fill="white"/>
-    "#,
+                                r##"<rect y="{}" x="{}" height="{}" width="{}" fill="#757575"/>
+    "##,
                                 i * SZ,
                                 j * SZ,
                                 SZ,
@@ -144,15 +143,14 @@ fn output_svg(
             let (x1,x2) = (g.rows.start * SZ, g.rows.end * SZ);
             let (y1,y2) = (g.cols.start * SZ, g.cols.end * SZ);
             let color = match g.k {
-                Kind::Int(_) | Kind::Var(_) => "yellow",
-                Kind::Molecule(_) => "blue",
-                Kind::Ellipsis => "black",
-                Kind::Unknown(_) => "red",
-                _ => "green",
+                Kind::Int(_) | Kind::Var(_) => "#004D40",
+                Kind::Molecule(_) => "#01579B",
+                Kind::Unnamed(_) => "#BF360C",
+                _ => "#827717",
             };
             format!(
-                r#"<rect y="{}" x="{}" height="{}" width="{}" fill="{}" fill-opacity="0.4"/>
-<text y="{}" x="{}" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 2px; font-size: 8px'>{}</text>
+                r#"<rect y="{}" x="{}" height="{}" width="{}" fill="{}" fill-opacity="0.5"/>
+<text y="{}" x="{}" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 13px'>{}</text>
 "#,
             x1,
             y1,
@@ -182,7 +180,6 @@ struct Glyph {
 
 #[derive(Clone, Debug)]
 enum Kind {
-    Ellipsis,
     Int(isize),
     Var(usize),
     Equal,
@@ -192,13 +189,12 @@ enum Kind {
     Plus,
     Molecule(&'static str),
     Life(&'static str),
-    Unknown(isize),
+    Unnamed(&'static str),
 }
 
 impl ToString for Kind {
     fn to_string(&self) -> String {
         match self {
-            Kind::Ellipsis => "...".into(),
             Kind::Int(n) => format!(
                 "{}{}",
                 n,
@@ -228,7 +224,7 @@ impl ToString for Kind {
                     .unwrap_or("".to_string()),
             ),
             Kind::Life(s) => s.to_string(),
-            Kind::Unknown(x) => format!("?{}", x),
+            Kind::Unnamed(x) => format!("{}?", x),
         }
     }
 }
@@ -280,7 +276,6 @@ lazy_static! {
         m
     };
     static ref FIXED: Vec<(Vec<&'static str>, Kind)> = vec![
-        (vec!["1010101", "0000000",], Kind::Ellipsis),
         (vec!["1000", "0100", "1100", "0011"], Kind::Molecule("D")),
         (vec!["1000", "0111", "1100", "0011"], Kind::Molecule("T")),
         (
@@ -288,25 +283,46 @@ lazy_static! {
             Kind::Molecule("amino")
         ),
         (vec!["101", "010", "101"], Kind::Molecule("bond")),
-        (vec!["1000", "0111", "0111", "0010"], Kind::Life("X")),
-        (vec!["1001", "0111", "0010", "0010"], Kind::Life("Y")),
-        (vec!["1000", "0111", "0010", "0111"], Kind::Life("Z")),
-        (vec!["1000", "0111", "0111", "0101"], Kind::Life("A")),
-        (vec!["1001", "0111", "0101", "0101"], Kind::Life("B")),
-        (vec!["1000", "0111", "0101", "0111"], Kind::Life("C")),
-        (vec!["1010", "0101", "1101", "0010"], Kind::Molecule("x?")),
-        (vec!["1010", "0101", "1101", "0101"], Kind::Molecule("a?")),
+        (vec!["1000", "0111", "0111", "0010"], Kind::Life("Ser life")),
+        (
+            vec!["1001", "0111", "0010", "0010"],
+            Kind::Molecule("Ser life\nRNA")
+        ),
+        (
+            vec!["1000", "0111", "0010", "0111"],
+            Kind::Molecule("Ser life\nbeta sheet")
+        ),
+        (vec!["1000", "0111", "0111", "0101"], Kind::Life("Asn life")),
+        (
+            vec!["1001", "0111", "0101", "0101"],
+            Kind::Molecule("Asn life\nRNA")
+        ),
+        (
+            vec!["1000", "0111", "0101", "0111"],
+            Kind::Molecule("Asn life\nbeta sheet")
+        ),
+        (
+            vec!["1010", "0101", "1101", "0010"],
+            Kind::Molecule("Ser life\nside-chain")
+        ),
+        (
+            vec!["1010", "0101", "1101", "0101"],
+            Kind::Molecule("Asn life\nside-chain")
+        ),
         (
             vec!["1011", "0111", "1111", "0010"],
-            Kind::Molecule("X DNA?")
+            Kind::Molecule("Ser life\nprotein")
         ),
         (
             vec!["1011", "0111", "1111", "0101"],
-            Kind::Molecule("A DNA?")
+            Kind::Molecule("Asn life\nprotein")
         ),
-        (vec!["1000", "0111", "0111", "0111"], Kind::Life("home?")),
-        (vec!["1011", "0111", "1111", "1111"], Kind::Life("13-1")),
-        (vec!["1010", "0111", "0101", "0111"], Kind::Life("14-1")),
+        (
+            vec!["1000", "0111", "0111", "0111"],
+            Kind::Life("Mother\nplanet")
+        ),
+        (vec!["1011", "0111", "1111", "1111"], Kind::Unnamed("13-1")),
+        (vec!["1010", "0111", "0101", "0111"], Kind::Unnamed("14-1")),
     ];
 }
 
