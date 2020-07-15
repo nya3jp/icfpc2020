@@ -143,7 +143,7 @@ fn output_svg(
             let (x1,x2) = (g.rows.start * SZ, g.rows.end * SZ);
             let (y1,y2) = (g.cols.start * SZ, g.cols.end * SZ);
             let color = match g.k {
-                Kind::Int(_) | Kind::Var(_) => "#004D40", // green
+                Kind::Int(_) | Kind::Var(_) | Kind::Binary(_) => "#004D40", // green
                 Kind::Molecule(_) | Kind::Amino(_,_) => "#01579B", // blue
                 Kind::Unnamed(_) => "#BF360C", // red
                 _ => "#827717", // yellow
@@ -181,17 +181,39 @@ struct Glyph {
 #[derive(Clone, Debug)]
 enum Kind {
     Int(isize),
-    Var(usize),
-    Equal,
+    Is,
     Apply,
-    Inc,
-    Dec,
-    Plus,
+    Succ,
+    Pred,
+    Sum,
+    Var(usize),
+    Product,
+    Quotient, // integer division
+    Equals,
+    Bool(bool),
+    LT, // less than
+    ToBin,
+    FromBin,
+    Binary(isize),
+
     Molecule(&'static str),
     Amino(&'static str, &'static str),
     Life(&'static str),
     Unnamed(&'static str),
 }
+/*
+
+  0  01 0
+  1  01 10 0001
+ -1  10 ...
+  2  01 10 0010
+...
+ 16  01 110  00010000
+255  01 110  11111111
+256  01 1110 000100000000
+
+
+*/
 
 impl ToString for Kind {
     fn to_string(&self) -> String {
@@ -205,12 +227,22 @@ impl ToString for Kind {
                     "".into()
                 }
             ),
-            Kind::Var(i) => format!("x{}", i),
-            Kind::Equal => "==".into(),
+            Kind::Is => "is".into(),
             Kind::Apply => "ap".into(),
-            Kind::Inc => "inc".into(),
-            Kind::Dec => "dec".into(),
-            Kind::Plus => "+".into(),
+            Kind::Succ => "Succ".into(),
+            Kind::Pred => "Pred".into(),
+            Kind::Sum => "Sum".into(),
+            Kind::Var(i) => format!("x{}", i),
+            Kind::Product => "Prod".into(),
+            Kind::Quotient => "Div".into(),
+            Kind::Equals => "==".into(),
+            Kind::Bool(true) => "True".into(),
+            Kind::Bool(false) => "False".into(),
+            Kind::LT => "LT".into(),
+            Kind::ToBin => "ToBin".into(),
+            Kind::FromBin => "FromBin".into(),
+            Kind::Binary(i) => format!("Bin({})", i),
+
             Kind::Molecule(s) => format!(
                 "{}{}",
                 s.to_string(),
@@ -240,10 +272,19 @@ lazy_static! {
     static ref NUM_TO_KIND: std::collections::HashMap<isize, Kind> = {
         let mut m = std::collections::HashMap::new();
         m.insert(0, Kind::Apply);
-        m.insert(12, Kind::Equal);
-        m.insert(365, Kind::Plus);
-        m.insert(401, Kind::Dec);
-        m.insert(417, Kind::Inc);
+        m.insert(12, Kind::Is);
+        m.insert(365, Kind::Sum);
+        m.insert(401, Kind::Pred);
+        m.insert(417, Kind::Succ);
+        m.insert(146, Kind::Product);
+        m.insert(40, Kind::Quotient);
+        m.insert(448, Kind::Equals);
+        m.insert(2, Kind::Bool(true));
+        m.insert(8, Kind::Bool(false));
+        m.insert(416, Kind::LT);
+        m.insert(170, Kind::ToBin);
+        m.insert(341, Kind::FromBin);
+
         m.insert(16, Kind::Molecule("CH4"));
         m.insert(17, Kind::Molecule("NH3"));
         m.insert(18, Kind::Molecule("H2O"));
@@ -328,9 +369,13 @@ lazy_static! {
     ];
 }
 
-fn parse_glyph(comp: &Grid, x: usize, y: usize, flip: bool) -> Option<Kind> {
-    let inside = |i: usize, j: usize| x + i < comp.len() && y + j < comp[0].len();
-    let get = |i: usize, j: usize| inside(i, j) && (comp[x + i][y + j] ^ flip);
+fn clip(g: &Grid, (x0, y0): (usize, usize), (x1, y1): (usize, usize)) -> Grid {
+    g[x0..x1].iter().map(|row| row[y0..y1].to_vec()).collect()
+}
+
+fn parse_glyph(comp: &Grid, flip: bool) -> Option<Kind> {
+    let inside = |i: usize, j: usize| i < comp.len() && j < comp[0].len();
+    let get = |i: usize, j: usize| inside(i, j) && (comp[i][j] ^ flip);
 
     for (fig, k) in FIXED.iter() {
         let mut ok = true;
@@ -343,10 +388,39 @@ fn parse_glyph(comp: &Grid, x: usize, y: usize, flip: bool) -> Option<Kind> {
         }
     }
 
-    if !((1..comp.len() - x).all(|i| get(i, 0)) && (1..comp[0].len() - y).all(|j| get(0, j))) {
+    if !flip && comp.len() == 2 {
+        let bin = (|| {
+            let n = comp[0].len();
+            let bs = comp[0]
+                .iter()
+                .zip(comp[1].iter())
+                .map(|(x, y)| if x == y { None } else { Some(*x) })
+                .collect::<Option<Vec<_>>>()?;
+            let negative = if bs.len() < 2 || bs[0] == bs[1] {
+                None
+            } else {
+                Some(bs[0])
+            }?;
+            let k = (2..n).find(|i| !bs[*i])?;
+            let m = (k - 2) * 4;
+            if n - 1 != k + m {
+                return None;
+            }
+            let num = bs.as_slice()[n - m..n]
+                .iter()
+                .fold(0isize, |acc, b| acc * 2 + (if *b { 1 } else { 0 }));
+            Some(Kind::Binary(num * (if negative { -1 } else { 1 })))
+        })();
+        if bin.is_some() {
+            return bin;
+        }
+    }
+
+    // num or var
+    if !((1..comp.len()).all(|i| get(i, 0)) && (1..comp[0].len()).all(|j| get(0, j))) {
         return None;
     }
-    let n = comp[0].len() - y - 1;
+    let n = comp[0].len() - 1;
     if n == 0 {
         return None;
     }
@@ -354,20 +428,15 @@ fn parse_glyph(comp: &Grid, x: usize, y: usize, flip: bool) -> Option<Kind> {
     if n > 8 {
         return None;
     }
+
     if !(1..=n).all(|i| get(i, 0) && get(0, i)) {
         return None;
     }
 
     let is_var = n > 2 && (0..=n).all(|i| get(i, 0) && get(i, n) && get(0, i) && get(n, i));
     if is_var {
-        return match parse_glyph(&comp, x + 1, y + 1, !flip)? {
-            Kind::Int(i) => {
-                if i < 0 {
-                    None
-                } else {
-                    Some(Kind::Var(i as usize))
-                }
-            }
+        return match parse_glyph(&clip(comp, (1, 1), (n, n)), !flip)? {
+            Kind::Int(i) if i >= 0 => Some(Kind::Var(i as usize)),
             _ => None,
         };
     }
@@ -457,7 +526,7 @@ fn parse(grid: &Grid) -> Result<Vec<Glyph>, Error> {
             }
         }
 
-        if let Some(k) = parse_glyph(&comp, 0, 0, false) {
+        if let Some(k) = parse_glyph(&comp, false) {
             res.push(Glyph {
                 rows: x0..x1,
                 cols: y0..y1,
