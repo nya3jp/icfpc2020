@@ -201,19 +201,6 @@ enum Kind {
     Life(&'static str),
     Unnamed(&'static str),
 }
-/*
-
-  0  01 0
-  1  01 10 0001
- -1  10 ...
-  2  01 10 0010
-...
- 16  01 110  00010000
-255  01 110  11111111
-256  01 1110 000100000000
-
-
-*/
 
 impl ToString for Kind {
     fn to_string(&self) -> String {
@@ -284,6 +271,7 @@ lazy_static! {
         m.insert(416, Kind::LT);
         m.insert(170, Kind::ToBin);
         m.insert(341, Kind::FromBin);
+        m.insert(174, Kind::Unnamed("op15"));
 
         m.insert(16, Kind::Molecule("CH4"));
         m.insert(17, Kind::Molecule("NH3"));
