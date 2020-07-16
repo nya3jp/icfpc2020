@@ -54,6 +54,7 @@ http_archive(
 
 # Default dependencies.
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+
 protobuf_deps()
 
 # CPR (https://github.com/whoshuu/cpr)
@@ -78,6 +79,22 @@ http_archive(
         "https://curl.haxx.se/download/curl-7.69.1.tar.gz",
     ],
 )
+
+# rules_go (for testing)
+http_archive(
+    name = "io_bazel_rules_go",
+    sha256 = "e5de048e72612598c45f564202f6a3c74616be4ffd2dbd6f7bc75045f8ecbdce",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.23.4/rules_go-v0.23.4.tar.gz",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.23.4/rules_go-v0.23.4.tar.gz",
+    ],
+)
+
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+
+go_rules_dependencies()
+
+go_register_toolchains()
 
 # zlib (https://zlib.net/)
 http_archive(

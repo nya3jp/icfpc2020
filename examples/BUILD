@@ -2,6 +2,7 @@
 
 # Rules documentation:
 # https://docs.bazel.build/versions/master/be/overview.html#rules
+load("@io_bazel_rules_go//go:def.bzl", "go_test")
 
 cc_binary(
     name = "app",
@@ -64,4 +65,11 @@ proto_library(
 cc_proto_library(
     name = "data_cc_proto",
     deps = [":data_proto"],
+)
+
+go_test(
+    name = "e2e_test",
+    srcs = ["e2e_test.go"],
+    args = ["--test_binary", "$(rootpath :app)"],
+    data = [":app"],
 )
