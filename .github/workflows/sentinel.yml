@@ -15,16 +15,8 @@ jobs:
 
     - name: Deploy via SSH
       run: |
-        cd infra/sentinel
+        cd infra
         mkdir -p ~/.ssh
-        gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.ENCRYPTION_KEY }}" --output ~/.ssh/automation ssh_keys/automation.gpg
-        chmod 600 ~/.ssh/automation
-        ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -i ~/.ssh/automation nya@34.105.114.17 bash <<EOF
-        set -ex
-        dir=\$(mktemp -d)
-        trap "cd /; rm -rf \$dir" EXIT
-        cd "\$dir"
-        git clone git@github.com:nya3jp/icfpc2020.git .
-        git checkout ${{ github.sha }}
-        sudo infra/sentinel/update.sh
-        EOF
+        gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.ENCRYPTION_KEY }}" --output ~/.ssh/id_ed25519 ssh_keys/deploy.gpg
+        chmod 600 ~/.ssh/id_ed25519
+        scripts/docker-compose.sh -H ssh://deploy@34.105.114.17 -f compose.sentinel.yaml -p sentinel up --build --detach --remove-orphans

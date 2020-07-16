@@ -1,0 +1,9 @@
+FROM golang:1.14
+
+WORKDIR /src
+COPY . .
+RUN go get -v github.com/nya3jp/icfpc2020/infra/cmd/hello
+WORKDIR /app
+RUN cp /go/bin/hello ./ && rm -rf /src
+
+CMD ["./hello"]
