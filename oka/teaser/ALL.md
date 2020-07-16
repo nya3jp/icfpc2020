@@ -4,7 +4,7 @@ https://message-from-space.readthedocs.io/en/latest/
 
 All important news will be published in the blog at https://pegovka.space/ and twitter https://twitter.com/ivanzaitsev85
 
-See [here](./pflockingen/ALL.md) for the messages from Pflockingen.
+See [this](./pflockingen/ALL.md) for the messages from Pflockingen.
 
 ## message 1
 

@@ -208,7 +208,9 @@ impl ToString for Kind {
             Kind::Int(n) => format!(
                 "{}{}",
                 n,
-                if 1 <= *n && (*n as usize) - 1 < ELEMENTS.len() {
+                if laboratory() == Lab::Pflockingen
+                    && (1 <= *n && (*n as usize) - 1 < ELEMENTS.len())
+                {
                     format!("\n{}", ELEMENTS[*n as usize - 1])
                 } else {
                     "".into()
