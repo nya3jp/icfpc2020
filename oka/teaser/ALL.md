@@ -65,6 +65,7 @@ See [this](./pflockingen/ALL.md) for the messages from Pflockingen.
 ## message 15
 
 ![message 15](./annotated15.svg)
+
 ## message 16
 
 ![message 16](./annotated16.svg)
@@ -172,4 +173,3 @@ See [this](./pflockingen/ALL.md) for the messages from Pflockingen.
 ## message 42
 
 ![message 42](./annotated42.svg)
-

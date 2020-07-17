@@ -1114,8 +1114,8 @@
 <text y="952" x="378" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="378" dy="0em">Sum</tspan></text>
 <rect y="924" x="434" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="938" x="448" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="448" dy="0em">ap</tspan></text>
-<rect y="924" x="490" height="42" width="42" fill="#BF360C" fill-opacity="0.5"/>
-<text y="945" x="511" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="511" dy="0em">10?</tspan></text>
+<rect y="924" x="490" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="945" x="511" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="511" dy="0em">Neg</tspan></text>
 <rect y="924" x="560" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
 <text y="938" x="574" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="574" dy="0em">1</tspan></text>
 

@@ -1,0 +1,12 @@
+ap 
+ap Succ ap Succ 0 is 2 
+ap Succ ap Succ ap Succ 0 is 3 
+ap Succ ap Pred x0 is x0 
+ap Pred ap Succ x0 is x0 
+ap Pred ap ap Sum x0 1 is x0 
+ap ap Sum ap ap Sum 2 3 4 is 9 
+ap ap Sum 2 ap ap Sum 3 4 is 9 
+ap ap Sum ap ap Prod 2 3 4 is 10 
+ap ap Prod 2 ap ap Sum 3 4 is 14 
+Succ is ap Sum 1 
+Pred is ap Sum ap Neg 1 

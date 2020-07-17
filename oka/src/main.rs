@@ -69,6 +69,14 @@ fn run() -> Result<(), Error> {
                         ),
                 )
                 .arg(
+                    Arg::with_name("text")
+                        .short("t")
+                        .long("text")
+                        .help(
+                            "Output in text format instead of svg",
+                        ),
+                )
+                .arg(
                     Arg::with_name("INPUT")
                         .help("Sets the input file to use")
                         .index(1),
@@ -89,14 +97,35 @@ fn run() -> Result<(), Error> {
                     LABORATORY = Lab::Pflockingen;
                 }
             }
+            let in_text = m.is_present("text");
+
             let grid = parse_file(m.value_of("INPUT"))?;
             let glyphs = parse(&grid)?;
 
-            output_svg(&mut w, &grid, &glyphs)?;
+            if in_text {
+                output_txt(&mut w, &glyphs);
+            } else {
+                output_svg(&mut w, &grid, &glyphs)?;
+            }
         }
         _ => return Err("No such subcommand".into()),
     };
     Ok(())
+}
+
+fn output_txt(w: &mut impl std::io::Write, glyphs: &Vec<Glyph>) {
+    let mut s = glyphs.iter().map(|g| g.rows.start).collect::<Vec<_>>();
+    s.sort();
+    s.dedup();
+    // TODO: scale.
+    for r in s {
+        let mut gs: Vec<_> = glyphs.iter().filter(|g| g.rows.start == r).collect();
+        gs.sort_by_key(|g| g.cols.start);
+        for g in gs {
+            print!("{} ", g.k.to_string());
+        }
+        println!();
+    }
 }
 
 fn output_svg(
@@ -195,6 +224,7 @@ enum Kind {
     ToBin,
     FromBin,
     Binary(isize),
+    Op(&'static str),
 
     Molecule(&'static str),
     Amino(&'static str, &'static str),
@@ -231,6 +261,7 @@ impl ToString for Kind {
             Kind::ToBin => "ToBin".into(),
             Kind::FromBin => "FromBin".into(),
             Kind::Binary(i) => format!("Bin({})", i),
+            Kind::Op(ref s) => s.to_string(),
 
             Kind::Molecule(s) => format!(
                 "{}{}",
@@ -274,6 +305,10 @@ lazy_static! {
         m.insert(170, Kind::ToBin);
         m.insert(341, Kind::FromBin);
         m.insert(174, Kind::Unnamed("op15".into()));
+        m.insert(10, Kind::Op("Neg"));
+        m.insert(7, Kind::Op("S"));
+        m.insert(6, Kind::Op("C"));
+        m.insert(5, Kind::Op("B"));
 
         m.insert(16, Kind::Molecule("CH4"));
         m.insert(17, Kind::Molecule("NH3"));

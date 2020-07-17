@@ -1,0 +1,6 @@
+1? 
+ap 7110656? x0 is ap FromBin ap ToBin x0 
+ap x0 is ap ap ap 58336? ap x0 ap 7110656? ap ap x0 -1? ap ap ap ap x0 ap ap ap 7110656? ap ap x0 ap op15? ap ap ap x0 
+1? 
+ap ap ap x2 x4 x5 is ap ap ap x2 x4 x5 
+1? 

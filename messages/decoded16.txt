@@ -1,0 +1,6 @@
+Neg 
+ap Neg 0 is 0 
+ap Neg 1 is -1 
+ap Neg -1 is 1 
+ap Neg 2 is -2 
+ap Neg -2 is 2 

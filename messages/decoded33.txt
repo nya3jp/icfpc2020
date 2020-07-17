@@ -1,0 +1,4 @@
+11184810? 
+11184810? is ap ap S ap ap B S ap ap C ap ap B C ap ap B ap C ap C ap ap S ap ap B S ap ap B ap B ap ap S 1? 1? LT == ap ap S Prod 1? 14? ap ap S ap ap B S ap ap B ap B ap ap S ap ap B S ap ap B ap B ap C Div ap C ap ap S ap ap B B ap ap C ap ap B B Sum Neg ap ap B ap S Prod Div ap ap C ap ap B B 11184810? ap ap C Sum 2 
+ap ap 11184810? 7 0 is 
+ap ap 11184810? 13 0 is 

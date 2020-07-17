@@ -1,0 +1,6 @@
+True 
+ap ap True x0 x1 is x0 
+ap ap True 1 5 is 1 
+ap ap True True 1? is True 
+ap ap True True ap Succ 5 is True 
+ap ap True ap Succ 5 True is 6 

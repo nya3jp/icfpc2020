@@ -1,0 +1,7 @@
+ap is 
+ap ap ap 17043521? 1 1 is 
+ap ap ap 17043521? 1 2 is 
+ap ap ap 17043521? 2 5 is 
+ap ap ap 17043521? 1 2 -1? ap ap 17043521? 3 1 is 
+ap ap ap 17043521? 5 3 -1? ap ap 17043521? 6 3 -1? ap ap 17043521? 4 4 -1? ap ap 17043521? 6 4 -1? ap ap 17043521? 4 5 is 
+2 
