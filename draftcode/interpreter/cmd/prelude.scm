@@ -25,3 +25,14 @@
 (define (b) (lambda (x) (lambda (y) (lambda (z) (delay (force ((force x) ((force y) z))))))))
 (define (c) (lambda (x) (lambda (y) (lambda (z) (delay (force ((force ((force x) z)) y)))))))
 (define (s) (lambda (x) (lambda (y) (lambda (z) (delay (force ((force ((force x) z)) ((force y) z))))))))
+
+(define (printseq x)
+  (print (serialize x)))
+
+(define (serialize x)
+  (if (number? (force x)) (force x)
+
+  (if (= 1 ((force ((force ((isnil) x)) 1)) 2)) '()
+
+    (cons (serialize ((mycar) (force x)))
+          (serialize ((mycdr) (force x)))))))
