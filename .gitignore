@@ -9,5 +9,5 @@
 
 /bazel-*
 
-*/target/*
+target/
 Cargo.lock
