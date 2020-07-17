@@ -1,0 +1,9 @@
+1? 
+ap ap ap x0 14? ap ap 17043521? 0 0 is x16 -1? ap x64 
+1? 
+ap ap ap x0 x16 ap ap 17043521? x1 x2 is x17 -1? ap x65 
+1? 
+ap ap ap x0 x17 ap ap 17043521? x3 x4 is x18 -1? ap x66 
+1? 
+ap ap ap x0 x18 ap ap 17043521? x5 x6 is x19 -1? ap x67 
+1? 

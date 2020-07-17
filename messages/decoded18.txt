@@ -1,0 +1,4 @@
+S 
+ap ap ap S x0 x1 x2 is ap ap x0 x2 ap x1 x2 
+ap ap ap S Sum Succ 1 is 3 
+ap ap ap S Prod ap Sum 1 6 is 42 

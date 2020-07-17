@@ -1,0 +1,12 @@
+ToBin 
+ap ToBin 0 is Bin(0) 
+ap ToBin 1 is Bin(1) 
+ap ToBin -1 is Bin(-1) 
+ap ToBin 2 is Bin(2) 
+ap ToBin -2 is Bin(-2) 
+ap ToBin 16 is Bin(16) 
+ap ToBin -16 is Bin(-16) 
+ap ToBin 255 is Bin(255) 
+ap ToBin -255 is Bin(-255) 
+ap ToBin 256 is Bin(256) 
+ap ToBin -256 is Bin(-256) 

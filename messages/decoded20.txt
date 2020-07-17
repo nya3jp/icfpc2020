@@ -1,0 +1,3 @@
+B 
+ap ap ap B x0 x1 x2 is ap x0 ap x1 x2 
+ap ap ap B Succ Pred x0 is x0 

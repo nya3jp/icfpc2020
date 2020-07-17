@@ -1,0 +1,8 @@
+x0 x1 x2 x3 x4 
+ap ap Sum 0 x0 is x0 
+ap ap Sum 0 x1 is x1 
+ap ap Sum 0 x2 is x2 
+ap ap Sum x0 0 is x0 
+ap ap Sum x1 0 is x1 
+ap ap Sum x2 0 is x2 
+ap ap Sum x0 x1 is ap ap Sum x1 x0 

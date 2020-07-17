@@ -1,0 +1,57 @@
+2 
+is ap ap S ap ap C ap == 0 1 ap ap B ap Prod 2 ap ap B ap Sum -1 
+2 2 
+ap 0 is ap ap ap S ap ap C ap == 0 1 ap ap B ap Prod 2 ap ap B ap Sum -1 0 
+2 2 
+ap 0 is ap ap ap ap C ap == 0 1 0 ap ap ap B ap Prod 2 ap ap B ap Sum -1 0 
+2 2 
+ap 0 is ap ap ap ap == 0 0 1 ap ap ap B ap Prod 2 ap ap B ap Sum -1 0 
+2 2 
+ap 0 is ap ap True 1 ap ap ap B ap Prod 2 ap ap B ap Sum -1 0 
+2 2 
+ap 0 is 1 
+2 
+ap 1 is ap ap ap S ap ap C ap == 0 1 ap ap B ap Prod 2 ap ap B ap Sum -1 1 
+2 2 
+ap 1 is ap ap ap ap C ap == 0 1 1 ap ap ap B ap Prod 2 ap ap B ap Sum -1 1 
+2 2 
+ap 1 is ap ap ap ap == 0 1 1 ap ap ap B ap Prod 2 ap ap B ap Sum -1 1 
+2 2 
+ap 1 is ap ap False 1 ap ap ap B ap Prod 2 ap ap B ap Sum -1 1 
+2 2 
+ap 1 is ap ap ap B ap Prod 2 ap ap B ap Sum -1 1 
+2 2 
+ap 1 is ap ap Prod 2 ap ap ap B ap Sum -1 1 
+2 2 
+ap 1 is ap ap Prod 2 ap ap ap Sum -1 1 
+2 2 
+ap 1 is ap ap Prod 2 ap ap ap S ap ap C ap == 0 1 ap ap B ap Prod 2 ap ap B ap Sum -1 ap ap Sum -1 1 
+2 2 
+ap 1 is ap ap Prod 2 ap ap ap ap C ap == 0 1 ap ap Sum -1 1 ap ap ap B ap Prod 2 ap ap B ap Sum -1 ap ap Sum -1 1 
+2 2 
+ap 1 is ap ap Prod 2 ap ap ap ap == 0 ap ap Sum -1 1 1 ap ap ap B ap Prod 2 ap ap B ap Sum -1 ap ap Sum -1 1 
+2 2 
+ap 1 is ap ap Prod 2 ap ap ap ap == 0 0 1 ap ap ap B ap Prod 2 ap ap B ap Sum -1 ap ap Sum -1 1 
+2 2 
+ap 1 is ap ap Prod 2 ap ap True 1 ap ap ap B ap Prod 2 ap ap B ap Sum -1 ap ap Sum -1 1 
+2 2 
+ap 1 is ap ap Prod 2 1 
+2 
+ap 1 is 2 
+2 
+ap 2 is ap ap ap S ap ap C ap == 0 1 ap ap B ap Prod 2 ap ap B ap Sum -1 2 
+2 2 
+ap 2 is 4 
+2 
+ap 3 is 8 
+2 
+ap 4 is 16 
+2 
+ap 5 is 32 
+2 
+ap 6 is 64 
+2 
+ap 7 is 128 
+2 
+ap 8 is 256 
+2 

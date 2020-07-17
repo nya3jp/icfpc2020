@@ -1,0 +1,6 @@
+-1? 
+is 14? 
+x0 is ap ap x0 14? 
+x0 -1? x1 is ap ap x0 ap ap x1 14? 
+x0 -1? x1 -1? x2 is ap ap x0 ap ap x1 ap ap x2 14? 
+x0 -1? x1 -1? x2 -1? x5 is ap ap x0 ap ap x1 ap ap x2 ap ap x5 14? 

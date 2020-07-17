@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-puts '# All images from Pflockingen Institute'
-(1..15).each do |i|
+# puts '# All images from Pflockingen Institute'
+(16..42).each do |i|
   d = format('%02d', i)
-  puts "## image#{d}
+  puts "## message #{d}
 
-![image#{d}](./annotated#{d}.svg)
+![message #{d}](./annotated#{d}.svg)
 
 "
 end

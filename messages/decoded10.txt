@@ -1,0 +1,11 @@
+Div 
+ap ap Div 4 2 is 2 
+ap ap Div 4 3 is 1 
+ap ap Div 4 4 is 1 
+ap ap Div 4 5 is 0 
+ap ap Div 5 2 is 2 
+ap ap Div 6 -2 is -3 
+ap ap Div 5 -3 is -1 
+ap ap Div -5 3 is -1 
+ap ap Div -5 -3 is 1 
+ap ap Div x0 1 is x0 

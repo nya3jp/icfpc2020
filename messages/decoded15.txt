@@ -1,0 +1,9 @@
+op15? 
+14? 14? 14? 
+ap op15? x0 is x1 
+x0 
+ap ToBin x0 
+x0 
+x1 
+ap ToBin x1 
+x1 

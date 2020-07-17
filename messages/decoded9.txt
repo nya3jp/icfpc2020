@@ -1,0 +1,7 @@
+Prod 
+ap ap Prod 4 2 is 8 
+ap ap Prod 3 4 is 12 
+ap ap Prod 3 -2 is -6 
+ap ap Prod x0 x1 is ap ap Prod x1 x0 
+ap ap Prod x0 0 is 0 
+ap ap Prod x0 1 is x0 

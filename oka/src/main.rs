@@ -69,6 +69,14 @@ fn run() -> Result<(), Error> {
                         ),
                 )
                 .arg(
+                    Arg::with_name("text")
+                        .short("t")
+                        .long("text")
+                        .help(
+                            "Output in text format instead of svg",
+                        ),
+                )
+                .arg(
                     Arg::with_name("INPUT")
                         .help("Sets the input file to use")
                         .index(1),
@@ -89,14 +97,35 @@ fn run() -> Result<(), Error> {
                     LABORATORY = Lab::Pflockingen;
                 }
             }
+            let in_text = m.is_present("text");
+
             let grid = parse_file(m.value_of("INPUT"))?;
             let glyphs = parse(&grid)?;
 
-            output_svg(&mut w, &grid, &glyphs)?;
+            if in_text {
+                output_txt(&mut w, &glyphs);
+            } else {
+                output_svg(&mut w, &grid, &glyphs)?;
+            }
         }
         _ => return Err("No such subcommand".into()),
     };
     Ok(())
+}
+
+fn output_txt(w: &mut impl std::io::Write, glyphs: &Vec<Glyph>) {
+    let mut s = glyphs.iter().map(|g| g.rows.start).collect::<Vec<_>>();
+    s.sort();
+    s.dedup();
+    // TODO: scale.
+    for r in s {
+        let mut gs: Vec<_> = glyphs.iter().filter(|g| g.rows.start == r).collect();
+        gs.sort_by_key(|g| g.cols.start);
+        for g in gs {
+            print!("{} ", g.k.to_string());
+        }
+        println!();
+    }
 }
 
 fn output_svg(
@@ -195,11 +224,16 @@ enum Kind {
     ToBin,
     FromBin,
     Binary(isize),
+    Op(&'static str),
+    Pow(usize), // x^?
+    LBra,
+    RBra,
+    Separator,
 
     Molecule(&'static str),
     Amino(&'static str, &'static str),
     Life(&'static str),
-    Unnamed(&'static str),
+    Unnamed(String),
 }
 
 impl ToString for Kind {
@@ -231,6 +265,11 @@ impl ToString for Kind {
             Kind::ToBin => "ToBin".into(),
             Kind::FromBin => "FromBin".into(),
             Kind::Binary(i) => format!("Bin({})", i),
+            Kind::Op(ref s) => s.to_string(),
+            Kind::Pow(base) => format!("{}^", base),
+            Kind::LBra => "[".into(),
+            Kind::RBra => "]".into(),
+            Kind::Separator => ";".into(),
 
             Kind::Molecule(s) => format!(
                 "{}{}",
@@ -273,7 +312,20 @@ lazy_static! {
         m.insert(416, Kind::LT);
         m.insert(170, Kind::ToBin);
         m.insert(341, Kind::FromBin);
-        m.insert(174, Kind::Unnamed("op15"));
+        m.insert(174, Kind::Unnamed("op15".into()));
+        m.insert(10, Kind::Op("Neg")); // 16
+        m.insert(7, Kind::Op(r#"\f g x -> (f x) (g x)"#)); // 18
+        m.insert(6, Kind::Op(r#"\f x y -> f y x"#)); // 19
+        m.insert(5, Kind::Op(r#"\x y z -> x (y z)"#)); // 20
+        m.insert(1, Kind::Op(r#"\x -> x"#)); // 24
+        m.insert(14, Kind::Op(r#"nil"#)); // 28
+        m.insert(15, Kind::Op(r#"isnil"#)); // 29
+        m.insert(17043521, Kind::Op(r#"arrow"#)); // 31
+        m.insert(33047056, Kind::Op(r#"set_pixel"#)); // 32
+        // m.insert(11184810, Kind::Op(r#""#)); // 33
+        m.insert(11184810, Kind::Op(r#"map_set_pixel"#)); // 34
+        m.insert(58336, Kind::Op(r#"if0"#)); // 37
+        m.insert(33053392, Kind::Unnamed(r#"op38"#.to_string())); // 38
 
         m.insert(16, Kind::Molecule("CH4"));
         m.insert(17, Kind::Molecule("NH3"));
@@ -354,8 +406,39 @@ lazy_static! {
             vec!["1000", "0111", "0111", "0111"],
             Kind::Life("Mother\nplanet")
         ),
-        (vec!["1011", "0111", "1111", "1111"], Kind::Unnamed("13-1")),
-        (vec!["1010", "0111", "0101", "0111"], Kind::Unnamed("14-1")),
+        (
+            vec!["1011", "0111", "1111", "1111"],
+            Kind::Unnamed("13-1".into())
+        ),
+        (
+            vec!["1010", "0111", "0101", "0111"],
+            Kind::Unnamed("14-1".into())
+        ),
+
+        (
+            vec!["11111", "10101", "10101", "10101", "11111"],
+            Kind::Op("cos".into())
+        ),
+        (
+            vec!["11111", "10111", "10101", "10101", "11111"],
+            Kind::Op("car".into())
+        ),
+        (
+            vec!["11111", "11101", "10101", "10101", "11111"],
+            Kind::Op("cdr".into())
+        ),
+        (
+            vec!["001", "011", "111", "011", "001"],
+            Kind::LBra, // list
+        ),
+        (
+            vec!["100", "110", "111", "110", "100"],
+            Kind::RBra, // list
+        ),
+        (
+            vec!["11", "11", "11", "11", "11"],
+            Kind::Separator, // list
+        ),
     ];
 }
 
@@ -369,6 +452,9 @@ fn parse_glyph(comp: &Grid, flip: bool) -> Option<Kind> {
 
     for (fig, k) in FIXED.iter() {
         let mut ok = true;
+        if !(fig.len() == comp.len() && fig[0].len() == comp[0].len()) {
+            continue;
+        }
         if fig.iter().enumerate().all(|(i, row)| {
             row.chars()
                 .enumerate()
@@ -425,10 +511,16 @@ fn parse_glyph(comp: &Grid, flip: bool) -> Option<Kind> {
 
     let is_var = n > 2 && (0..=n).all(|i| get(i, 0) && get(i, n) && get(0, i) && get(n, i));
     if is_var {
-        return match parse_glyph(&clip(comp, (1, 1), (n, n)), !flip)? {
-            Kind::Int(i) if i >= 0 => Some(Kind::Var(i as usize)),
-            _ => None,
+        match parse_glyph(&clip(comp, (1, 1), (n, n)), !flip) {
+            Some(Kind::Int(i)) if i >= 0 => return Some(Kind::Var(i as usize)),
+            _ => (),
         };
+        if n > 5 {
+            match parse_glyph(&clip(comp, (2, 2), (n - 1, n - 1)), flip) {
+                Some(Kind::Int(i)) => return Some(Kind::Pow(i as usize)),
+                _ => (),
+            };
+        }
     }
 
     let negative = get(n + 1, 0);
@@ -454,7 +546,11 @@ fn parse_glyph(comp: &Grid, flip: bool) -> Option<Kind> {
         return Some(Kind::Int(num));
     }
 
-    NUM_TO_KIND.get(&num).map(Clone::clone)
+    Some(
+        NUM_TO_KIND
+            .get(&num)
+            .map_or(Kind::Unnamed(format!("{}", num)), Clone::clone),
+    )
 }
 
 const DX: [isize; 8] = [-1, -1, -1, 0, 0, 1, 1, 1];
