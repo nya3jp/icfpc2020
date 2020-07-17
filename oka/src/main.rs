@@ -71,7 +71,7 @@ fn run() -> Result<(), Error> {
     let mut s = String::new();
     r.read_to_string(&mut s);
 
-    if !demod {
+    if demod {
         let val = demodulate(&mut s.trim().chars().map(|c| c == '1'))
             .ok_or(Error::from("demodulate failed"))?;
         println!("{}", val.to_string());
@@ -97,6 +97,7 @@ impl ToString for Value {
         }
     }
 }
+
 // impl FromStr for Value {
 //     type Err = Error;
 //     // fn from_str(mut s: &str) -> Result<Self, Self::Err> {
