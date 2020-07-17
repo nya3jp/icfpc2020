@@ -11,8 +11,17 @@ import (
 )
 
 func main() {
+	if len(os.Args) != 3 {
+		os.Exit(1)
+	}
+
 	fmt.Println("(load \"./prelude.scm\")")
-	scanner := bufio.NewScanner(os.Stdin)
+	f, err := os.Open(os.Args[1])
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		ss := strings.Split(scanner.Text(), " = ")
 		if len(ss) != 2 {
@@ -28,7 +37,7 @@ func main() {
 		}
 		fmt.Printf("(define (%s) %s)\n", name, expr.ToSExp())
 	}
-	expr, err := interpreter.Parse("ap ap galaxy nil ap ap cons 0 0")
+	expr, err := interpreter.Parse(os.Args[2])
 	if err != nil {
 		log.Fatal(err)
 	}
