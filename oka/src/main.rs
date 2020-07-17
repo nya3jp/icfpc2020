@@ -61,6 +61,12 @@ fn run() -> Result<(), Error> {
                 .long("demodulate")
                 .help("demodulate given list"),
         )
+        .arg(
+            clap::Arg::with_name("decimal")
+                .short("d")
+                .long("decimal")
+                .help("use decimal notation in demodulation"),
+        )
         .get_matches();
 
     let mut w = writer(m.value_of("output"))?;
@@ -72,6 +78,11 @@ fn run() -> Result<(), Error> {
     r.read_to_string(&mut s);
 
     if demod {
+        if m.is_present("decimal") {
+            let i = i64::from_str(&s)?;
+            s = format!("{:b}", i);
+            dbg!(&s);
+        }
         let val = demodulate(&mut s.trim().chars().map(|c| c == '1'))
             .ok_or(Error::from("demodulate failed"))?;
         println!("{}", val.to_string());
@@ -172,8 +183,8 @@ fn modulate(val: &Value, v: &mut Vec<bool>) {
                 v.push(true);
                 n as u64
             } else {
-                v.push(false);
                 v.push(true);
+                v.push(false);
                 n.abs() as u64
             };
 
@@ -213,7 +224,7 @@ fn demodulate(it: &mut impl Iterator<Item = bool>) -> Option<Value> {
             let y = demodulate(it)?;
             Value::Cons(Box::new(x), Box::new(y))
         }
-        _ => {
+        (_, y) => {
             let mut t = 0;
             while it.next()? {
                 t += 1;
@@ -222,7 +233,7 @@ fn demodulate(it: &mut impl Iterator<Item = bool>) -> Option<Value> {
             for i in (0..4 * t).rev() {
                 v |= (if it.next()? { 1 } else { 0 }) << i;
             }
-            Value::Int(v)
+            Value::Int(if y { v } else { -v })
         }
     })
 }
@@ -232,25 +243,64 @@ mod tests {
     use super::*;
     #[test]
     fn test_demod() {
-        let bin = "110110000111011111100001001111110100110000";
-        let lst = "(1, (81740, nil))";
+        for tc in [
+            (
+                "110110000111011111100001001111110100110000",
+                "(1, (81740, nil))",
+            ),
+            ("010", "0"),
+            ("01100001", "1"),
+            ("10100001", "-1"),
+        ]
+        .iter()
+        {
+            let bin = tc.0;
+            let lst = tc.1;
 
-        assert_eq!(
-            lst,
-            demodulate(&mut vec_from_str(bin).into_iter())
-                .unwrap()
-                .to_string()
-                .as_str()
-        );
+            assert_eq!(
+                lst,
+                demodulate(&mut vec_from_str(bin).into_iter())
+                    .unwrap()
+                    .to_string()
+                    .as_str()
+            );
+        }
     }
 
     #[test]
     fn test_mod() {
-        let bin = "110110000111011111100001001111110100110000";
-        let lst = "(1, (81740, nil))";
+        for tc in [
+            (
+                "110110000111011111100001001111110100110000",
+                "(1, (81740, nil))",
+            ),
+            ("010", "0"),
+            ("01100001", "1"),
+            ("10100001", "-1"),
+        ]
+        .iter()
+        {
+            let bin = tc.0;
+            let lst = tc.1;
+
+            let val = Value::from_str(lst).unwrap();
+            let v = modulate_to_string(&val);
+            assert_eq!(&v, bin);
+        }
+    }
+
+    #[test]
+    fn test_mod_demod() {
+        let lst = "(1, (-81740, nil))";
 
         let val = Value::from_str(lst).unwrap();
         let v = modulate_to_string(&val);
-        assert_eq!(&v, bin);
+        assert_eq!(
+            lst,
+            demodulate(&mut vec_from_str(&v).into_iter())
+                .unwrap()
+                .to_string()
+                .as_str()
+        );
     }
 }
