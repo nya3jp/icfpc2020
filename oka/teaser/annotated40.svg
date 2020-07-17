@@ -1713,10 +1713,10 @@
     
   <rect y="28" x="28" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="42" x="42" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="42" dy="0em">ap</tspan></text>
+<rect y="28" x="84" height="84" width="84" fill="#BF360C" fill-opacity="0.5"/>
+<text y="70" x="126" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="126" dy="0em">op38?</tspan></text>
 <rect y="28" x="196" height="98" width="98" fill="#BF360C" fill-opacity="0.5"/>
 <text y="77" x="245" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="245" dy="0em">33554448?</tspan></text>
-<rect y="56" x="112" height="28" width="28" fill="#BF360C" fill-opacity="0.5"/>
-<text y="70" x="126" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="126" dy="0em">1?</tspan></text>
 <rect y="154" x="28" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="168" x="42" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="42" dy="0em">ap</tspan></text>
 <rect y="154" x="84" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
@@ -1729,16 +1729,28 @@
 <text y="182" x="378" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="378" dy="0em">x1</tspan></text>
 <rect y="154" x="490" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
 <text y="175" x="511" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="511" dy="0em">is</tspan></text>
+<rect y="154" x="616" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="189" x="637" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="637" dy="0em">[</tspan></text>
 <rect y="154" x="686" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
 <text y="168" x="700" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="700" dy="0em">0</tspan></text>
-<rect y="154" x="742" height="70" width="28" fill="#BF360C" fill-opacity="0.5"/>
-<text y="189" x="756" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="756" dy="0em">-1?</tspan></text>
-<rect y="154" x="798" height="42" width="42" fill="#BF360C" fill-opacity="0.5"/>
-<text y="175" x="819" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="819" dy="0em">14?</tspan></text>
-<rect y="154" x="868" height="70" width="28" fill="#BF360C" fill-opacity="0.5"/>
-<text y="189" x="882" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="882" dy="0em">-1?</tspan></text>
+<rect y="154" x="742" height="70" width="28" fill="#827717" fill-opacity="0.5"/>
+<text y="189" x="756" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="756" dy="0em">;</tspan></text>
+<rect y="154" x="798" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="175" x="819" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="819" dy="0em">nil</tspan></text>
+<rect y="154" x="868" height="70" width="28" fill="#827717" fill-opacity="0.5"/>
+<text y="189" x="882" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="882" dy="0em">;</tspan></text>
+<rect y="154" x="924" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="189" x="945" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="945" dy="0em">[</tspan></text>
+<rect y="154" x="994" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="189" x="1015" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1015" dy="0em">[</tspan></text>
 <rect y="154" x="1064" height="56" width="56" fill="#004D40" fill-opacity="0.5"/>
 <text y="182" x="1092" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1092" dy="0em">x1</tspan></text>
+<rect y="154" x="1148" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="189" x="1169" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1169" dy="0em">]</tspan></text>
+<rect y="154" x="1218" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="189" x="1239" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1239" dy="0em">]</tspan></text>
+<rect y="154" x="1288" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="189" x="1309" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1309" dy="0em">]</tspan></text>
 <rect y="280" x="28" height="98" width="98" fill="#BF360C" fill-opacity="0.5"/>
 <text y="329" x="77" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="77" dy="0em">33554448?</tspan></text>
 <rect y="280" x="210" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
@@ -1748,27 +1760,29 @@
 <rect y="280" x="392" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="406" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="406" dy="0em">ap</tspan></text>
 <rect y="280" x="448" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="301" x="469" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="469" dy="0em">C</tspan></text>
+<text y="301" x="469" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="469" dy="0em">\f x y -> f y x</tspan></text>
 <rect y="280" x="518" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="532" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="532" dy="0em">ap</tspan></text>
 <rect y="280" x="574" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="588" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="588" dy="0em">ap</tspan></text>
 <rect y="280" x="630" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="301" x="651" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="651" dy="0em">B</tspan></text>
+<text y="301" x="651" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="651" dy="0em">\x y z -> x (y z)</tspan></text>
 <rect y="280" x="700" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="301" x="721" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="721" dy="0em">B</tspan></text>
+<text y="301" x="721" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="721" dy="0em">\x y z -> x (y z)</tspan></text>
 <rect y="280" x="770" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="784" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="784" dy="0em">ap</tspan></text>
 <rect y="280" x="826" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="840" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="840" dy="0em">ap</tspan></text>
 <rect y="280" x="882" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="301" x="903" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="903" dy="0em">B</tspan></text>
+<text y="301" x="903" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="903" dy="0em">\x y z -> x (y z)</tspan></text>
 <rect y="280" x="952" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="966" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="966" dy="0em">ap</tspan></text>
 <rect y="280" x="1008" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="301" x="1029" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1029" dy="0em">B</tspan></text>
+<text y="301" x="1029" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1029" dy="0em">\x y z -> x (y z)</tspan></text>
 <rect y="280" x="1078" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="1092" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1092" dy="0em">ap</tspan></text>
+<rect y="280" x="1134" height="70" width="70" fill="#827717" fill-opacity="0.5"/>
+<text y="315" x="1169" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1169" dy="0em">cos</tspan></text>
 <rect y="280" x="1232" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
 <text y="294" x="1246" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1246" dy="0em">0</tspan></text>
 <rect y="280" x="1288" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
@@ -1776,128 +1790,160 @@
 <rect y="280" x="1344" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="1358" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1358" dy="0em">ap</tspan></text>
 <rect y="280" x="1400" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="301" x="1421" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1421" dy="0em">C</tspan></text>
+<text y="301" x="1421" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1421" dy="0em">\f x y -> f y x</tspan></text>
 <rect y="280" x="1470" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="1484" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1484" dy="0em">ap</tspan></text>
 <rect y="280" x="1526" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="1540" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1540" dy="0em">ap</tspan></text>
 <rect y="280" x="1582" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="301" x="1603" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1603" dy="0em">B</tspan></text>
+<text y="301" x="1603" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1603" dy="0em">\x y z -> x (y z)</tspan></text>
 <rect y="280" x="1652" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="301" x="1673" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1673" dy="0em">B</tspan></text>
+<text y="301" x="1673" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1673" dy="0em">\x y z -> x (y z)</tspan></text>
+<rect y="280" x="1722" height="70" width="70" fill="#827717" fill-opacity="0.5"/>
+<text y="315" x="1757" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1757" dy="0em">cos</tspan></text>
 <rect y="280" x="1820" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="1834" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1834" dy="0em">ap</tspan></text>
 <rect y="280" x="1876" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="1890" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1890" dy="0em">ap</tspan></text>
 <rect y="280" x="1932" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="301" x="1953" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1953" dy="0em">C</tspan></text>
-<rect y="280" x="2100" height="42" width="42" fill="#BF360C" fill-opacity="0.5"/>
-<text y="301" x="2121" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2121" dy="0em">14?</tspan></text>
+<text y="301" x="1953" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1953" dy="0em">\f x y -> f y x</tspan></text>
+<rect y="280" x="2002" height="70" width="70" fill="#827717" fill-opacity="0.5"/>
+<text y="315" x="2037" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2037" dy="0em">cos</tspan></text>
+<rect y="280" x="2100" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="301" x="2121" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2121" dy="0em">nil</tspan></text>
 <rect y="280" x="2170" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="2184" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2184" dy="0em">ap</tspan></text>
 <rect y="280" x="2226" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="2240" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2240" dy="0em">ap</tspan></text>
 <rect y="280" x="2282" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="301" x="2303" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2303" dy="0em">C</tspan></text>
+<text y="301" x="2303" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2303" dy="0em">\f x y -> f y x</tspan></text>
 <rect y="280" x="2352" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="2366" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2366" dy="0em">ap</tspan></text>
 <rect y="280" x="2408" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="2422" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2422" dy="0em">ap</tspan></text>
 <rect y="280" x="2464" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="301" x="2485" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2485" dy="0em">B</tspan></text>
+<text y="301" x="2485" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2485" dy="0em">\x y z -> x (y z)</tspan></text>
+<rect y="280" x="2534" height="70" width="70" fill="#827717" fill-opacity="0.5"/>
+<text y="315" x="2569" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2569" dy="0em">cos</tspan></text>
 <rect y="280" x="2632" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="2646" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2646" dy="0em">ap</tspan></text>
 <rect y="280" x="2688" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="2702" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2702" dy="0em">ap</tspan></text>
 <rect y="280" x="2744" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="301" x="2765" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2765" dy="0em">C</tspan></text>
-<rect y="280" x="2912" height="42" width="42" fill="#BF360C" fill-opacity="0.5"/>
-<text y="301" x="2933" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2933" dy="0em">14?</tspan></text>
-<rect y="280" x="2982" height="42" width="42" fill="#BF360C" fill-opacity="0.5"/>
-<text y="301" x="3003" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="3003" dy="0em">14?</tspan></text>
+<text y="301" x="2765" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2765" dy="0em">\f x y -> f y x</tspan></text>
+<rect y="280" x="2814" height="70" width="70" fill="#827717" fill-opacity="0.5"/>
+<text y="315" x="2849" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2849" dy="0em">cos</tspan></text>
+<rect y="280" x="2912" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="301" x="2933" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="2933" dy="0em">nil</tspan></text>
+<rect y="280" x="2982" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="301" x="3003" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="3003" dy="0em">nil</tspan></text>
 <rect y="406" x="28" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="420" x="42" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="42" dy="0em">ap</tspan></text>
 <rect y="406" x="84" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="420" x="98" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="98" dy="0em">ap</tspan></text>
 <rect y="406" x="140" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="420" x="154" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="154" dy="0em">ap</tspan></text>
+<rect y="406" x="196" height="84" width="84" fill="#BF360C" fill-opacity="0.5"/>
+<text y="448" x="238" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="238" dy="0em">op38?</tspan></text>
 <rect y="406" x="308" height="98" width="98" fill="#BF360C" fill-opacity="0.5"/>
 <text y="455" x="357" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="357" dy="0em">33554448?</tspan></text>
-<rect y="406" x="434" height="42" width="42" fill="#BF360C" fill-opacity="0.5"/>
-<text y="427" x="455" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="455" dy="0em">14?</tspan></text>
+<rect y="406" x="434" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="427" x="455" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="455" dy="0em">nil</tspan></text>
 <rect y="406" x="504" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="420" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="518" dy="0em">ap</tspan></text>
 <rect y="406" x="560" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="420" x="574" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="574" dy="0em">ap</tspan></text>
-<rect y="406" x="616" height="84" width="84" fill="#BF360C" fill-opacity="0.5"/>
-<text y="448" x="658" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="658" dy="0em">17043521?</tspan></text>
+<rect y="406" x="616" height="84" width="84" fill="#827717" fill-opacity="0.5"/>
+<text y="448" x="658" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="658" dy="0em">arrow</tspan></text>
 <rect y="406" x="728" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
 <text y="420" x="742" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="742" dy="0em">1</tspan></text>
 <rect y="406" x="784" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
 <text y="420" x="798" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="798" dy="0em">0</tspan></text>
 <rect y="406" x="896" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
 <text y="427" x="917" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="917" dy="0em">is</tspan></text>
-<rect y="406" x="1092" height="42" width="42" fill="#BF360C" fill-opacity="0.5"/>
-<text y="427" x="1113" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1113" dy="0em">14?</tspan></text>
-<rect y="406" x="1162" height="70" width="28" fill="#BF360C" fill-opacity="0.5"/>
-<text y="441" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1176" dy="0em">-1?</tspan></text>
-<rect y="434" x="224" height="28" width="28" fill="#BF360C" fill-opacity="0.5"/>
-<text y="448" x="238" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="238" dy="0em">1?</tspan></text>
+<rect y="406" x="1022" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="441" x="1043" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1043" dy="0em">[</tspan></text>
+<rect y="406" x="1092" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="427" x="1113" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1113" dy="0em">nil</tspan></text>
+<rect y="406" x="1162" height="70" width="28" fill="#827717" fill-opacity="0.5"/>
+<text y="441" x="1176" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1176" dy="0em">;</tspan></text>
+<rect y="406" x="1218" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="441" x="1239" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1239" dy="0em">[</tspan></text>
+<rect y="406" x="1582" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="441" x="1603" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1603" dy="0em">]</tspan></text>
+<rect y="406" x="1652" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="441" x="1673" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1673" dy="0em">]</tspan></text>
 <rect y="644" x="28" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="658" x="42" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="42" dy="0em">ap</tspan></text>
 <rect y="644" x="84" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="658" x="98" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="98" dy="0em">ap</tspan></text>
 <rect y="644" x="140" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="658" x="154" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="154" dy="0em">ap</tspan></text>
+<rect y="644" x="196" height="84" width="84" fill="#BF360C" fill-opacity="0.5"/>
+<text y="686" x="238" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="238" dy="0em">op38?</tspan></text>
 <rect y="644" x="308" height="98" width="98" fill="#BF360C" fill-opacity="0.5"/>
 <text y="693" x="357" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="357" dy="0em">33554448?</tspan></text>
-<rect y="644" x="434" height="42" width="42" fill="#BF360C" fill-opacity="0.5"/>
-<text y="665" x="455" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="455" dy="0em">14?</tspan></text>
+<rect y="644" x="434" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="665" x="455" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="455" dy="0em">nil</tspan></text>
 <rect y="644" x="504" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="658" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="518" dy="0em">ap</tspan></text>
 <rect y="644" x="560" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="658" x="574" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="574" dy="0em">ap</tspan></text>
-<rect y="644" x="616" height="84" width="84" fill="#BF360C" fill-opacity="0.5"/>
-<text y="686" x="658" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="658" dy="0em">17043521?</tspan></text>
+<rect y="644" x="616" height="84" width="84" fill="#827717" fill-opacity="0.5"/>
+<text y="686" x="658" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="658" dy="0em">arrow</tspan></text>
 <rect y="644" x="728" height="42" width="42" fill="#004D40" fill-opacity="0.5"/>
 <text y="665" x="749" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="749" dy="0em">2</tspan></text>
 <rect y="644" x="798" height="42" width="42" fill="#004D40" fill-opacity="0.5"/>
 <text y="665" x="819" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="819" dy="0em">3</tspan></text>
 <rect y="644" x="924" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
 <text y="665" x="945" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="945" dy="0em">is</tspan></text>
-<rect y="644" x="1120" height="42" width="42" fill="#BF360C" fill-opacity="0.5"/>
-<text y="665" x="1141" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1141" dy="0em">14?</tspan></text>
-<rect y="644" x="1190" height="70" width="28" fill="#BF360C" fill-opacity="0.5"/>
-<text y="679" x="1204" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1204" dy="0em">-1?</tspan></text>
-<rect y="672" x="224" height="28" width="28" fill="#BF360C" fill-opacity="0.5"/>
-<text y="686" x="238" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="238" dy="0em">1?</tspan></text>
+<rect y="644" x="1050" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="679" x="1071" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1071" dy="0em">[</tspan></text>
+<rect y="644" x="1120" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="665" x="1141" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1141" dy="0em">nil</tspan></text>
+<rect y="644" x="1190" height="70" width="28" fill="#827717" fill-opacity="0.5"/>
+<text y="679" x="1204" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1204" dy="0em">;</tspan></text>
+<rect y="644" x="1246" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="679" x="1267" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1267" dy="0em">[</tspan></text>
+<rect y="644" x="1610" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="679" x="1631" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1631" dy="0em">]</tspan></text>
+<rect y="644" x="1680" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="679" x="1701" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1701" dy="0em">]</tspan></text>
 <rect y="882" x="28" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="896" x="42" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="42" dy="0em">ap</tspan></text>
 <rect y="882" x="84" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="896" x="98" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="98" dy="0em">ap</tspan></text>
 <rect y="882" x="140" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="896" x="154" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="154" dy="0em">ap</tspan></text>
+<rect y="882" x="196" height="84" width="84" fill="#BF360C" fill-opacity="0.5"/>
+<text y="924" x="238" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="238" dy="0em">op38?</tspan></text>
 <rect y="882" x="308" height="98" width="98" fill="#BF360C" fill-opacity="0.5"/>
 <text y="931" x="357" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="357" dy="0em">33554448?</tspan></text>
-<rect y="882" x="434" height="42" width="42" fill="#BF360C" fill-opacity="0.5"/>
-<text y="903" x="455" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="455" dy="0em">14?</tspan></text>
+<rect y="882" x="434" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="903" x="455" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="455" dy="0em">nil</tspan></text>
 <rect y="882" x="504" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="896" x="518" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="518" dy="0em">ap</tspan></text>
 <rect y="882" x="560" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="896" x="574" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="574" dy="0em">ap</tspan></text>
-<rect y="882" x="616" height="84" width="84" fill="#BF360C" fill-opacity="0.5"/>
-<text y="924" x="658" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="658" dy="0em">17043521?</tspan></text>
+<rect y="882" x="616" height="84" width="84" fill="#827717" fill-opacity="0.5"/>
+<text y="924" x="658" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="658" dy="0em">arrow</tspan></text>
 <rect y="882" x="728" height="42" width="42" fill="#004D40" fill-opacity="0.5"/>
 <text y="903" x="749" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="749" dy="0em">4</tspan></text>
 <rect y="882" x="798" height="28" width="28" fill="#004D40" fill-opacity="0.5"/>
 <text y="896" x="812" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="812" dy="0em">1</tspan></text>
 <rect y="882" x="910" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
 <text y="903" x="931" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="931" dy="0em">is</tspan></text>
-<rect y="882" x="1106" height="42" width="42" fill="#BF360C" fill-opacity="0.5"/>
-<text y="903" x="1127" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1127" dy="0em">14?</tspan></text>
-<rect y="882" x="1176" height="70" width="28" fill="#BF360C" fill-opacity="0.5"/>
-<text y="917" x="1190" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1190" dy="0em">-1?</tspan></text>
-<rect y="910" x="224" height="28" width="28" fill="#BF360C" fill-opacity="0.5"/>
-<text y="924" x="238" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="238" dy="0em">1?</tspan></text>
+<rect y="882" x="1036" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="917" x="1057" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1057" dy="0em">[</tspan></text>
+<rect y="882" x="1106" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="903" x="1127" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1127" dy="0em">nil</tspan></text>
+<rect y="882" x="1176" height="70" width="28" fill="#827717" fill-opacity="0.5"/>
+<text y="917" x="1190" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1190" dy="0em">;</tspan></text>
+<rect y="882" x="1232" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="917" x="1253" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1253" dy="0em">[</tspan></text>
+<rect y="882" x="1596" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="917" x="1617" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1617" dy="0em">]</tspan></text>
+<rect y="882" x="1666" height="70" width="42" fill="#827717" fill-opacity="0.5"/>
+<text y="917" x="1687" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="1687" dy="0em">]</tspan></text>
 
 </svg>

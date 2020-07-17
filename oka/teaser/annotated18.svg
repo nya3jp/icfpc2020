@@ -521,7 +521,7 @@
     <rect y="406" x="1232" height="14" width="14" fill="#757575"/>
     
   <rect y="28" x="28" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="49" x="49" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="49" dy="0em">S</tspan></text>
+<text y="49" x="49" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="49" dy="0em">\f g x -> (f x) (g x)</tspan></text>
 <rect y="98" x="28" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="112" x="42" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="42" dy="0em">ap</tspan></text>
 <rect y="98" x="84" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
@@ -529,7 +529,7 @@
 <rect y="98" x="140" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="112" x="154" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="154" dy="0em">ap</tspan></text>
 <rect y="98" x="196" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="119" x="217" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="217" dy="0em">S</tspan></text>
+<text y="119" x="217" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="217" dy="0em">\f g x -> (f x) (g x)</tspan></text>
 <rect y="98" x="266" height="56" width="56" fill="#004D40" fill-opacity="0.5"/>
 <text y="126" x="294" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="294" dy="0em">x0</tspan></text>
 <rect y="98" x="350" height="56" width="56" fill="#004D40" fill-opacity="0.5"/>
@@ -559,7 +559,7 @@
 <rect y="196" x="140" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="210" x="154" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="154" dy="0em">ap</tspan></text>
 <rect y="196" x="196" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="217" x="217" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="217" dy="0em">S</tspan></text>
+<text y="217" x="217" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="217" dy="0em">\f g x -> (f x) (g x)</tspan></text>
 <rect y="196" x="266" height="56" width="56" fill="#827717" fill-opacity="0.5"/>
 <text y="224" x="294" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="294" dy="0em">Sum</tspan></text>
 <rect y="196" x="350" height="56" width="56" fill="#827717" fill-opacity="0.5"/>
@@ -577,7 +577,7 @@
 <rect y="280" x="140" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="294" x="154" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="154" dy="0em">ap</tspan></text>
 <rect y="280" x="196" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
-<text y="301" x="217" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="217" dy="0em">S</tspan></text>
+<text y="301" x="217" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="217" dy="0em">\f g x -> (f x) (g x)</tspan></text>
 <rect y="280" x="266" height="56" width="56" fill="#827717" fill-opacity="0.5"/>
 <text y="308" x="294" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="294" dy="0em">Prod</tspan></text>
 <rect y="280" x="350" height="28" width="28" fill="#827717" fill-opacity="0.5"/>

@@ -152,11 +152,13 @@
     <rect y="238" x="392" height="14" width="14" fill="#757575"/>
     <rect y="238" x="406" height="14" width="14" fill="#757575"/>
     
-  <rect y="28" x="28" height="84" width="84" fill="#BF360C" fill-opacity="0.5"/>
-<text y="70" x="70" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="70" dy="0em">17043521?</tspan></text>
-<rect y="140" x="28" height="84" width="84" fill="#BF360C" fill-opacity="0.5"/>
-<text y="182" x="70" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="70" dy="0em">17043521?</tspan></text>
+  <rect y="28" x="28" height="84" width="84" fill="#827717" fill-opacity="0.5"/>
+<text y="70" x="70" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="70" dy="0em">arrow</tspan></text>
+<rect y="140" x="28" height="84" width="84" fill="#827717" fill-opacity="0.5"/>
+<text y="182" x="70" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="70" dy="0em">arrow</tspan></text>
 <rect y="140" x="196" height="42" width="42" fill="#827717" fill-opacity="0.5"/>
 <text y="161" x="217" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="217" dy="0em">is</tspan></text>
+<rect y="140" x="322" height="70" width="70" fill="#827717" fill-opacity="0.5"/>
+<text y="175" x="357" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="357" dy="0em">cos</tspan></text>
 
 </svg>

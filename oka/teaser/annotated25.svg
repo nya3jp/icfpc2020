@@ -344,12 +344,16 @@
     <rect y="210" x="1092" height="14" width="14" fill="#757575"/>
     <rect y="210" x="1106" height="14" width="14" fill="#757575"/>
     
-  <rect y="126" x="28" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
+  <rect y="28" x="28" height="70" width="70" fill="#827717" fill-opacity="0.5"/>
+<text y="63" x="63" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="63" dy="0em">cos</tspan></text>
+<rect y="126" x="28" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="140" x="42" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="42" dy="0em">ap</tspan></text>
 <rect y="126" x="84" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="140" x="98" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="98" dy="0em">ap</tspan></text>
 <rect y="126" x="140" height="28" width="28" fill="#827717" fill-opacity="0.5"/>
 <text y="140" x="154" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="154" dy="0em">ap</tspan></text>
+<rect y="126" x="196" height="70" width="70" fill="#827717" fill-opacity="0.5"/>
+<text y="161" x="231" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="231" dy="0em">cos</tspan></text>
 <rect y="126" x="294" height="56" width="56" fill="#004D40" fill-opacity="0.5"/>
 <text y="154" x="322" dominant-baseline='middle' text-anchor='middle' fill='white' style='paint-order: stroke; fill: white; stroke: black; stroke-width: 1px; font-family="monospace"; font-size: 18px'><tspan x="322" dy="0em">x0</tspan></text>
 <rect y="126" x="378" height="56" width="56" fill="#004D40" fill-opacity="0.5"/>
