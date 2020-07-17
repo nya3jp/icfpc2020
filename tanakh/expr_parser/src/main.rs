@@ -5,6 +5,9 @@ enum Literal {
     Int(i64),
 }
 
+// 'add', 'div', 'mul', 'neg',
+// 'eq', 'lt',
+
 impl Literal {
     fn new(s: &str) -> Literal {
         if let Ok(n) = s.parse() {
@@ -24,22 +27,33 @@ impl Literal {
 
 #[derive(Debug, Clone)]
 enum Expr {
+    Lam(String, Box<Expr>),
     App(Box<Expr>, Box<Expr>),
     Lit(Literal),
 }
 
-#[derive(Debug)]
-enum Expr2 {
-    App(Box<Expr2>, Vec<Box<Expr2>>),
+#[derive(Debug, Clone)]
+enum CExpr {
+    App(Box<Expr>, Box<Expr>),
     Lit(Literal),
 }
 
+// #[derive(Debug)]
+// enum Expr2 {
+//     App(Box<Expr2>, Vec<Box<Expr2>>),
+//     Lit(Literal),
+// }
+
 impl Expr {
-    fn new_var(s: &str) -> Expr {
+    fn make_var(s: &str) -> Expr {
         Expr::Lit(Literal::Var(s.to_owned()))
     }
 
-    fn new_app(f: Expr, x: Expr) -> Expr {
+    fn make_int(n: i64) -> Expr {
+        Expr::Lit(Literal::Int(n))
+    }
+
+    fn make_app(f: Expr, x: Expr) -> Expr {
         Expr::App(Box::new(f), Box::new(x))
     }
 
@@ -53,65 +67,117 @@ impl Expr {
         }
     }
 
-    fn refine(&self) -> Expr2 {
-        match self {
-            Expr::App(f, x) => {
-                let mut args = vec![Box::new(x.refine())];
-                let mut f = f.clone();
-                loop {
-                    match *f {
-                        Expr::App(g, y) => {
-                            f = g.clone();
-                            args.push(Box::new(y.refine()));
-                        }
-                        Expr::Lit(s) => {
-                            args.reverse();
-                            return Expr2::App(Box::new(Expr2::Lit(s)), args);
-                        }
-                    }
-                }
-            }
-            Expr::Lit(s) => Expr2::Lit(s.clone()),
-        }
-    }
+    // fn refine(&self) -> Expr2 {
+    //     match self {
+    //         Expr::App(f, x) => {
+    //             let mut args = vec![Box::new(x.refine())];
+    //             let mut f = f.clone();
+    //             loop {
+    //                 match *f {
+    //                     Expr::App(g, y) => {
+    //                         f = g.clone();
+    //                         args.push(Box::new(y.refine()));
+    //                     }
+    //                     Expr::Lit(s) => {
+    //                         args.reverse();
+    //                         return Expr2::App(Box::new(Expr2::Lit(s)), args);
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //         Expr::Lit(s) => Expr2::Lit(s.clone()),
+    //     }
+    // }
 
     fn print(&self) -> String {
         match self {
+            Expr::Lam(var, x) => format!("\\{} -> {}", var, x.print()),
             Expr::App(f, x) => format!("({} {})", f.print(), x.print()),
+            Expr::Lit(lit) => lit.print(),
+        }
+    }
+
+    fn to_scheme(&self) -> String {
+        match self {
+            Expr::Lam(var, x) => format!("\\{} -> {}", var, x.to_scheme()),
+            Expr::App(f, x) => format!("({} {})", f.to_scheme(), x.to_scheme()),
             Expr::Lit(lit) => match lit {
                 Literal::Int(n) => format!("{}", n),
                 Literal::Var(v) => format!("({})", v),
             },
         }
     }
-}
 
-impl Expr2 {
-    fn print(&self) -> String {
+    fn cexpr(&self) -> Expr {
         match self {
-            Expr2::App(f, args) => {
-                let mut s = format!("({}", f.print());
-                for a in args {
-                    s += &format!(" {}", a.print());
+            Expr::Lit(lit) => Expr::Lit(lit.clone()),
+            Expr::App(f, x) => Expr::make_app(f.cexpr(), x.cexpr()),
+            Expr::Lam(var, x) => {
+                if !x.contains(var) {
+                    Expr::make_app(Expr::make_var("k"), x.cexpr())
+                } else if x.var() == Some(&var) {
+                    Expr::make_var("i")
+                } else {
+                    match x.as_ref() {
+                        Expr::Lam(_, _) => Expr::Lam(var.to_string(), Box::new(x.cexpr())).cexpr(),
+                        Expr::App(f, x) => Expr::make_app(
+                            Expr::make_app(
+                                Expr::make_var("s"),
+                                Expr::Lam(var.to_string(), f.clone()).cexpr(),
+                            ),
+                            Expr::Lam(var.to_string(), x.clone()).cexpr(),
+                        ),
+                        _ => unreachable!(),
+                    }
                 }
-                s += ")";
-                s
             }
-            Expr2::Lit(s) => s.print(),
         }
     }
 
-    fn pp(&self) -> String {
-        self.print()
-        // let mut s = self.print();
-        // if s.chars().last() == Some(')') {
-        //     s.pop();
-        // } else if s.chars().next() == Some('(') {
-        //     s = s[1..].to_string()
-        // }
-        // s
+    fn contains(&self, var: &str) -> bool {
+        match self {
+            Expr::Lit(lit) => match lit {
+                Literal::Var(v) => v == var,
+                _ => false,
+            },
+            Expr::App(f, x) => f.contains(var) || x.contains(var),
+            Expr::Lam(v, x) => {
+                if v == var {
+                    false
+                } else {
+                    x.contains(var)
+                }
+            }
+        }
     }
 }
+
+// impl Expr2 {
+//     fn print(&self) -> String {
+//         match self {
+//             Expr2::App(f, args) => {
+//                 let mut s = format!("({}", f.print());
+//                 for a in args {
+//                     s += &format!(" {}", a.print());
+//                 }
+//                 s += ")";
+//                 s
+//             }
+//             Expr2::Lit(s) => s.print(),
+//         }
+//     }
+
+//     fn pp(&self) -> String {
+//         self.print()
+//         // let mut s = self.print();
+//         // if s.chars().last() == Some(')') {
+//         //     s.pop();
+//         // } else if s.chars().next() == Some('(') {
+//         //     s = s[1..].to_string()
+//         // }
+//         // s
+//     }
+// }
 
 #[derive(Debug, PartialEq, Eq)]
 enum Value {
@@ -149,8 +215,8 @@ impl Value {
                     v.push(true);
                     n as u64
                 } else {
-                    v.push(false);
                     v.push(true);
+                    v.push(false);
                     n.abs() as u64
                 };
 
@@ -190,7 +256,7 @@ impl Value {
                 let y = Self::demodulate(it)?;
                 Value::Cons(Box::new(x), Box::new(y))
             }
-            _ => {
+            (_, y) => {
                 let mut t = 0;
                 while it.next()? {
                     t += 1;
@@ -199,7 +265,7 @@ impl Value {
                 for i in (0..4 * t).rev() {
                     v |= (if it.next()? { 1 } else { 0 }) << i;
                 }
-                Value::Int(v)
+                Value::Int(if y { v } else { -v })
             }
         })
     }
@@ -276,10 +342,10 @@ fn parse<'a>(it: &mut impl Iterator<Item = &'a str>) -> Expr {
             if s == "," {
                 continue;
             } else if s == ")" {
-                let mut ret = Expr::new_var("nil");
+                let mut ret = Expr::make_var("nil");
 
                 for x in v.into_iter().rev() {
-                    ret = Expr::new_app(Expr::new_app(Expr::new_var("cons"), x), ret);
+                    ret = Expr::make_app(Expr::make_app(Expr::make_var("cons"), x), ret);
                 }
 
                 break ret;
@@ -433,7 +499,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             let v = demodulate(&decode(&b)).unwrap();
             eprintln!("response: {} = {}", v.to_sexp(), b);
             println!("{}", v.to_sexp());
-            Ok(())
         }
         Opt::Parse(_opt) => {
             let mut defs = vec![];
@@ -444,35 +509,56 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 if s == "" {
                     break;
                 }
+                if s.chars().all(|c| c.is_whitespace()) {
+                    continue;
+                }
 
                 if s.contains('=') {
                     let mut jt = s.split("=");
 
-                    let lhs = parse_expr(jt.next().unwrap());
-                    let rhs = parse_expr(jt.next().unwrap());
+                    let mut lhs = parse_expr(jt.next().unwrap());
+                    let mut rhs = parse_expr(jt.next().unwrap());
 
-                    if lhs.var().is_none() {
-                        println!("{} = {}", lhs.print(), rhs.print());
-                    } else {
-                        defs.push((lhs.var().unwrap().to_owned(), rhs));
+                    while lhs.var().is_none() {
+                        match lhs {
+                            Expr::App(f, x) => {
+                                assert!(x.var().is_some());
+                                rhs = Expr::Lam(x.var().unwrap().to_string(), Box::new(rhs));
+                                lhs = *f;
+                            }
+                            _ => unreachable!(),
+                        }
                     }
 
-                // println!("{} = {}", lhs.refine().pp(), rhs.refine().pp());
+                    dbg!(&rhs.print());
+
+                    defs.push((lhs.var().unwrap().to_owned(), rhs.cexpr()));
                 } else {
                     // println!("{}", parse_expr(&s).refine().pp());
                     panic!()
                 }
             }
 
-            println!(r#"(load "lib.scm")"#);
+            // println!(r#"(load "lib.scm")"#);
 
             for (var, expr) in defs {
-                println!("(define ({}) {})", var, expr.print());
+                // println!("(define ({}) {})", var, expr.print());
+                println!("{} = {}", var, expr.print());
             }
-
-            Ok(())
+            let expr = Expr::make_app(
+                Expr::make_app(
+                    Expr::make_app(Expr::make_var("interact"), Expr::make_var("galaxy")),
+                    Expr::make_var("nil"),
+                ),
+                Expr::make_app(
+                    Expr::make_app(Expr::make_var("vec"), Expr::make_int(0)),
+                    Expr::make_int(0),
+                ),
+            );
         }
     }
+
+    Ok(())
 
     // println!("{}", demodulate(&decode("1101000")).unwrap().print());
 
@@ -484,5 +570,4 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // )])]);
 
     // println!("{}", encode(&modulate(&v)));
-    // return Ok(());
 }
