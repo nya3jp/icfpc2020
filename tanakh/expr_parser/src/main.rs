@@ -1,25 +1,22 @@
+#![allow(dead_code)]
 #[derive(Debug, Clone)]
 enum Literal {
-    Unknown(i64),
     Var(String),
     Int(i64),
 }
 
 impl Literal {
     fn new(s: &str) -> Literal {
-        if s.chars().next().unwrap() == ':' {
-            Literal::Unknown(s[1..].parse().unwrap())
-        } else if s.chars().all(|c| c.is_ascii_digit()) {
-            Literal::Int(s.parse().unwrap())
+        if let Ok(n) = s.parse() {
+            Literal::Int(n)
         } else {
             Literal::Var(s.to_string())
         }
     }
 
-    fn print(&self) -> String {
+    pub fn print(&self) -> String {
         match self {
             Literal::Int(n) => format!("{}", n),
-            Literal::Unknown(n) => format!(":{}", n),
             Literal::Var(s) => format!("{}", s),
         }
     }
@@ -46,6 +43,16 @@ impl Expr {
         Expr::App(Box::new(f), Box::new(x))
     }
 
+    fn var(&self) -> Option<&str> {
+        match self {
+            Expr::Lit(lit) => match lit {
+                Literal::Var(v) => Some(&v),
+                _ => None,
+            },
+            _ => None,
+        }
+    }
+
     fn refine(&self) -> Expr2 {
         match self {
             Expr::App(f, x) => {
@@ -65,6 +72,16 @@ impl Expr {
                 }
             }
             Expr::Lit(s) => Expr2::Lit(s.clone()),
+        }
+    }
+
+    fn print(&self) -> String {
+        match self {
+            Expr::App(f, x) => format!("({} {})", f.print(), x.print()),
+            Expr::Lit(lit) => match lit {
+                Literal::Int(n) => format!("{}", n),
+                Literal::Var(v) => format!("({})", v),
+            },
         }
     }
 }
@@ -96,7 +113,7 @@ impl Expr2 {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 enum Value {
     Int(i64),
     Nil,
@@ -104,6 +121,26 @@ enum Value {
 }
 
 impl Value {
+    fn nil() -> Value {
+        Value::Nil
+    }
+
+    fn cons(a: Value, b: Value) -> Value {
+        Value::Cons(Box::new(a), Box::new(b))
+    }
+
+    fn int(n: i64) -> Value {
+        Value::Int(n)
+    }
+
+    fn list(v: Vec<Value>) -> Value {
+        let mut ret = Self::nil();
+        for v in v.into_iter().rev() {
+            ret = Self::cons(v, ret);
+        }
+        ret
+    }
+
     fn modulate(&self, v: &mut Vec<bool>) {
         match self {
             &Value::Int(n) => {
@@ -174,6 +211,14 @@ impl Value {
             Value::Cons(hd, tl) => format!("({}, {})", hd.print(), tl.print()),
         }
     }
+
+    fn to_sexp(&self) -> String {
+        match self {
+            &Value::Int(n) => format!("{}", n),
+            Value::Nil => "()".to_string(),
+            Value::Cons(hd, tl) => format!("({} . {})", hd.to_sexp(), tl.to_sexp()),
+        }
+    }
 }
 
 fn modulate(v: &Value) -> Vec<bool> {
@@ -187,6 +232,14 @@ fn demodulate(v: &[bool]) -> Option<Value> {
     let ret = Value::demodulate(&mut it)?;
     assert!(it.next().is_none());
     Some(ret)
+}
+
+fn encode(v: &[bool]) -> String {
+    v.iter().map(|b| if *b { '1' } else { '0' }).collect()
+}
+
+fn decode(s: &str) -> Vec<bool> {
+    s.chars().map(|c| c == '1').collect()
 }
 
 #[test]
@@ -254,42 +307,182 @@ struct DemodOpt {
 }
 
 #[derive(StructOpt, Debug)]
+struct SendOpt {
+    msg: String,
+}
+
+#[derive(StructOpt, Debug)]
+struct ParseOpt {}
+
+#[derive(StructOpt, Debug)]
 enum Opt {
-    Demod(DemodOpt),
+    Send(SendOpt),
+    Parse(ParseOpt),
+    // Demod(DemodOpt),
+}
+
+use std::iter::Peekable;
+
+fn parse_sexp<'a>(it: &mut Peekable<impl Iterator<Item = &'a str>>) -> Option<Value> {
+    let s = it.next()?;
+
+    if s == "(" {
+        let mut v = vec![];
+        loop {
+            let s = it.peek()?;
+            if s == &")" {
+                assert_eq!(it.next().unwrap(), ")");
+                return Some(Value::list(v));
+            } else if s == &"." {
+                assert_eq!(it.next().unwrap(), ".");
+                let mut ret = parse_sexp(it)?;
+                let s = it.next()?;
+                assert_eq!(s, ")");
+                for v in v.into_iter().rev() {
+                    ret = Value::cons(v, ret);
+                }
+                return Some(ret);
+            } else {
+                v.push(parse_sexp(it)?);
+            }
+        }
+    } else if let Ok(n) = s.parse() {
+        Some(Value::int(n))
+    } else {
+        unreachable!("{}", s);
+    }
+}
+
+fn parse_sexp_str(s: &str) -> Option<Value> {
+    let mut ns = String::new();
+    for c in s.chars() {
+        if c == '(' || c == ')' || c == '.' {
+            ns.push(' ');
+            ns.push(c);
+            ns.push(' ');
+        } else {
+            ns.push(c);
+        }
+    }
+    // dbg!(&ns);
+    let it = ns.split_whitespace();
+    let mut it = it.peekable();
+    let ret = parse_sexp(&mut it)?;
+    assert!(it.next().is_none());
+    Some(ret)
+}
+
+#[test]
+fn test_parse_sexp() {
+    assert_eq!(parse_sexp_str("-123"), Some(Value::int(-123)));
+    assert_eq!(parse_sexp_str("()"), Some(Value::nil()));
+
+    assert_eq!(
+        parse_sexp_str("(1 . 2)"),
+        Some(Value::cons(Value::int(1), Value::int(2)))
+    );
+
+    assert_eq!(
+        parse_sexp_str("(1 2)"),
+        Some(Value::list(vec![Value::int(1), Value::int(2)]))
+    );
+
+    assert_eq!(
+        parse_sexp_str("(1 2 . 3)"),
+        Some(Value::cons(
+            Value::int(1),
+            Value::cons(Value::int(2), Value::int(3))
+        ))
+    );
+
+    assert_eq!(
+        parse_sexp_str("(1 2 3)"),
+        Some(Value::list(vec![
+            Value::int(1),
+            Value::int(2),
+            Value::int(3)
+        ]))
+    );
+}
+
+// curl -X POST "https://icfpc2020-api.testkontur.ru/aliens/send?apiKey=REDACTED" -H "accept: */*" -H "Content-Type: text/plain" -d "111111011000010100000"
+
+fn send_request(req: &str) -> String {
+    use std::process::Command;
+    let output = Command::new("curl").args(&[
+        "-X",
+        "POST",
+        "https://icfpc2020-api.testkontur.ru/aliens/send?apiKey=REDACTED",
+        "-H",
+        "accept: */*",
+        "-H",
+        "Content-Type: text/plain",
+        "-d",
+    ]).arg(req).output().expect("fail to execute curl");
+
+    String::from_utf8(output.stdout).unwrap()
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // match Opt::from_args() {
-    //     Opt::Demod(s) => {
-    //         let v = s.arg.chars().map(|c| c == '1').collect::<Vec<_>>();
-    //         println!("{}", demodulate(&v).unwrap().print());
-    //     }
-    // }
-
-    loop {
-        let mut s = String::new();
-        std::io::stdin().read_line(&mut s)?;
-        if s == "" {
-            break;
+    match Opt::from_args() {
+        Opt::Send(opt) => {
+            let msg = parse_sexp_str(&opt.msg).unwrap();
+            let b = encode(&modulate(&msg));
+            eprintln!("request:  {} = {}", msg.to_sexp(), &b);
+            let b = send_request(&b);
+            let v = demodulate(&decode(&b)).unwrap();
+            eprintln!("response: {} = {}", v.to_sexp(), b);
+            println!("{}", v.to_sexp());
+            Ok(())
         }
+        Opt::Parse(_opt) => {
+            let mut defs = vec![];
 
-        if s.contains('=') {
-            let mut jt = s.split("=");
-            let mut first = true;
-
-            while let Some(s) = jt.next() {
-                if first {
-                    first = false;
-                } else {
-                    print!(" = ");
+            loop {
+                let mut s = String::new();
+                std::io::stdin().read_line(&mut s)?;
+                if s == "" {
+                    break;
                 }
-                print!("{}", parse_expr(s).refine().pp());
+
+                if s.contains('=') {
+                    let mut jt = s.split("=");
+
+                    let lhs = parse_expr(jt.next().unwrap());
+                    let rhs = parse_expr(jt.next().unwrap());
+
+                    if lhs.var().is_none() {
+                        println!("{} = {}", lhs.print(), rhs.print());
+                    } else {
+                        defs.push((lhs.var().unwrap().to_owned(), rhs));
+                    }
+
+                // println!("{} = {}", lhs.refine().pp(), rhs.refine().pp());
+                } else {
+                    // println!("{}", parse_expr(&s).refine().pp());
+                    panic!()
+                }
             }
-            println!();
-        } else {
-            println!("{}", parse_expr(&s).refine().pp());
+
+            println!(r#"(load "lib.scm")"#);
+
+            for (var, expr) in defs {
+                println!("(define ({}) {})", var, expr.print());
+            }
+
+            Ok(())
         }
     }
 
-    Ok(())
+    // println!("{}", demodulate(&decode("1101000")).unwrap().print());
+
+    // return Ok(());
+
+    // let v = Value::list(vec![Value::list(vec![Value::cons(
+    //     Value::int(1),
+    //     Value::int(0),
+    // )])]);
+
+    // println!("{}", encode(&modulate(&v)));
+    // return Ok(());
 }
