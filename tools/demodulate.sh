@@ -8,4 +8,4 @@ cd $(dirname $0)
 
 cd ../oka
 
-cargo run --release -- -d "$@"
+cargo run -q --release -- -d "$@"
