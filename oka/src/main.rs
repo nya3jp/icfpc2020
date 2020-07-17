@@ -76,6 +76,9 @@ fn run() -> Result<(), Error> {
             .ok_or(Error::from("demodulate failed"))?;
         println!("{}", val.to_string());
     } else {
+        let val = Value::from_str(&s)?;
+        let v = modulate_to_string(&val);
+        println!("{}", v);
     }
 
     Ok(())
@@ -98,18 +101,54 @@ impl ToString for Value {
     }
 }
 
-// impl FromStr for Value {
-//     type Err = Error;
-//     // fn from_str(mut s: &str) -> Result<Self, Self::Err> {
-//     // let s = s.trim();
-//     // let s = s.as_bytes();
-//     // match s[0] {
-//     // b'(' => from_str()
-//     // _
-//     // }
-//     // todo!()
-//     // }
-// }
+impl FromStr for Value {
+    type Err = Error;
+    fn from_str(mut s: &str) -> Result<Self, Self::Err> {
+        Value::from_iter(&mut s.bytes().peekable())
+    }
+}
+
+impl Value {
+    fn from_iter<I: Iterator<Item = u8>>(i: &mut std::iter::Peekable<I>) -> Result<Self, Error> {
+        let b: u8 = i.next().ok_or(Error::from("iterator exhausted"))?;
+        match b {
+            b'(' => {
+                let x = Value::from_iter(i)?;
+                i.find(|c| *c == b',').ok_or(Error::from(", not found"))?;
+                let y = Value::from_iter(i)?;
+                i.find(|c| *c == b')').ok_or(Error::from(") not found"))?;
+                Ok(Value::Cons(Box::new(x), Box::new(y)))
+            }
+            b'-' | b'0'..=b'9' => {
+                let neg = b == b'-';
+                let mut x: i64 = if neg { 0 } else { (b - b'0') as i64 };
+                loop {
+                    if let Some(c) = i.peek() {
+                        if b'0' <= *c && *c <= b'9' {
+                            x = x * 10 + (*c - b'0') as i64;
+                            i.next().unwrap();
+                        } else {
+                            break;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+                if neg {
+                    x = -x;
+                }
+                Ok(Value::Int(x))
+            }
+            b'n' => {
+                i.next();
+                i.next();
+                Ok(Value::Nil)
+            }
+            b' ' => Value::from_iter(i),
+            _ => Err(Error::from(format!("parse fail {}", b as char))),
+        }
+    }
+}
 
 fn vec_to_str(v: &Vec<bool>) -> String {
     v.iter().map(|x| if *x { "1" } else { "0" }).collect()
@@ -205,10 +244,13 @@ mod tests {
         );
     }
 
+    #[test]
     fn test_mod() {
         let bin = "110110000111011111100001001111110100110000";
         let lst = "(1, (81740, nil))";
 
-        // assert_eq!(modulate_to_string(), 2);
+        let val = Value::from_str(lst).unwrap();
+        let v = modulate_to_string(&val);
+        assert_eq!(&v, bin);
     }
 }
