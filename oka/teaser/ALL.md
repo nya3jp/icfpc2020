@@ -65,3 +65,111 @@ See [this](./pflockingen/ALL.md) for the messages from Pflockingen.
 ## message 15
 
 ![message 15](./annotated15.svg)
+## message 16
+
+![message 16](./annotated16.svg)
+
+## message 17
+
+![message 17](./annotated17.svg)
+
+## message 18
+
+![message 18](./annotated18.svg)
+
+## message 19
+
+![message 19](./annotated19.svg)
+
+## message 20
+
+![message 20](./annotated20.svg)
+
+## message 21
+
+![message 21](./annotated21.svg)
+
+## message 22
+
+![message 22](./annotated22.svg)
+
+## message 23
+
+![message 23](./annotated23.svg)
+
+## message 24
+
+![message 24](./annotated24.svg)
+
+## message 25
+
+![message 25](./annotated25.svg)
+
+## message 26
+
+![message 26](./annotated26.svg)
+
+## message 27
+
+![message 27](./annotated27.svg)
+
+## message 28
+
+![message 28](./annotated28.svg)
+
+## message 29
+
+![message 29](./annotated29.svg)
+
+## message 30
+
+![message 30](./annotated30.svg)
+
+## message 31
+
+![message 31](./annotated31.svg)
+
+## message 32
+
+![message 32](./annotated32.svg)
+
+## message 33
+
+![message 33](./annotated33.svg)
+
+## message 34
+
+![message 34](./annotated34.svg)
+
+## message 35
+
+![message 35](./annotated35.svg)
+
+## message 36
+
+![message 36](./annotated36.svg)
+
+## message 37
+
+![message 37](./annotated37.svg)
+
+## message 38
+
+![message 38](./annotated38.svg)
+
+## message 39
+
+![message 39](./annotated39.svg)
+
+## message 40
+
+![message 40](./annotated40.svg)
+
+## message 41
+
+![message 41](./annotated41.svg)
+
+## message 42
+
+![message 42](./annotated42.svg)
+

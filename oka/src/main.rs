@@ -199,7 +199,7 @@ enum Kind {
     Molecule(&'static str),
     Amino(&'static str, &'static str),
     Life(&'static str),
-    Unnamed(&'static str),
+    Unnamed(String),
 }
 
 impl ToString for Kind {
@@ -273,7 +273,7 @@ lazy_static! {
         m.insert(416, Kind::LT);
         m.insert(170, Kind::ToBin);
         m.insert(341, Kind::FromBin);
-        m.insert(174, Kind::Unnamed("op15"));
+        m.insert(174, Kind::Unnamed("op15".into()));
 
         m.insert(16, Kind::Molecule("CH4"));
         m.insert(17, Kind::Molecule("NH3"));
@@ -354,8 +354,14 @@ lazy_static! {
             vec!["1000", "0111", "0111", "0111"],
             Kind::Life("Mother\nplanet")
         ),
-        (vec!["1011", "0111", "1111", "1111"], Kind::Unnamed("13-1")),
-        (vec!["1010", "0111", "0101", "0111"], Kind::Unnamed("14-1")),
+        (
+            vec!["1011", "0111", "1111", "1111"],
+            Kind::Unnamed("13-1".into())
+        ),
+        (
+            vec!["1010", "0111", "0101", "0111"],
+            Kind::Unnamed("14-1".into())
+        ),
     ];
 }
 
@@ -454,7 +460,11 @@ fn parse_glyph(comp: &Grid, flip: bool) -> Option<Kind> {
         return Some(Kind::Int(num));
     }
 
-    NUM_TO_KIND.get(&num).map(Clone::clone)
+    Some(
+        NUM_TO_KIND
+            .get(&num)
+            .map_or(Kind::Unnamed(format!("{}", num)), Clone::clone),
+    )
 }
 
 const DX: [isize; 8] = [-1, -1, -1, 0, 0, 1, 1, 1];
