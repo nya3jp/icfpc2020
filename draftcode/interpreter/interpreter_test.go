@@ -1,22 +1,29 @@
 package interpreter
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/google/go-cmp/cmp"
+)
 
 func TestIntepret(t *testing.T) {
-	got, err := parseAndIntepret("ap ap add 1 2")
-	want := Number{3}
-	if err != nil {
-		t.Errorf("got error: %v", err)
+	tests := []struct {
+		input string
+		want  Expr
+	}{
+		{"ap ap add 1 2", Number{3}},
+		{"ap add 1", Apply{Function{"add"}, []Expr{Number{1}}}},
+		{"ap ap add 1 x0", Apply{Function{"add"}, []Expr{Number{1}, Variable{0}}}},
 	}
-	if got != want {
-		t.Errorf("got %v, want %v", got, want)
+	for _, tc := range tests {
+		expr, err := Parse(tc.input)
+		if err != nil {
+			t.Errorf("%s: got error: %#v", tc.input, err)
+			continue
+		}
+		got, err := Interpret(expr)
+		if !cmp.Equal(got, tc.want) {
+			t.Errorf("%s: got %#v, want %#v", tc.input, got, tc.want)
+		}
 	}
-}
-
-func parseAndIntepret(in string) (Expr, error) {
-	expr, err := Parse(in)
-	if err != nil {
-		return nil, err
-	}
-	return Interpret(expr)
 }
