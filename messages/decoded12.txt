@@ -1,0 +1,19 @@
+LT 
+ap ap LT 0 -1 is False 
+ap ap LT 0 0 is False 
+ap ap LT 0 1 is True 
+ap ap LT 0 2 is True 
+ap ap LT 1 0 is False 
+ap ap LT 1 1 is False 
+ap ap LT 1 2 is True 
+ap ap LT 1 3 is True 
+ap ap LT 2 1 is False 
+ap ap LT 2 2 is False 
+ap ap LT 2 3 is True 
+ap ap LT 2 4 is True 
+ap ap LT 19 20 is True 
+ap ap LT 20 20 is False 
+ap ap LT 21 20 is False 
+ap ap LT -19 -20 is False 
+ap ap LT -20 -20 is False 
+ap ap LT -21 -20 is True 

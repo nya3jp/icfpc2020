@@ -1,0 +1,10 @@
+Succ 
+ap Succ 0 is 1 
+ap Succ 1 is 2 
+ap Succ 2 is 3 
+ap Succ 3 is 4 
+ap Succ 300 is 301 
+ap Succ 301 is 302 
+ap Succ -1 is 0 
+ap Succ -2 is -1 
+ap Succ -3 is -2 

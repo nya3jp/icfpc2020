@@ -1,0 +1,23 @@
+== 
+ap ap == x0 x0 is True 
+ap ap == 0 -2 is False 
+ap ap == 0 -1 is False 
+ap ap == 0 0 is True 
+ap ap == 0 1 is False 
+ap ap == 0 2 is False 
+ap ap == 1 -1 is False 
+ap ap == 1 0 is False 
+ap ap == 1 1 is True 
+ap ap == 1 2 is False 
+ap ap == 1 3 is False 
+ap ap == 2 0 is False 
+ap ap == 2 1 is False 
+ap ap == 2 2 is True 
+ap ap == 2 3 is False 
+ap ap == 2 4 is False 
+ap ap == 19 20 is False 
+ap ap == 20 20 is True 
+ap ap == 21 20 is False 
+ap ap == -19 -20 is False 
+ap ap == -20 -20 is True 
+ap ap == -21 -20 is False 
