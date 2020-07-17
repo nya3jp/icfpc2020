@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+	fmt.Println("(load \"./prelude.scm\")")
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		ss := strings.Split(scanner.Text(), " = ")
@@ -21,6 +22,10 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf("%s = %s\n", ss[0], expr.ToSExp())
+		name := ss[0]
+		if ss[0][0] == ':' {
+			name = "def" + ss[0][1:]
+		}
+		fmt.Printf("(define (%s) %s)\n", name, expr.ToSExp())
 	}
 }
