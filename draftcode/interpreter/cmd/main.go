@@ -28,4 +28,10 @@ func main() {
 		}
 		fmt.Printf("(define (%s) %s)\n", name, expr.ToSExp())
 	}
+	expr, err := interpreter.Parse("ap ap galaxy nil ap ap cons 0 0")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("(define (result) %s)\n", expr.ToSExp())
+	fmt.Println("(printseq (result))")
 }
