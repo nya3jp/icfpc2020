@@ -38,6 +38,14 @@ enum Expr2 {
 }
 
 impl Expr {
+    fn new_var(s: &str) -> Expr {
+        Expr::Lit(Literal::Var(s.to_owned()))
+    }
+
+    fn new_app(f: Expr, x: Expr) -> Expr {
+        Expr::App(Box::new(f), Box::new(x))
+    }
+
     fn refine(&self) -> Expr2 {
         match self {
             Expr::App(f, x) => {
@@ -74,6 +82,17 @@ impl Expr2 {
             }
             Expr2::Lit(s) => s.print(),
         }
+    }
+
+    fn pp(&self) -> String {
+        self.print()
+        // let mut s = self.print();
+        // if s.chars().last() == Some(')') {
+        //     s.pop();
+        // } else if s.chars().next() == Some('(') {
+        //     s = s[1..].to_string()
+        // }
+        // s
     }
 }
 
@@ -196,25 +215,81 @@ fn parse<'a>(it: &mut impl Iterator<Item = &'a str>) -> Expr {
         let f = parse(it);
         let x = parse(it);
         Expr::App(Box::new(f), Box::new(x))
+    } else if s == "(" {
+        let mut v = vec![];
+        loop {
+            v.push(parse(it));
+            let s = it.next().unwrap();
+            if s == "," {
+                continue;
+            } else if s == ")" {
+                let mut ret = Expr::new_var("nil");
+
+                for x in v.into_iter().rev() {
+                    ret = Expr::new_app(Expr::new_app(Expr::new_var("cons"), x), ret);
+                }
+
+                break ret;
+            } else {
+                unreachable!();
+            }
+        }
     } else {
         Expr::Lit(Literal::new(s))
     }
 }
 
+fn parse_expr(s: &str) -> Expr {
+    let mut it = s.split_whitespace();
+    let ret = parse(&mut it);
+    assert!(it.next().is_none());
+    ret
+}
+
+use structopt::StructOpt;
+
+#[derive(StructOpt, Debug)]
+struct DemodOpt {
+    arg: String,
+}
+
+#[derive(StructOpt, Debug)]
+enum Opt {
+    Demod(DemodOpt),
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let t = "110110000111011111100001001111110101000000";
-    let t = "110110000111011111100001001111110100110000";
+    // match Opt::from_args() {
+    //     Opt::Demod(s) => {
+    //         let v = s.arg.chars().map(|c| c == '1').collect::<Vec<_>>();
+    //         println!("{}", demodulate(&v).unwrap().print());
+    //     }
+    // }
 
-    let v = t.chars().map(|c| c == '1').collect::<Vec<_>>();
-    let v = demodulate(&v).unwrap();
-    println!("{}", &v.print());
+    loop {
+        let mut s = String::new();
+        std::io::stdin().read_line(&mut s)?;
+        if s == "" {
+            break;
+        }
 
-    // let mut s = String::new();
-    // std::io::stdin().read_line(&mut s)?;
-    // let mut it = s.split_whitespace();
-    // let e = parse(&mut it);
-    // let e = e.refine();
-    // println!("{}", e.print());
+        if s.contains('=') {
+            let mut jt = s.split("=");
+            let mut first = true;
+
+            while let Some(s) = jt.next() {
+                if first {
+                    first = false;
+                } else {
+                    print!(" = ");
+                }
+                print!("{}", parse_expr(s).refine().pp());
+            }
+            println!();
+        } else {
+            println!("{}", parse_expr(&s).refine().pp());
+        }
+    }
 
     Ok(())
 }

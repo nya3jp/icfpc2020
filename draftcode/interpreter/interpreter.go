@@ -48,6 +48,12 @@ type Function struct {
 }
 
 func (f Function) ToSExp() string {
+	if f.Name == "nil" {
+		return "'nil"
+	}
+	if f.Name[0] == ':' {
+		return "(def" + f.Name[1:] + ")"
+	}
 	return f.Name
 }
 
@@ -62,6 +68,15 @@ func (a Apply) ToSExp() string {
 		ss = append(ss, arg.ToSExp())
 	}
 	return "(" + a.Op.ToSExp() + " " + strings.Join(ss, " ") + ")"
+}
+
+type SingleApply struct {
+	Op  Expr
+	Arg Expr
+}
+
+func (a SingleApply) ToSExp() string {
+	return "(" + a.Op.ToSExp() + " " + a.Arg.ToSExp() + ")"
 }
 
 func Parse(in string) (Expr, error) {
@@ -106,7 +121,11 @@ func parseInner(ss []string) (Expr, []string, error) {
 				ss = left
 			}
 		}
-		return Apply{op, args}, ss, nil
+		res := SingleApply{op, args[0]}
+		for i := 1; i < len(args); i++ {
+			res = SingleApply{res, args[i]}
+		}
+		return res, ss, nil
 	}
 
 	tok := ss[0]
