@@ -224,9 +224,12 @@ function builtinMultipledraw(env: Environment, a: Expr): Expr {
 function builtinSend(env: Environment, a: Expr): Expr {
     const pa = evaluate(env, a);
     const req = modulate(env, pa);
-    const res = window.prompt(`send: ${req}`, SEND_CACHE[req]);
+    let res: string | null | undefined = SEND_CACHE[req];
     if (!res) {
-        throw new Error('Canceled');
+        res = window.prompt(`send: ${req}`);
+        if (!res) {
+            throw new Error('Canceled');
+        }
     }
     return makeSideEffect(demodulate(res.trim()));
 }
