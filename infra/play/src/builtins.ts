@@ -11,7 +11,7 @@ import {
     debugString, makeSideEffect
 } from './data';
 import {evaluate} from './eval';
-import {makeNumber} from './data';
+import {debugListString, makeNumber} from './data';
 import {demodulate, modulate} from './modem';
 import {getApiKey} from './auth';
 import {appendLog} from './logs';
@@ -235,7 +235,9 @@ function builtinSend(env: Environment, a: Expr): Expr {
         throw new Error(`HTTP ${xhr.status}`);
     }
     const res = xhr.responseText;
-    appendLog(`send: ${req} => ${res}`);
+    let dem_req = debugListString(env, demodulate(req.trim()));
+    let dem_res = debugListString(env, demodulate(res.trim()));
+    appendLog(`send: ${dem_req} => ${dem_res}`);
     return makeSideEffect(demodulate(res.trim()));
 }
 
