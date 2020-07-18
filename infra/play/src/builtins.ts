@@ -12,6 +12,7 @@ import {
 } from './data';
 import {evaluate} from './eval';
 import {makeNumber} from './data';
+import { modulate, demodulate } from './modem';
 
 function func1Value(f: (env: Environment, a: Expr) => Expr): Value {
     return {kind: 'func', func: f};
@@ -221,6 +222,10 @@ function builtinMultipledraw(env: Environment, a: Expr): Expr {
 // #36
 function builtinSend(env: Environment, a: Expr): Expr {
     const pa = evaluate(env, a);
+    const input = window.prompt("Please send input = \"" + modulate(env, pa) + "\"", "");
+    if (input !== null) {
+        return demodulate(input);
+    }
     throw new Error('send: not implemented: value="' + debugString(env, pa) + '"');
 }
 
