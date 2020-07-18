@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 use std::collections::BTreeMap;
+use std::rc::Rc;
 
 #[derive(Debug, Clone)]
 enum Literal {
@@ -33,19 +34,8 @@ enum Expr {
     App(Box<Expr>, Box<Expr>),
     Lit(Literal),
     Builtin(String, usize, Vec<Expr>),
+    Thunk(Rc<RefCell<Expr>>),
 }
-
-#[derive(Debug, Clone)]
-enum CExpr {
-    App(Box<Expr>, Box<Expr>),
-    Lit(Literal),
-}
-
-// #[derive(Debug)]
-// enum Expr2 {
-//     App(Box<Expr2>, Vec<Box<Expr2>>),
-//     Lit(Literal),
-// }
 
 impl Expr {
     fn make_var(s: &str) -> Expr {
@@ -120,6 +110,7 @@ impl Expr {
             Expr::App(f, x) => format!("({} {})", f.print(), x.print()),
             Expr::Lit(lit) => lit.print(),
             Expr::Builtin(f, _, xs) => format!("<builtin:{}:{}>", f, xs.len()),
+            Expr::Thunk(t) => t.borrow().print(),
         }
     }
 
@@ -233,19 +224,26 @@ impl Expr {
                 }
                 Literal::Canvas(_) => self.clone(),
             },
+            Expr::Thunk(t) => {
+                let mut b = t.borrow_mut();
+                let c = b.eval(dict);
+                *b = c.clone();
+                c
+            }
         }
     }
 
-    fn to_value(&self, dict: &BTreeMap<String, Expr>) -> Value {
+    fn to_value(self, dict: &BTreeMap<String, Expr>) -> Value {
         if let Some(n) = self.int() {
             Value::int(n)
         } else {
             match self {
-                Expr::Lit(Literal::Canvas(ps)) => Value::Canvas(ps.clone()),
+                Expr::Lit(Literal::Canvas(ps)) => Value::Canvas(ps),
                 _ => {
+                    let t = Expr::Thunk(Rc::new(RefCell::new(self))).eval(dict);
                     let b = Expr::make_apps(
                         Expr::make_var("isnil"),
-                        vec![self.clone(), Expr::make_int(1), Expr::make_int(0)],
+                        vec![t.clone(), Expr::make_int(1), Expr::make_int(0)],
                     )
                     .eval(dict);
 
@@ -254,8 +252,8 @@ impl Expr {
                     if b == 1 {
                         Value::Nil
                     } else {
-                        let car = Expr::make_app(Expr::make_var("car"), self.clone()).eval(dict);
-                        let cdr = Expr::make_app(Expr::make_var("cdr"), self.clone()).eval(dict);
+                        let car = Expr::make_app(Expr::make_var("car"), t.clone()).eval(dict);
+                        let cdr = Expr::make_app(Expr::make_var("cdr"), t).eval(dict);
                         Value::cons(car.to_value(dict), cdr.to_value(dict))
                     }
                 }
@@ -270,7 +268,12 @@ fn eval_builtin(f: &str, xs: &[Expr], dict: &BTreeMap<String, Expr>) -> Expr {
             let x0 = xs[0].clone();
             let x1 = xs[1].clone();
             let x2 = xs[2].clone();
-            Expr::make_app(Expr::make_app(x0, x2.clone()), Expr::make_app(x1, x2)).eval(dict)
+            let x2 = Rc::new(RefCell::new(x2));
+
+            let x2_1 = Expr::Thunk(Rc::clone(&x2));
+            let x2_2 = Expr::Thunk(x2);
+
+            Expr::make_app(Expr::make_app(x0, x2_1), Expr::make_app(x1, x2_2)).eval(dict)
         }
         "k" => xs[0].eval(dict),
         "i" => xs[0].eval(dict),
@@ -354,38 +357,20 @@ fn eval_builtin(f: &str, xs: &[Expr], dict: &BTreeMap<String, Expr>) -> Expr {
             Expr::Lit(Literal::Canvas(ps))
         }
 
-        "send" => todo!(),
+        "send" => {
+            let msg = xs[0].eval(dict).to_value(dict);
+
+            let b = encode(&modulate(&msg));
+            eprintln!("request:  {} = {}", msg.to_sexp(), &b);
+            let b = send_request(&b);
+            let v = demodulate(&decode(&b)).unwrap();
+            eprintln!("response: {} = {}", v.to_sexp(), b);
+            v.to_expr().eval(dict)
+        }
 
         _ => unreachable!(),
     }
 }
-
-// impl Expr2 {
-//     fn print(&self) -> String {
-//         match self {
-//             Expr2::App(f, args) => {
-//                 let mut s = format!("({}", f.print());
-//                 for a in args {
-//                     s += &format!(" {}", a.print());
-//                 }
-//                 s += ")";
-//                 s
-//             }
-//             Expr2::Lit(s) => s.print(),
-//         }
-//     }
-
-//     fn pp(&self) -> String {
-//         self.print()
-//         // let mut s = self.print();
-//         // if s.chars().last() == Some(')') {
-//         //     s.pop();
-//         // } else if s.chars().next() == Some('(') {
-//         //     s = s[1..].to_string()
-//         // }
-//         // s
-//     }
-// }
 
 #[derive(Debug, PartialEq, Eq)]
 enum Value {
@@ -508,6 +493,15 @@ impl Value {
             _ => unreachable!(),
         }
     }
+
+    fn to_raw(&self) -> String {
+        match self {
+            Value::Int(n) => format!("{}", *n),
+            Value::Nil => "nil".to_string(),
+            Value::Cons(hd, tl) => format!("ap ap cons {} {}", hd.to_raw(), tl.to_raw()),
+            _ => unreachable!(),
+        }
+    }
 }
 
 fn modulate(v: &Value) -> Vec<bool> {
@@ -610,7 +604,11 @@ enum Opt {
     // Demod(DemodOpt),
 }
 
-use std::iter::Peekable;
+use std::{
+    cell::RefCell,
+    cmp::{max, min},
+    iter::Peekable,
+};
 
 fn parse_sexp<'a>(it: &mut Peekable<impl Iterator<Item = &'a str>>) -> Option<Value> {
     let s = it.next()?;
@@ -712,7 +710,102 @@ fn send_request(req: &str) -> String {
     String::from_utf8(output.stdout).unwrap()
 }
 
+fn plot(ps: &[Vec<(i64, i64)>], html: bool) {
+    let mut minx = i64::max_value();
+    let mut maxx = i64::min_value();
+    let mut miny = i64::max_value();
+    let mut maxy = i64::min_value();
+
+    for r in ps.iter() {
+        for &(x, y) in r.iter() {
+            minx = min(minx, x);
+            maxx = max(maxx, x);
+            miny = min(miny, y);
+            maxy = max(maxy, y);
+        }
+    }
+
+    if !html {
+        let mut bd = vec![vec!['.'; (maxx - minx + 1) as usize]; (maxy - miny + 1) as usize];
+
+        for (ch, r) in ps.iter().enumerate().rev() {
+            for &(x, y) in r.iter() {
+                bd[(y - miny) as usize][(x - minx) as usize] = (b'1' + ch as u8) as char;
+            }
+        }
+
+        let pict = bd
+            .into_iter()
+            .map(|row| row.iter().collect::<String>())
+            .collect::<Vec<_>>();
+
+        println!("{} {}", minx, miny);
+
+        print!("       ");
+        for x in minx..=maxx {
+            print!("{:4}", x);
+        }
+        println!();
+
+        for (i, row) in pict.iter().enumerate() {
+            print!("{:4} | ", miny + i as i64);
+            for c in row.chars() {
+                print!("   {}", c);
+            }
+            println!();
+        }
+        println!("=====");
+    } else {
+        eprintln!(
+            r#"
+<table border="0" cellpadding="0" cellspacing="0" width="1024" height="768" bgcolor=" #fdfdfd">
+"#
+        );
+
+        let mut bd = vec![vec![0; (maxx - minx + 1) as usize]; (maxy - miny + 1) as usize];
+
+        for (ch, r) in ps.iter().enumerate().rev() {
+            for &(x, y) in r.iter() {
+                bd[(y - miny) as usize][(x - minx) as usize] += 1 << ch;
+            }
+        }
+
+        for (i, row) in bd.iter().enumerate() {
+            eprintln!("<tr>");
+            for (j, c) in row.iter().enumerate() {
+                let c = format!(
+                    "#{:02x}{:02x}{:02x}",
+                    ((c >> 4) & 3) * 80,
+                    ((c >> 2) & 3) * 80,
+                    ((c >> 0) & 3) * 80
+                );
+                eprint!(
+                    r#"<td bgcolor="{}" onClick="alert('{:?}')"></td>"#,
+                    c,
+                    (minx + j as i64, miny + i as i64),
+                );
+            }
+            eprintln!("</tr>");
+            eprintln!();
+        }
+
+        eprintln!("</table>");
+        eprintln!("<br><br>");
+    }
+
+    // for (i, row) in pict.iter().enumerate() {
+    //     for (j, c) in row.chars().enumerate() {
+    //         print!(" {:4} {:4} {}", (minx + j as i64), (miny + i as i64), c);
+    //     }
+    //     println!();
+    // }
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // let t = parse_sexp_str("(3 (2 (2 1 2 1 2 1 1 2 1) (6860065 6862459 6862465 7549537 7551595 7551937 7566001 7568353 7683601 12493153 12493195 12610459) 103652820) 0 ())").unwrap();
+    // println!("{}", t.to_raw());
+    // return Ok(());
+
     match Opt::from_args() {
         Opt::Send(opt) => {
             let msg = parse_sexp_str(&opt.msg).unwrap();
@@ -777,7 +870,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                         }
                     }
 
-                    dbg!(&rhs.print());
+                    // dbg!(&rhs.print());
 
                     dict.insert(lhs.var().unwrap().to_string(), rhs.cexpr());
                 } else {
@@ -788,43 +881,146 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
             // println!(r#"(load "lib.scm")"#);
 
-            for (var, expr) in dict.iter() {
-                // println!("(define ({}) {})", var, expr.print());
-                println!("{} = {}", var, expr.print());
+            // for (var, expr) in dict.iter() {
+            //     // println!("(define ({}) {})", var, expr.print());
+            //     println!("{} = {}", var, expr.print());
+            // }
+
+            let input = vec![
+                //
+                (0, 0),
+                (0, 0),
+                (0, 0),
+                (0, 0),
+                (0, 0),
+                (0, 0),
+                (0, 0),
+                (0, 0),
+                (8, 4),
+                (2, -8),
+                (3, 6),
+                (0, -14),
+                (-4, 10),
+                (9, -3),
+                (-4, 10),
+                (1, 4),
+            ];
+
+            let init_state = Expr::make_var("nil");
+            let mut state = init_state.clone();
+
+            // let mut state = parse_sexp_str("(2 (1 -1) 0 ())").unwrap().to_expr();
+            // let mut state = parse_sexp_str("(2 (1 -1) 0 (103652820))")
+            //     .unwrap()
+            //     .to_expr();
+
+            let mut state = parse_expr("ap ap cons 2 ap ap cons ap ap cons 1 ap ap cons -1 nil ap ap cons 0 ap ap cons ap ap cons 192496425430 ap ap cons 0 ap ap cons 192495633910 nil nil");
+
+            // let input = vec![
+            //     //
+            //     (0, 0),
+            //     (0, 0),
+            //     (-108, 0),
+            //     (0, 0),
+            //     (-98, 0),
+            //     (0, 0),
+            //     (0, 0),
+            //     (15, -48),
+            //     (-16, 45),
+            //     (0, 0),
+            // ];
+
+            // let input = vec![
+            //     //
+            //     (0, 0),
+            //     (0, 0),
+            //     (0, 0),
+            //     (0, 0),
+            //     (0, 0),
+            //     (0, 0),
+            //     (0, 0),
+            //     (0, 0),
+            //     (0, 0),
+            //     // (0, 0),
+            //     // (0, 0),
+            //     // (0, 0),
+            //     // (0, 0),
+            //     // (0, 0),
+            //     // (0, 0),
+            //     // (0, 0),
+            //     // (0, 0),
+            //     // (0, 0),
+            //     // (0, 0),
+            //     // (0, 0),
+            //     // (0, 0),
+            //     (18, 0),
+            //     (0, 0),
+            //     // (-90, 0),
+            //     // (-80, 0),
+            // ];
+
+            let input = vec![
+                (0, 0),
+                (0, 0),
+                // (0, 0),
+                // (0, 0),
+                // (0, 0),
+                // (0, 0),
+                // (0, 0),
+                // (0, 0),
+                // (0, 0),
+            ];
+
+            for (i, (x, y)) in input.iter().enumerate() {
+                let expr = Expr::make_app(
+                    Expr::make_app(
+                        Expr::make_app(Expr::make_var("interact"), Expr::make_var("galaxy")),
+                        state.clone(),
+                    ),
+                    Expr::make_app(
+                        Expr::make_app(Expr::make_var("vec"), Expr::make_int(*x)),
+                        Expr::make_int(*y),
+                    ),
+                );
+
+                let t = expr.eval(&dict);
+                // eprintln!("{:?}", &t);
+                let v = t.to_value(&dict);
+
+                if let Value::Cons(new_state, tl) = v {
+                    println!("turn: {}", i + 1);
+                    println!("vec: {:?}", (x, y));
+                    println!("state:  {}", new_state.to_raw());
+                    println!("canvas:");
+
+                    let mut canvases;
+
+                    if let Value::Cons(cs, _nil) = *tl {
+                        canvases = *cs;
+                    } else {
+                        panic!();
+                    }
+
+                    let mut cs = vec![];
+
+                    while let Value::Cons(hd, tl) = canvases {
+                        if let Value::Canvas(ps) = *hd {
+                            cs.push(ps);
+                        } else {
+                            panic!("{}", hd.print());
+                        }
+                        canvases = *tl;
+                    }
+
+                    plot(&cs, i + 20 >= input.len());
+
+                    state = new_state.to_expr();
+                } else {
+                    panic!("invalid output");
+                }
             }
-
-            let state = Expr::make_var("nil");
-
-            let state = parse_sexp_str("(0 . ((0 . ()) . (0 . (() . ()))))")
-                .unwrap()
-                .to_expr();
-
-            let expr = Expr::make_app(
-                Expr::make_app(
-                    Expr::make_app(Expr::make_var("interact"), Expr::make_var("galaxy")),
-                    state,
-                ),
-                Expr::make_app(
-                    Expr::make_app(Expr::make_var("vec"), Expr::make_int(0)),
-                    Expr::make_int(0),
-                ),
-            );
-
-            let t = expr.eval(&dict);
-            eprintln!("{}", t.to_value(&dict).print());
         }
     }
 
     Ok(())
-
-    // println!("{}", demodulate(&decode("1101000")).unwrap().print());
-
-    // return Ok(());
-
-    // let v = Value::list(vec![Value::list(vec![Value::cons(
-    //     Value::int(1),
-    //     Value::int(0),
-    // )])]);
-
-    // println!("{}", encode(&modulate(&v)));
 }
