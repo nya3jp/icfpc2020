@@ -2,7 +2,7 @@ import {parseExpr} from './parser';
 import {newGalaxyEnvironment} from './galaxy';
 import {evaluate} from './eval';
 import {
-    debugString, Expr,
+    debugString, debugListString, Expr,
     makeApply, makeNumber,
     makeReference,
     parseList,
@@ -34,6 +34,7 @@ let historyPos = 0;
 
 const canvasElem = document.getElementById('canvas') as HTMLCanvasElement;
 const stateElem = document.getElementById('state') as HTMLInputElement;
+const stateListElem = document.getElementById('state-list') as HTMLLabelElement;
 const pixelSizeElem = document.getElementById('fixed') as HTMLInputElement;
 const infoElem = document.getElementById('info') as HTMLElement;
 const logsElem = document.getElementById('logs') as HTMLTextAreaElement;
@@ -121,6 +122,7 @@ function updateUI(): void {
     renderCanvas(pics);
     infoElem.textContent = `Step ${historyPos + 1} / ${history.length} | Last point (${point.x}, ${point.y})`;
     stateElem.value = debugString(env, state);
+    stateListElem.textContent = debugListString(env, state);
     logsElem.textContent = getLogs().reverse().join('\n');
 }
 

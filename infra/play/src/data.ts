@@ -77,6 +77,25 @@ export function debugString(env: Environment, expr: Expr): string {
     }
 }
 
+// human readable version of debugString.
+export function debugListString(env: Environment, expr: Expr): string {
+    switch (expr.kind) {
+        case 'number':
+            return String(expr.number);
+        case 'func':
+            if (isNil(env, expr)) {
+                return 'nil'
+            }
+            const car = evaluate(env, makeApply(makeReference('car'), expr));
+            const cdr = evaluate(env, makeApply(makeReference('cdr'), expr));
+            return `( ${debugListString(env, car)}, ${debugListString(env, cdr)} )`;
+        case 'picture':
+            return '<picture>';
+        default:
+            return debugListString(env, evaluate(env, expr));
+    }
+}
+
 export type Expr = Value | Thunk;
 
 export function makeApply(lhs: Expr, rhs: Expr): ApplyThunk {
