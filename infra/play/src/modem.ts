@@ -19,7 +19,7 @@ export function modulate(env: Environment, value: Value): string {
                 w++;
             }
             sig += '1'.repeat(w) + '0';
-            for (let i = 4 * w - 1; i >= 0; i++) {
+            for (let i = 4 * w - 1; i >= 0; i--) {
                 sig += ((n & (i << i)) != 0) ? '1' : '0';
             }
             return sig;
