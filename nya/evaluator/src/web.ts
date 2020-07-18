@@ -2,7 +2,7 @@ import {parseExpr} from './parser';
 import {newGalaxyEnvironment} from './galaxy';
 import {evaluate} from './eval';
 import {
-    debugString,
+    debugString, Expr,
     makeApply, makeNumber,
     makeReference,
     parseList,
@@ -11,14 +11,27 @@ import {
 } from './data';
 
 const env = newGalaxyEnvironment();
-const main = parseExpr('ap interact galaxy');
+const mainExpr = parseExpr('ap interact galaxy');
 
-let state = parseExpr('nil');
-let point = {x: 0, y: 0};
+interface State {
+    state: Expr
+    point: Point
+    pics: Array<PictureValue>
+}
+
+const initState = {
+    state: parseExpr('nil'),
+    point: {x: 0, y: 0},
+    pics: [],
+}
+
+const history: Array<State> = [initState];
+let historyPos = 0;
 
 const canvasElem = document.getElementById('canvas') as HTMLCanvasElement;
 const stateElem = document.getElementById('state') as HTMLElement;
 const pointElem = document.getElementById('point') as HTMLElement;
+const stepElem = document.getElementById('step') as HTMLElement;
 
 const VIEW_MARGIN = 60;
 
@@ -29,44 +42,26 @@ interface View {
     maxY: number
 }
 
-const DEFAULT_VIEW = {
-    minX: 0,
-    minY: 0,
-    maxX: 1,
-    maxY: 1,
-}
-
-let lastView = DEFAULT_VIEW;
-
-function clearCanvas(): void {
-    const ctx = canvasElem.getContext('2d');
-    if (!ctx) {
-        throw new Error('Canvas context unavailable');
+function computeView(pics: Array<PictureValue>): View {
+    const INF = 100000000;
+    let minX = INF, minY = INF, maxX = -INF, maxY = -INF;
+    for (const pic of pics) {
+        for (const p of pic.points) {
+            minX = Math.min(minX, p.x);
+            minY = Math.min(minY, p.y);
+            maxX = Math.max(maxX, p.x + 1);
+            maxY = Math.max(maxY, p.y + 1);
+        }
     }
-
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, canvasElem.width, canvasElem.height);
+    if (minX >= maxX) {
+        minX = minY = 0;
+        maxX = maxY = 1;
+    }
+    return {minX, minY, maxX, maxY};
 }
 
 function renderCanvas(pics: Array<PictureValue>): void {
-    const INF = 100000000;
-    let view = {
-        minX: INF,
-        minY: INF,
-        maxX: -INF,
-        maxY: -INF,
-    }
-    for (const pic of pics) {
-        for (const p of pic.points) {
-            view.minX = Math.min(view.minX, p.x);
-            view.minY = Math.min(view.minY, p.y);
-            view.maxX = Math.max(view.maxX, p.x + 1);
-            view.maxY = Math.max(view.maxY, p.y + 1);
-        }
-    }
-    if (view.minX >= view.maxX) {
-        view = DEFAULT_VIEW
-    }
+    const view = computeView(pics);
 
     const ctx = canvasElem.getContext('2d');
     if (!ctx) {
@@ -90,41 +85,61 @@ function renderCanvas(pics: Array<PictureValue>): void {
             ctx.fillRect(q.x, q.y, d, d);
         }
     }
-
-    lastView = view;
 }
 
-function updateStates(): void {
+function updateUI(): void {
+    const { state, point, pics } = history[historyPos];
     stateElem.textContent = debugString(env, state);
     pointElem.textContent = `(${point.x}, ${point.y})`;
+    stepElem.textContent = String(historyPos);
+    renderCanvas(pics);
 }
 
-function step() {
+function step(point: Point): void {
+    const { state } = history[historyPos];
     const pt = makeApply(makeApply(makeReference('cons'), makeNumber(point.x)), makeNumber(point.y));
-    const result = evaluate(env, makeApply(makeApply(main, state), pt));
+    const result = evaluate(env, makeApply(makeApply(mainExpr, state), pt));
     const [newState, picValues] = parseList(env, result);
     const pics = parseList(env, picValues) as Array<PictureValue>;
-    renderCanvas(pics);
-    updateStates();
-    state = newState;
+    history.splice(historyPos+1);
+    history.push({state: newState, point: point, pics});
+    historyPos++;
+    updateUI();
 }
 
-function onClickCanvas(ev: MouseEvent) {
-    const view = lastView;
+function forward(): void {
+    step(history[historyPos].point);
+}
+
+function backward(): void {
+    if (historyPos === 0) {
+        return;
+    }
+    historyPos--;
+    updateUI();
+}
+
+function onClickCanvas(ev: MouseEvent): void {
+    const { pics } = history[historyPos];
+    const view = computeView(pics);
     const d = Math.min((canvasElem.width - VIEW_MARGIN) / (view.maxX - view.minX), (canvasElem.height - VIEW_MARGIN) / (view.maxY - view.minY));
     const ox = (canvasElem.width - d * (view.maxX - view.minX)) / 2;
     const oy = (canvasElem.height - d * (view.maxY - view.minY)) / 2;
-    point = {x: Math.floor((ev.offsetX - ox) / d + view.minX), y: Math.floor((ev.offsetY - oy) / d + view.minY)};
-    step();
+    const point = {x: Math.floor((ev.offsetX - ox) / d + view.minX), y: Math.floor((ev.offsetY - oy) / d + view.minY)};
+    step(point);
 }
 
-clearCanvas();
-updateStates();
+function init(): void {
+    canvasElem.addEventListener('click', onClickCanvas);
+    updateUI();
+}
 
-canvasElem.addEventListener('click', onClickCanvas);
+init();
 
 interface Window {
-    step(): void
+    forward(): void
+    backward(): void
 }
 declare var window: Window;
-window.step = step;
+window.forward = forward;
+window.backward = backward;
