@@ -2,26 +2,46 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Simulator</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <title>Galaxy Player</title>
+  <style>
+    html {
+      font-size: 12px;
+    }
+  </style>
 </head>
 <body>
 
-<div id="control">
-  <div>
-    API key: <input size="30" id="api_key">
-  </div>
-  <div>State: <input id="state" size="80"></input></div>
-  <div>Point: <span id="point"></span> <input id="fixed" type="number" style="width:3em"> Pixel size</input></div>
-  <div>
+<div class="container-fluid">
+  <h1 class="mb-3">Galaxy Player</h1>
+
+  <form id="control">
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">API key</label>
+      <input id="api_key" class="col-sm-6 form-control">
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">State</label>
+      <input id="state" class="col-sm-6 form-control">
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Custom pixel size</label>
+      <input id="fixed" type="number" class="col-sm-2 form-control">
+    </div>
+  </form>
+  <div class="m-2">
     <button onclick="backward()">&lt;&lt;</button>
     <button onclick="step()">Step</button>
     <button onclick="forward()">&gt;&gt;</button>
-    Step <span id="step"></span>
+    <span id="info"></span>
   </div>
-</div>
 
-<div>
-  <canvas id="canvas" width="800" height="800" style="user-select: none"></canvas>
+  <div>
+    <canvas id="canvas" width="800" height="800" style="border: 3px solid black; user-select: none"></canvas>
+  </div>
+
+  <h2 class="m-3">Logs</h2>
+  <textarea id="logs" style="width: 800px; height: 12em" readonly></textarea>
 </div>
 
 <script src="web.js"></script>

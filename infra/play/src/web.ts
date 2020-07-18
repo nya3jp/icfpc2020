@@ -9,6 +9,7 @@ import {
     PictureValue,
     Point
 } from './data';
+import {getLogs} from './logs';
 
 const env = newGalaxyEnvironment();
 const mainExpr = parseExpr('ap interact galaxy');
@@ -31,12 +32,11 @@ let historyPos = 0;
 
 const canvasElem = document.getElementById('canvas') as HTMLCanvasElement;
 const stateElem = document.getElementById('state') as HTMLInputElement;
-const pointElem = document.getElementById('point') as HTMLElement;
-const stepElem = document.getElementById('step') as HTMLElement;
 const pixelSizeElem = document.getElementById('fixed') as HTMLInputElement;
+const infoElem = document.getElementById('info') as HTMLElement;
+const logsElem = document.getElementById('logs') as HTMLTextAreaElement;
 
 const VIEW_MARGIN = 60;
-const FIXED_PIXEL_SIZE = 3;
 
 interface View {
     minX: number
@@ -107,9 +107,9 @@ function renderCanvas(pics: Array<PictureValue>): void {
 function updateUI(): void {
     const { state, point, pics } = history[historyPos];
     renderCanvas(pics);
-    pointElem.textContent = `(${point.x}, ${point.y})`;
-    stepElem.textContent = `${historyPos} / ${history.length}`;
+    infoElem.textContent = `Step ${historyPos + 1} / ${history.length} | Last point (${point.x}, ${point.y})`;
     stateElem.value = debugString(env, state);
+    logsElem.textContent = getLogs().reverse().join('\n');
 }
 
 function interact(state: Expr, point: Point): void {

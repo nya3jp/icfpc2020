@@ -14,6 +14,7 @@ import {evaluate} from './eval';
 import {makeNumber} from './data';
 import {demodulate, modulate} from './modem';
 import {getApiKey} from './auth';
+import {appendLog} from './logs';
 
 function func1Value(f: (env: Environment, a: Expr) => Expr): Value {
     return {kind: 'func', func: f};
@@ -234,6 +235,7 @@ function builtinSend(env: Environment, a: Expr): Expr {
         throw new Error(`HTTP ${xhr.status}`);
     }
     const res = xhr.responseText;
+    appendLog(`send: ${req} => ${res}`);
     return makeSideEffect(demodulate(res.trim()));
 }
 
