@@ -5,7 +5,7 @@ type t =
   Apply of t * t list
 | Ident of Ident.t
 | Num of Z.t [@printer fun fmt -> Z.pp_print fmt ]
-| Lambda of int list * t
+| Lambda of int * t
 | Arg of int
 | List of t list
 [@@deriving show]
@@ -38,12 +38,12 @@ let add_var dict id =
 
 
 let rec print_definition ppf = function
-    Definition (id, Lambda (xs, e) ) ->
+    Definition (id, Lambda (x, e) ) ->
      let dict = M.empty in
-     let dict = List.fold_left add_var dict xs in
+     let dict = add_var dict x in
      Format.fprintf ppf "%s(%a) = %a"
        (Ident.show id)
-       (print_args dict) xs
+       (print_arg dict) x
        (print_expr_withargs dict) e
   | Definition (id, e) ->
      Format.fprintf ppf "%s = %a"
@@ -61,12 +61,10 @@ and print_expr_withargs dict ppf = function
        Format.fprintf ppf "%s" (M.find x dict)
      else
        ()
-  | Lambda (args, v) ->
-     let dict =
-       List.fold_left (fun d argid -> add_var d argid)
-         dict args in
+  | Lambda (arg, v) ->
+     let dict = add_var dict arg in
      Format.fprintf ppf "\\%a.%a"
-       (print_args dict) args
+       (print_arg dict) arg
        (print_expr_withargs dict) v
   | Ident i ->
      Format.fprintf ppf "%s" (Ident.show i)
@@ -81,8 +79,11 @@ and print_expr_withargs dict ppf = function
 and print_args dict ppf args =
   let ns = List.map (fun id -> M.find id dict) args in
   Format.pp_print_list
-    ~pp_sep:(fun fmt () -> Format.pp_print_string fmt ", ")
+    ~pp_sep:(fun fmt () -> Format.pp_print_string fmt ",")
     (Format.pp_print_string) ppf ns
+and print_arg dict ppf arg =
+  let n = M.find arg dict in
+  Format.pp_print_string ppf n
 and print_expr e =
   print_expr_withargs M.empty e
 

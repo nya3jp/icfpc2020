@@ -7,7 +7,7 @@ and rename_each = function
   | Definition (funname, expr) ->
      Definition (funname, clean expr)
 and clean = function
-    Apply (Lambda ([oldv], e), [Arg newv]) ->
+    Apply (Lambda (oldv, e), [Arg newv]) ->
      (clean (replace_var oldv newv e))
   | Apply (f, xs) ->
      Apply (clean f, List.map clean xs)
@@ -21,7 +21,7 @@ and replace_var oldv newv =
     | Arg x when (x == oldv) ->
        Arg newv
     | Arg x -> Arg x
-    | Lambda (args, v) -> Lambda (args, iter v)
+    | Lambda (arg, v) -> Lambda (arg, iter v)
     | Ident i -> Ident i
     | Num n -> Num n
     | List xs -> List (List.map iter xs)
