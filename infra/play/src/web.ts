@@ -7,9 +7,11 @@ import {
     makeReference,
     parseList,
     PictureValue,
-    Point
+    Point,
 } from './data';
+
 import {getLogs} from './logs';
+import { annotate } from './annotate';
 
 const env = newGalaxyEnvironment();
 const mainExpr = parseExpr('ap interact galaxy');
@@ -35,6 +37,7 @@ const stateElem = document.getElementById('state') as HTMLInputElement;
 const pixelSizeElem = document.getElementById('fixed') as HTMLInputElement;
 const infoElem = document.getElementById('info') as HTMLElement;
 const logsElem = document.getElementById('logs') as HTMLTextAreaElement;
+const annotateElem = document.getElementById('annotate') as HTMLInputElement;
 
 const VIEW_MARGIN = 60;
 
@@ -100,6 +103,15 @@ function renderCanvas(pics: Array<PictureValue>): void {
         for (const p of pic.points) {
             const q = translate(p);
             ctx.fillRect(q.x, q.y, d, d);
+        }
+    }
+
+    // annotate
+    if (annotateElem.checked) {
+        for (const a of annotate(view.minX, view.minY, view.maxX, view.maxY, pics)) {
+            ctx.fillStyle = 'black';
+            const q = translate({x:a.x, y:a.y});
+            ctx.fillText(a.txt, q.x, q.y, (d*a.n)*2);
         }
     }
 }
@@ -172,6 +184,10 @@ function onPixelSizeChanged(ev: Event): void {
     updateUI();
 }
 
+function onAnnotateChanged(ev: Event): void {
+    updateUI();
+}
+
 function reportError(e: Error): void {
     alert(e);
     throw e;
@@ -181,6 +197,7 @@ function init(): void {
     canvasElem.addEventListener('click', onClickCanvas);
     stateElem.addEventListener('change', onStateChanged);
     pixelSizeElem.addEventListener('change', onPixelSizeChanged);
+    annotateElem.addEventListener('change', onAnnotateChanged);
     const givenState = getQueryParams('state');
     if (givenState !== null) {
         stateElem.value = givenState;
