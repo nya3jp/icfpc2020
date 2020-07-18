@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Simulator</title>
+</head>
+<body>
+
+<div id="control">
+  <div>State: <input id="state" size="80"></input></div>
+  <div>Point: <span id="point"></span> <input id="fixed" type="number" style="width:3em"> Pixel size</input></div>
+  <div>
+    <button onclick="backward()">&lt;&lt;</button>
+    <button onclick="step()">Step</button>
+    <button onclick="forward()">&gt;&gt;</button>
+    Step <span id="step"></span>
+  </div>
+</div>
+
+<div>
+  <canvas id="canvas" width="800" height="800" style="user-select: none"></canvas>
+</div>
+
+<script src="web.js"></script>
+</body>
+</html>

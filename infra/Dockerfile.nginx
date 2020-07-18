@@ -1,0 +1,8 @@
+FROM node:14.5.0-stretch-slim AS builder
+
+WORKDIR /src
+COPY play/ .
+RUN npm install && npm run build
+
+FROM nginx:1.19
+COPY --from=builder /src/dist /usr/share/nginx/html/play

@@ -7,10 +7,13 @@ import {
     makePicture,
     makeReference,
     Point,
-    Value
+    Value,
+    debugString, makeSideEffect
 } from './data';
 import {evaluate} from './eval';
 import {makeNumber} from './data';
+import {demodulate, modulate} from './modem';
+import {SEND_CACHE} from './sendCache';
 
 function func1Value(f: (env: Environment, a: Expr) => Expr): Value {
     return {kind: 'func', func: f};
@@ -165,7 +168,7 @@ function builtinIsnil(env: Environment, a: Expr): Expr {
 function builtinDraw(env: Environment, a: Expr): Expr {
     const value = evaluate(env, a);
     const points: Array<Point> = [];
-    for (let cur = value; !isNil(env, cur); cur = evaluate(env, makeApply(makeReference('cdr'), cur))) {
+    for (let cur: Value = value; !isNil(env, cur); cur = evaluate(env, makeApply(makeReference('cdr'), cur))) {
         const car = evaluate(env, makeApply(makeReference('car'), cur));
         const x = evaluate(env, makeApply(makeReference('car'), car));
         const y = evaluate(env, makeApply(makeReference('cdr'), car));
@@ -197,7 +200,8 @@ function builtinCheckerboard(env: Environment, a: Expr, b: Expr): Expr {
 
 // #34
 function builtinMultipledraw(env: Environment, a: Expr): Expr {
-    if (isNil(env, evaluate(env, a))) {
+    const pa = evaluate(env, a);
+    if (isNil(env, pa)) {
         return makeReference('nil');
     }
     return (
@@ -208,12 +212,23 @@ function builtinMultipledraw(env: Environment, a: Expr): Expr {
                     makeReference('draw'),
                     makeApply(
                         makeReference('car'),
-                        a))),
+                        pa))),
             makeApply(
                 makeReference('multipledraw'),
                 makeApply(
                     makeReference('cdr'),
-                    a))));
+                    pa))));
+}
+
+// #36
+function builtinSend(env: Environment, a: Expr): Expr {
+    const pa = evaluate(env, a);
+    const req = modulate(env, pa);
+    const res = window.prompt(`send: ${req}`, SEND_CACHE[req]);
+    if (!res) {
+        throw new Error('Canceled');
+    }
+    return makeSideEffect(demodulate(res.trim()));
 }
 
 // #37
@@ -305,6 +320,7 @@ export function newStandardEnvironment(): Environment {
     register('draw', func1Value(builtinDraw));
     register('checkerboard', func2Value(builtinCheckerboard));
     register('multipledraw', func1Value(builtinMultipledraw));
+    register('send', func1Value(builtinSend));
     register('if0', func1Value(builtinIf0));
     register('f38', func2Value(f38));
     register('interact', func3Value(interact));

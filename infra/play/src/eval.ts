@@ -6,17 +6,31 @@ export function evaluate(env: Environment, expr: Expr): Value {
         case 'func':
         case 'picture':
             return expr
-        case 'apply':
+        case 'apply': {
+            if (expr.cache) {
+                return expr.cache;
+            }
             const func = evaluate(env, expr.lhs);
             if (func.kind !== 'func') {
                 throw new Error(`Invalid function call: ${func.kind}`);
             }
-            return evaluate(env, func.func(env, expr.rhs));
-        case 'reference':
+            const value = evaluate(env, func.func(env, expr.rhs));
+            expr.cache = value;
+            return value;
+        }
+        case 'reference': {
+            if (expr.cache) {
+                return expr.cache;
+            }
             const expr2 = env.get(expr.name);
             if (!expr2) {
                 throw new Error(`Undefined reference: ${expr.name}`);
             }
-            return evaluate(env, expr2);
+            const value = evaluate(env, expr2);
+            expr.cache = value;
+            return value;
+        }
+        case 'sideEffect':
+            return evaluate(env, expr.expr);
     }
 }
