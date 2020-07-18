@@ -19,9 +19,10 @@ interface State {
     pics: Array<PictureValue>
 }
 
+const FAWAWAY_POINT = {x: -10000, y: -10000};
 const initState = {
-    state: parseExpr('nil'),
-    point: {x: 0, y: 0},
+    state: parseExpr('ap ap cons 2 ap ap cons ap ap cons 1 ap ap cons -1 nil ap ap cons 0 ap ap cons nil nil'),
+    point: FAWAWAY_POINT,
     pics: [],
 }
 
@@ -29,7 +30,7 @@ const history: Array<State> = [initState];
 let historyPos = 0;
 
 const canvasElem = document.getElementById('canvas') as HTMLCanvasElement;
-const stateElem = document.getElementById('state') as HTMLElement;
+const stateElem = document.getElementById('state') as HTMLInputElement;
 const pointElem = document.getElementById('point') as HTMLElement;
 const stepElem = document.getElementById('step') as HTMLElement;
 
@@ -89,26 +90,38 @@ function renderCanvas(pics: Array<PictureValue>): void {
 
 function updateUI(): void {
     const { state, point, pics } = history[historyPos];
-    stateElem.textContent = debugString(env, state);
-    pointElem.textContent = `(${point.x}, ${point.y})`;
-    stepElem.textContent = String(historyPos);
     renderCanvas(pics);
+    pointElem.textContent = `(${point.x}, ${point.y})`;
+    stepElem.textContent = `${historyPos} / ${history.length}`;
+    stateElem.value = debugString(env, state);
 }
 
-function step(point: Point): void {
-    const { state } = history[historyPos];
+function interact(state: Expr, point: Point): void {
     const pt = makeApply(makeApply(makeReference('cons'), makeNumber(point.x)), makeNumber(point.y));
-    const result = evaluate(env, makeApply(makeApply(mainExpr, state), pt));
-    const [newState, picValues] = parseList(env, result);
-    const pics = parseList(env, picValues) as Array<PictureValue>;
-    history.splice(historyPos+1);
-    history.push({state: newState, point: point, pics});
-    historyPos++;
+    try {
+        const result = evaluate(env, makeApply(makeApply(mainExpr, state), pt));
+        const [newState, picValues] = parseList(env, result);
+        const pics = parseList(env, picValues) as Array<PictureValue>;
+        history.splice(historyPos+1);
+        history.push({state: newState, point: point, pics});
+        historyPos++;
+    } catch (e) {
+        reportError(e);
+    }
     updateUI();
 }
 
+function step(): void {
+    const { point, state } = history[historyPos];
+    interact(state, point);
+}
+
 function forward(): void {
-    step(history[historyPos].point);
+    if (historyPos + 1 >= history.length) {
+        return;
+    }
+    historyPos++;
+    updateUI();
 }
 
 function backward(): void {
@@ -120,26 +133,44 @@ function backward(): void {
 }
 
 function onClickCanvas(ev: MouseEvent): void {
-    const { pics } = history[historyPos];
+    const { state, pics } = history[historyPos];
     const view = computeView(pics);
     const d = Math.min((canvasElem.width - VIEW_MARGIN) / (view.maxX - view.minX), (canvasElem.height - VIEW_MARGIN) / (view.maxY - view.minY));
     const ox = (canvasElem.width - d * (view.maxX - view.minX)) / 2;
     const oy = (canvasElem.height - d * (view.maxY - view.minY)) / 2;
     const point = {x: Math.floor((ev.offsetX - ox) / d + view.minX), y: Math.floor((ev.offsetY - oy) / d + view.minY)};
-    step(point);
+    interact(state, point);
+}
+
+function onStateChanged(ev: Event): void {
+    try {
+        const state = parseExpr(stateElem.value.trim());
+        interact(state, FAWAWAY_POINT);
+    } catch(e) {
+        updateUI();
+        reportError(e);
+    }
+}
+
+function reportError(e: Error): void {
+    alert(e);
+    throw e;
 }
 
 function init(): void {
     canvasElem.addEventListener('click', onClickCanvas);
-    updateUI();
+    stateElem.addEventListener('change', onStateChanged);
+    step();
 }
 
 init();
 
 interface Window {
+    step(): void
     forward(): void
     backward(): void
 }
 declare var window: Window;
+window.step = step;
 window.forward = forward;
 window.backward = backward;

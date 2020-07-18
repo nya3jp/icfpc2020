@@ -57,8 +57,12 @@ export function debugString(env: Environment, expr: Expr): string {
         case 'number':
             return String(expr.number);
         case 'func':
-            const elems = parseList(env, expr).map((e) => debugString(env, e));
-            return `[${elems.join(' ')}]`;
+            if (isNil(env, expr)) {
+                return 'nil'
+            }
+            const car = evaluate(env, makeApply(makeReference('car'), expr));
+            const cdr = evaluate(env, makeApply(makeReference('cdr'), expr));
+            return `ap ap cons ${debugString(env, car)} ${debugString(env, cdr)}`;
         case 'picture':
             return '<picture>';
         case 'apply':

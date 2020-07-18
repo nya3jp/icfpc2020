@@ -217,6 +217,11 @@ function builtinMultipledraw(env: Environment, a: Expr): Expr {
                     pa))));
 }
 
+// #36
+function builtinSend(env: Environment, a: Expr): Expr {
+    throw new Error('send: not implemented');
+}
+
 // #37
 function builtinIf0(env: Environment, a: Expr): Expr {
     const v = evaluate(env, a);
@@ -306,6 +311,7 @@ export function newStandardEnvironment(): Environment {
     register('draw', func1Value(builtinDraw));
     register('checkerboard', func2Value(builtinCheckerboard));
     register('multipledraw', func1Value(builtinMultipledraw));
+    register('send', func1Value(builtinSend));
     register('if0', func1Value(builtinIf0));
     register('f38', func2Value(f38));
     register('interact', func3Value(interact));

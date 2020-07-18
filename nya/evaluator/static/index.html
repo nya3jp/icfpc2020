@@ -7,17 +7,18 @@
 <body>
 
 <div id="control">
-  <div>State: <span id="state"></span></div>
+  <div>State: <input id="state" size="80"></input></div>
   <div>Point: <span id="point"></span></div>
   <div>
     <button onclick="backward()">&lt;&lt;</button>
+    <button onclick="step()">Step</button>
     <button onclick="forward()">&gt;&gt;</button>
     Step <span id="step"></span>
   </div>
 </div>
 
 <div>
-  <canvas id="canvas" width="800" height="800"></canvas>
+  <canvas id="canvas" width="800" height="800" style="user-select: none"></canvas>
 </div>
 
 <script src="web.js"></script>
