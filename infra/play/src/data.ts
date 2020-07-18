@@ -41,8 +41,8 @@ type Thunk = ApplyThunk | ReferenceThunk | SideEffectThunk;
 
 export interface ApplyThunk {
     kind: 'apply'
-    lhs: Expr
-    rhs: Expr
+    lhs?: Expr
+    rhs?: Expr
     cache?: Value
 }
 
