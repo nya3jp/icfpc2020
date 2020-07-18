@@ -4,12 +4,12 @@ import {Environment, Expr} from './data';
 function parseExprIter(tokens: Array<string>): [Expr, Array<string>] {
     const token = tokens[0];
     if (token === 'ap') {
-        let [lhs, rest1] = parseExprIter(tokens.slice(1));
-        let [rhs, rest2] = parseExprIter(rest1);
+        const [lhs, rest1] = parseExprIter(tokens.slice(1));
+        const [rhs, rest2] = parseExprIter(rest1);
         return [{kind: 'apply', lhs, rhs}, rest2];
     }
     if (/^-?\d+$/.test(token)) {
-        return [{kind: 'literal', value: {kind: 'number', number: parseInt(token)}}, tokens.slice(1)];
+        return [{kind: 'number', number: parseInt(token)}, tokens.slice(1)];
     }
     return [{kind: 'reference', name: token}, tokens.slice(1)];
 }

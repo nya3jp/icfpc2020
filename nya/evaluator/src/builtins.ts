@@ -4,22 +4,24 @@ import {
     makeApply,
     makeBoolean,
     makeList,
-    makeLiteral, makePicture,
-    makeReference, Point,
+    makePicture,
+    makeReference,
+    Point,
     Value
 } from './data';
 import {evaluate} from './eval';
+import {makeNumber} from './data';
 
 function func1Value(f: (env: Environment, a: Expr) => Expr): Value {
     return {kind: 'func', func: f};
 }
 
 function func2Value(f: (env: Environment, a: Expr, b: Expr) => Expr): Value {
-    return {kind: 'func', func: (env: Environment, a: Expr) => makeLiteral(func1Value((env, b) => f(env, a, b)))};
+    return {kind: 'func', func: (env: Environment, a: Expr) => func1Value((env, b) => f(env, a, b))};
 }
 
 function func3Value(f: (env: Environment, a: Expr, b: Expr, c: Expr) => Expr): Value {
-    return {kind: 'func', func: (env: Environment, a: Expr) => makeLiteral(func2Value((env, b, c) => f(env, a, b, c)))};
+    return {kind: 'func', func: (env: Environment, a: Expr) => func2Value((env, b, c) => f(env, a, b, c))};
 }
 
 // #5
@@ -28,7 +30,7 @@ function builtinInc(env: Environment, a: Expr): Expr {
     if (va.kind !== 'number') {
         throw new Error('not a number')
     }
-    return makeLiteral({kind: 'number', number: va.number + 1});
+    return makeNumber(va.number + 1);
 }
 
 // #6
@@ -37,7 +39,7 @@ function builtinDec(env: Environment, a: Expr): Expr {
     if (va.kind !== 'number') {
         throw new Error('not a number')
     }
-    return makeLiteral({kind: 'number', number: va.number - 1});
+    return makeNumber(va.number - 1);
 }
 
 // #7
@@ -47,8 +49,7 @@ function builtinAdd(env: Environment, a: Expr, b: Expr): Expr {
     if (va.kind !== 'number' || vb.kind !== 'number') {
         throw new Error('not a number')
     }
-    const sum = va.number + vb.number;
-    return makeLiteral({kind: 'number', number: sum});
+    return makeNumber(va.number + vb.number);
 }
 
 // #9
@@ -58,8 +59,7 @@ function builtinMul(env: Environment, a: Expr, b: Expr): Expr {
     if (va.kind !== 'number' || vb.kind !== 'number') {
         throw new Error('not a number')
     }
-    const prod = va.number * vb.number;
-    return makeLiteral({kind: 'number', number: prod});
+    return makeNumber(va.number * vb.number);
 }
 
 // #10
@@ -69,8 +69,7 @@ function builtinDiv(env: Environment, a: Expr, b: Expr): Expr {
     if (va.kind !== 'number' || vb.kind !== 'number') {
         throw new Error('not a number')
     }
-    const quo = Math.trunc(va.number / vb.number);
-    return makeLiteral({kind: 'number', number: quo});
+    return makeNumber(Math.trunc(va.number / vb.number));
 }
 
 // #11
@@ -99,7 +98,7 @@ function builtinNeg(env: Environment, a: Expr): Expr {
     if (va.kind !== 'number') {
         throw new Error('not a number')
     }
-    return makeLiteral({kind: 'number', number: -va.number});
+    return makeNumber(-va.number);
 }
 
 // #18
@@ -166,10 +165,10 @@ function builtinIsnil(env: Environment, a: Expr): Expr {
 function builtinDraw(env: Environment, a: Expr): Expr {
     const value = evaluate(env, a);
     const points: Array<Point> = [];
-    for (let cur = value; !isNil(env, cur); cur = evaluate(env, makeApply(makeReference('cdr'), makeLiteral(cur)))) {
-        const car = evaluate(env, makeApply(makeReference('car'), makeLiteral(cur)));
-        const x = evaluate(env, makeApply(makeReference('car'), makeLiteral(car)));
-        const y = evaluate(env, makeApply(makeReference('cdr'), makeLiteral(car)));
+    for (let cur = value; !isNil(env, cur); cur = evaluate(env, makeApply(makeReference('cdr'), cur))) {
+        const car = evaluate(env, makeApply(makeReference('car'), cur));
+        const x = evaluate(env, makeApply(makeReference('car'), car));
+        const y = evaluate(env, makeApply(makeReference('cdr'), car));
         if (x.kind !== 'number' || y.kind !== 'number') {
             throw new Error('Not a number');
         }
@@ -281,7 +280,7 @@ function interact(env: Environment, x2: Expr, x4: Expr, x3: Expr): Expr {
 export function newStandardEnvironment(): Environment {
     const env = new Map<string, Expr>();
     function register(name: string, value: Value) {
-        env.set(name, {kind: 'literal', value: value});
+        env.set(name, value);
     }
     register('inc', func1Value(builtinInc));
     register('dec', func1Value(builtinDec));

@@ -22,8 +22,8 @@ export interface Point {
     y: number
 }
 
-export function isNil(env: Environment, value: Value): boolean {
-    const result = evaluate(env, makeApply(makeApply(makeApply(makeLiteral(value), makeReference('_isnil_helper')), makeNumber(123)), makeNumber(456)));
+export function isNil(env: Environment, expr: Expr): boolean {
+    const result = evaluate(env, makeApply(makeApply(makeApply(expr, makeReference('_isnil_helper')), makeNumber(123)), makeNumber(456)));
     if (result.kind !== 'number') {
         throw new Error('Not nil/cons');
     }
@@ -37,73 +37,59 @@ export function isNil(env: Environment, value: Value): boolean {
     }
 }
 
-export function valueToString(env: Environment, value: Value): string {
-    switch (value.kind) {
-        case 'number':
-            return String(value.number);
-        case 'func':
-            const elems = [];
-            for (let cur: Value = value; !isNil(env, cur); cur = evaluate(env, makeApply(makeReference('cdr'), makeLiteral(cur)))) {
-                const car = evaluate(env, makeApply(makeReference('car'), makeLiteral(cur)));
-                elems.push(valueToString(env, car));
-            }
-            return `[${elems.join(' ')}]`;
-        case 'picture':
-            return '<picture>';
-    }
-}
+type Thunk = ApplyThunk | ReferenceThunk;
 
-export type Expr = ApplyExpr | ReferenceExpr | LiteralExpr;
-
-export interface ApplyExpr {
+export interface ApplyThunk {
     kind: 'apply'
     lhs: Expr
     rhs: Expr
 }
 
-export interface ReferenceExpr {
+export interface ReferenceThunk {
     kind: 'reference'
     name: string
 }
 
-export interface LiteralExpr {
-    kind: 'literal'
-    value: Value
-}
-
-export function exprToString(env: Environment, expr: Expr): string {
+export function debugString(env: Environment, expr: Expr): string {
     switch (expr.kind) {
+        case 'number':
+            return String(expr.number);
+        case 'func':
+            const elems = [];
+            for (let cur: Value = expr; !isNil(env, cur); cur = evaluate(env, makeApply(makeReference('cdr'), cur))) {
+                const car = evaluate(env, makeApply(makeReference('car'), cur));
+                elems.push(debugString(env, car));
+            }
+            return `[${elems.join(' ')}]`;
+        case 'picture':
+            return '<picture>';
         case 'apply':
-            return `(${exprToString(env, expr.lhs)} ${exprToString(env, expr.rhs)})`;
+            return `(${debugString(env, expr.lhs)} ${debugString(env, expr.rhs)})`;
         case 'reference':
             return expr.name;
-        case 'literal':
-            return valueToString(env, expr.value);
     }
 }
 
-export function makeApply(lhs: Expr, rhs: Expr): Expr {
+export type Expr = Value | Thunk;
+
+export function makeApply(lhs: Expr, rhs: Expr): ApplyThunk {
     return {kind: 'apply', lhs, rhs};
 }
 
-export function makeReference(name: string): Expr {
+export function makeReference(name: string): ReferenceThunk {
     return {kind: 'reference', name};
 }
 
-export function makeLiteral(value: Value): Expr {
-    return {kind: 'literal', value: value};
+export function makeNumber(i: number): NumberValue {
+    return {kind: 'number', number: i};
 }
 
-export function makeNumber(i: number): Expr {
-    return makeLiteral({kind: 'number', number: i});
-}
-
-export function makeBoolean(b: boolean): Expr {
+export function makeBoolean(b: boolean): ReferenceThunk {
     return makeReference(b ? 't' : 'f');
 }
 
-export function makePicture(points: Array<Point>): Expr {
-    return makeLiteral({kind: 'picture', points});
+export function makePicture(points: Array<Point>): PictureValue {
+    return {kind: 'picture', points};
 }
 
 export function makeList(exprs: Array<Expr>): Expr {
