@@ -1,17 +1,5 @@
-oox
-xoo
-oxx
-
-oxo
-oox
-xox
-
 oxo
 oxo
-xox
-
-oxo
-xoo
 xox
 
 oox
@@ -20,10 +8,6 @@ oox
 
 oxo
 xxo
-oox
-
-oxx
-xoo
 oox
 
 xoo
