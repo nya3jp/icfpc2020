@@ -70,12 +70,8 @@ export function debugString(env: Environment, expr: Expr): string {
             return `ap ap cons ${debugString(env, car)} ${debugString(env, cdr)}`;
         case 'picture':
             return '<picture>';
-        case 'apply':
-            return `(${debugString(env, expr.lhs)} ${debugString(env, expr.rhs)})`;
-        case 'reference':
-            return expr.name;
-        case 'sideEffect':
-            return debugString(env, expr.expr);
+        default:
+            return debugString(env, evaluate(env, expr));
     }
 }
 
