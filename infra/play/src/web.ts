@@ -45,6 +45,12 @@ interface View {
     maxY: number
 }
 
+function getQueryParams(key: string) {
+    const temp: any = window;
+    const urlParams = new URLSearchParams(temp.location.search);
+    return urlParams.get(key);
+}
+
 function getPixelSize(pics: Array<PictureValue>): number {
     const view = computeView(pics)
     if (pixelSizeElem.value != '') {
@@ -175,6 +181,11 @@ function init(): void {
     canvasElem.addEventListener('click', onClickCanvas);
     stateElem.addEventListener('change', onStateChanged);
     pixelSizeElem.addEventListener('change', onPixelSizeChanged);
+    const givenState = getQueryParams('state');
+    if (givenState !== null) {
+        stateElem.value = givenState;
+        onStateChanged(new Event('change'));
+    }
     step();
 }
 
