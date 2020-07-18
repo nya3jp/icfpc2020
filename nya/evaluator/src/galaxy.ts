@@ -1,3 +1,6 @@
+import {Environment} from './data';
+import {parseEnvironment} from './parser';
+
 export const galaxyDefs = `:1029 = ap ap cons 7 ap ap cons 123229502148636 nil
 :1030 = ap ap cons 2 ap ap cons 7 nil
 :1031 = ap ap cons 4 ap ap cons 21855 nil
@@ -393,3 +396,7 @@ export const galaxyDefs = `:1029 = ap ap cons 7 ap ap cons 123229502148636 nil
 galaxy = :1338
 statelessdraw = ap ap c ap ap b b ap ap b ap b ap cons 0 ap ap c ap ap b b cons ap ap c cons nil ap ap c ap ap b cons ap ap c cons nil nil
 statefuldraw = ap ap b ap b ap ap s ap ap b ap b ap cons 0 ap ap c ap ap b b cons ap ap c cons nil ap ap c cons nil ap c cons`;
+
+export function newGalaxyEnvironment(): Environment {
+    return parseEnvironment(galaxyDefs);
+}

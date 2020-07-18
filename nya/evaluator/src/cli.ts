@@ -1,10 +1,10 @@
-import {parseEnvironment, parseExpr} from './parser';
-import {galaxyDefs} from './galaxy';
+import {parseExpr} from './parser';
 import {evaluate} from './eval';
 import {debugString, makeApply, parseList, PictureValue} from './data';
-import {renderPicture} from './picture';
+import {renderText} from './picture';
+import {newGalaxyEnvironment} from './galaxy';
 
-const env = parseEnvironment(galaxyDefs);
+const env = newGalaxyEnvironment();
 const main = parseExpr('ap interact galaxy');
 
 let state = parseExpr('nil');
@@ -15,7 +15,7 @@ for (let i = 0; i < 100; i++) {
     const [newState, picValues] = parseList(env, result);
     const pics = parseList(env, picValues);
     for (const pic of pics) {
-        const rendered = renderPicture(pic as PictureValue, '#');
+        const rendered = renderText(pic as PictureValue, '#');
         console.log(rendered);
     }
     state = newState;

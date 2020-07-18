@@ -1,6 +1,6 @@
 import {PictureValue, Point} from './data';
 
-export function renderPicture(pic: PictureValue, ch: string): string {
+export function renderText(pic: PictureValue, ch: string): string {
     const INF = 100000000;
     let minX = INF, minY = INF, maxX = -INF, maxY = -INF;
     for (const p of pic.points) {
