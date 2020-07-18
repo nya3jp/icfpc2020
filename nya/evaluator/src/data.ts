@@ -43,11 +43,13 @@ export interface ApplyThunk {
     kind: 'apply'
     lhs: Expr
     rhs: Expr
+    cache?: Value
 }
 
 export interface ReferenceThunk {
     kind: 'reference'
     name: string
+    cache?: Value
 }
 
 export function debugString(env: Environment, expr: Expr): string {
@@ -55,11 +57,7 @@ export function debugString(env: Environment, expr: Expr): string {
         case 'number':
             return String(expr.number);
         case 'func':
-            const elems = [];
-            for (let cur: Value = expr; !isNil(env, cur); cur = evaluate(env, makeApply(makeReference('cdr'), cur))) {
-                const car = evaluate(env, makeApply(makeReference('car'), cur));
-                elems.push(debugString(env, car));
-            }
+            const elems = parseList(env, expr).map((e) => debugString(env, e));
             return `[${elems.join(' ')}]`;
         case 'picture':
             return '<picture>';
@@ -97,6 +95,15 @@ export function makeList(exprs: Array<Expr>): Expr {
         return makeReference('nil')
     }
     return makeApply(makeApply(makeReference('cons'), exprs[0]), makeList(exprs.slice(1)));
+}
+
+export function parseList(env: Environment, value: Value): Array<Value> {
+    const elems = [];
+    for (let cur = value; !isNil(env, cur); cur = evaluate(env, makeApply(makeReference('cdr'), cur))) {
+        const car = evaluate(env, makeApply(makeReference('car'), cur));
+        elems.push(car);
+    }
+    return elems;
 }
 
 export type Environment = Map<string, Expr>;
