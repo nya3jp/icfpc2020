@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
             << std::endl;
 
   auto res =
-      cpr::Post(cpr::Url{server_url + "/aliens/send"}, cpr::Body{"1101000"},
+      cpr::Post(cpr::Url{server_url}, cpr::Body{"(2, " + player_key + ", ())"},
                 cpr::Header{{"Content-Type", "text/plain"}});
   if (res.status_code != 200) {
     std::cout << "Unexpected server response:\nHTTP code: " << res.status_code
