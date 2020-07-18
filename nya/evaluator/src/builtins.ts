@@ -5,7 +5,7 @@ import {
     makeBoolean,
     makeList,
     makeLiteral, makePicture,
-    makeReference,
+    makeReference, Point,
     Value
 } from './data';
 import {evaluate} from './eval';
@@ -164,12 +164,36 @@ function builtinIsnil(env: Environment, a: Expr): Expr {
 
 // #32
 function builtinDraw(env: Environment, a: Expr): Expr {
-    return makePicture();
+    const value = evaluate(env, a);
+    const points: Array<Point> = [];
+    for (let cur = value; !isNil(env, cur); cur = evaluate(env, makeApply(makeReference('cdr'), makeLiteral(cur)))) {
+        const car = evaluate(env, makeApply(makeReference('car'), makeLiteral(cur)));
+        const x = evaluate(env, makeApply(makeReference('car'), makeLiteral(car)));
+        const y = evaluate(env, makeApply(makeReference('cdr'), makeLiteral(car)));
+        if (x.kind !== 'number' || y.kind !== 'number') {
+            throw new Error('Not a number');
+        }
+        points.push({x: x.number, y: y.number});
+    }
+    return makePicture(points);
 }
 
 // #33
 function builtinCheckerboard(env: Environment, a: Expr, b: Expr): Expr {
-    return makePicture();
+    const va = evaluate(env, a);
+    if (va.kind !== 'number') {
+        throw new Error('Not a number');
+    }
+    const n = va.number;
+    const points: Array<Point> = [];
+    for (let x = 0; x < n; x++) {
+        for (let y = 0; y < n; y++) {
+            if ((x + y) % 2 === 0) {
+                points.push({x, y});
+            }
+        }
+    }
+    return makePicture(points);
 }
 
 // #34

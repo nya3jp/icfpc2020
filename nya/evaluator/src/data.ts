@@ -2,18 +2,24 @@ import {evaluate} from './eval';
 
 export type Value = NumberValue | FuncValue | PictureValue;
 
-interface NumberValue {
+export interface NumberValue {
     kind: 'number'
     number: number
 }
 
-interface FuncValue {
+export interface FuncValue {
     kind: 'func'
     func: (env: Environment, expr: Expr) => Expr
 }
 
-interface PictureValue {
+export interface PictureValue {
     kind: 'picture'
+    points: Array<Point>
+}
+
+export interface Point {
+    x: number
+    y: number
 }
 
 export function isNil(env: Environment, value: Value): boolean {
@@ -49,18 +55,18 @@ export function valueToString(env: Environment, value: Value): string {
 
 export type Expr = ApplyExpr | ReferenceExpr | LiteralExpr;
 
-interface ApplyExpr {
+export interface ApplyExpr {
     kind: 'apply'
     lhs: Expr
     rhs: Expr
 }
 
-interface ReferenceExpr {
+export interface ReferenceExpr {
     kind: 'reference'
     name: string
 }
 
-interface LiteralExpr {
+export interface LiteralExpr {
     kind: 'literal'
     value: Value
 }
@@ -96,8 +102,8 @@ export function makeBoolean(b: boolean): Expr {
     return makeReference(b ? 't' : 'f');
 }
 
-export function makePicture(): Expr {
-    return makeLiteral({kind: 'picture'});
+export function makePicture(points: Array<Point>): Expr {
+    return makeLiteral({kind: 'picture', points});
 }
 
 export function makeList(exprs: Array<Expr>): Expr {
