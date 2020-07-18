@@ -22,6 +22,8 @@ type definitions =
 
 module M = Map.Make (struct type t = int let compare = compare end)
 
+let global_rename_table : ((string, string) Hashtbl.t) = Hashtbl.create 10
+
 let varcounter = ref 0
 let to_var x =
   if x < 6 then String.make 1 ("xyzuvw".[x])
@@ -36,18 +38,28 @@ let add_var dict id =
     incr varcounter;
     M.add id newvarname dict
 
+let print_ident_str id =
+  if Hashtbl.mem global_rename_table id then
+    Hashtbl.find global_rename_table id
+  else
+    id
+
+let print_id = function
+    Ident.Named id ->
+     print_ident_str id
+  | x -> Ident.show x 
 
 let rec print_definition ppf = function
     Definition (id, Lambda (x, e) ) ->
      let dict = M.empty in
      let dict = add_var dict x in
      Format.fprintf ppf "%s(%a) = %a"
-       (Ident.show id)
+       (print_id id)
        (print_arg dict) x
        (print_expr_withargs dict) e
   | Definition (id, e) ->
      Format.fprintf ppf "%s = %a"
-       (Ident.show id)
+       (print_id id)
        print_expr e
 and print_expr_withargs dict ppf = function
   | Apply (e, xs) ->
@@ -66,6 +78,8 @@ and print_expr_withargs dict ppf = function
      Format.fprintf ppf "\\%a.%a"
        (print_arg dict) arg
        (print_expr_withargs dict) v
+  | Ident (Named x) ->
+     Format.fprintf ppf "%s" (print_ident_str x)
   | Ident i ->
      Format.fprintf ppf "%s" (Ident.show i)
   | Num n ->

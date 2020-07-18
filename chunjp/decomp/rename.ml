@@ -7,8 +7,10 @@ and rename_each = function
   | Definition (funname, expr) ->
      Definition (funname, clean expr)
 and clean = function
-    Apply (Lambda (oldv, e), [Arg newv]) ->
-     (clean (replace_var oldv newv e))
+  | Apply (Lambda (oldv, e), [Arg newv]) ->
+     clean (replace_var oldv newv e)
+  | Apply (Lambda (oldv, e), (Arg newv :: xs)) ->
+     clean (Apply ((replace_var oldv newv e), xs))
   | Apply (f, xs) ->
      Apply (clean f, List.map clean xs)
   | Lambda (args, v) -> Lambda (args, clean v)
