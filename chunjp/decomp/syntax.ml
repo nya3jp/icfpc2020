@@ -75,7 +75,7 @@ and print_expr_withargs dict ppf = function
        ()
   | Lambda (arg, v) ->
      let dict = add_var dict arg in
-     Format.fprintf ppf "\\%a.%a"
+     Format.fprintf ppf "{\\%a.%a}"
        (print_arg dict) arg
        (print_expr_withargs dict) v
   | Ident (Named x) ->
