@@ -28,8 +28,12 @@
 (define (c) (lambda (x) (lambda (y) (lambda (z) (delay (force ((force ((force x) z)) y)))))))
 (define (s) (lambda (x) (lambda (y) (lambda (z) (delay (force ((force ((force x) z)) ((force y) z))))))))
 
-(define (printseq x)
+(define (printout x) (print (serialize x)))
+; (define (printout x) (printgalaxyresult x))
+
+(define (printgalaxyresult x)
   (let ((result (serialize x)))
+    (print (car result))
     (print (cadr result))
     (map printdrawcall (caddr result))))
 

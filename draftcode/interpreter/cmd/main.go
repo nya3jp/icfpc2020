@@ -42,5 +42,5 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("(define (result) %s)\n", expr.ToSExp())
-	fmt.Println("(printseq (result))")
+	fmt.Println("(printout (result))")
 }
