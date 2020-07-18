@@ -33,14 +33,24 @@ const canvasElem = document.getElementById('canvas') as HTMLCanvasElement;
 const stateElem = document.getElementById('state') as HTMLInputElement;
 const pointElem = document.getElementById('point') as HTMLElement;
 const stepElem = document.getElementById('step') as HTMLElement;
+const pixelSizeElem = document.getElementById('fixed') as HTMLInputElement;
 
 const VIEW_MARGIN = 60;
+const FIXED_PIXEL_SIZE = 3;
 
 interface View {
     minX: number
     minY: number
     maxX: number
     maxY: number
+}
+
+function getPixelSize(pics: Array<PictureValue>): number {
+    const view = computeView(pics)
+    if (pixelSizeElem.value != '') {
+        return parseInt(pixelSizeElem.value);
+    }
+    return Math.min((canvasElem.width - VIEW_MARGIN) / (view.maxX - view.minX), (canvasElem.height - VIEW_MARGIN) / (view.maxY - view.minY));
 }
 
 function computeView(pics: Array<PictureValue>): View {
@@ -72,7 +82,7 @@ function renderCanvas(pics: Array<PictureValue>): void {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasElem.width, canvasElem.height);
 
-    const d = Math.min((canvasElem.width - VIEW_MARGIN) / (view.maxX - view.minX), (canvasElem.height - VIEW_MARGIN) / (view.maxY - view.minY));
+    const d = getPixelSize(pics)
     const ox = (canvasElem.width - d * (view.maxX - view.minX)) / 2;
     const oy = (canvasElem.height - d * (view.maxY - view.minY)) / 2;
     function translate(p: Point): Point {
@@ -135,7 +145,7 @@ function backward(): void {
 function onClickCanvas(ev: MouseEvent): void {
     const { state, pics } = history[historyPos];
     const view = computeView(pics);
-    const d = Math.min((canvasElem.width - VIEW_MARGIN) / (view.maxX - view.minX), (canvasElem.height - VIEW_MARGIN) / (view.maxY - view.minY));
+    const d = getPixelSize(pics);
     const ox = (canvasElem.width - d * (view.maxX - view.minX)) / 2;
     const oy = (canvasElem.height - d * (view.maxY - view.minY)) / 2;
     const point = {x: Math.floor((ev.offsetX - ox) / d + view.minX), y: Math.floor((ev.offsetY - oy) / d + view.minY)};
@@ -152,6 +162,10 @@ function onStateChanged(ev: Event): void {
     }
 }
 
+function onPixelSizeChanged(ev: Event): void {
+    updateUI();
+}
+
 function reportError(e: Error): void {
     alert(e);
     throw e;
@@ -160,6 +174,7 @@ function reportError(e: Error): void {
 function init(): void {
     canvasElem.addEventListener('click', onClickCanvas);
     stateElem.addEventListener('change', onStateChanged);
+    pixelSizeElem.addEventListener('change', onPixelSizeChanged);
     step();
 }
 
