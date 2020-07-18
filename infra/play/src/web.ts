@@ -44,6 +44,7 @@ const infoElem = document.getElementById('info') as HTMLElement;
 const logsElem = document.getElementById('logs') as HTMLTextAreaElement;
 const sendLogsElem = document.getElementById('sendlogs') as HTMLElement;
 const annotateElem = document.getElementById('annotate') as HTMLInputElement;
+const listExprElem = document.getElementById('list-expr') as HTMLInputElement;
 
 const VIEW_MARGIN = 60;
 
@@ -170,6 +171,106 @@ function updateLogs(): void {
                 return emphDiff(evaluate(env, new_), evaluate(env, old));
         }
     }
+    function isNilAny(e: Expr): boolean {
+        try {
+            return isNil(env, e);
+        } catch (e) {
+            return false;
+        }
+    }
+    function toDiffedLispList(e: Expr, old: Expr): string {
+        while (e.kind == 'apply') {
+            e = evaluate(env, e);
+        }
+        while (old.kind == 'apply') {
+            old = evaluate(env, old);
+        }
+        switch (e.kind) {
+            case 'number':
+                let s = String(e.number);
+                if (old.kind == 'number' && old.number == e.number) {
+                    return s;
+                } else {
+                    return emph(s);
+                }
+            case 'func':
+                if (isNilAny(e)) {
+                    if (old.kind == 'func' && isNilAny(old)) {
+                        return 'nil';
+                    }
+                    return emph('nil');
+                }
+                let elements: Array<string> = [];
+                let curr:Expr = e;
+                let oldCurr: Expr | null = old;
+                while (true) {
+                    const car = evaluate(env, makeApply(makeReference('car'), curr));
+                    const cdr = evaluate(env, makeApply(makeReference('cdr'), curr));
+                    let oldcdr: Expr | null;
+                    if (oldCurr != null && oldCurr.kind == 'func') {
+                        oldcdr = evaluate(env, makeApply(makeReference('cdr'), oldCurr));
+                    } else {
+                        oldcdr = null;
+                    }
+
+                    let carValue: string;
+                    if (oldCurr != null && oldCurr.kind == 'func') {
+                        carValue = toDiffedLispList(car, evaluate(env, makeApply(makeReference('car'), oldCurr)));
+                    } else {
+                        carValue = emph(toLispList(car));
+                    } 
+                    elements.push(carValue);
+
+                    if (cdr.kind == 'number') {
+                        let s = String(cdr.number);
+                        if (oldcdr == null || oldcdr.kind != 'number' || (oldcdr.kind == 'number' && oldcdr.number != cdr.number)) {
+                            s = emph(s);
+                        }
+                        return elements.reduceRight((acc, val, idx, arr) => {
+                            return `(${val} . ${acc})`;
+                        }, s);
+                    }
+                    if (isNilAny(cdr)) {
+                        return "[" + elements.join(", ") + "]";
+                    }
+                    curr = cdr;
+                    oldCurr = oldcdr;
+                }
+        }
+        // Unreachable
+        throw e;
+    }
+    function toLispList(e: Expr): string {
+        while (e.kind == 'apply') {
+            e = evaluate(env, e);
+        }
+        switch (e.kind) {
+            case 'number':
+                return String(e.number);
+            case 'func':
+                if (isNilAny(e)) {
+                    return 'nil'
+                }
+                let elements: Array<string> = [];
+                let curr:Expr = e;
+                while (true) {
+                    const car = evaluate(env, makeApply(makeReference('car'), curr));
+                    const cdr = evaluate(env, makeApply(makeReference('cdr'), curr));
+                    elements.push(toLispList(car));
+                    if (cdr.kind == 'number') {
+                        return elements.reduceRight((acc, val, idx, arr) => {
+                            return `(${val} . ${acc})`;
+                        }, String(cdr.number));
+                    }
+                    if (isNilAny(cdr)) {
+                        return "[" + elements.join(", ") + "]";
+                    }
+                    curr = cdr;
+                }
+        }
+        // Unreachable
+        throw e;
+    }
 
     let sends = getSendLogs();
 
@@ -177,13 +278,23 @@ function updateLogs(): void {
     for (let i = sends.length - 1; i >= 0; i--) { // new -> old
         let reqLog: String;
         let resLog: String;
-        if (i == 0) {
-            reqLog = debugListString(env, sends[i][0])
-            resLog = debugListString(env, sends[i][1])
+        if (listExprElem.checked) {
+            if (i == 0) {
+                reqLog = toLispList(sends[i][0]);
+                resLog = toLispList(sends[i][1]);
+            } else {
+                reqLog = toDiffedLispList(sends[i][0], sends[i-1][0])
+                resLog = toDiffedLispList(sends[i][1], sends[i-1][1])
+            }
         } else {
-            reqLog = emphDiff(sends[i][0], sends[i-1][0])
-            resLog = emphDiff(sends[i][1], sends[i-1][1])
-        }
+            if (i == 0) {
+                console.log(sends[i]);
+                reqLog = debugListString(env, sends[i][0])
+                resLog = debugListString(env, sends[i][1])
+            } else {
+                reqLog = emphDiff(sends[i][0], sends[i-1][0])
+                resLog = emphDiff(sends[i][1], sends[i-1][1])
+            }        }
         elems.push(`${reqLog} → ${resLog}`)
     }
     sendLogsElem.innerHTML = elems.join("<br>");
@@ -255,6 +366,10 @@ function onAnnotateChanged(ev: Event): void {
     updateUI();
 }
 
+function onListExprChanged(ev: Event): void {
+    updateUI();
+}
+
 function reportError(e: Error): void {
     alert(e);
     throw e;
@@ -265,6 +380,7 @@ function init(): void {
     stateElem.addEventListener('change', onStateChanged);
     pixelSizeElem.addEventListener('change', onPixelSizeChanged);
     annotateElem.addEventListener('change', onAnnotateChanged);
+    listExprElem.addEventListener('change', onAnnotateChanged);
     const givenState = getQueryParams('state');
     if (givenState !== null) {
         stateElem.value = givenState;
