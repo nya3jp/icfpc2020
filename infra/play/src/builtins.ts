@@ -13,7 +13,7 @@ import {
 import {evaluate} from './eval';
 import {makeNumber} from './data';
 import {demodulate, modulate} from './modem';
-import {SEND_CACHE} from './sendCache';
+import {getApiKey} from './auth';
 
 function func1Value(f: (env: Environment, a: Expr) => Expr): Value {
     return {kind: 'func', func: f};
@@ -224,14 +224,16 @@ function builtinMultipledraw(env: Environment, a: Expr): Expr {
 function builtinSend(env: Environment, a: Expr): Expr {
     const pa = evaluate(env, a);
     const req = modulate(env, pa);
-    let res: string | null | undefined = SEND_CACHE[req];
-    if (!res) {
-        console.log(`send: ${req}`);
-        res = window.prompt(`send: ${req}`);
-        if (!res) {
-            throw new Error('Canceled');
-        }
+    // Synchronous XHR - don't do this at home.
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://icfpc2020-api.testkontur.ru/aliens/send?apiKey=' + getApiKey(), false);
+    xhr.setRequestHeader('Accept', '*/*');
+    xhr.setRequestHeader('Content-Type', 'text/plain');
+    xhr.send(req);
+    if (xhr.status !== 200) {
+        throw new Error(`HTTP ${xhr.status}`);
     }
+    const res = xhr.responseText;
     return makeSideEffect(demodulate(res.trim()));
 }
 
