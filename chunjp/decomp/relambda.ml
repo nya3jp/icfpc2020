@@ -90,9 +90,9 @@ and h = function
   | Apply (f, body) -> Apply (h f, List.map h body)
   | Ident t -> Ident t
   | Num n -> Num n
-  | List _ -> failwith "Syntax.List: should not appear in Relambda.h"
-  | Arg _ -> failwith "Syntax.Arg: should not appear in Relambda.h"
-  | Lambda _ -> failwith "Syntax.Lambda: should not appear in Relambda.h"
+  | List xs -> List xs
+  | Arg x -> Arg x
+  | Lambda (v, e) -> Lambda (v, h e)
 and cons_helper = function
   | [x; Ident Nil] -> [h x]
   | [x; Apply (Ident Cons, body)] ->
