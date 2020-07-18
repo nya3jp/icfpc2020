@@ -1,5 +1,5 @@
-ap ap ap b x0 x1 x2   =   ap x0 ap x1 x2
-ap ap ap c x0 x1 x2   =   ap ap x0 x2 x1
+// ap ap ap b x0 x1 x2   =   ap x0 ap x1 x2
+// ap ap ap c x0 x1 x2   =   ap ap x0 x2 x1
 
 ap ap ap cons x0 x1 x2   =   ap ap x2 x0 x1
 ap car x2   =   ap x2 t
@@ -12,6 +12,8 @@ ap nil x0   =   t
 
 ap ap ff x0 x1 = f
 ap isnil x0 = ap x0 ff
+// ap ap ap ifzero b x0 x1 = ap ap ap ap eq b 0 x0 x1
+vec = cons
 
 :1029 = ap ap cons 7 ap ap cons 123229502148636 nil
 :1030 = ap ap cons 2 ap ap cons 7 nil
@@ -407,6 +409,17 @@ ap isnil x0 = ap x0 ff
 :1494 = ap ap c ap ap b c ap ap b ap b c ap ap b ap b ap b s ap ap b ap b ap b ap b c ap ap c ap ap b b ap ap b c ap ap b ap b c ap ap b ap b ap b c ap ap b ap b ap b ap b b ap ap b ap b ap b ap b ap s i ap ap s ap ap b c ap ap b ap b s ap ap b ap b ap b s ap ap b ap b ap b ap b s ap ap b ap b ap b ap b ap b b ap ap b ap b ap b ap b ap b b ap ap b ap c ap ap b b ap ap b b ap ap b b ap eq 1 ap ap b ap b ap c ap ap b c ap c ap ap c :1490 ap :1199 1 ap c ap ap b add ap ap b neg :1117 ap ap b ap b ap c ap ap b c ap ap b ap b c ap ap b ap b ap b c ap ap b ap c ap ap b b ap ap b b ap ap b b ap ap b ap c ap ap b cons ap ap c cons nil ap ap c ap ap b cons ap ap c ap ap b cons ap ap c cons nil nil nil ap ap b ap c ap ap b c ap ap b ap b b ap ap b ap b cons ap ap c ap ap b c ap ap c ap ap b c ap ap c ap ap b b ap ap b :1166 ap add -1 ap add -1 3 3 ap ap c ap ap b b cons ap ap c cons nil ap ap c ap ap b b add :1117 :1172 ap ap s ap ap b :1162 ap ap b ap mul 3 ap ap c ap ap s ap ap b b ap ap c ap ap b b add neg ap ap b ap s mul div 8 ap ap b ap mul 3 ap ap c div 8
 galaxy = :1338
 
-ap modem x0 = ap dem ap mod x0
+// ap modem x0 = ap dem ap mod x0
+modem = i
+
 ap ap f38 x2 x0 = ap ap ap ifzero ap car x0 ( ap modem ap car ap cdr x0 , ap multipledraw ap car ap cdr ap cdr x0 ) ap ap ap interact x2 ap modem ap car ap cdr x0 ap send ap car ap cdr ap cdr x0
 ap ap ap interact x2 x4 x3 = ap ap f38 x2 ap ap x2 x4 x3
+
+ap inc x0 = ap ap add x0 1
+ap dec x0 = ap ap add x0 -1
+
+pwr2   =   ap ap s ap ap c ap eq 0 1 ap ap b ap mul 2 ap ap b pwr2 ap add -1
+
+statelessdraw = ap ap c ap ap b b ap ap b ap b ap cons 0 ap ap c ap ap b b cons ap ap c cons nil ap ap c ap ap b cons ap ap c cons nil nil
+
+ap multipledraw xs = ap ap ap isnil xs nil ap ap cons ap draw ap car xs ap multipledraw ap cdr xs
