@@ -4,7 +4,7 @@ First install latest Node.js.
 
 ```
 npm install
-npm run watch
+npm run serve
 ```
 
-Then files are continuously built to the `dist` directory.
+A local server is available at http://localhost:8080/

@@ -1,11 +1,12 @@
 {
-  "name": "simulator",
+  "name": "play",
   "version": "1.0.0",
   "description": "",
   "private": true,
   "scripts": {
     "build": "webpack",
-    "watch": "webpack -w"
+    "watch": "echo Use \\'npm run serve\\' instead",
+    "serve": "webpack-dev-server"
   },
   "keywords": [],
   "author": "",
@@ -16,5 +17,8 @@
     "typescript": "^3.9.7",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.11.0"
   }
 }
