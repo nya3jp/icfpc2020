@@ -6,7 +6,6 @@
 cc_binary(
     name = "app",
     srcs = ["app.cc"],
-    deps = ["@cpr"],
 )
 
 cc_binary(
