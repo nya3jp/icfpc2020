@@ -1,6 +1,18 @@
+:1109 zero_list
+:1110 extend1
+:1111 list_2_x_y
+:1112 list_3_x_y
+:1113 list_4_x_y
+:1115 make_pair
+:1116 hd
+:1117 pow2
+:1118 log2
+:1119 log_x_y
+:1120 abs
+:1121 max
+:1122 min
 :1304 A_board_numbers
 :1305 A_board
 :1306 A_rotation_table
 :1127 fold
 :1128 length
-
