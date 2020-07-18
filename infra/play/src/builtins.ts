@@ -14,7 +14,7 @@ import {evaluate} from './eval';
 import {debugListString, makeNumber} from './data';
 import {demodulate, modulate} from './modem';
 import {getApiKey} from './auth';
-import {appendLog} from './logs';
+import {appendLog, appendSendLog} from './logs';
 
 function func1Value(f: (env: Environment, a: Expr) => Expr): Value {
     return {kind: 'func', func: f};
@@ -151,7 +151,7 @@ function builtinCdr(env: Environment, a: Expr): Expr {
 }
 
 // #28
-function builtinNil(env: Environment, a: Expr): Expr {
+export function builtinNil(env: Environment, a: Expr): Expr {
     return makeBoolean(true);
 }
 
@@ -238,6 +238,10 @@ function builtinSend(env: Environment, a: Expr): Expr {
     let dem_req = debugListString(env, demodulate(req.trim()));
     let dem_res = debugListString(env, demodulate(res.trim()));
     appendLog(`send: ${dem_req} => ${dem_res}`);
+
+    let sendReqExpr = demodulate(req.trim());
+    let sendResExpr = demodulate(res.trim());
+    appendSendLog(sendReqExpr, sendResExpr);
     return makeSideEffect(demodulate(res.trim()));
 }
 

@@ -2,7 +2,7 @@ import {parseExpr} from './parser';
 import {newGalaxyEnvironment} from './galaxy';
 import {evaluate} from './eval';
 import {
-    debugString, debugListString, Expr,
+    debugString, debugListString, Expr, isNil,
     makeApply, makeNumber,
     makeReference,
     parseList,
@@ -10,7 +10,11 @@ import {
     Point,
 } from './data';
 
-import {getLogs} from './logs';
+import {
+    builtinNil
+} from './builtins';
+
+import {getLogs, getSendLogs} from './logs';
 import { annotate } from './annotate';
 
 const env = newGalaxyEnvironment();
@@ -38,6 +42,7 @@ const stateListElem = document.getElementById('state-list') as HTMLLabelElement;
 const pixelSizeElem = document.getElementById('fixed') as HTMLInputElement;
 const infoElem = document.getElementById('info') as HTMLElement;
 const logsElem = document.getElementById('logs') as HTMLTextAreaElement;
+const sendLogsElem = document.getElementById('sendlogs') as HTMLElement;
 const annotateElem = document.getElementById('annotate') as HTMLInputElement;
 
 const VIEW_MARGIN = 60;
@@ -123,6 +128,67 @@ function updateUI(): void {
     infoElem.textContent = `Step ${historyPos + 1} / ${history.length} | Last point (${point.x}, ${point.y})`;
     stateElem.value = debugString(env, state);
     stateListElem.textContent = debugListString(env, state);
+
+    updateLogs();
+}
+
+function updateLogs(): void {
+    function emph(s: string): string {
+        return "<b>" + s + "</b>";
+    }
+    function emphDiff(new_: Expr, old: Expr): string {
+        switch (new_.kind) {
+            case 'number':
+                let s = String(new_.number);
+                if (old.kind == 'number' && old.number == new_.number) {
+                    return s;
+                } else {
+                    return emph(s);
+                }
+            case 'func':
+                if (isNil(env, new_)) {
+                    try {
+                        if (isNil(env, old))
+                            return 'nil';
+                    } catch(e) {}
+                    return emph('nil');
+                }
+                const car = evaluate(env, makeApply(makeReference('car'), new_));
+                const cdr = evaluate(env, makeApply(makeReference('cdr'), new_));
+
+                let car2:Expr;
+                let cdr2:Expr;
+                try {
+                    car2 = evaluate(env, makeApply(makeReference('car'), old));
+                    cdr2 = evaluate(env, makeApply(makeReference('cdr'), old));
+                } catch (e) {
+                    car2 = builtinNil(env, car);
+                    cdr2 = builtinNil(env, car);
+                }
+                return `( ${emphDiff(car, car2)}, ${emphDiff(cdr, cdr2)} )`;
+            default:
+                return emphDiff(evaluate(env, new_), evaluate(env, old));
+        }
+    }
+
+    let sends = getSendLogs();
+
+    let elems: Array<string> = [];
+    for (let i = sends.length - 1; i >= 0; i--) { // new -> old
+        let reqLog: String;
+        let resLog: String;
+        if (i == 0) {
+            console.log(sends[i]);
+            reqLog = debugListString(env, sends[i][0])
+            resLog = debugListString(env, sends[i][1])
+        } else {
+            reqLog = emphDiff(sends[i][0], sends[i-1][0])
+            resLog = emphDiff(sends[i][1], sends[i-1][1])
+        }
+        elems.push(`${reqLog} → ${resLog}`)
+    }
+    sendLogsElem.innerHTML = elems.join("<br>");
+
     logsElem.textContent = getLogs().reverse().join('\n');
 }
 
