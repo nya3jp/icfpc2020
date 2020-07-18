@@ -30,5 +30,7 @@ export function evaluate(env: Environment, expr: Expr): Value {
             expr.cache = value;
             return value;
         }
+        case 'sideEffect':
+            return evaluate(env, expr.expr);
     }
 }

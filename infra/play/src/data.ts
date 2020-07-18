@@ -37,7 +37,7 @@ export function isNil(env: Environment, expr: Expr): boolean {
     }
 }
 
-type Thunk = ApplyThunk | ReferenceThunk;
+type Thunk = ApplyThunk | ReferenceThunk | SideEffectThunk;
 
 export interface ApplyThunk {
     kind: 'apply'
@@ -50,6 +50,11 @@ export interface ReferenceThunk {
     kind: 'reference'
     name: string
     cache?: Value
+}
+
+export interface SideEffectThunk {
+    kind: 'sideEffect'
+    expr: Expr
 }
 
 export function debugString(env: Environment, expr: Expr): string {
@@ -69,6 +74,8 @@ export function debugString(env: Environment, expr: Expr): string {
             return `(${debugString(env, expr.lhs)} ${debugString(env, expr.rhs)})`;
         case 'reference':
             return expr.name;
+        case 'sideEffect':
+            return debugString(env, expr.expr);
     }
 }
 
@@ -99,6 +106,10 @@ export function makeList(exprs: Array<Expr>): Expr {
         return makeReference('nil')
     }
     return makeApply(makeApply(makeReference('cons'), exprs[0]), makeList(exprs.slice(1)));
+}
+
+export function makeSideEffect(e: Expr): SideEffectThunk {
+    return {kind: 'sideEffect', expr: e};
 }
 
 export function parseList(env: Environment, value: Value): Array<Value> {

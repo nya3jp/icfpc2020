@@ -8,11 +8,12 @@ import {
     makeReference,
     Point,
     Value,
-    debugString
+    debugString, makeSideEffect
 } from './data';
 import {evaluate} from './eval';
 import {makeNumber} from './data';
-import { modulate, demodulate } from './modem';
+import {demodulate, modulate} from './modem';
+import {SEND_CACHE} from './sendCache';
 
 function func1Value(f: (env: Environment, a: Expr) => Expr): Value {
     return {kind: 'func', func: f};
@@ -222,11 +223,12 @@ function builtinMultipledraw(env: Environment, a: Expr): Expr {
 // #36
 function builtinSend(env: Environment, a: Expr): Expr {
     const pa = evaluate(env, a);
-    const input = window.prompt("Please send input = \"" + modulate(env, pa) + "\"", "");
-    if (input !== null) {
-        return demodulate(input);
+    const req = modulate(env, pa);
+    const res = window.prompt(`send: ${req}`, SEND_CACHE[req]);
+    if (!res) {
+        throw new Error('Canceled');
     }
-    throw new Error('send: not implemented: value="' + debugString(env, pa) + '"');
+    return makeSideEffect(demodulate(res.trim()));
 }
 
 // #37
