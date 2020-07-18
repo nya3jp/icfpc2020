@@ -17,4 +17,26 @@ type t =
 | Isnil
 | Car
 | Cdr
-[@@deriving show]
+
+let show = function
+  | Named s -> s
+  | B -> "b"
+  | C -> "c"
+  | S -> "s"
+  | K -> "k"
+  | I -> "i"
+  | Add -> "+"
+  | Sub -> "-"
+  | Mul -> "*"
+  | Div -> "/"
+  | Neg -> "~-"
+  | Lt -> "<"
+  | Eq -> "=="
+  | Cons -> "cons"
+  | Nil -> "nil"
+  | Isnil -> "isnil"
+  | Car -> "car"
+  | Cdr -> "cdr"
+
+let pp fmt x =
+  Format.pp_print_string fmt (show x)

@@ -20,3 +20,69 @@ type definitions =
 
 
 
+module M = Map.Make (struct type t = int let compare = compare end)
+
+let varcounter = ref 0
+let to_var x =
+  if x < 6 then String.make 1 ("xyzuvw".[x])
+  else Printf.sprintf "x%d" x
+
+let add_var dict id =
+  if M.mem id dict
+  then
+    dict
+  else
+    let newvarname = to_var !varcounter in
+    M.add id newvarname dict
+
+
+let rec print_definition ppf = function
+    Definition (id, Lambda (xs, e) ) ->
+     let dict = M.empty in
+     let dict = List.fold_left add_var dict xs in
+     Format.fprintf ppf "%s(%a) = %a"
+       (Ident.show id)
+       (print_args dict) xs
+       (print_expr_withargs dict) e
+  | Definition (id, e) ->
+     Format.fprintf ppf "%s = %a"
+       (Ident.show id)
+       print_expr e
+and print_expr_withargs dict ppf = function
+  | Apply (e, xs) ->
+     Format.fprintf ppf "(%a %a)"
+       (print_expr_withargs dict) e
+       (Format.pp_print_list
+          ~pp_sep:(fun fmt () -> Format.pp_print_string fmt " ")
+          (print_expr_withargs dict)) xs
+  | Arg x ->
+     if M.mem x dict then
+       Format.fprintf ppf "%s" (M.find x dict)
+     else
+       ()
+  | Lambda (args, v) ->
+     let dict =
+       List.fold_left (fun d argid -> add_var d argid)
+         dict args in
+     Format.fprintf ppf "\\%a.%a"
+       (print_args dict) args
+       (print_expr_withargs dict) v
+  | Ident i ->
+     Format.fprintf ppf "%s" (Ident.show i)
+  | Num n ->
+     Z.pp_print ppf n
+  | List xs ->
+     List.iter (print_expr_withargs dict ppf) xs
+and print_args dict ppf args =
+  let ns = List.map (fun id -> M.find id dict) args in
+  Format.pp_print_list
+    ~pp_sep:(fun fmt () -> Format.pp_print_string fmt ", ")
+    (Format.pp_print_string) ppf ns
+and print_expr e =
+  print_expr_withargs M.empty e
+
+
+let print_definitions ppf defs =
+  List.iter (fun def ->
+      varcounter := 0;
+      Format.fprintf ppf "%a\n" print_definition def) defs

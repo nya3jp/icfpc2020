@@ -6,5 +6,6 @@ let () =
   (*Printf.printf "%s" (Syntax.show_definitions programs) *)
   let programs = Relambda.relambda programs in
   let programs = Rename.rename programs in 
-  Printf.printf "%s\n" (Syntax.show_definitions programs);
+  (*Printf.printf "%s\n" (Syntax.show_definitions programs);*)
+  Syntax.print_definitions Format.std_formatter programs;
   ()
