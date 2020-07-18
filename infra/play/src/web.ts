@@ -178,7 +178,6 @@ function updateLogs(): void {
         let reqLog: String;
         let resLog: String;
         if (i == 0) {
-            console.log(sends[i]);
             reqLog = debugListString(env, sends[i][0])
             resLog = debugListString(env, sends[i][1])
         } else {
@@ -189,7 +188,7 @@ function updateLogs(): void {
     }
     sendLogsElem.innerHTML = elems.join("<br>");
 
-    logsElem.textContent = getLogs().reverse().join('\n');
+    // logsElem.textContent = getLogs().reverse().join('\n');
 }
 
 function interact(state: Expr, point: Point): void {
