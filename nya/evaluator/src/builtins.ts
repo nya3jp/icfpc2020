@@ -7,7 +7,8 @@ import {
     makePicture,
     makeReference,
     Point,
-    Value
+    Value,
+    debugString
 } from './data';
 import {evaluate} from './eval';
 import {makeNumber} from './data';
@@ -219,7 +220,8 @@ function builtinMultipledraw(env: Environment, a: Expr): Expr {
 
 // #36
 function builtinSend(env: Environment, a: Expr): Expr {
-    throw new Error('send: not implemented');
+    const pa = evaluate(env, a);
+    throw new Error('send: not implemented: value="' + debugString(env, pa) + '"');
 }
 
 // #37
