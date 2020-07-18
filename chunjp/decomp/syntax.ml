@@ -33,6 +33,7 @@ let add_var dict id =
     dict
   else
     let newvarname = to_var !varcounter in
+    incr varcounter;
     M.add id newvarname dict
 
 
@@ -72,7 +73,11 @@ and print_expr_withargs dict ppf = function
   | Num n ->
      Z.pp_print ppf n
   | List xs ->
-     List.iter (print_expr_withargs dict ppf) xs
+     Format.fprintf ppf "[%a]"
+       (fun newppf listxs ->
+         Format.pp_print_list
+           ~pp_sep:(fun fmt () -> Format.pp_print_string fmt "; ")
+           (print_expr_withargs dict) newppf listxs) xs
 and print_args dict ppf args =
   let ns = List.map (fun id -> M.find id dict) args in
   Format.pp_print_list
