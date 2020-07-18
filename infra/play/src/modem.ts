@@ -13,14 +13,16 @@ export function modulate(env: Environment, value: Value): string {
         case 'number': {
             let n = value.number;
             let sig = n < 0 ? '10' : '01';
-            n = Math.abs(n);
+            if (n < 0) {
+                n = -n;
+            }
             let w = 0;
-            while (n >= 1 << (4 * w)) {
+            while (n >= BigInt(1) << BigInt(4 * w)) {
                 w++;
             }
             sig += '1'.repeat(w) + '0';
             for (let i = 4 * w - 1; i >= 0; i--) {
-                sig += ((n & (i << i)) != 0) ? '1' : '0';
+                sig += ((n & (BigInt(1) << BigInt(i))) > 0) ? '1' : '0';
             }
             return sig;
         }
@@ -50,7 +52,7 @@ function demodulateIter(code: string): [Expr, string] {
             code = code.slice(w+1);
             const bin = code.slice(0, 4*w);
             code = code.slice(4*w);
-            const expr = makeNumber(parseInt(bin, 2) * (h == '01' ? 1 : -1));
+            const expr = makeNumber(w > 0 ? BigInt('0b' + bin) * BigInt(h === '01' ? 1 : -1) : BigInt(0));
             return [expr, code];
         }
         case '00':

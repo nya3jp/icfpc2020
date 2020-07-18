@@ -113,7 +113,7 @@ function updateUI(): void {
 }
 
 function interact(state: Expr, point: Point): void {
-    const pt = makeApply(makeApply(makeReference('cons'), makeNumber(point.x)), makeNumber(point.y));
+    const pt = makeApply(makeApply(makeReference('cons'), makeNumber(BigInt(point.x))), makeNumber(BigInt(point.y)));
     try {
         const result = evaluate(env, makeApply(makeApply(mainExpr, state), pt));
         const [newState, picValues] = parseList(env, result);

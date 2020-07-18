@@ -33,7 +33,7 @@ function builtinInc(env: Environment, a: Expr): Expr {
     if (va.kind !== 'number') {
         throw new Error('not a number')
     }
-    return makeNumber(va.number + 1);
+    return makeNumber(va.number + BigInt(1));
 }
 
 // #6
@@ -42,7 +42,7 @@ function builtinDec(env: Environment, a: Expr): Expr {
     if (va.kind !== 'number') {
         throw new Error('not a number')
     }
-    return makeNumber(va.number - 1);
+    return makeNumber(va.number - BigInt(1));
 }
 
 // #7
@@ -72,7 +72,7 @@ function builtinDiv(env: Environment, a: Expr, b: Expr): Expr {
     if (va.kind !== 'number' || vb.kind !== 'number') {
         throw new Error('not a number')
     }
-    return makeNumber(Math.trunc(va.number / vb.number));
+    return makeNumber(va.number / vb.number);
 }
 
 // #11
@@ -175,7 +175,7 @@ function builtinDraw(env: Environment, a: Expr): Expr {
         if (x.kind !== 'number' || y.kind !== 'number') {
             throw new Error('Not a number');
         }
-        points.push({x: x.number, y: y.number});
+        points.push({x: Number(x.number), y: Number(y.number)});
     }
     return makePicture(points);
 }
@@ -226,6 +226,7 @@ function builtinSend(env: Environment, a: Expr): Expr {
     const req = modulate(env, pa);
     let res: string | null | undefined = SEND_CACHE[req];
     if (!res) {
+        console.log(`send: ${req}`);
         res = window.prompt(`send: ${req}`);
         if (!res) {
             throw new Error('Canceled');
@@ -240,7 +241,7 @@ function builtinIf0(env: Environment, a: Expr): Expr {
     if (v.kind !== 'number') {
         throw new Error('Not a number');
     }
-    return makeBoolean(v.number === 0);
+    return makeBoolean(v.number === BigInt(0));
 }
 
 // ap ap f38 x2 x0 = ap ap ap ifzero ap car x0 ( ap modem ap car ap cdr x0 , ap multipledraw ap car ap cdr ap cdr x0 ) ap ap ap interact x2 ap modem ap car ap cdr x0 ap send ap car ap cdr ap cdr x0

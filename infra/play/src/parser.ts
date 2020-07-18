@@ -9,7 +9,7 @@ function parseExprIter(tokens: Array<string>): [Expr, Array<string>] {
         return [{kind: 'apply', lhs, rhs}, rest2];
     }
     if (/^-?\d+$/.test(token)) {
-        return [{kind: 'number', number: parseInt(token)}, tokens.slice(1)];
+        return [{kind: 'number', number: BigInt(token)}, tokens.slice(1)];
     }
     return [{kind: 'reference', name: token}, tokens.slice(1)];
 }

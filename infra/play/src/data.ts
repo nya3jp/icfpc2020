@@ -4,7 +4,7 @@ export type Value = NumberValue | FuncValue | PictureValue;
 
 export interface NumberValue {
     kind: 'number'
-    number: number
+    number: bigint
 }
 
 export interface FuncValue {
@@ -23,14 +23,16 @@ export interface Point {
 }
 
 export function isNil(env: Environment, expr: Expr): boolean {
-    const result = evaluate(env, makeApply(makeApply(makeApply(expr, makeReference('_isnil_helper')), makeNumber(123)), makeNumber(456)));
+    const nilValue = BigInt(123);
+    const nonNilValue = BigInt(456);
+    const result = evaluate(env, makeApply(makeApply(makeApply(expr, makeReference('_isnil_helper')), makeNumber(nilValue)), makeNumber(nonNilValue)));
     if (result.kind !== 'number') {
         throw new Error('Not nil/cons');
     }
     switch (result.number) {
-        case 123:
+        case nilValue:
             return true
-        case 456:
+        case nonNilValue:
             return false;
         default:
             throw new Error('Not nil/cons');
@@ -85,7 +87,7 @@ export function makeReference(name: string): ReferenceThunk {
     return {kind: 'reference', name};
 }
 
-export function makeNumber(i: number): NumberValue {
+export function makeNumber(i: bigint): NumberValue {
     return {kind: 'number', number: i};
 }
 
