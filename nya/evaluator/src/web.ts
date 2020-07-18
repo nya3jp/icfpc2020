@@ -69,7 +69,7 @@ function renderCanvas(pics: Array<PictureValue>): void {
         throw new Error('Canvas context unavailable');
     }
 
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasElem.width, canvasElem.height);
 
     const d = Math.min((canvasElem.width - VIEW_MARGIN) / (view.maxX - view.minX), (canvasElem.height - VIEW_MARGIN) / (view.maxY - view.minY));
@@ -80,7 +80,7 @@ function renderCanvas(pics: Array<PictureValue>): void {
     }
     for (let i = 0; i < pics.length; ++i) {
         const pic = pics[i];
-        ctx.fillStyle = `hsla(${360 * i / pics.length}, 100%, 50%, 0.5)`;
+        ctx.fillStyle = `hsla(${360 * i / pics.length}, 100%, 50%, 0.7)`;
         for (const p of pic.points) {
             const q = translate(p);
             ctx.fillRect(q.x, q.y, d, d);
