@@ -133,7 +133,8 @@ impl Default for Role {
     }
 }
 
-#[derive(Debug, Clone, Eq, PartialEq)]
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Obstacle {
     // 重力源の半径 (|x| と |y| がともにこれ以下になると死. 移動中にかすめてもセーフ),
     pub gravity_radius: usize,
