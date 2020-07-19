@@ -65,3 +65,90 @@ pub struct GameState {
     pub state1: Value,
     pub state2: Value,
 }
+
+// 0/START, 1/PLAYING, 2/END (cf: 公式)
+pub enum CurrentGameState {
+    START,
+    PLAYING,
+    END,
+}
+
+pub struct Obstacle {
+    // 重力源の半径 (|x| と |y| がともにこれ以下になると死. 移動中にかすめてもセーフ),
+    gravity_radius: usize,
+    // ステージの半径 (|x| か |y| どちらかがこれを超えると死)
+    stage_half_size: usize,
+}
+
+pub struct StageData {
+    total_turns: usize,
+    _1: isize,
+    _2: (isize, isize, isize),
+    obstacle: Option<Obstacle>,
+    _3: Vec<isize>,
+}
+
+pub struct CurrentState {
+    turn: usize, // 現在のターン数
+}
+
+pub struct Response {
+    _1: usize, // 常に 1?
+    current_game_state: CurrentGameState,
+    stage_data: StageData,
+    current_state: CurrentState,
+}
+
+pub struct Param {
+    // コレがなくなると、 Thruster が吹けない
+    energy: usize,
+    // 0 だとそもそも撃てない
+    laser_power: usize,
+    // 毎ターンHeatが減少
+    cool_down_per_turn: usize,
+    // 分裂可能だと2, 分裂ソース? (死んだ時に 0)
+    life: usize,
+}
+
+pub struct Machine {
+    // 0/自陣営, 1/敵陣営 (or attacker diffender?) (TODO)
+    team_id: isize,
+    // 機体 ID. 多分自陣営/敵陣営通して unique.
+    machine_id: isize,
+    position: (isize, isize),
+    velocity: (isize, isize),
+    params: Param,
+    // 0-64
+    heat: usize,
+    _1: isize,
+    _2: isize,
+}
+
+pub enum ActionResult {
+    // tag = 0
+    Thruster {
+        // 加速度
+        a: (isize, isize),
+    },
+    // 1
+    Bomb {
+        power: usize,
+        area: usize,
+    },
+    // 2
+    Laser {
+        opponent: (isize, isize),
+        // TODO
+    },
+    // 3
+    Split {
+        params: Param,
+    },
+}
+
+// deserialized state.
+pub struct State {
+    turn: usize, // 現在のターン数
+    obstacle: Option<(usize, usize)>,
+    machines: Vec<(Machine, Option<ActionResult>)>,
+}
