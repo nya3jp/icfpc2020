@@ -5,6 +5,7 @@ import subprocess
 import sys
 import threading
 import urllib.request
+import pprint
 
 logging.basicConfig(level=logging.INFO)
 
@@ -56,6 +57,7 @@ def main():
         pk = get_tutorial_playerkey(int(args.arg1))
         print("tester: PlayerKey %d" % (pk, ))
         run_bot(args.arg2, pk, True, outprefix, outfile)
+        show_result(pk)
         return
     elif args.subcommand == 'battle':
         outfile1 = sys.stderr
@@ -64,7 +66,7 @@ def main():
             print("============", file=outfile1)
         outprefix1 = 'bot1'
         if args.logprefix1:
-            outprefix1 = args.logprefix2
+            outprefix1 = args.logprefix1
         outfile2 = sys.stderr
         if args.logfile2:
             outfile2 = open(args.logfile2, mode='a')
@@ -75,18 +77,52 @@ def main():
 
         pks = get_random_playerkeys()
         print("tester: PlayerKey %d %d" % pks)
-        # NOTE: Untested
         t = threading.Thread(target=run_bot,
                              args=(args.arg1, pks[0], False, outprefix1,
                                    outfile1))
         t.start()
         run_bot(args.arg2, pks[1], False, outprefix2, outfile2)
         t.join()
+        show_result(pks[0])
         return
 
     print("tester.py tutorial NUM BINARY_PATH")
     print("tester.py battle BINARY_PATH BINARY_PATH")
     sys.exit(1)
+
+
+def show_result(player_key):
+    # attacker 0
+    # defender 1
+    ret = demodulate(iter(post_to_server(modulate((5, (player_key, None))))))
+    result = to_list_ish(ret)
+    pprint.pprint(result)
+
+    attacker_alive = False
+    defender_alive = False
+    for machine in result[5][1][-1][1][0][:-1]:
+        team, alive = is_alive(machine)
+        if team == 0:
+            attacker_alive = attacker_alive or alive
+        else:
+            defeneder_alive = defender_alive or alive
+    for machine in result[5][1][-1][1][1][:-1]:
+        team, alive = is_alive(machine)
+        if team == 0:
+            attacker_alive = attacker_alive or alive
+        else:
+            defeneder_alive = defender_alive or alive
+    if attacker_alive and not defender_alive:
+        print('attacker (first bot) wins')
+    else:
+        print('defender (second bot) wins')
+
+
+def is_alive(machine):
+    pprint.pprint(machine)
+    team = machine[0]
+    alive = machine[4][3]
+    return (team, alive != 0)
 
 
 def wrap_err(err_pipe, prefix, outfile):
@@ -149,6 +185,60 @@ def post_to_server(command):
             logging.error('tester: non-200 response %s', resp)
             sys.exit(1)
         return resp.read().decode('utf-8').strip()
+
+
+def to_list_ish(v):
+    if v is None:
+        return []
+    if type(v) is int:
+        return v
+    first = to_list_ish(v[0])
+    if first == []:
+        first = None
+    second = to_list_ish(v[1])
+    if type(second) is list:
+        return [first] + second
+    return (first, second)
+
+
+def modulate(v):
+    """Modulates a value
+
+    >>> modulate((1, (81740, None)))
+    '110110000111011111100001001111110100110000'
+    >>> modulate(0)
+    '010'
+    >>> modulate(1)
+    '01100001'
+    >>> modulate(-1)
+    '10100001'
+    >>> modulate(81740)
+    '0111111000010011111101001100'
+    """
+    if v is None:
+        return "00"
+    if type(v) is tuple:
+        if len(v) != 2:
+            raise ValueError()
+        return "11" + modulate(v[0]) + modulate(v[1])
+    ret = ""
+    if v >= 0:
+        ret += "01"
+    else:
+        ret += "10"
+        v *= -1
+
+    bits = ""
+    while v:
+        bits += str(v % 2)
+        v //= 2
+    bits = bits[::-1]
+    bitlen = 0
+    while bitlen * 4 < len(bits):
+        bitlen += 1
+    ret += '1' * bitlen + '0'
+    ret += '0' * (bitlen * 4 - len(bits)) + bits
+    return ret
 
 
 def demodulate(it):
