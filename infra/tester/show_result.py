@@ -15,6 +15,9 @@ def main():
         iter(post_to_server(modulate((5, (int(sys.argv[1]), None))))))
     result = to_list_ish(ret)
     pprint.pprint(result)
+    if result[3] < 0:
+        print('the game ended with an error. check the requests from the bots')
+        return
 
     attacker_alive = False
     defender_alive = False
@@ -63,8 +66,6 @@ def to_list_ish(v):
     if type(v) is int:
         return v
     first = to_list_ish(v[0])
-    if first == []:
-        first = None
     second = to_list_ish(v[1])
     if type(second) is list:
         return [first] + second

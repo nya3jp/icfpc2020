@@ -97,6 +97,9 @@ def show_result(player_key):
     ret = demodulate(iter(post_to_server(modulate((5, (player_key, None))))))
     result = to_list_ish(ret)
     pprint.pprint(result)
+    if result[3] < 0:
+        print('the game ended with an error. check the requests from the bots')
+        return
 
     attacker_alive = False
     defender_alive = False
@@ -116,7 +119,7 @@ def show_result(player_key):
         print('attacker (first bot) wins')
     else:
         print('defender (second bot) wins')
-    print('replay: http://34.105.114.17/play/?key=%d' % player_key)
+    print('replay: https://icfpcontest2020.github.io/#/visualize?playerkey=%d' % player_key)
 
 
 def is_alive(machine):

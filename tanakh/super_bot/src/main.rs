@@ -2,6 +2,10 @@ use anyhow::{anyhow, bail, Context, Result};
 use rust_game_base::*;
 use std::cmp::{max, min};
 
+// 知見
+// レーザーの威力はmin(初期設定のlaser_power, 発射時のパラメーター)
+// heatは実際に発射された威力分上昇
+
 const MAX_STEP: usize = 256;
 
 struct Bot {
@@ -43,18 +47,65 @@ impl Bot {
         dbg!(&self.static_info);
 
         // FIXME: ???
-        let param_rest = self.static_info._2.0;
+        let mut param_rest = self.static_info.initialize_param.total_cost;
 
-        let param = Param {
-            energy: 128,
-            laser_power: 10,
-            life: 10,
-            cool_down_per_turn: 8,
+        let mut param = Param {
+            energy: 0,
+            laser_power: 0,
+            life: 0,
+            cool_down_per_turn: 0,
         };
+
+        // パラメーター割り振り
+        // attackerの時はレーザーに多めに、
+        // defenderの時はレーザーに割り振らないようにするといい？
+
+        while param_rest > 0 {
+            if param.life == 0 {
+                param.life += 1;
+                param_rest -= 2;
+                continue;
+            }
+
+            if param_rest >= 12
+                && param.cool_down_per_turn * 12 <= param.energy
+                && param.cool_down_per_turn * 12 <= param.laser_power * 4
+            // && param.cool_down_per_turn * 12 <= param.life * 2
+            {
+                param.cool_down_per_turn += 1;
+                param_rest -= 12;
+                continue;
+            }
+
+            if param_rest >= 4
+                && param.laser_power * 4 <= param.energy
+                // && param.laser_power * 4 <= param.life * 2
+                && param.laser_power * 4 <= param.cool_down_per_turn * 12
+            {
+                param.laser_power += 1;
+                param_rest -= 4;
+                continue;
+            }
+
+            // if param_rest >= 2
+            //     && param.life * 2 <= param.energy
+            //     && param.life * 2 <= param.laser_power * 4
+            //     && param.life * 2 <= param.cool_down_per_turn * 12
+            // {
+            //     param.life += 1;
+            //     param_rest -= 2;
+            //     continue;
+            // }
+
+            param.energy += 1;
+            param_rest -= 1;
+        }
+
+        dbg!(&param);
 
         assert!(
             param.energy + param.laser_power * 4 + param.life * 2 + param.cool_down_per_turn * 12
-                <= param_rest as usize
+                <= self.static_info.initialize_param.total_cost as usize
         );
 
         self.apply_response(send_start_request(&param)?);
@@ -73,6 +124,10 @@ impl Bot {
         dbg!(&self.state);
 
         let mut cmds = vec![];
+
+        // * 楕円軌道に乗る
+        // * 位置関係がいい感じならビームを打つ
+        // * 分裂をどうするか
 
         for m in self.state.machines.iter() {
             let m = m.0;
