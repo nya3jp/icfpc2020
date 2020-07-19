@@ -216,3 +216,20 @@ pub struct CurrentState {
     pub obstacle: Option<Obstacle>,
     pub machines: Vec<(Machine, Vec<ActionResult>)>,
 }
+
+// Utilities.
+
+// Returns machine ids of the given role.
+pub fn get_roled_machine_ids(state: &CurrentState, role: Role) -> Vec<isize> {
+    state
+        .machines
+        .iter()
+        .filter_map(|(m, _)| {
+            if m.role == role {
+                Some(m.machine_id)
+            } else {
+                None
+            }
+        })
+        .collect::<Vec<_>>()
+}
