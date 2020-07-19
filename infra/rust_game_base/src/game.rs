@@ -4,31 +4,43 @@ pub const THRUST_COMMAND: i128 = 0;
 pub const SELF_DESTRUCT_COMMAND: i128 = 1;
 pub const BEAM_COMMAND: i128 = 2;
 
+#[derive(Debug, Clone, Copy)]
+pub struct Point {
+    x: isize,
+    y: isize,
+}
+
+impl Point {
+    pub fn to_value(&self) -> Value {
+        Value::Cons(
+            Box::new(Value::Int(self.x as i128)),
+            Box::new(Value::Int(self.y as i128)),
+        )
+    }
+}
+
 #[derive(Debug)]
 pub enum Command {
-    // Thrust(ShipNum, X, Y)
-    Thrust(i8, i8, i8),
+    // Thrust(ShipNum, Point{x, y})
+    Thrust(i8, Point),
     // SelfDestruct(ShipNum)
     SelfDestruct(i8),
     // Beam(ShipNum, X, Y, Power)
-    Beam(i8, i16, i16, i8),
+    Beam(i8, Point, i8),
+    // Split
 }
 
 impl Command {
     pub fn to_value(&self) -> Value {
         match self {
             //   send: [0, SHIP_NUM, (X . Y)]
-            &Command::Thrust(ship_num, x, y) => Value::Cons(
+            &Command::Thrust(ship_num, p) => Value::Cons(
                 Box::new(Value::Int(THRUST_COMMAND)),
                 Box::new(Value::Cons(
                     Box::new(Value::Int(ship_num as i128)),
                     Box::new(Value::Cons(
-                        Box::new(Value::Cons(
-                            Box::new(Value::Int(x as i128)),
-                            Box::new(Value::Int(y as i128)),
-                        )),
-                        Box::new(Value::Nil),
-                    )),
+                        Box::new(p.to_value()),
+                        Box::new(Value::Nil))),
                 )),
             ),
             // send [1, SHIP_NUM]
@@ -40,15 +52,12 @@ impl Command {
                 )),
             ),
             // send: [2, SHIP_NUM, ( X . Y ), POWER] =>
-            &Command::Beam(ship_num, x, y, power) => Value::Cons(
+            &Command::Beam(ship_num, point, power) => Value::Cons(
                 Box::new(Value::Int(BEAM_COMMAND)),
                 Box::new(Value::Cons(
                     Box::new(Value::Int(ship_num as i128)),
                     Box::new(Value::Cons(
-                        Box::new(Value::Cons(
-                            Box::new(Value::Int(x as i128)),
-                            Box::new(Value::Int(y as i128)),
-                        )),
+                        Box::new(point.to_value()),
                         Box::new(Value::Cons(
                             Box::new(Value::Int(power as i128)),
                             Box::new(Value::Nil),
