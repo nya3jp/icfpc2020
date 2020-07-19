@@ -139,3 +139,47 @@ export function parseList(env: Environment, value: Value): Array<Value> {
 }
 
 export type Environment = Map<string, Expr>;
+
+// Pretty representation of modulatable data.
+export type PrettyData = NumberData | ListData | ConsData;
+
+export interface NumberData {
+    kind: 'number'
+    number: bigint
+}
+
+export interface ListData {
+    kind: 'list'
+    elems: Array<PrettyData>
+}
+
+export interface ConsData {
+    kind: 'cons'
+    car: PrettyData
+    cdr: PrettyData
+}
+
+export function valueToPrettyData(env: Environment, value: Value): PrettyData {
+    switch (value.kind) {
+        case 'number':
+            return {kind: 'number', number: value.number}
+        case 'func':
+            const elems: Array<PrettyData> = [];
+            let cur: Value = value;
+            while (true) {
+                if (cur.kind !== 'func') {
+                    elems.push(valueToPrettyData(env, cur));
+                    return elems.reduceRight((cdr, car) => ({kind: 'cons', car, cdr}));
+                }
+                if (isNil(env, cur)) {
+                    return {kind: 'list', elems};
+                }
+                const car = evaluate(env, makeApply(makeReference('car'), cur));
+                elems.push(valueToPrettyData(env, car));
+                const cdr = evaluate(env, makeApply(makeReference('cdr'), cur));
+                cur = cdr;
+            }
+        default:
+            throw new Error(`Unmodulatable value ${value.kind}`);
+    }
+}

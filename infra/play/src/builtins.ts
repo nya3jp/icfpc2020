@@ -8,13 +8,13 @@ import {
     makeReference,
     Point,
     Value,
-    debugString, makeSideEffect
+    makeSideEffect, valueToPrettyData
 } from './data';
 import {evaluate} from './eval';
-import {debugListString, makeNumber} from './data';
+import {makeNumber} from './data';
 import {demodulate, modulate} from './modem';
 import {getApiKey} from './auth';
-import {appendLog, appendSendLog} from './logs';
+import {appendSendLog} from './logs';
 
 function func1Value(f: (env: Environment, a: Expr) => Expr): Value {
     return {kind: 'func', func: f};
@@ -234,15 +234,9 @@ function builtinSend(env: Environment, a: Expr): Expr {
     if (xhr.status !== 200) {
         throw new Error(`HTTP ${xhr.status}`);
     }
-    const res = xhr.responseText;
-    let dem_req = debugListString(env, demodulate(req.trim()));
-    let dem_res = debugListString(env, demodulate(res.trim()));
-    appendLog(`send: ${dem_req} => ${dem_res}`);
-
-    let sendReqExpr = demodulate(req.trim());
-    let sendResExpr = demodulate(res.trim());
-    appendSendLog(sendReqExpr, sendResExpr);
-    return makeSideEffect(demodulate(res.trim()));
+    const res = evaluate(env, demodulate(xhr.responseText.trim()));
+    appendSendLog({req: valueToPrettyData(env, pa), res: valueToPrettyData(env, res)});
+    return makeSideEffect(res);
 }
 
 // #37

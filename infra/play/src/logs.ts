@@ -1,22 +1,18 @@
-const logs: Array<string> = [];
-const sendLogs: Array<[Expr, Expr]> = [];
-
 import {
-    Expr
+    Expr, PrettyData
 } from './data';
 
-export function appendLog(log: string): void {
-    logs.push(log);
+export interface SendLog {
+    req: PrettyData
+    res: PrettyData
 }
 
-export function getLogs(): Array<string> {
-    return logs.slice();
+const sendLogs: Array<SendLog> = [];
+
+export function appendSendLog(log: SendLog): void {
+    sendLogs.push(log);
 }
 
-export function appendSendLog(req: Expr, res: Expr): void {
-    sendLogs.push([req,res]);
-}
-
-export function getSendLogs(): Array<[Expr, Expr]> {
+export function getSendLogs(): Array<SendLog> {
     return sendLogs.slice();
 }

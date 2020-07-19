@@ -7,14 +7,14 @@ import {
     makeReference,
     parseList,
     PictureValue,
-    Point,
+    Point, PrettyData
 } from './data';
 
 import {
     builtinNil
 } from './builtins';
 
-import {getLogs, getSendLogs} from './logs';
+import {getSendLogs} from './logs';
 import { annotate } from './annotate';
 
 const env = newGalaxyEnvironment();
@@ -44,7 +44,6 @@ const infoElem = document.getElementById('info') as HTMLElement;
 const logsElem = document.getElementById('logs') as HTMLTextAreaElement;
 const sendLogsElem = document.getElementById('sendlogs') as HTMLElement;
 const annotateElem = document.getElementById('annotate') as HTMLInputElement;
-const listExprElem = document.getElementById('list-expr') as HTMLInputElement;
 
 const VIEW_MARGIN = 60;
 
@@ -135,171 +134,65 @@ function updateUI(): void {
 
 function updateLogs(): void {
     function emph(s: string): string {
-        return "<b>" + s + "</b>";
+        return `<b>${s}</b>`;
     }
-    function emphDiff(new_: Expr, old: Expr): string {
-        switch (new_.kind) {
+    function toDiffedLispList(data: PrettyData, last: PrettyData): string {
+        switch (data.kind) {
             case 'number':
-                let s = String(new_.number);
-                if (old.kind == 'number' && old.number == new_.number) {
+                const s = toLispList(data);
+                if (last.kind == 'number' && last.number === data.number) {
                     return s;
-                } else {
-                    return emph(s);
                 }
-            case 'func':
-                if (isNil(env, new_)) {
-                    try {
-                        if (isNil(env, old))
-                            return 'nil';
-                    } catch(e) {}
-                    return emph('nil');
+                return emph(s);
+            case 'list':
+                if (last.kind !== 'list') {
+                    return emph(toLispList(data));
                 }
-                const car = evaluate(env, makeApply(makeReference('car'), new_));
-                const cdr = evaluate(env, makeApply(makeReference('cdr'), new_));
-
-                let car2:Expr;
-                let cdr2:Expr;
-                try {
-                    car2 = evaluate(env, makeApply(makeReference('car'), old));
-                    cdr2 = evaluate(env, makeApply(makeReference('cdr'), old));
-                } catch (e) {
-                    car2 = builtinNil(env, car);
-                    cdr2 = builtinNil(env, car);
-                }
-                return `( ${emphDiff(car, car2)}, ${emphDiff(cdr, cdr2)} )`;
-            default:
-                return emphDiff(evaluate(env, new_), evaluate(env, old));
-        }
-    }
-    function isNilAny(e: Expr): boolean {
-        try {
-            return isNil(env, e);
-        } catch (e) {
-            return false;
-        }
-    }
-    function toDiffedLispList(e: Expr, old: Expr): string {
-        while (e.kind == 'apply') {
-            e = evaluate(env, e);
-        }
-        while (old.kind == 'apply') {
-            old = evaluate(env, old);
-        }
-        switch (e.kind) {
-            case 'number':
-                let s = String(e.number);
-                if (old.kind == 'number' && old.number == e.number) {
-                    return s;
-                } else {
-                    return emph(s);
-                }
-            case 'func':
-                if (isNilAny(e)) {
-                    if (old.kind == 'func' && isNilAny(old)) {
-                        return 'nil';
-                    }
-                    return emph('nil');
-                }
-                let elements: Array<string> = [];
-                let curr:Expr = e;
-                let oldCurr: Expr | null = old;
-                while (true) {
-                    const car = evaluate(env, makeApply(makeReference('car'), curr));
-                    const cdr = evaluate(env, makeApply(makeReference('cdr'), curr));
-                    let oldcdr: Expr | null;
-                    if (oldCurr != null && oldCurr.kind == 'func') {
-                        oldcdr = evaluate(env, makeApply(makeReference('cdr'), oldCurr));
+                const elems: Array<string> = [];
+                for (let i = 0; i < data.elems.length; ++i) {
+                    const dataElem = data.elems[i];
+                    const lastElem = last.elems[i];
+                    if (!lastElem) {
+                        elems.push(emph(toLispList(dataElem)));
                     } else {
-                        oldcdr = null;
+                        elems.push(toDiffedLispList(dataElem, lastElem));
                     }
-
-                    let carValue: string;
-                    if (oldCurr != null && oldCurr.kind == 'func') {
-                        carValue = toDiffedLispList(car, evaluate(env, makeApply(makeReference('car'), oldCurr)));
-                    } else {
-                        carValue = emph(toLispList(car));
-                    } 
-                    elements.push(carValue);
-
-                    if (cdr.kind == 'number') {
-                        let s = String(cdr.number);
-                        if (oldcdr == null || oldcdr.kind != 'number' || (oldcdr.kind == 'number' && oldcdr.number != cdr.number)) {
-                            s = emph(s);
-                        }
-                        return elements.reduceRight((acc, val, idx, arr) => {
-                            return `(${val} . ${acc})`;
-                        }, s);
-                    }
-                    if (isNilAny(cdr)) {
-                        return "[" + elements.join(", ") + "]";
-                    }
-                    curr = cdr;
-                    oldCurr = oldcdr;
                 }
+                return `[${elems.join(', ')}]`;
+            case 'cons':
+                if (last.kind !== 'cons') {
+                    return emph(toLispList(data));
+                }
+                return `(${toDiffedLispList(data.car, last.car)} . ${toDiffedLispList(data.cdr, last.cdr)})`;
         }
-        // Unreachable
-        throw e;
     }
-    function toLispList(e: Expr): string {
-        while (e.kind == 'apply') {
-            e = evaluate(env, e);
-        }
-        switch (e.kind) {
+    function toLispList(data: PrettyData): string {
+        switch (data.kind) {
             case 'number':
-                return String(e.number);
-            case 'func':
-                if (isNilAny(e)) {
-                    return 'nil'
-                }
-                let elements: Array<string> = [];
-                let curr:Expr = e;
-                while (true) {
-                    const car = evaluate(env, makeApply(makeReference('car'), curr));
-                    const cdr = evaluate(env, makeApply(makeReference('cdr'), curr));
-                    elements.push(toLispList(car));
-                    if (cdr.kind == 'number') {
-                        return elements.reduceRight((acc, val, idx, arr) => {
-                            return `(${val} . ${acc})`;
-                        }, String(cdr.number));
-                    }
-                    if (isNilAny(cdr)) {
-                        return "[" + elements.join(", ") + "]";
-                    }
-                    curr = cdr;
-                }
+                return String(data.number);
+            case 'list':
+                return `[${data.elems.map(toLispList).join(', ')}]`;
+            case 'cons':
+                return `(${toLispList(data.car)} . ${toLispList(data.cdr)})`;
         }
-        // Unreachable
-        throw e;
     }
 
-    let sends = getSendLogs();
+    const sends = getSendLogs();
 
     let elems: Array<string> = [];
     for (let i = sends.length - 1; i >= 0; i--) { // new -> old
         let reqLog: String;
         let resLog: String;
-        if (listExprElem.checked) {
-            if (i == 0) {
-                reqLog = toLispList(sends[i][0]);
-                resLog = toLispList(sends[i][1]);
-            } else {
-                reqLog = toDiffedLispList(sends[i][0], sends[i-1][0])
-                resLog = toDiffedLispList(sends[i][1], sends[i-1][1])
-            }
+        if (i == 0) {
+            reqLog = toLispList(sends[i].req);
+            resLog = toLispList(sends[i].res);
         } else {
-            if (i == 0) {
-                console.log(sends[i]);
-                reqLog = debugListString(env, sends[i][0])
-                resLog = debugListString(env, sends[i][1])
-            } else {
-                reqLog = emphDiff(sends[i][0], sends[i-1][0])
-                resLog = emphDiff(sends[i][1], sends[i-1][1])
-            }        }
-        elems.push(`${reqLog} → ${resLog}`)
+            reqLog = toDiffedLispList(sends[i].req, sends[i-1].req);
+            resLog = toDiffedLispList(sends[i].res, sends[i-1].res);
+        }
+        elems.push(`${reqLog} → ${resLog}`);
     }
-    sendLogsElem.innerHTML = elems.join("<br>");
-
-    // logsElem.textContent = getLogs().reverse().join('\n');
+    sendLogsElem.innerHTML = elems.join('<br>');
 }
 
 function interact(state: Expr, point: Point): void {
@@ -366,10 +259,6 @@ function onAnnotateChanged(ev: Event): void {
     updateUI();
 }
 
-function onListExprChanged(ev: Event): void {
-    updateUI();
-}
-
 function reportError(e: Error): void {
     alert(e);
     throw e;
@@ -380,7 +269,6 @@ function init(): void {
     stateElem.addEventListener('change', onStateChanged);
     pixelSizeElem.addEventListener('change', onPixelSizeChanged);
     annotateElem.addEventListener('change', onAnnotateChanged);
-    listExprElem.addEventListener('change', onAnnotateChanged);
     const givenState = getQueryParams('state');
     if (givenState !== null) {
         stateElem.value = givenState;
