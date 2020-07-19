@@ -91,7 +91,7 @@ def main():
 
 def wrap_err(err_pipe, prefix, outfile):
     for line in err_pipe:
-        line = line.strip()
+        line = line.rstrip()
         if prefix:
             line = "[%s] %s" % (prefix, line)
         print(line, file=outfile)
