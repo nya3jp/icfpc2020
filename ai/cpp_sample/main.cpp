@@ -14,8 +14,5 @@ int main(int argc, char **argv) {
     GameState state = send_cmd(player_key);
     if (!state.in_game) break;
   }
-
-  run_modulate_test();
-  run_demodulate_test();
   return 0;
 }

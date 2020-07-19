@@ -8,3 +8,16 @@ cc_binary(
       "main.cpp",
   ],
 )
+
+cc_test(
+  name = "cpp_sample_test",
+  srcs = [
+      "value.h",
+      "framework.h",
+      "test.cpp",
+  ],
+  deps = [
+      "@com_github_google_googletest//:gtest",
+      "@com_github_google_googletest//:gtest_main",
+  ],
+)
