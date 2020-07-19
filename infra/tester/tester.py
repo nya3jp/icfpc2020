@@ -97,6 +97,9 @@ def show_result(player_key):
     ret = demodulate(iter(post_to_server(modulate((5, (player_key, None))))))
     result = to_list_ish(ret)
     pprint.pprint(result)
+    if result[3] < 0:
+        print('the game ended with an error. check the requests from the bots')
+        return
 
     attacker_alive = False
     defender_alive = False
