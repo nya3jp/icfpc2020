@@ -110,6 +110,16 @@ fn parse_position(val: Value) -> (isize, isize) {
     }
 }
 
+fn parse_point(val: Value) -> Point {
+    match val {
+        Value::Cons(x, y) => {
+            Point { x: to_int(&*x) as isize, y: to_int(&*y) as isize}
+        },
+        _ => panic!("Unexpected value: ".to_string() + &val.to_string()),
+    }
+}
+
+
 fn parse_params(val: Value) -> Param {
     match to_vec(val.clone()).as_slice() {
         [energy, laser_power, cool_down_per_turn, life] => Param {
@@ -127,12 +137,14 @@ fn parse_machine(val: Value) -> Machine {
         [team_id, machine_id, position, velocity, params, heat, _1, _2] => Machine {
             team_id: to_int(team_id) as isize,
             machine_id: to_int(machine_id) as isize,
-            position: parse_position(position.clone()),
-            velocity: parse_position(velocity.clone()),
+            position: parse_point(position.clone()),
+            velocity: parse_point(velocity.clone()),
             params: parse_params(params.clone()),
             heat: to_int(heat) as usize,
             _1: to_int(_1) as isize,
             _2: to_int(_2) as isize,
+            generated_heat: 0,
+            attack_heat: 0
         },
         _ => panic!("unexpected value: ".to_string() + &val.to_string()),
     }
@@ -145,14 +157,14 @@ fn parse_action_result(val: Value) -> Option<ActionResult> {
     } else {
         let action_result = match (to_int(&vals[0].clone()), vals.as_slice()) {
             (0, [_, a]) => ActionResult::Thruster {
-                a: parse_position(a.clone()),
+                a: parse_point(a.clone()),
             },
             (1, [_, power, area]) => ActionResult::Bomb {
                 power: to_int(power) as usize,
                 area: to_int(area) as usize,
             },
             (2, [_, opponent]) => ActionResult::Laser {
-                opponent: parse_position(opponent.clone()),
+                opponent: parse_point(opponent.clone()),
             },
             (3, [_, params]) => ActionResult::Split {
                 params: parse_params(params.clone()),
