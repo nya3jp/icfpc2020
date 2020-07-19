@@ -7,6 +7,7 @@ const refreshElem = document.getElementById('refresh') as HTMLElement;
 function loadResults(): void {
     let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
     let [currentBots, subIdToBranch] = getOurLatestBots();
+    let topPlayers = getOpponents().slice(0, 10);
     let ourBots = ['bot_kimiyuki', 'bot_psh_testbot', 'tanakh_super_bot'];
 
     let head = [];
@@ -17,8 +18,7 @@ function loadResults(): void {
 
     let rows: Array<string> = [];
     rows.push('<tr><th></th>' + head.join('') + '</tr>');
-    for (var oppSubId in subIdToTeamName) {
-        const oppName = subIdToTeamName[oppSubId];
+    for (var [oppName, oppSubId] of topPlayers) {
         let result = "<tr><td>" + oppName + " (" + oppSubId + ")</td>";
         for (var ourBotName of ourBots) {
             const ourSubId = currentBots[ourBotName];
@@ -43,9 +43,32 @@ function loadResults(): void {
     resultsElem.innerHTML = rows.join('');
 }
 
-// function getOpponents(): Array([string, number]) {
+function getOpponents(): Array<[string, number]> {
+    const scores = <Scoreboard>JSON.parse(queryServer('/scoreboard'));
+    let submissions: Array<[number, string, number]> = [];
+    for (var team of scores.teams) {
+        if (team.team.teamId == '3dfa39ba-93b8-4173-92ad-51da07002f1b') {
+            continue;
+        }
+        const name = team.team.teamName;
+        const score = team.score;
+        let latestKey: number = 0;
+        for (var k in team.tournaments) {
+            if (parseInt(k) > latestKey) {
+                latestKey = parseInt(k);
+            }
+        }
+        const subid = team.tournaments[latestKey.toString()].submission.submissionId;
+        submissions.push([score, name, subid]);
+    }
 
-// }
+    submissions.sort().reverse();
+    let ret: Array<[string, number]> = [];
+    for (var [score, name, subid] of submissions) {
+        ret.push([name, subid]);
+    }
+    return ret;
+}
 
 function getOurLatestBots(): [Record<string, number>, Record<number, string>] {
     const submissions = <Array<Submission>>JSON.parse(queryServer('/submissions'));
@@ -130,6 +153,25 @@ interface Submission {
     submissionId: number,
     branchName?: string,
     status: string,
+}
+
+interface Scoreboard {
+    teams: Array<TeamScore>
+}
+
+interface TeamScore {
+    team: Team,
+    score: number,
+    tournaments: Record<string, Tournament>,
+}
+
+interface Tournament {
+    submission: TournamentSubmission,
+    score: number,
+}
+
+interface TournamentSubmission {
+    submissionId: number,
 }
 
 interface Team {
