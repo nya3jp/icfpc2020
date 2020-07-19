@@ -21,7 +21,7 @@ function generate_sh() {
 #!/bin/bash
 
 pushd "$root"
-./run.sh
+./run.sh "\$1" "\$2"
 popd
 EOF
     chmod a+x "$workdir/run.sh"
