@@ -187,6 +187,8 @@ const EXPLAINS: {[key: string]: string} = {
     ['res:[2-4]:1/3/2/[0-9]/1/[0-9]/<[0-2]>1']: 'ShipID',
 }
 
+let lastSendCount = -1;
+
 function updateLogs(): void {
     type TreePos = string | null;
 
@@ -260,6 +262,9 @@ function updateLogs(): void {
     }
 
     const sends = getSendLogs();
+    if (sends.length === lastSendCount) {
+        return;
+    }
 
     let elems: Array<string> = [];
     for (let i = sends.length - 1; i >= 0; i--) { // new -> old
@@ -278,6 +283,7 @@ function updateLogs(): void {
         elems.push(`${reqLog} → ${resLog}`);
     }
     sendLogsElem.innerHTML = elems.join('<br>');
+    lastSendCount = sends.length;
 }
 
 const DEBUG_INTERACT = false;
