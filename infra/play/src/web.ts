@@ -351,7 +351,7 @@ function backward(): void {
     updateUI();
 }
 
-function loadState(stateStr: string): void {
+function loadState(stateStr: string, point: Point = FARAWAY_POINT): void {
     let state: Expr;
     try {
         state = parseExpr(stateStr);
@@ -359,12 +359,12 @@ function loadState(stateStr: string): void {
         reportError(e);
         throw new Error('not reached');
     }
-    interactPoint(state, FARAWAY_POINT);
+    interactPoint(state, point);
 }
 
 function loadReplay(key: string): void {
     try {
-        loadState(`ap ap cons 5 ap ap cons ap ap cons 4 ap ap cons ${key} ap ap cons nil ap ap cons nil ap ap cons nil ap ap cons nil ap ap cons ap ap cons 36 0 ap ap cons 21839 nil ap ap cons 9 ap ap cons nil nil`);
+        loadState(`ap ap cons 5 ap ap cons ap ap cons 4 ap ap cons ${key} ap ap cons nil ap ap cons nil ap ap cons nil ap ap cons nil ap ap cons ap ap cons 36 0 ap ap cons 21839 nil ap ap cons 9 ap ap cons nil nil`, {x: 26, y: 0});
         replayElem.value = key;
     } catch (e) {
         replayElem.value = '';
@@ -415,14 +415,12 @@ function init(): void {
 
     const givenState = getQueryParams('state');
     if (givenState) {
-        stateElem.value = givenState;
-        onStateChanged();
+        loadState(givenState);
         return;
     }
     const givenKey = getQueryParams('key');
     if (givenKey) {
-        replayElem.value = givenKey;
-        onReplayPlayerKeyChanged();
+        loadReplay(givenKey);
         return;
     }
 }
