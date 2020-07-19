@@ -28,7 +28,7 @@ fn main() {
     let resp = rust_game_base::send_join_request();
 
     eprintln!("send_start_request");
-    let mut res = rust_game_base::send_start_request(4, 4, 4, 4);
+    let mut res = rust_game_base::send_start_request(&rust_game_base::Param { energy: 4, laser_power: 4, cool_down_per_turn: 4, life: 4 });
 
     eprintln!("send_command_request");
     loop {

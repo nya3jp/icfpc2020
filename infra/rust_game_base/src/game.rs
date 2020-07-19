@@ -7,8 +7,8 @@ pub const SPLIT_COMMAND: i128 = 3;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Point {
-    x: isize,
-    y: isize,
+    pub x: isize,
+    pub y: isize,
 }
 
 impl Point {
@@ -17,6 +17,15 @@ impl Point {
             Box::new(Value::Int(self.x as i128)),
             Box::new(Value::Int(self.y as i128)),
         )
+    }
+    pub fn sub(&self, p: Point) -> Point {
+        Point{ x: self.x - p.x, y: self.y - p.y }
+    }
+    pub fn add(&self, p: Point) -> Point {
+        Point{ x: self.x + p.x, y: self.y + p.y }
+    }
+    pub fn l0_distance(&self) -> isize {
+        std::cmp::max(self.x.abs(), self.y.abs())
     }
 }
 
@@ -136,13 +145,16 @@ pub struct Machine {
     pub team_id: isize,
     // 機体 ID. 多分自陣営/敵陣営通して unique.
     pub machine_id: isize,
-    pub position: (isize, isize),
-    pub velocity: (isize, isize),
+    pub position: Point,
+    pub velocity: Point,
     pub params: Param,
     // 0-64
     pub heat: usize,
     pub _1: isize,
     pub _2: isize,
+
+    pub generated_heat: isize,
+    pub attack_heat: isize
 }
 
 #[derive(Debug)]
@@ -150,7 +162,7 @@ pub enum ActionResult {
     // tag = 0
     Thruster {
         // 加速度
-        a: (isize, isize),
+        a: Point,
     },
     // 1
     Bomb {
@@ -159,7 +171,7 @@ pub enum ActionResult {
     },
     // 2
     Laser {
-        opponent: (isize, isize),
+        opponent: Point,
         // TODO
     },
     // 3

@@ -18,20 +18,20 @@ pub fn send_join_request() -> Result<Response> {
     ))
 }
 
-pub fn send_start_request(param1: i32, param2: i32, param3: i32, param4: i32) -> Result<Response> {
+pub fn send_start_request(params: &Param) -> Result<Response> {
     let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
     let is_tutorial: bool = std::env::vars().any(|(key, _)| key == "TUTORIAL_MODE");
     let params = if is_tutorial {
         Value::Nil
     } else {
         Value::Cons(
-            Box::new(Value::Int(param1 as i128)),
+            Box::new(Value::Int(params.energy as i128)),
             Box::new(Value::Cons(
-                Box::new(Value::Int(param2 as i128)),
+                Box::new(Value::Int(params.laser_power as i128)),
                 Box::new(Value::Cons(
-                    Box::new(Value::Int(param3 as i128)),
+                    Box::new(Value::Int(params.cool_down_per_turn as i128)),
                     Box::new(Value::Cons(
-                        Box::new(Value::Int(param4 as i128)),
+                        Box::new(Value::Int(params.life as i128)),
                         Box::new(Value::Nil),
                     )),
                 )),
@@ -114,6 +114,16 @@ fn parse_position(val: Value) -> Result<(isize, isize)> {
     })
 }
 
+fn parse_point(val: Value) -> Result<Point> {
+    Ok(match val {
+        Value::Cons(x, y) => Point {
+            x: to_int(&*x)? as isize,
+            y: to_int(&*y)? as isize,
+        },
+        _ => bail!("Unexpected value: ".to_string() + &val.to_string()),
+    })
+}
+
 fn parse_params(val: Value) -> Result<Param> {
     Ok(match to_vec(val.clone())?.as_slice() {
         [energy, laser_power, cool_down_per_turn, life] => Param {
@@ -131,14 +141,16 @@ fn parse_machine(val: Value) -> Result<Machine> {
         [team_id, machine_id, position, velocity, params, heat, _1, _2] => Machine {
             team_id: to_int(team_id)? as isize,
             machine_id: to_int(machine_id)? as isize,
-            position: parse_position(position.clone())?,
-            velocity: parse_position(velocity.clone())?,
+            position: parse_point(position.clone())?,
+            velocity: parse_point(velocity.clone())?,
             params: parse_params(params.clone())?,
             heat: to_int(heat)? as usize,
             _1: to_int(_1)? as isize,
             _2: to_int(_2)? as isize,
+            generated_heat: 0,
+            attack_heat: 0,
         },
-        _ => panic!("unexpected value: ".to_string() + &val.to_string()),
+        _ => bail!("unexpected value: ".to_string() + &val.to_string()),
     })
 }
 
@@ -149,14 +161,14 @@ fn parse_action_result(val: Value) -> Result<Option<ActionResult>> {
     } else {
         let action_result = match (to_int(&vals[0].clone())?, vals.as_slice()) {
             (0, [_, a]) => ActionResult::Thruster {
-                a: parse_position(a.clone())?,
+                a: parse_point(a.clone())?,
             },
             (1, [_, power, area]) => ActionResult::Bomb {
                 power: to_int(power)? as usize,
                 area: to_int(area)? as usize,
             },
             (2, [_, opponent]) => ActionResult::Laser {
-                opponent: parse_position(opponent.clone())?,
+                opponent: parse_point(opponent.clone())?,
             },
             (3, [_, params]) => ActionResult::Split {
                 params: parse_params(params.clone())?,
