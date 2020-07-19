@@ -28,12 +28,20 @@ impl Bot {
         assert_eq!(self.stage, CurrentGameState::START);
         dbg!(&self.static_info);
 
+        // FIXME: ???
+        let param_rest = self.static_info._2.0;
+
         let param = Param {
-            energy: 0,
-            laser_power: 0,
-            life: 0,
-            cool_down_per_turn: 0,
+            energy: 128,
+            laser_power: 10,
+            life: 10,
+            cool_down_per_turn: 64,
         };
+
+        assert!(
+            param.energy + param.laser_power + param.life + param.cool_down_per_turn
+                <= param_rest as usize
+        );
 
         self.apply_response(send_start_request(&param)?);
         Ok(())
