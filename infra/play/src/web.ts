@@ -370,6 +370,11 @@ function onReplayPlayerKeyChanged(ev: Event): void {
             parseExpr(`ap ap cons 5 ap ap cons ${playerKey} nil`));
         const history = evaluate(env,
             demodulate(sendToServer(modulate(env, getHistoryRequest))));
+        const historyStr = debugString(env, history);
+        if (historyStr === "ap ap cons 0 nil") {
+            alert("Failed to fetch the history");
+            return;
+        }
 
         const state = parseExpr(
             replayState(playerKey, debugString(env, history), debugString(env, timestamp)));
