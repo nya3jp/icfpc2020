@@ -82,10 +82,7 @@ pub struct StageData {
     pub _3: Vec<isize>,
 }
 
-pub struct CurrentState {
-    pub turn: usize, // 現在のターン数
-}
-
+// deserialized response.
 pub struct Response {
     pub _1: usize, // 常に 1?
     pub current_game_state: CurrentGameState,
@@ -139,9 +136,7 @@ pub enum ActionResult {
         params: Param,
     },
 }
-
-// deserialized state.
-pub struct State {
+pub struct CurrentState {
     pub turn: usize, // 現在のターン数
     pub obstacle: Option<Obstacle>,
     pub machines: Vec<(Machine, Option<ActionResult>)>,
