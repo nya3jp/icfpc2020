@@ -1,9 +1,10 @@
 # -*- mode: python -*-
 
 cc_binary(
-  name = "api_test",
+  name = "cpp_sample",
   srcs = [
       "value.h",
+      "framework.h",
       "main.cpp",
   ],
 )
