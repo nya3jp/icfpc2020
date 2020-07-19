@@ -85,6 +85,12 @@ for platform in $(find . -name .platform); do
     # Copy bot code
     mkdir -p "$workdir/$root"
     cp -r "$root/." "$workdir/$root/"
+
+    # Copy specified .platform
+    pwd
+    ls -al "$workdir/$root/.platform"
+    cp "$workdir/$root/.platform" "$workdir/"
+
     pushd "$workdir/$root"
     do_vendor
     git add .
