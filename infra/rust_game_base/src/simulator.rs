@@ -8,22 +8,26 @@ const THRUST_ENERGY: usize = 1;
 
 fn machine_generated_heat(m: &Machine, heat: usize) -> Machine {
     Machine {
-        generated_heat: m.generated_heat + heat,
+        heat: m.heat + heat,
         ..*m
     }
 }
 
 fn machine_damage(m: &Machine, damage: usize) -> Machine {
     Machine {
-        attack_heat: m.attack_heat + damage,
+        heat: m.heat + damage,
         ..*m
     }
+}
+
+fn update_machine_heat(m: &mut Machine, heat: usize) {
+    m.heat += heat
 }
 
 // returns None if machines die
 fn machine_cooldown(m: &Machine) -> Machine {
     let energy = m.params.energy;
-    let newh = m.heat + m.attack_heat;
+    let newh = m.heat;
     let newh = newh - min(m.params.cool_down_per_turn, newh);
     println!("newh: {}", newh);
     if ((newh > OVERHEAT) && // attack indeed does damage and kill
@@ -42,7 +46,7 @@ fn machine_cooldown(m: &Machine) -> Machine {
     };
     // otherwise, cooldown is first used to block attack heat and then remaining heat deletes their own energy / laser effectiveness
 
-    let newheat = m.heat + m.attack_heat + m.generated_heat - m.params.cool_down_per_turn;
+    let newheat = m.heat - m.params.cool_down_per_turn;
     let heatdamage = newheat - min(newheat, OVERHEAT);
 
     let newheat = min(newheat, OVERHEAT);
@@ -58,8 +62,6 @@ fn machine_cooldown(m: &Machine) -> Machine {
             ..m.params
         },
         heat: newheat,
-        generated_heat: 0,
-        attack_heat: 0,
         ..*m
     }
 }
@@ -205,20 +207,44 @@ fn state_update_coordinates(s: &CurrentState) -> CurrentState {
     }
 }
 
-fn state_clear_actions(cstate: &CurrentState) -> CurrentState {
-    let newmachines = cstate
-        .machines
-        .iter()
-        .map(|(x, _)| (x.clone(), vec![]))
-        .collect();
-    CurrentState {
-        machines: newmachines,
-        ..*cstate
+fn state_clone_clear_actions(cstate: &CurrentState) -> CurrentState {
+    let mut newstate = cstate.clone();
+    for m in &mut newstate.machines {
+        m.1.clear()
+    }
+    newstate
+}
+
+fn state_update_obstacles(cstate: &mut CurrentState) {
+    match cstate.obstacle {
+        None => (),
+        Some(obs) => {
+            for m in &mut cstate.machines {
+                let x = m.0.position.x;
+                let y = m.0.position.y;
+                let mut fx = 0;
+                let mut fy = 0;
+                if x > 0 && x.abs() >= y.abs() {
+                    fx -= 1;
+                }
+                if x < 0 && x.abs() >= y.abs() {
+                    fx += 1;
+                }
+                if y > 0 && x.abs() <= y.abs() {
+                    fy -= 1;
+                }
+                if y > 0 && x.abs() <= y.abs() {
+                    fy += 1;
+                }
+                m.0.velocity = m.0.velocity + Point { x: fx, y: fy }
+            }
+        }
     }
 }
 
 pub fn state_update(cstate: &CurrentState, commands: &Vec<Command>) -> CurrentState {
-    let cstate = state_clear_actions(cstate);
+    let mut cstate = state_clone_clear_actions(cstate);
+    state_update_obstacles(&mut cstate);
     let cstate = state_update_velocities(&cstate, commands);
     let cstate = state_update_coordinates(&cstate);
     let cstate = state_update_damages(&cstate, commands);
@@ -245,8 +271,6 @@ mod tests {
             heat: 0,
             _1: 64,
             _2: 1,
-            generated_heat: 0,
-            attack_heat: 0,
         };
         let machine2 = Machine {
             role: Role::ATTACKER,
@@ -262,8 +286,6 @@ mod tests {
             heat: 8,
             _1: 64,
             _2: 1,
-            generated_heat: 0,
-            attack_heat: 0,
         };
         CurrentState {
             turn: 0,
