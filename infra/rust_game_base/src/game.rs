@@ -6,7 +6,7 @@ pub const SELF_DESTRUCT_COMMAND: i128 = 1;
 pub const BEAM_COMMAND: i128 = 2;
 pub const SPLIT_COMMAND: i128 = 3;
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Default)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Default, Hash)]
 pub struct Point {
     pub x: isize,
     pub y: isize,
