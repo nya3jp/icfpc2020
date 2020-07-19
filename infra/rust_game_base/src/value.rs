@@ -89,6 +89,44 @@ pub fn demodulate(it: &mut impl Iterator<Item = bool>) -> Option<Value> {
     })
 }
 
+// TODO
+// pub fn from_vec(vals: Vec<Value>) -> Value {
+// }
+
+pub fn to_vec(val: Value) -> Vec<Value> {
+    let mut val = val;
+    let mut vals = Vec::new();
+    loop {
+        match val {
+            Value::Cons(car, cdr) => {
+                vals.push(*car);
+                val = *cdr;
+            }
+            Value::Nil => {
+                break
+            }
+            _ => {
+                panic!();
+            }
+        }
+    }
+    vals
+}
+
+pub fn to_option(val: Value) -> Option<Value> {
+    match val {
+        Value::Nil => None,
+        val => Some(val),
+    }
+}
+
+pub fn to_int(val: &Value) -> i128 {
+    match *val {
+        Value::Int(n) => n,
+        _ => panic!(),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
