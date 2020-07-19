@@ -10,7 +10,7 @@ function startMissingResults(): void {
     missingRunElem.disabled = true;
     try {
         let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
-        let [currentBots, subIdToBranch] = getOurLatestBots();
+        let [currentBots, subIdToBranch, subIdToCommit] = getOurLatestBots();
         let topPlayers = getOpponents().slice(0, 10);
         let ourBots = ['bot_kimiyuki', 'bot_psh_testbot', 'tanakh_super_bot'];
 
@@ -40,14 +40,14 @@ function startMissingResults(): void {
 function loadResults(): void {
     try {
         let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
-        let [currentBots, subIdToBranch] = getOurLatestBots();
+        let [currentBots, subIdToBranch, subidToCommit] = getOurLatestBots();
         let topPlayers = getOpponents().slice(0, 10);
         let ourBots = ['bot_kimiyuki', 'bot_psh_testbot', 'tanakh_super_bot'];
 
         let head = [];
         for (var name of ourBots) {
-            head.push('<th>' + name + ' atk (' + currentBots[name] + ')</th>');
-            head.push('<th>' + name + ' def (' + currentBots[name] + ')</th>');
+            head.push('<th>' + name + ' atk <br />(' + currentBots[name] + ', ' + subidToCommit[currentBots[name]].substring(0, 6) + ')</th>');
+            head.push('<th>' + name + ' def <br />(' + currentBots[name] + ', ' + subidToCommit[currentBots[name]].substring(0, 6) + ')</th>');
         }
 
         let rows: Array<string> = [];
@@ -108,12 +108,14 @@ function getOpponents(): Array<[string, number]> {
     return ret;
 }
 
-function getOurLatestBots(): [Record<string, number>, Record<number, string>] {
+function getOurLatestBots(): [Record<string, number>, Record<number, string>, Record<number, string>] {
     const submissions = <Array<Submission>>JSON.parse(queryServer('/submissions'));
     let currentBots: Record<string, number> = {};
     let subidToBranch: Record<number, string> = {};
+    let subidToCommit: Record<number, string> = {};
     submissions.reverse();
     for (var sub of submissions) {
+        subidToCommit[sub.submissionId] = sub.commitHash;
         if (!sub.branchName) {
             continue;
         }
@@ -127,7 +129,7 @@ function getOurLatestBots(): [Record<string, number>, Record<number, string>] {
             currentBots[sub.branchName] = sub.submissionId;
         }
     }
-    return [currentBots, subidToBranch];
+    return [currentBots, subidToBranch, subidToCommit];
 }
 
 function getResults(): [Record<number, string>, Record<number, Record<number, [string, number]>>, Record<number, Record<number, [string, number]>>] {
@@ -191,6 +193,7 @@ interface Submission {
     submissionId: number,
     branchName?: string,
     status: string,
+    commitHash: string
 }
 
 interface Scoreboard {
