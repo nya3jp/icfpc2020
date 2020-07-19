@@ -21,7 +21,12 @@ fn main() {
 
 fn initialize(resp: &rust_game_base::Response) -> rust_game_base::Param {
     let total_cost = resp.stage_data.initialize_param.total_cost;
-    let start_params = rust_game_base::Param { energy: total_cost - 16 * 4 - 8 * 12 - 2, laser_power: 16, cool_down_per_turn: 8, life: 1 };
+    let self_role = resp.stage_data.self_role;
+    let mut start_params = rust_game_base::Param { energy: 0, laser_power: 0, cool_down_per_turn: 8, life: 1 };
+    if self_role == rust_game_base::Role::ATTACKER {
+        start_params.laser_power += 6;
+    }
+    start_params.energy = total_cost - 4 * start_params.laser_power - 12 * start_params.cool_down_per_turn - 2 * start_params.life;
     start_params
 }
 
@@ -95,13 +100,13 @@ fn play(resp: &rust_game_base::Response) -> Vec<rust_game_base::Command> {
         }
     }
     for machine in self_machines.iter() {
-        if machine.params.laser_power >= 1 && machine.heat <= 3 {
+        if machine.params.laser_power >= 1 && machine.heat <= machine.params.cool_down_per_turn {
             for opponent_machine in opponent_machines.iter() {
                 let p = Point {
                     x: opponent_machine.position.x + opponent_machine.velocity.x,
                     y: opponent_machine.position.y + opponent_machine.velocity.y,
                 };
-                commands.push(rust_game_base::Command::Beam(machine.machine_id, p, 16));
+                commands.push(rust_game_base::Command::Beam(machine.machine_id, p, machine.params.laser_power as isize));
                 break
             }
         }
