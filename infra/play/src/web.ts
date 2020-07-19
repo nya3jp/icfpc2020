@@ -7,7 +7,7 @@ import {
     makeReference,
     parseList,
     PictureValue,
-    Point, PrettyData
+    Point, PrettyData, NumberData
 } from './data';
 
 import {
@@ -135,48 +135,125 @@ function updateUI(): void {
     updateLogs();
 }
 
+const EXPLAINS: {[key: string]: string} = {
+    ['req:0/0']: 'Ping',
+    ['req:1/0']: 'Tutorial',
+    ['req:1/1']: 'ID',
+    ['req:2/0']: 'Join',
+    ['req:2/2']: 'Params',
+    ['req:3/0']: 'Start',
+    ['req:4/0']: 'Commands',
+    ['req:4/2']: 'Commands',
+    ['req:4/2/[0-9]/<0>0']: 'Accelerate',
+    ['req:4/2/[0-9]/<0>2']: 'Vector',
+    ['req:4/2/[0-9]/<1>0']: 'Detonate',
+    ['req:4/2/[0-9]/<2>0']: 'Shoot',
+    ['req:4/2/[0-9]/<2>2']: 'Target',
+    ['req:4/2/[0-9]/<2>3']: 'x3',
+    ['req:4/2/[0-9]/<[0-2]>1']: 'ShipID',
+    ['req:[2-4]/1']: 'Key',
+    ['res:[0-5]:0/0']: 'Error',
+    ['res:[0-5]:1/0']: 'OK',
+    ['res:0:1/1']: 'Time',
+    ['res:1:1/1/0/1']: 'Key',
+    ['res:[2-4]:1/1']: 'Stage',
+    ['res:[2-4]:1/2']: 'GameInfo',
+    ['res:[2-4]:1/2/0']: 'x0',
+    ['res:[2-4]:1/2/1']: 'Role',
+    ['res:[2-4]:1/2/2']: 'x2',
+    ['res:[2-4]:1/2/3']: 'x3',
+    ['res:[2-4]:1/2/4']: 'x4',
+    ['res:[2-4]:1/3/0']: 'Tick',
+    ['res:[2-4]:1/3/1']: 'x1',
+    ['res:[2-4]:1/3/2']: 'Ships',
+    ['res:[2-4]:1/3/2/[0-9]/0']: 'Ship#',
+    ['res:[2-4]:1/3/2/[0-9]/0/0']: 'Role',
+    ['res:[2-4]:1/3/2/[0-9]/0/1']: 'ID',
+    ['res:[2-4]:1/3/2/[0-9]/0/2']: 'Pos',
+    ['res:[2-4]:1/3/2/[0-9]/0/3']: 'Velocity',
+    ['res:[2-4]:1/3/2/[0-9]/0/4']: 'x4',
+    ['res:[2-4]:1/3/2/[0-9]/0/5']: 'x5',
+    ['res:[2-4]:1/3/2/[0-9]/0/6']: 'x6',
+    ['res:[2-4]:1/3/2/[0-9]/0/7']: 'x7',
+    ['res:[2-4]:1/3/2/[0-9]/1']: 'Commands#',
+    ['res:[2-4]:1/3/2/[0-9]/1/[0-9]/<0>0']: 'Accelerate',
+    ['res:[2-4]:1/3/2/[0-9]/1/[0-9]/<0>2']: 'Vector',
+    ['res:[2-4]:1/3/2/[0-9]/1/[0-9]/<1>0']: 'Detonate',
+    ['res:[2-4]:1/3/2/[0-9]/1/[0-9]/<2>0']: 'Shoot',
+    ['res:[2-4]:1/3/2/[0-9]/1/[0-9]/<2>2']: 'Target',
+    ['res:[2-4]:1/3/2/[0-9]/1/[0-9]/<2>3']: 'x3',
+    ['res:[2-4]:1/3/2/[0-9]/1/[0-9]/<[0-2]>1']: 'ShipID',
+}
+
 function updateLogs(): void {
+    type TreePos = string | null;
+
     function emph(s: string): string {
         return `<b>${s}</b>`;
     }
-    function toDiffedLispList(data: PrettyData, last: PrettyData): string {
+    function pushPos(pos: TreePos, elems: Array<PrettyData>, i: number): TreePos {
+        if (!pos) {
+            return null;
+        }
+        if (/^req:4\/2\/[0-9]$/.test(pos) ||
+            /^res:[2-4]:1\/3\/2\/[0-9]\/1\/[0-9]$/.test(pos)) {
+            return `${pos}/<${(elems[0] as NumberData).number}>${i}`
+        }
+        return `${pos}/${i}`;
+    }
+    function explain(data: PrettyData, pos: TreePos): string {
+        if (!pos) {
+            return '';
+        }
+        for (const key in EXPLAINS) {
+            const re = new RegExp('^' + key + '$');
+            if (re.test(pos)) {
+                let msg = EXPLAINS[key];
+                const path = pos.split(/[:/]/);
+                msg = msg.replace('#', path[path.length-2]);
+                return `<span class="annotation">${msg}: </span>`;
+            }
+        }
+        return '';
+    }
+    function toDiffedLispList(data: PrettyData, last: PrettyData, pos: TreePos): string {
         switch (data.kind) {
             case 'number':
-                const s = toLispList(data);
+                const s = toLispList(data, pos);
                 if (last.kind == 'number' && last.number === data.number) {
                     return s;
                 }
                 return emph(s);
             case 'list':
                 if (last.kind !== 'list') {
-                    return emph(toLispList(data));
+                    return emph(toLispList(data, pos));
                 }
                 const elems: Array<string> = [];
                 for (let i = 0; i < data.elems.length; ++i) {
                     const dataElem = data.elems[i];
                     const lastElem = last.elems[i];
                     if (!lastElem) {
-                        elems.push(emph(toLispList(dataElem)));
+                        elems.push(emph(toLispList(dataElem, pushPos(pos, data.elems, i))));
                     } else {
-                        elems.push(toDiffedLispList(dataElem, lastElem));
+                        elems.push(toDiffedLispList(dataElem, lastElem, pushPos(pos, data.elems, i)));
                     }
                 }
-                return `[${elems.join(', ')}]`;
+                return explain(data, pos) + `[${elems.join(', ')}]`;
             case 'cons':
                 if (last.kind !== 'cons') {
-                    return emph(toLispList(data));
+                    return emph(toLispList(data, pos));
                 }
-                return `(${toDiffedLispList(data.car, last.car)} . ${toDiffedLispList(data.cdr, last.cdr)})`;
+                return explain(data, pos) + `(${toDiffedLispList(data.car, last.car, null)} . ${toDiffedLispList(data.cdr, last.cdr, null)})`;
         }
     }
-    function toLispList(data: PrettyData): string {
+    function toLispList(data: PrettyData, pos: TreePos): string {
         switch (data.kind) {
             case 'number':
-                return String(data.number);
+                return explain(data, pos) + String(data.number);
             case 'list':
-                return `[${data.elems.map(toLispList).join(', ')}]`;
+                return explain(data, pos) + `[${data.elems.map((e, i) => toLispList(e, pushPos(pos, data.elems, i))).join(', ')}]`;
             case 'cons':
-                return `(${toLispList(data.car)} . ${toLispList(data.cdr)})`;
+                return explain(data, pos) + `(${toLispList(data.car, null)} . ${toLispList(data.cdr, null)})`;
         }
     }
 
@@ -184,14 +261,17 @@ function updateLogs(): void {
 
     let elems: Array<string> = [];
     for (let i = sends.length - 1; i >= 0; i--) { // new -> old
+        const {req, res} = sends[i];
+        const op = req.kind === 'list' && req.elems[0].kind === 'number' ? String(req.elems[0].number) : '?';
+        const code = res.kind === 'list' && res.elems[0].kind === 'number' ? String(res.elems[0].number) : '?';
         let reqLog: String;
         let resLog: String;
         if (i == 0) {
-            reqLog = toLispList(sends[i].req);
-            resLog = toLispList(sends[i].res);
+            reqLog = toLispList(req, `req:${op}`);
+            resLog = toLispList(res, `res:${op}:${code}`);
         } else {
-            reqLog = toDiffedLispList(sends[i].req, sends[i-1].req);
-            resLog = toDiffedLispList(sends[i].res, sends[i-1].res);
+            reqLog = toDiffedLispList(req, sends[i-1].req, `req:${op}`);
+            resLog = toDiffedLispList(res, sends[i-1].res, `res:${op}:${code}`);
         }
         elems.push(`${reqLog} → ${resLog}`);
     }

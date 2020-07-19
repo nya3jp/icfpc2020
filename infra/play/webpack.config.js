@@ -31,5 +31,6 @@ module.exports = {
   ],
   devServer: {
     contentBase: distDir,
+    inline: false,
   },
 };
