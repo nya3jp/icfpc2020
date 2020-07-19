@@ -14,6 +14,7 @@ fn get_player_ker() -> i128 {
 pub fn send_join_request() -> Result<Response> {
     use crate::dsl::*;
     let player_key = get_player_ker();
+    eprintln!("send: JOIN player_key={}", player_key);
     send_and_receive_game_state(&list!(int(JOIN_REQUEST_TAG), int(player_key), nil()))
 }
 
@@ -21,6 +22,13 @@ pub fn send_start_request(params: &Param) -> Result<Response> {
     use crate::dsl::*;
     let player_key = get_player_ker();
     let is_tutorial: bool = std::env::vars().any(|(key, _)| key == "TUTORIAL_MODE");
+
+    if is_tutorial {
+        eprintln!("send: START player_key={} tutorial", player_key);
+    } else {
+        eprintln!("send: START player_key={} {:?}", player_key, params);
+    }
+
     let params = if is_tutorial {
         list!()
     } else {
@@ -69,7 +77,7 @@ fn parse_stage_data(val: Value) -> Result<StageData> {
         [total_turns, role, _2, obstacle, _3] => match to_vec(_2.clone())?.as_slice() {
             [_20, _21, _22] => StageData {
                 total_turns: to_int(total_turns)? as usize,
-                role: to_int(role)? as isize,
+                self_role: parse_role(role.clone())?,
                 _2: (
                     to_int(_20)? as isize,
                     to_int(_21)? as isize,
@@ -104,6 +112,14 @@ fn parse_point(val: Value) -> Result<Point> {
     })
 }
 
+fn parse_role(val: Value) -> Result<Role> {
+    Ok(match to_int(&val)? {
+        0 => Role::ATTACKER,
+        1 => Role::DEFENDER,
+        _ => bail!("unexpected value: {}", val.to_string()),
+    })
+}
+
 fn parse_params(val: Value) -> Result<Param> {
     Ok(match to_vec(val.clone())?.as_slice() {
         [energy, laser_power, cool_down_per_turn, life] => Param {
@@ -118,8 +134,8 @@ fn parse_params(val: Value) -> Result<Param> {
 
 fn parse_machine(val: Value) -> Result<Machine> {
     Ok(match to_vec(val.clone())?.as_slice() {
-        [team_id, machine_id, position, velocity, params, heat, _1, _2] => Machine {
-            team_id: to_int(team_id)? as isize,
+        [role, machine_id, position, velocity, params, heat, _1, _2] => Machine {
+            role: parse_role(role.clone())?,
             machine_id: to_int(machine_id)? as isize,
             position: parse_point(position.clone())?,
             velocity: parse_point(velocity.clone())?,
@@ -204,7 +220,6 @@ fn parse_response(val: Value) -> Result<Response> {
 fn send_and_receive_game_state(val: &Value) -> Result<Response> {
     println!("{}", modulate_to_string(&val));
     io::stdout().flush();
-    eprintln!("send: {}", val.to_string());
     let mut resp = String::new();
     io::stdin().read_line(&mut resp).unwrap();
     let resp = demodulate_from_string(&resp).unwrap();

@@ -28,14 +28,14 @@ fn main() {
     let resp = rust_game_base::send_join_request();
 
     eprintln!("send_start_request");
-    let mut res = rust_game_base::send_start_request(&rust_game_base::Param { energy: 4, laser_power: 4, cool_down_per_turn: 4, life: 4 });
+    let mut res = rust_game_base::send_start_request(&rust_game_base::Param { energy: 4, laser_power: 4, cool_down_per_turn: 4, life: 4 }).unwrap();
 
     eprintln!("send_command_request");
     loop {
         if res.current_game_state == rust_game_base::CurrentGameState::END {
             break;
         }
-        res = rust_game_base::send_command_request(&mut vec![].into_iter());
+        res = rust_game_base::send_command_request(&mut vec![].into_iter()).unwrap();
     }
 }
 

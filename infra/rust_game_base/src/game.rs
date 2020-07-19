@@ -1,11 +1,12 @@
 use self::super::value::*;
+use std::ops::{Add, Sub};
 
 pub const THRUST_COMMAND: i128 = 0;
 pub const SELF_DESTRUCT_COMMAND: i128 = 1;
 pub const BEAM_COMMAND: i128 = 2;
 pub const SPLIT_COMMAND: i128 = 3;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Point {
     pub x: isize,
     pub y: isize,
@@ -18,18 +19,26 @@ impl Point {
             Box::new(Value::Int(self.y as i128)),
         )
     }
-    pub fn sub(&self, p: Point) -> Point {
-        Point{ x: self.x - p.x, y: self.y - p.y }
-    }
-    pub fn add(&self, p: Point) -> Point {
-        Point{ x: self.x + p.x, y: self.y + p.y }
-    }
     pub fn l0_distance(&self) -> isize {
         std::cmp::max(self.x.abs(), self.y.abs())
     }
 }
 
-#[derive(Debug)]
+impl Add for Point {
+    type Output = Point;
+    fn add(self, p: Point) -> Point {
+        Point{ x: self.x + p.x, y: self.y + p.y }
+    }
+}
+
+impl Sub for Point {
+    type Output = Point;
+    fn sub(self, p: Point) -> Point {
+        Point{ x: self.x - p.x, y: self.y - p.y }
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Command {
     // Thrust(ShipNum, Point{x, y})
     Thrust(i8, Point),
@@ -102,7 +111,13 @@ pub enum CurrentGameState {
     END,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum Role {
+    ATTACKER,
+    DEFENDER,
+}
+
+#[derive(Debug, Clone, Eq, PartialEq)]
 pub struct Obstacle {
     // 重力源の半径 (|x| と |y| がともにこれ以下になると死. 移動中にかすめてもセーフ),
     pub gravity_radius: usize,
@@ -110,24 +125,24 @@ pub struct Obstacle {
     pub stage_half_size: usize,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct StageData {
     pub total_turns: usize,
-    pub role: isize, // 0: you are attacker. 1: defender.
+    pub self_role: Role, // whether you're an attacker or a defender.
     pub _2: (isize, isize, isize),
     pub obstacle: Option<Obstacle>,
     pub _3: Vec<isize>,
 }
 
 // deserialized response.
-#[derive(Debug)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Response {
     pub current_game_state: CurrentGameState,
     pub stage_data: StageData,
     pub current_state: Option<CurrentState>,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Param {
     // コレがなくなると、 Thruster が吹けない
     pub energy: usize,
@@ -139,10 +154,9 @@ pub struct Param {
     pub life: usize,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Machine {
-    // 0 attacker, 1 diffender
-    pub team_id: isize,
+    pub role: Role,
     // 機体 ID. 多分自陣営/敵陣営通して unique.
     pub machine_id: isize,
     pub position: Point,
@@ -153,11 +167,11 @@ pub struct Machine {
     pub _1: isize,
     pub _2: isize,
 
-    pub generated_heat: isize,
-    pub attack_heat: isize
+    pub generated_heat: usize,
+    pub attack_heat: usize
 }
 
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ActionResult {
     // tag = 0
     Thruster {
@@ -180,7 +194,7 @@ pub enum ActionResult {
     },
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct CurrentState {
     pub turn: usize, // 現在のターン数
     pub obstacle: Option<Obstacle>,
