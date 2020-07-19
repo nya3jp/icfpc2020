@@ -9,3 +9,4 @@ edition = "2018"
 [dependencies]
 rust_game_base = { path = "../../infra/rust_game_base" }
 anyhow = "1.0"
+rand = { version = "0.7", features = ["small_rng"] }
