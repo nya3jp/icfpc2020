@@ -167,7 +167,7 @@ fn parse_action_result(val: Value) -> Result<Vec<ActionResult>> {
                     power: to_int(power)? as usize,
                     area: to_int(area)? as usize,
                 },
-                (2, [opponent]) => ActionResult::Laser {
+                (2, [opponent, _, _, _]) => ActionResult::Laser {
                     opponent: parse_point(opponent.clone())?,
                 },
                 (3, [params]) => ActionResult::Split {
@@ -235,4 +235,14 @@ fn send_and_receive_game_state(val: &Value) -> Result<Response> {
     let resp = parse_response(resp)?;
     eprintln!("recieve: {:#?}", resp);
     Ok(resp)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_parse() {
+        let resp = demodulate_from_string("110110000111011000011111011110000100000000110101111011110001000000000110110000111011100100000000111101110000100001101110100000000011110111001100100110110101011011010101101100001000011110110000111110111000010000110111010000000001111111101100001110101111101100010111110101111111101100001010111101110011001001101101010110110101011011000010011010110111001000000110110000100111111011000101111011100011000001101111110110101011010110110010000000011111101011011000011111011100010111101101111111110100001010111101111000011001000011010110110001011011000010011010110111001000000110110000100110000000000").unwrap();
+        parse_response(resp).unwrap();
+    }
 }
