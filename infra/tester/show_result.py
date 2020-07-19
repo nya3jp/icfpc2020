@@ -63,8 +63,6 @@ def to_list_ish(v):
     if type(v) is int:
         return v
     first = to_list_ish(v[0])
-    if first == []:
-        first = None
     second = to_list_ish(v[1])
     if type(second) is list:
         return [first] + second
