@@ -72,13 +72,13 @@ fn main() {
         let mv = next_action(State::from_response(&res.current_state.unwrap()));
         let mv:Vec<_> = mv.iter().map(|m| match m {
             &Command::Thrust(p) => rust_game_base::Command::Thrust(
-                machine_id as _,
+                machine_id,
                 rust_game_base::Point {
                     x: p.x as isize,
                     y: p.y as isize,
                 },
             ),
-            &Command::Bomb => rust_game_base::Command::SelfDestruct(machine_id as _),
+            &Command::Bomb => rust_game_base::Command::Bomb(machine_id),
             _ => panic!(),
             // Command::Beam { dir, power } => {}
         }).collect();

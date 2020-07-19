@@ -53,7 +53,7 @@ pub enum Command {
     // Thrust(ShipNum, Point{x, y})
     Thrust(isize, Point),
     // SelfDestruct(ShipNum)
-    SelfDestruct(i8),
+    Bomb(isize),
     // Beam(ShipNum, X, Y, Power)
     Beam(isize, Point, isize),
     // Split
@@ -72,7 +72,7 @@ impl Command {
                 )),
             ),
             // send [1, SHIP_NUM]
-            &Command::SelfDestruct(ship_num) => Value::Cons(
+            &Command::Bomb(ship_num) => Value::Cons(
                 Box::new(Value::Int(SELF_DESTRUCT_COMMAND)),
                 Box::new(Value::Cons(
                     Box::new(Value::Int(ship_num as i128)),
