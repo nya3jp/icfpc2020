@@ -138,13 +138,13 @@ impl State {
 
     fn dummy() -> State {
         State {
-            turn: 10,
+            turn: 100,
             me: Machine {
-                pos: P::new(50, 50),
+                pos: P::new(1, 1),
                 v: P::new(0, 0),
             },
             you: Machine {
-                pos: P::new(-50, -50),
+                pos: P::new(-1, -1),
                 v: P::new(0, 0),
             },
         }
@@ -164,8 +164,6 @@ fn evaluate_state(s: &State) -> f64 {
 
 // get next states without actually running the action.
 fn next_state(s: &State, a: &Action) -> State {
-    // TODO
-
     let mut s = s.clone();
     s.turn -= 1;
 
@@ -198,6 +196,9 @@ fn possible_actions(s: &State) -> Vec<Action> {
     res.push(vec![]); // do nothing
     for (dx, dy) in iproduct!(-1..=1, -1..=1) {
         if dx == 0 && dy == 0 {
+            continue;
+        }
+        if (dx != 0) && (dy != 0) {
             continue;
         }
         res.push(vec![Command::Thrust(P::new(dx, dy))]);
