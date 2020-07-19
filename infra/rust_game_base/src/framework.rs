@@ -45,7 +45,11 @@ pub fn send_start_request(params: &Param) -> Result<Response> {
 pub fn send_command_request(it: &mut impl Iterator<Item = Command>) -> Result<Response> {
     use crate::dsl::*;
     let player_key = get_player_key();
-    let commands = it.fold(nil(), |acc, x| cons(x.to_value(), acc));
+    let commands = it.collect::<Vec<Command>>();
+    eprintln!("send: COMMAND player_key={} {:?}", player_key, commands);
+    let commands = commands
+        .iter()
+        .fold(nil(), |acc, x| cons(x.to_value(), acc));
     send_and_receive_game_state(&list!(int(COMMAND_REQUEST_TAG), int(player_key), commands))
 }
 
