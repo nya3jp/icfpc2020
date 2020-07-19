@@ -13,5 +13,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Fetch whole repository
         run: git fetch origin
+      - name: Configure
+        run: git config --local user.email "bot@example.com" && git config --local user.name "Bot"
       - name: Run make_submissions.sh
         run: ./infra/make_submissions.sh --push
