@@ -11,10 +11,10 @@ import collections
 
 MY_TEAM_ID = '3dfa39ba-93b8-4173-92ad-51da07002f1b'
 VALID_BOTS = [
-    'bot_do_nothing',
+    # 'bot_do_nothing',
+    # 'bot_simple_stay',
     'bot_kimiyuki',
     'bot_psh_testbot',
-    'bot_simple_stay',
     'tanakh_super_bot',
 ]
 
@@ -22,7 +22,7 @@ VALID_BOTS = [
 def main():
     current_bots, subid_to_branch = get_our_latest_bots()
     subid_to_team_name, results_atk, results_def = get_results()
-    opponents = get_opponents()[:3]
+    opponents = get_opponents()[:10]
     for branch, my_subid in current_bots.items():
         for team_name, opponent_subid in opponents:
             if my_subid not in results_atk or opponent_subid not in results_atk[
