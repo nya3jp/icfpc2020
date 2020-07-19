@@ -102,7 +102,7 @@ pub enum CurrentGameState {
     END,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Obstacle {
     // 重力源の半径 (|x| と |y| がともにこれ以下になると死. 移動中にかすめてもセーフ),
     pub gravity_radius: usize,
@@ -127,7 +127,7 @@ pub struct Response {
     pub current_state: Option<CurrentState>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Param {
     // コレがなくなると、 Thruster が吹けない
     pub energy: usize,
@@ -139,7 +139,7 @@ pub struct Param {
     pub life: usize,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Machine {
     // 0 attacker, 1 diffender
     pub team_id: isize,
@@ -157,7 +157,7 @@ pub struct Machine {
     pub attack_heat: isize
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum ActionResult {
     // tag = 0
     Thruster {
@@ -180,7 +180,7 @@ pub enum ActionResult {
     },
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct CurrentState {
     pub turn: usize, // 現在のターン数
     pub obstacle: Option<Obstacle>,

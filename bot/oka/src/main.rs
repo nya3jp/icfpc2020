@@ -28,7 +28,13 @@ fn main() {
     let resp = rust_game_base::send_join_request();
 
     eprintln!("send_start_request");
-    let mut res = rust_game_base::send_start_request(&rust_game_base::Param { energy: 4, laser_power: 4, cool_down_per_turn: 4, life: 4 });
+    let mut res = rust_game_base::send_start_request(&rust_game_base::Param {
+        energy: 4,
+        laser_power: 4,
+        cool_down_per_turn: 4,
+        life: 4,
+    })
+    .unwrap();
 
     let im_attacker = res.stage_data.role == 0; // 0: attacker, 1: defender
     eprintln!(
@@ -56,31 +62,36 @@ fn main() {
             break;
         }
         eprintln!("send_command_request");
-        res = rust_game_base::send_command_request(&mut vec![].into_iter());
+
+        let mv = next_action(State::from_response(&res.current_state.unwrap()));
+        let mv = mv.iter().map(|m| match m {
+            &Command::Thrust(p) => rust_game_base::Command::Thrust(
+                1,
+                rust_game_base::Point {
+                    x: p.x as isize,
+                    y: p.y as isize,
+                },
+            ),
+            &Command::Bomb => rust_game_base::Command::SelfDestruct(1),
+            _ => panic!(),
+            // Command::Beam { dir, power } => {}
+        });
+        res = rust_game_base::send_command_request(&mut mv.into_iter()).unwrap();
     }
 }
 
 struct StartParam {}
 
-fn run(mut state: State) {
-    loop {
-        let mut best = (-10000.0, vec![], None);
-        for a in possible_actions(&state) {
-            let ns = next_state(&state, &a);
-            let val = evaluate_state(&ns);
-            if best.0 < val {
-                best = (val, a, Some(ns));
-            }
-        }
-        // let got_state = Proxy::do_action(&best.1);
-
-        // TODO: log if state != got_state.
-
-        state = best.2.unwrap();
-        if state.finished() {
-            return;
+fn next_action(mut state: State) -> Action {
+    let mut best = (-10000.0, vec![], None);
+    for a in possible_actions(&state) {
+        let ns = next_state(&state, &a);
+        let val = evaluate_state(&ns);
+        if best.0 < val {
+            best = (val, a, Some(ns));
         }
     }
+    best.1
 }
 
 #[derive(Clone, Debug, Copy)]
@@ -126,6 +137,7 @@ impl P {
 struct Machine {
     pos: P,
     v: P,
+    killed: bool,
 }
 
 #[derive(Clone, Debug)]
@@ -136,8 +148,30 @@ struct State {
 }
 
 impl State {
-    fn from_response(gs: rust_game_base::Response) -> State {
-        todo!();
+    fn from_response(gs: &rust_game_base::CurrentState) -> State {
+        let attacker = 0;
+        let mut me = None;
+        let mut you = None;
+        for m in gs.machines.iter() {
+            if m.0.team_id == 0 {
+                me = Some(Machine {
+                    pos: P::new(m.0.position.x, m.0.position.y),
+                    v: P::new(m.0.velocity.x, m.0.velocity.y),
+                    killed: false,
+                })
+            } else {
+                you = Some(Machine {
+                    pos: P::new(m.0.position.x, m.0.position.y),
+                    v: P::new(m.0.velocity.x, m.0.velocity.y),
+                    killed: false,
+                })
+            }
+        }
+        State {
+            me: me.unwrap(),
+            you: you.unwrap(),
+            turn: 10,
+        }
     }
 
     fn dummy() -> State {
@@ -146,10 +180,12 @@ impl State {
             me: Machine {
                 pos: P::new(1, 1),
                 v: P::new(0, 0),
+                killed: false,
             },
             you: Machine {
                 pos: P::new(-1, -1),
                 v: P::new(0, 0),
+                killed: false,
             },
         }
     }
@@ -163,6 +199,9 @@ impl State {
 // the higher the better
 fn evaluate_state(s: &State) -> f64 {
     const small: f64 = 1.0 / 1000.0;
+    if s.you.killed {
+        return 1000000.0;
+    }
     1.0 / (s.me.pos.dist(s.you.pos) + 1.0) - small * s.me.v.norm()
 }
 
@@ -176,6 +215,11 @@ fn next_state(s: &State, a: &Action) -> State {
             Command::Thrust(a) => {
                 s.me.v = s.me.v + *a;
                 s.me.pos = s.me.pos + s.me.v;
+            }
+            Command::Bomb => {
+                if s.you.pos.x == s.me.pos.x && s.you.pos.y == s.me.pos.y {
+                    s.you.killed = true;
+                }
             }
             _ => unimplemented!(),
         }
@@ -198,6 +242,7 @@ fn possible_actions(s: &State) -> Vec<Action> {
     let mut res = vec![];
 
     res.push(vec![]); // do nothing
+    res.push(vec![Command::Bomb]);
     for (dx, dy) in iproduct!(-1..=1, -1..=1) {
         if dx == 0 && dy == 0 {
             continue;
