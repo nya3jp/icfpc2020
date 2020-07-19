@@ -41,10 +41,10 @@ const stateElem = document.getElementById('state') as HTMLInputElement;
 const stateListElem = document.getElementById('state-list') as HTMLLabelElement;
 const pixelSizeElem = document.getElementById('fixed') as HTMLInputElement;
 const infoElem = document.getElementById('info') as HTMLElement;
-const logsElem = document.getElementById('logs') as HTMLTextAreaElement;
 const sendLogsElem = document.getElementById('sendlogs') as HTMLElement;
 const annotateElem = document.getElementById('annotate') as HTMLInputElement;
 const replayElem = document.getElementById('replay-player-key') as HTMLInputElement;
+const fastElem = document.getElementById('fast') as HTMLInputElement;
 
 const VIEW_MARGIN = 60;
 
@@ -127,9 +127,16 @@ function updateUI(): void {
     const { state, pics } = history[historyPos];
     renderCanvas(pics);
     infoElem.textContent = `Step ${historyPos + 1} / ${history.length}`;
+
+    const fast = fastElem.checked;
+    Array.from(document.getElementsByClassName('slow')).forEach((elem) => (elem as HTMLElement).style.display = fast ? 'none' : 'block');
+
+    if (fast) {
+        return;
+    }
+
     stateElem.value = debugString(env, state);
     stateListElem.textContent = prettyDataString(valueToPrettyData(env, evaluate(env, state)));
-
     updateLogs();
 }
 
@@ -404,6 +411,10 @@ function onReplayPlayerKeyChanged(): void {
     loadReplay(replayElem.value.trim());
 }
 
+function onFastChanged(): void {
+    updateUI();
+}
+
 function reportError(e: Error): void {
     alert(e);
     throw e;
@@ -415,6 +426,7 @@ function init(): void {
     pixelSizeElem.addEventListener('change', onPixelSizeChanged);
     annotateElem.addEventListener('change', onAnnotateChanged);
     replayElem.addEventListener('change', onReplayPlayerKeyChanged);
+    fastElem.addEventListener('change', onFastChanged);
 
     const initState = parseExpr('ap ap cons 2 ap ap cons ap ap cons 1 ap ap cons -1 nil ap ap cons 0 ap ap cons nil nil');
     interactPoint(initState, FARAWAY_POINT);
