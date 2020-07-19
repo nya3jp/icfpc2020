@@ -222,6 +222,7 @@ fn parse_response(val: Value) -> Result<Response> {
 }
 
 fn send_and_receive_game_state(val: &Value) -> Result<Response> {
+    eprintln!("{:?}", val);
     println!("{}", modulate_to_string(&val));
     io::stdout().flush();
     let mut resp = String::new();

@@ -2,6 +2,7 @@
 
 #[macro_use]
 pub mod dsl;
+pub mod actions;
 pub mod framework;
 pub mod game;
 pub mod simulator;

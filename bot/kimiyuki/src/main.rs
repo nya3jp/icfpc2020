@@ -40,7 +40,7 @@ fn play(resp: &rust_game_base::Response) -> Vec<rust_game_base::Command> {
                 a.x += 1;
             }
             if (a.y, a.x) != (0, 0) {
-                commands.push(rust_game_base::Command::Thrust(machine.machine_id as i8, a));
+                commands.push(rust_game_base::Command::Thrust(machine.machine_id, a));
             }
         }
     };

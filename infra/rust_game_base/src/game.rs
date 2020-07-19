@@ -51,11 +51,11 @@ impl Sub for Point {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Command {
     // Thrust(ShipNum, Point{x, y})
-    Thrust(i8, Point),
+    Thrust(isize, Point),
     // SelfDestruct(ShipNum)
     SelfDestruct(i8),
     // Beam(ShipNum, X, Y, Power)
-    Beam(i8, Point, i8),
+    Beam(isize, Point, i8),
     // Split
     Split(Param),
 }
