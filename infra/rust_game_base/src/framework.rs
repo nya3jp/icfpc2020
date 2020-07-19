@@ -7,20 +7,20 @@ const JOIN_REQUEST_TAG: i128 = 2;
 const START_REQUEST_TAG: i128 = 3;
 const COMMAND_REQUEST_TAG: i128 = 4;
 
-fn get_player_ker() -> i128 {
+fn get_player_key() -> i128 {
     std::env::args().nth(1).unwrap().parse().unwrap()
 }
 
 pub fn send_join_request() -> Result<Response> {
     use crate::dsl::*;
-    let player_key = get_player_ker();
+    let player_key = get_player_key();
     eprintln!("send: JOIN player_key={}", player_key);
     send_and_receive_game_state(&list!(int(JOIN_REQUEST_TAG), int(player_key), nil()))
 }
 
 pub fn send_start_request(params: &Param) -> Result<Response> {
     use crate::dsl::*;
-    let player_key = get_player_ker();
+    let player_key = get_player_key();
     let is_tutorial: bool = std::env::vars().any(|(key, _)| key == "TUTORIAL_MODE");
 
     if is_tutorial {
@@ -44,7 +44,7 @@ pub fn send_start_request(params: &Param) -> Result<Response> {
 
 pub fn send_command_request(it: &mut impl Iterator<Item = Command>) -> Result<Response> {
     use crate::dsl::*;
-    let player_key = get_player_ker();
+    let player_key = get_player_key();
     let commands = it.fold(nil(), |acc, x| cons(x.to_value(), acc));
     send_and_receive_game_state(&list!(int(COMMAND_REQUEST_TAG), int(player_key), commands))
 }
