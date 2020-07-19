@@ -81,9 +81,9 @@ impl Bot {
             }
 
             // 一番長く生き残るところに行く
-            let (best_time, best_v) = VECT
+            let (best_time, _, best_v) = VECT
                 .iter()
-                .map(|v| (self.live_time(&m, v), v))
+                .map(|v| (self.live_time(&m, v), -(v.x.abs() + v.y.abs()), v))
                 .max_by_key(|r| r.0)
                 .unwrap();
 
