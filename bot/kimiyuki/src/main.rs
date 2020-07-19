@@ -100,7 +100,7 @@ fn play(resp: &rust_game_base::Response) -> Vec<rust_game_base::Command> {
                     x: opponent_machine.position.x + opponent_machine.velocity.x,
                     y: opponent_machine.position.y + opponent_machine.velocity.y,
                 };
-                commands.push(rust_game_base::Command::Beam(machine.machine_id, p, 1));
+                commands.push(rust_game_base::Command::Beam(machine.machine_id, p, 16));
                 break
             }
         }
