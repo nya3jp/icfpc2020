@@ -30,11 +30,32 @@ fn main() {
     eprintln!("send_start_request");
     let mut res = rust_game_base::send_start_request(4, 4, 4, 4);
 
-    eprintln!("send_command_request");
+    let im_attacker = res.stage_data.role == 0; // 0: attacker, 1: defender
+    eprintln!(
+        "I'm {}",
+        if (im_attacker) {
+            "attacker"
+        } else {
+            "defender"
+        }
+    );
+
     loop {
         if res.current_game_state == rust_game_base::CurrentGameState::END {
+            let mut attacker_won = true;
+            for m in res.current_state.unwrap().machines {
+                if m.0.team_id == 1 && m.0.params.life > 0 {
+                    attacker_won = false;
+                }
+            }
+            if attacker_won == im_attacker {
+                eprintln!("I won!");
+            } else {
+                eprintln!("I lost!");
+            }
             break;
         }
+        eprintln!("send_command_request");
         res = rust_game_base::send_command_request(&mut vec![].into_iter());
     }
 }

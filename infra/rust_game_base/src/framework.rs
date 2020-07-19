@@ -81,10 +81,10 @@ fn parse_obstacle(val: Value) -> Option<Obstacle> {
 
 fn parse_stage_data(val: Value) -> StageData {
     match to_vec(val.clone()).as_slice() {
-        [total_turns, _1, _2, obstacle, _3] => match to_vec(_2.clone()).as_slice() {
+        [total_turns, role, _2, obstacle, _3] => match to_vec(_2.clone()).as_slice() {
             [_20, _21, _22] => StageData {
                 total_turns: to_int(total_turns) as usize,
-                _1: to_int(_1) as isize,
+                role: to_int(role) as isize,
                 _2: (
                     to_int(_20) as isize,
                     to_int(_21) as isize,
@@ -104,9 +104,7 @@ fn parse_stage_data(val: Value) -> StageData {
 
 fn parse_position(val: Value) -> (isize, isize) {
     match val {
-        Value::Cons(x, y) => {
-            (to_int(&*x) as isize, to_int(&*y) as isize)
-        },
+        Value::Cons(x, y) => (to_int(&*x) as isize, to_int(&*y) as isize),
         _ => panic!("Unexpected value: ".to_string() + &val.to_string()),
     }
 }
@@ -142,25 +140,24 @@ fn parse_machine(val: Value) -> Machine {
 fn parse_action_result(val: Value) -> Option<ActionResult> {
     let vals = to_vec(val.clone());
     if vals.is_empty() {
-        return None
+        return None;
     } else {
-        let action_result =
-            match (to_int(&vals[0].clone()), vals.as_slice()) {
-                (0, [_, a]) => ActionResult::Thruster{
-                    a: parse_position(a.clone())
-                },
-                (1, [_, power, area]) => ActionResult::Bomb{
-                    power: to_int(power) as usize,
-                    area: to_int(area) as usize,
-                },
-                (2, [_, opponent]) => ActionResult::Laser{
-                    opponent: parse_position(opponent.clone()),
-                },
-                (3, [_, params]) => ActionResult::Split{
-                    params: parse_params(params.clone()),
-                },
-                _ => panic!("unexpected value: ".to_string() + &val.to_string()),
-            };
+        let action_result = match (to_int(&vals[0].clone()), vals.as_slice()) {
+            (0, [_, a]) => ActionResult::Thruster {
+                a: parse_position(a.clone()),
+            },
+            (1, [_, power, area]) => ActionResult::Bomb {
+                power: to_int(power) as usize,
+                area: to_int(area) as usize,
+            },
+            (2, [_, opponent]) => ActionResult::Laser {
+                opponent: parse_position(opponent.clone()),
+            },
+            (3, [_, params]) => ActionResult::Split {
+                params: parse_params(params.clone()),
+            },
+            _ => panic!("unexpected value: ".to_string() + &val.to_string()),
+        };
         Some(action_result)
     }
 }

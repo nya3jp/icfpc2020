@@ -40,9 +40,7 @@ impl Command {
                 Box::new(Value::Int(THRUST_COMMAND)),
                 Box::new(Value::Cons(
                     Box::new(Value::Int(ship_num as i128)),
-                    Box::new(Value::Cons(
-                        Box::new(pos.to_value()),
-                        Box::new(Value::Nil))),
+                    Box::new(Value::Cons(Box::new(pos.to_value()), Box::new(Value::Nil))),
                 )),
             ),
             // send [1, SHIP_NUM]
@@ -106,7 +104,7 @@ pub struct Obstacle {
 #[derive(Debug)]
 pub struct StageData {
     pub total_turns: usize,
-    pub _1: isize,
+    pub role: isize, // 0: you are attacker. 1: defender.
     pub _2: (isize, isize, isize),
     pub obstacle: Option<Obstacle>,
     pub _3: Vec<isize>,
@@ -135,7 +133,7 @@ pub struct Param {
 
 #[derive(Debug)]
 pub struct Machine {
-    // 0/自陣営, 1/敵陣営 (or attacker diffender?) (TODO)
+    // 0 attacker, 1 diffender
     pub team_id: isize,
     // 機体 ID. 多分自陣営/敵陣営通して unique.
     pub machine_id: isize,
