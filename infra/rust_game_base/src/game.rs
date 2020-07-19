@@ -149,6 +149,6 @@ pub enum ActionResult {
 // deserialized state.
 pub struct State {
     turn: usize, // 現在のターン数
-    obstacle: Option<(usize, usize)>,
+    obstacle: Option<Obstacle>,
     machines: Vec<(Machine, Option<ActionResult>)>,
 }
