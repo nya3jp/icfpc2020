@@ -1,7 +1,7 @@
 import {
-    PictureValue,
     Point
 } from './data';
+import {Picture} from './picture';
 
 export interface Annotate {
     x: number
@@ -10,7 +10,7 @@ export interface Annotate {
     txt: string
 }
 
-export function annotate(minX: number, minY:number, maxX:number, maxY:number, pics: Array<PictureValue>): Array<Annotate> {
+export function annotate(minX: number, minY:number, maxX:number, maxY:number, pics: Array<Picture>): Array<Annotate> {
     function translate(p: Point): Point {
         return {x:p.x-minX, y:p.y-minY};
     };

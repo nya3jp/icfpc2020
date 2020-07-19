@@ -4,7 +4,6 @@ export function evaluate(env: Environment, expr: Expr): Value {
     switch (expr.kind) {
         case 'number':
         case 'func':
-        case 'picture':
             return expr
         case 'apply': {
             if (expr.cache) {
@@ -36,7 +35,5 @@ export function evaluate(env: Environment, expr: Expr): Value {
             expr.cache = value;
             return value;
         }
-        case 'sideEffect':
-            return evaluate(env, expr.expr);
     }
 }

@@ -2,11 +2,25 @@ use anyhow::{anyhow, bail, Context, Result};
 use rust_game_base::*;
 use std::cmp::{max, min};
 
+const MAX_STEP: usize = 256;
+
 struct Bot {
     stage: CurrentGameState,
     static_info: StageData,
     state: CurrentState,
 }
+
+static VECT: &[Point] = &[
+    Point::new(-1, -1),
+    Point::new(-1, 0),
+    Point::new(-1, 1),
+    Point::new(0, -1),
+    Point::new(0, 1),
+    Point::new(1, -1),
+    Point::new(1, 0),
+    Point::new(1, 1),
+    Point::new(0, 0),
+];
 
 impl Bot {
     fn new() -> Result<Bot> {
@@ -35,11 +49,11 @@ impl Bot {
             energy: 128,
             laser_power: 10,
             life: 10,
-            cool_down_per_turn: 64,
+            cool_down_per_turn: 8,
         };
 
         assert!(
-            param.energy + param.laser_power + param.life + param.cool_down_per_turn
+            param.energy + param.laser_power * 4 + param.life * 2 + param.cool_down_per_turn * 12
                 <= param_rest as usize
         );
 
@@ -66,17 +80,81 @@ impl Bot {
                 continue;
             }
 
-            if m.velocity.x.abs() + m.velocity.y.abs() > 0 {
-                let ax = clamp(m.velocity.x, -2, 2);
-                let ay = clamp(m.velocity.y, -2, 2);
+            // 一番長く生き残るところに行く
+            let (best_time, _, best_v) = VECT
+                .iter()
+                .map(|v| (self.live_time(&m, v), -(v.x.abs() + v.y.abs()), v))
+                .max_by_key(|r| r.0)
+                .unwrap();
 
-                dbg!(ax, ay);
-
-                cmds.push(Command::Thrust(m.machine_id as _, Point::new(ax, ay)));
+            if best_v.x == 0 && best_v.y == 0 {
+                continue;
             }
+
+            dbg!(best_time, best_v);
+
+            cmds.push(Command::Thrust(m.machine_id as _, *best_v));
         }
 
         cmds
+    }
+
+    fn live_time(&self, r: &Machine, acc: &Point) -> usize {
+        let step_limit = MAX_STEP - self.state.turn;
+
+        let mut ret = 0;
+        let mut v = r.velocity - *acc;
+        let mut cur = r.position;
+
+        while ret < step_limit {
+            v += get_gravity(&self.state, &cur);
+            cur += v;
+
+            if !self.is_safe(&cur) {
+                break;
+            }
+
+            ret += 1;
+        }
+
+        dbg!(ret);
+
+        ret
+    }
+
+    fn is_safe(&self, p: &Point) -> bool {
+        if let Some(obs) = &self.static_info.obstacle {
+            if p.x.abs() <= obs.gravity_radius as isize && p.y.abs() <= obs.gravity_radius as isize
+            {
+                return false;
+            }
+
+            if p.x.abs() > obs.stage_half_size as isize || p.y.abs() > obs.stage_half_size as isize
+            {
+                return false;
+            }
+        }
+        true
+    }
+}
+
+// Returns the gravity.
+pub fn get_gravity(state: &CurrentState, pos: &Point) -> Point {
+    if state.obstacle.is_none() {
+        return Point { x: 0, y: 0 };
+    }
+
+    Point {
+        x: if pos.x.abs() < pos.y.abs() {
+            0
+        } else {
+            -pos.x.signum()
+        },
+        y: if pos.y.abs() < pos.x.abs() {
+            0
+        } else {
+            -pos.y.signum()
+        },
     }
 }
 

@@ -1,33 +1,29 @@
-import {PictureValue, Point} from './data';
+import {Point, PrettyData} from './data';
 
-export function renderText(pic: PictureValue, ch: string): string {
-    const INF = 100000000;
-    let minX = INF, minY = INF, maxX = -INF, maxY = -INF;
-    for (const p of pic.points) {
-        minX = Math.min(minX, p.x);
-        minY = Math.min(minY, p.y);
-        maxX = Math.max(maxX, p.x);
-        maxY = Math.max(maxY, p.y);
-    }
-    if (minX >= maxX) {
-        return '';
-    }
+export interface Picture {
+    points: Array<Point>
+}
 
-    function key(p: Point): number {
-        return p.x * 1000000 + p.y;
+export function parsePicture(data: PrettyData): Picture {
+    if (data.kind !== 'list') {
+        throw new Error('Not a list');
     }
-
-    const pointSet = new Set<number>();
-    for (const p of pic.points) {
-        pointSet.add(key(p));
-    }
-
-    const chars = [];
-    for (let y = minY; y <= maxY; ++y) {
-        for (let x = minX; x <= maxX; ++x) {
-            chars.push(pointSet.has(key({x, y})) ? ch : ' ');
+    const points: Array<Point> = [];
+    for (const elem of data.elems) {
+        if (elem.kind !== 'cons') {
+            throw new Error('Not a cons');
         }
-        chars.push('\n');
+        if (elem.car.kind !== 'number' || elem.cdr.kind !== 'number') {
+            throw new Error('Not a number');
+        }
+        points.push({x: Number(elem.car.number), y: Number(elem.cdr.number)});
     }
-    return chars.join('');
+    return {points};
+}
+
+export function parsePictures(data: PrettyData): Array<Picture> {
+    if (data.kind !== 'list') {
+        throw new Error('Not a list');
+    }
+    return data.elems.map(parsePicture);
 }

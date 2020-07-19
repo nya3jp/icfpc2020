@@ -1,5 +1,5 @@
 use self::super::value::*;
-use std::ops::{Add, Neg, Sub};
+use std::ops::{Add, AddAssign, Neg, Sub, SubAssign};
 
 pub const THRUST_COMMAND: i128 = 0;
 pub const SELF_DESTRUCT_COMMAND: i128 = 1;
@@ -13,7 +13,7 @@ pub struct Point {
 }
 
 impl Point {
-    pub fn new(x: isize, y: isize) -> Self {
+    pub const fn new(x: isize, y: isize) -> Self {
         Self { x, y }
     }
 
@@ -38,6 +38,12 @@ impl Add for Point {
     }
 }
 
+impl AddAssign for Point {
+    fn add_assign(&mut self, rhs: Self) {
+        *self = *self + rhs;
+    }
+}
+
 impl Sub for Point {
     type Output = Point;
     fn sub(self, p: Point) -> Point {
@@ -55,6 +61,12 @@ impl Neg for Point {
             x: -self.x,
             y: -self.y,
         };
+    }
+}
+
+impl SubAssign for Point {
+    fn sub_assign(&mut self, rhs: Self) {
+        *self = *self - rhs;
     }
 }
 
@@ -199,9 +211,6 @@ pub struct Machine {
     pub heat: usize,
     pub _1: isize,
     pub _2: isize,
-
-    pub generated_heat: usize,
-    pub attack_heat: usize,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]

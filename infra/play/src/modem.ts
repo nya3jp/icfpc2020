@@ -34,8 +34,6 @@ export function modulate(env: Environment, value: Value): string {
             const cdr = evaluate(env, makeApply(makeReference('cdr'), value));
             return '11' + modulate(env, car) + modulate(env, cdr);
         }
-        default:
-            throw new Error(`modulate: invalid type ${value.kind}`);
     }
 }
 

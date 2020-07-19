@@ -1,20 +1,13 @@
 import {
     Environment,
-    Expr, isNil,
+    Expr,
     makeApply,
     makeBoolean,
-    makeList,
-    makePicture,
     makeReference,
-    Point,
     Value,
-    makeSideEffect, valueToPrettyData
 } from './data';
 import {evaluate} from './eval';
 import {makeNumber} from './data';
-import {demodulate, modulate} from './modem';
-import {appendSendLog} from './logs';
-import { sendToServer } from './utils';
 
 function func1Value(f: (env: Environment, a: Expr) => Expr): Value {
     return {kind: 'func', func: f};
@@ -165,133 +158,6 @@ function builtinIsnil(env: Environment, a: Expr): Expr {
     return makeApply(a, makeReference('_isnil_helper'))
 }
 
-// #32
-function builtinDraw(env: Environment, a: Expr): Expr {
-    const value = evaluate(env, a);
-    const points: Array<Point> = [];
-    for (let cur: Value = value; !isNil(env, cur); cur = evaluate(env, makeApply(makeReference('cdr'), cur))) {
-        const car = evaluate(env, makeApply(makeReference('car'), cur));
-        const x = evaluate(env, makeApply(makeReference('car'), car));
-        const y = evaluate(env, makeApply(makeReference('cdr'), car));
-        if (x.kind !== 'number' || y.kind !== 'number') {
-            throw new Error('Not a number');
-        }
-        points.push({x: Number(x.number), y: Number(y.number)});
-    }
-    return makePicture(points);
-}
-
-// #33
-function builtinCheckerboard(env: Environment, a: Expr, b: Expr): Expr {
-    const va = evaluate(env, a);
-    if (va.kind !== 'number') {
-        throw new Error('Not a number');
-    }
-    const n = va.number;
-    const points: Array<Point> = [];
-    for (let x = 0; x < n; x++) {
-        for (let y = 0; y < n; y++) {
-            if ((x + y) % 2 === 0) {
-                points.push({x, y});
-            }
-        }
-    }
-    return makePicture(points);
-}
-
-// #34
-function builtinMultipledraw(env: Environment, a: Expr): Expr {
-    const pa = evaluate(env, a);
-    if (isNil(env, pa)) {
-        return makeReference('nil');
-    }
-    return (
-        makeApply(
-            makeApply(
-                makeReference('cons'),
-                makeApply(
-                    makeReference('draw'),
-                    makeApply(
-                        makeReference('car'),
-                        pa))),
-            makeApply(
-                makeReference('multipledraw'),
-                makeApply(
-                    makeReference('cdr'),
-                    pa))));
-}
-
-// #36
-function builtinSend(env: Environment, a: Expr): Expr {
-    const pa = evaluate(env, a);
-    const req = modulate(env, pa);
-    const res = evaluate(env, demodulate(sendToServer(req)));
-
-    appendSendLog({req: valueToPrettyData(env, pa), res: valueToPrettyData(env, res)});
-    return makeSideEffect(res);
-}
-
-// #37
-function builtinIf0(env: Environment, a: Expr): Expr {
-    const v = evaluate(env, a);
-    if (v.kind !== 'number') {
-        throw new Error('Not a number');
-    }
-    return makeBoolean(v.number === BigInt(0));
-}
-
-// ap ap f38 x2 x0 = ap ap ap ifzero ap car x0 ( ap modem ap car ap cdr x0 , ap multipledraw ap car ap cdr ap cdr x0 ) ap ap ap interact x2 ap modem ap car ap cdr x0 ap send ap car ap cdr ap cdr x0
-function f38(env: Environment, x2: Expr, x0: Expr): Expr {
-    return (
-        makeApply(
-            makeApply(
-                makeApply(
-                    makeReference('if0'),
-                    makeApply(
-                        makeReference('car'),
-                        x0)),
-                makeList([
-                    makeApply(
-                        makeReference('car'),
-                        makeApply(
-                            makeReference('cdr'),
-                            x0)),
-                    makeApply(
-                        makeReference('multipledraw'),
-                        makeApply(
-                            makeReference('car'),
-                            makeApply(
-                                makeReference('cdr'),
-                                makeApply(
-                                    makeReference('cdr'),
-                                    x0)))),
-                ])),
-            makeApply(
-                makeApply(
-                    makeApply(
-                        makeReference('interact'),
-                        x2),
-                    makeApply(
-                        makeReference('car'),
-                        makeApply(
-                            makeReference('cdr'),
-                            x0))),
-                makeApply(
-                    makeReference('send'),
-                    makeApply(
-                        makeReference('car'),
-                        makeApply(
-                            makeReference('cdr'),
-                            makeApply(
-                                makeReference('cdr'),
-                                x0)))))));
-}
-
-// ap ap ap interact x2 x4 x3 = ap ap f38 x2 ap ap x2 x4 x3
-function interact(env: Environment, x2: Expr, x4: Expr, x3: Expr): Expr {
-    return makeApply(makeApply(makeReference('f38'), x2), makeApply(makeApply(x2, x4), x3));
-}
-
 export function newStandardEnvironment(): Environment {
     const env = new Map<string, Expr>();
     function register(name: string, value: Value) {
@@ -317,12 +183,5 @@ export function newStandardEnvironment(): Environment {
     register('nil', func1Value(builtinNil));
     register('_isnil_helper', func2Value(builtinIsnilHelper));
     register('isnil', func1Value(builtinIsnil));
-    register('draw', func1Value(builtinDraw));
-    register('checkerboard', func2Value(builtinCheckerboard));
-    register('multipledraw', func1Value(builtinMultipledraw));
-    register('send', func1Value(builtinSend));
-    register('if0', func1Value(builtinIf0));
-    register('f38', func2Value(f38));
-    register('interact', func3Value(interact));
     return env;
 }

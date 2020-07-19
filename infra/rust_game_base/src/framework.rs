@@ -151,8 +151,6 @@ fn parse_machine(val: Value) -> Result<Machine> {
             heat: to_int(heat)? as usize,
             _1: to_int(_1)? as isize,
             _2: to_int(_2)? as isize,
-            generated_heat: 0,
-            attack_heat: 0,
         },
         _ => bail!("unexpected value: ".to_string() + &val.to_string()),
     })
