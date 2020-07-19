@@ -115,7 +115,7 @@ pub struct Response {
     pub _1: usize, // 常に 1?
     pub current_game_state: CurrentGameState,
     pub stage_data: StageData,
-    pub current_state: CurrentState,
+    pub current_state: Option<CurrentState>,
 }
 
 #[derive(Debug)]
