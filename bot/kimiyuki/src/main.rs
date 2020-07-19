@@ -5,6 +5,7 @@ extern crate rust_game_base;
 extern crate itertools;
 
 use rust_game_base::Point;
+use rust_game_base::actions;
 
 fn main() {
     let start_params = initialize();
@@ -23,26 +24,12 @@ fn initialize() -> rust_game_base::Param {
 
 fn play(resp: &rust_game_base::Response) -> Vec<rust_game_base::Command> {
     let mut commands = vec![];
-    if resp.current_state.as_ref().map_or(0, |current_state| current_state.turn) % 4 != 0 {
-        let machines = resp.current_state.as_ref().map_or(vec![], |current_state| current_state.machines.clone());
-        for (machine, _) in machines.iter() {
-            if machine.role == resp.stage_data.self_role {
-                let mut a = Point { x: 0, y: 0 };
-                if (0 < machine.position.y && -4 <= machine.velocity.y) || (6 <= machine.velocity.y) {
-                    a.y -= 1;
-                }
-                if (machine.position.y < 0 && machine.velocity.y <= 4) || (machine.velocity.y <= -6) {
-                    a.y += 1;
-                }
-                if (0 < machine.position.x && -4 <= machine.velocity.x) || (6 <= machine.velocity.x) {
-                    a.x -= 1;
-                }
-                if (machine.position.x < 0 && machine.velocity.x <= 4) || (machine.velocity.x <= -6) {
-                    a.x += 1;
-                }
-                if a.y != 0 || a.x != 0 {
-                    commands.push(rust_game_base::Command::Thrust(machine.machine_id, a));
-                }
+    let current_state = resp.current_state.as_ref().unwrap();
+    if current_state.turn % 4 != 0 {
+        for (machine, _) in current_state.machines.iter() {
+            match actions::stay(current_state, machine.machine_id) {
+                Some(command) => commands.push(command),
+                None => (),
             }
         }
     }
