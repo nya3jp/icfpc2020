@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <title>Dashboard</title>
+  <style>
+    html {
+      font-size: 12px;
+    }
+    .win {
+        background-color: lightgreen;
+    }
+    .lose {
+        background-color: lightpink;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid">
+  <h1 class="mb-3">Dashboard</h1>
+
+  <form id="control">
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">API key</label>
+      <input id="api_key" class="col-sm-6 form-control">
+    </div>
+    <button id="refresh">Refresh</button>
+  </form>
+
+  <table id='results' class='table'>
+  </table>
+</div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

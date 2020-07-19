@@ -12,3 +12,15 @@ export function sendToServer(body: string): string {
     }
     return xhr.responseText;
 }
+
+export function queryServer(path: string): string {
+    // Synchronous XHR - don't do this at home.
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://icfpc2020-api.testkontur.ru' + path + '?apiKey=' + getApiKey(), false);
+    xhr.setRequestHeader('Accept', '*/*');
+    xhr.send();
+    if (xhr.status !== 200) {
+        throw new Error(`HTTP ${xhr.status}`);
+    }
+    return xhr.responseText;
+}

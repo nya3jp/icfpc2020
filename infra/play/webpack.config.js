@@ -7,6 +7,7 @@ module.exports = {
   mode: 'development',
   entry: {
     web: './src/web.ts',
+    dashboard: './src/dash.ts',
   },
   resolve: {
     extensions: ['.ts', '.js'],
@@ -25,6 +26,9 @@ module.exports = {
       patterns: [{
         from: 'static/index.html',
         to: 'index.html',
+      }, {
+        from: 'static/dashboard.html',
+        to: 'dashboard.html',
       }],
     }),
   ],
