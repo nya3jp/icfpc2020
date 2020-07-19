@@ -1,7 +1,11 @@
-use anyhow::Result;
+use anyhow::{anyhow, bail, Context, Result};
 use rust_game_base::*;
 
-struct Bot {}
+struct Bot {
+    stage: CurrentGameState,
+    static_info: StageData,
+    state: CurrentState,
+}
 
 // main (args)
 // {
@@ -33,13 +37,45 @@ struct Bot {}
 
 impl Bot {
     fn new() -> Result<Bot> {
-        let resp = send_join_request();
-        dbg!(resp);
-        let resp = send_start_request(0, 0, 0, 0)?;
-        Ok(Bot {})
+        let resp = send_join_request()?;
+        Ok(Bot {
+            stage: resp.current_game_state,
+            static_info: resp.stage_data,
+            state: Default::default(),
+        })
+    }
+
+    fn start(&mut self) -> Result<()> {
+        let param = Param {
+            energy: 0,
+            laser_power: 0,
+            life: 0,
+            cool_down_per_turn: 0,
+        };
+
+        self.apply_response(send_start_request(&param)?);
+        Ok(())
+    }
+
+    fn step(&mut self) -> Result<()> {
+        let cmds = vec![];
+
+        self.apply_response(send_command_request(&mut cmds.into_iter())?);
+        Ok(())
+    }
+
+    fn apply_response(&mut self, resp: Response) {
+        self.stage = resp.current_game_state;
+        assert_eq!(self.static_info, resp.stage_data);
+        self.state = resp.current_state.unwrap();
     }
 }
 
-fn main() {
-    let bot = Bot::new();
+fn main() -> Result<()> {
+    let mut bot = Bot::new()?;
+    bot.start()?;
+    while bot.stage != CurrentGameState::END {
+        bot.step()?;
+    }
+    Ok(())
 }
