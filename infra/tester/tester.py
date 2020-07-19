@@ -116,6 +116,7 @@ def show_result(player_key):
         print('attacker (first bot) wins')
     else:
         print('defender (second bot) wins')
+    print('replay: http://34.105.114.17/play/?key=%d' % player_key)
 
 
 def is_alive(machine):
