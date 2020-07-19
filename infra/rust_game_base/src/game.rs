@@ -102,6 +102,12 @@ pub enum CurrentGameState {
     END,
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum Role {
+    ATTACKER,
+    DEFENDER,
+}
+
 #[derive(Debug, Clone)]
 pub struct Obstacle {
     // 重力源の半径 (|x| と |y| がともにこれ以下になると死. 移動中にかすめてもセーフ),
@@ -113,7 +119,7 @@ pub struct Obstacle {
 #[derive(Debug)]
 pub struct StageData {
     pub total_turns: usize,
-    pub role: isize, // 0: you are attacker. 1: defender.
+    pub self_role: Role, // whether you're an attacker or a defender.
     pub _2: (isize, isize, isize),
     pub obstacle: Option<Obstacle>,
     pub _3: Vec<isize>,
@@ -141,8 +147,7 @@ pub struct Param {
 
 #[derive(Debug, Clone)]
 pub struct Machine {
-    // 0 attacker, 1 diffender
-    pub team_id: isize,
+    pub role: Role,
     // 機体 ID. 多分自陣営/敵陣営通して unique.
     pub machine_id: isize,
     pub position: Point,

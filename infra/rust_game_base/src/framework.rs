@@ -89,7 +89,7 @@ fn parse_stage_data(val: Value) -> Result<StageData> {
         [total_turns, role, _2, obstacle, _3] => match to_vec(_2.clone())?.as_slice() {
             [_20, _21, _22] => StageData {
                 total_turns: to_int(total_turns)? as usize,
-                role: to_int(role)? as isize,
+                self_role: parse_role(role.clone())?,
                 _2: (
                     to_int(_20)? as isize,
                     to_int(_21)? as isize,
@@ -124,6 +124,14 @@ fn parse_point(val: Value) -> Result<Point> {
     })
 }
 
+fn parse_role(val: Value) -> Result<Role> {
+    Ok(match to_int(&val)? {
+        0 => Role::ATTACKER,
+        1 => Role::DEFENDER,
+        _ => bail!("unexpected value: {}", val.to_string()),
+    })
+}
+
 fn parse_params(val: Value) -> Result<Param> {
     Ok(match to_vec(val.clone())?.as_slice() {
         [energy, laser_power, cool_down_per_turn, life] => Param {
@@ -138,8 +146,8 @@ fn parse_params(val: Value) -> Result<Param> {
 
 fn parse_machine(val: Value) -> Result<Machine> {
     Ok(match to_vec(val.clone())?.as_slice() {
-        [team_id, machine_id, position, velocity, params, heat, _1, _2] => Machine {
-            team_id: to_int(team_id)? as isize,
+        [role, machine_id, position, velocity, params, heat, _1, _2] => Machine {
+            role: parse_role(role.clone())?,
             machine_id: to_int(machine_id)? as isize,
             position: parse_point(position.clone())?,
             velocity: parse_point(velocity.clone())?,
