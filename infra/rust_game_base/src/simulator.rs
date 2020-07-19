@@ -13,13 +13,6 @@ fn machine_generated_heat(m: &Machine, heat: usize) -> Machine {
     }
 }
 
-fn machine_update_coordinate(m: &Machine) -> Machine {
-    Machine {
-        position: m.position + m.velocity,
-        ..*m
-    }
-}
-
 fn machine_damage(m: &Machine, damage: usize) -> Machine {
     Machine {
         attack_heat: m.attack_heat + damage,
@@ -28,19 +21,29 @@ fn machine_damage(m: &Machine, damage: usize) -> Machine {
 }
 
 // returns None if machines die
-fn machine_cooldown(m: &Machine) -> Option<Machine> {
+fn machine_cooldown(m: &Machine) -> Machine {
     let energy = m.params.energy;
     let newh = m.heat + m.attack_heat;
     let newh = newh - min(m.params.cool_down_per_turn, newh);
+    println!("newh: {}", newh);
     if ((newh > OVERHEAT) && // attack indeed does damage and kill
         (energy < (newh - OVERHEAT)))
     {
-        return None;
+        // "0 0 0 0"
+        return Machine {
+            params: Param {
+                energy: 0,
+                laser_power: 0,
+                cool_down_per_turn: 0,
+                life: 0,
+            },
+            ..*m
+        };
     };
-    // otherwise, dissipation is first used to block attack heat and then remaining heat deletes their own energy / laser effectiveness
+    // otherwise, cooldown is first used to block attack heat and then remaining heat deletes their own energy / laser effectiveness
 
     let newheat = m.heat + m.attack_heat + m.generated_heat - m.params.cool_down_per_turn;
-    let heatdamage = newheat - OVERHEAT;
+    let heatdamage = newheat - min(newheat, OVERHEAT);
 
     let newheat = min(newheat, OVERHEAT);
     let heatdamage = max(heatdamage, 0);
@@ -48,19 +51,31 @@ fn machine_cooldown(m: &Machine) -> Option<Machine> {
     let energydamage = min(m.params.energy, heatdamage);
     let laserdamage = min(heatdamage - energydamage, m.params.laser_power); // TODO (coner case): what if laser damage exceeds remaining laser eff?
 
-    Some(Machine {
+    Machine {
         params: Param {
             energy: m.params.energy - energydamage,
             laser_power: m.params.laser_power - laserdamage,
             ..m.params
         },
+        heat: newheat,
         generated_heat: 0,
         attack_heat: 0,
         ..*m
-    })
+    }
 }
 
-fn lookup_machine(s: &CurrentState, id: i8) -> Option<Machine> {
+fn state_cooldown(s: &CurrentState) -> CurrentState {
+    let mut ret = s.clone();
+    let machines = &s.machines;
+    let retmachine = machines
+        .iter()
+        .map(|(m, a)| (machine_cooldown(m), a.clone()))
+        .collect();
+    ret.machines = retmachine;
+    ret
+}
+
+fn lookup_machine(s: &CurrentState, id: isize) -> Option<Machine> {
     for (m, _) in &s.machines {
         if m.machine_id == (id as isize) {
             return Some(*m);
@@ -98,7 +113,7 @@ fn laser_damage_base(delta: &Point) -> isize {
     }
 }
 
-fn do_laser_helper(s: &mut CurrentState, shipnum: i8, target: &Point, power: isize) {
+fn do_laser_helper(s: &mut CurrentState, shipnum: isize, target: &Point, power: isize) {
     let origin = lookup_machine(s, shipnum).unwrap();
     let dx = *target - origin.position;
     let damage_base = laser_damage_base(&dx);
@@ -114,7 +129,7 @@ fn do_laser_helper(s: &mut CurrentState, shipnum: i8, target: &Point, power: isi
         } else {
             damage as usize >> (2 * dist as usize)
         };
-        mpair.0 = machine_damage(&mpair.0, finaldamage);
+        mpair.0 = machine_damage(&mpair.0, finaldamage); // FIXME TODO: ActionResults
     }
 }
 
@@ -131,7 +146,13 @@ fn do_laser(s: &CurrentState, all_actions: &Vec<Command>) -> CurrentState {
     newstate
 }
 
-fn state_update_velocity(cstate: &CurrentState, commands: &Vec<Command>) -> CurrentState {
+fn state_update_damages(cstate: &CurrentState, commands: &Vec<Command>) -> CurrentState {
+    let cstate = do_laser(cstate, commands);
+    // TODO jibaku
+    cstate
+}
+
+fn state_update_velocities(cstate: &CurrentState, commands: &Vec<Command>) -> CurrentState {
     let mut ncount = 0;
     let mut newstate = cstate.clone();
     for c in commands {
@@ -172,11 +193,23 @@ fn state_update_velocity(cstate: &CurrentState, commands: &Vec<Command>) -> Curr
     newstate
 }
 
+fn state_update_coordinates(s: &CurrentState) -> CurrentState {
+    let mut newmachines = s.machines.clone();
+    for mut mp in &mut newmachines {
+        let m = &mut mp.0;
+        m.position = m.position + m.velocity
+    }
+    CurrentState {
+        machines: newmachines,
+        ..*s
+    }
+}
+
 fn state_clear_actions(cstate: &CurrentState) -> CurrentState {
     let newmachines = cstate
         .machines
         .iter()
-        .map(|(x, _)| (x.clone(), None))
+        .map(|(x, _)| (x.clone(), vec![]))
         .collect();
     CurrentState {
         machines: newmachines,
@@ -184,7 +217,84 @@ fn state_clear_actions(cstate: &CurrentState) -> CurrentState {
     }
 }
 
-fn state_update(cstate: &CurrentState, commands: &Vec<Command>) -> CurrentState {
+pub fn state_update(cstate: &CurrentState, commands: &Vec<Command>) -> CurrentState {
     let cstate = state_clear_actions(cstate);
+    let cstate = state_update_velocities(&cstate, commands);
+    let cstate = state_update_coordinates(&cstate);
+    let cstate = state_update_damages(&cstate, commands);
+    let cstate = state_cooldown(&cstate);
     cstate
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn init_test_state() -> CurrentState {
+        let machine1 = Machine {
+            role: Role::DEFENDER,
+            machine_id: 1,
+            position: Point { x: 33, y: 6 },
+            velocity: Point { x: 0, y: 0 },
+            params: Param {
+                energy: 78,
+                laser_power: 0,
+                cool_down_per_turn: 0,
+                life: 1,
+            },
+            heat: 0,
+            _1: 64,
+            _2: 1,
+            generated_heat: 0,
+            attack_heat: 0,
+        };
+        let machine2 = Machine {
+            role: Role::ATTACKER,
+            machine_id: 0,
+            position: Point { x: 20, y: 0 },
+            velocity: Point { x: 1, y: 0 },
+            params: Param {
+                energy: 2,
+                laser_power: 0,
+                cool_down_per_turn: 0,
+                life: 1,
+            },
+            heat: 8,
+            _1: 64,
+            _2: 1,
+            generated_heat: 0,
+            attack_heat: 0,
+        };
+        CurrentState {
+            turn: 0,
+            obstacle: None,
+            machines: vec![(machine1, vec![]), (machine2, vec![])],
+        }
+    }
+
+    #[test]
+    fn test_update() {
+        let curstate = init_test_state();
+        //println!("{:?}", curstate);
+        let cmd1 = Command::Thrust(0, Point { x: -1, y: 0 });
+        let updated = state_update(&curstate, &vec![cmd1]);
+        //println!("{:?}", updated);
+        // machine 1 should be unchanged
+        assert_eq!(updated.machines[0].0.position, Point { x: 33, y: 6 });
+        assert_eq!(updated.machines[0].0.velocity, Point { x: 0, y: 0 });
+        // machine 2 should ...
+        assert_eq!(updated.machines[1].0.position, Point { x: 22, y: 0 });
+        assert_eq!(updated.machines[1].0.velocity, Point { x: 2, y: 0 });
+
+        assert_eq!(
+            updated.machines[1].0.params,
+            Param {
+                energy: 1,
+                laser_power: 0,
+                cool_down_per_turn: 0,
+                life: 1
+            }
+        );
+        assert_eq!(updated.machines[1].0.heat, 16);
+    }
 }

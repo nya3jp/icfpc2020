@@ -55,7 +55,7 @@ pub enum Command {
     // SelfDestruct(ShipNum)
     SelfDestruct(i8),
     // Beam(ShipNum, X, Y, Power)
-    Beam(isize, Point, i8),
+    Beam(isize, Point, isize),
     // Split
     Split(Param),
 }
@@ -132,7 +132,6 @@ impl Default for Role {
         Role::ATTACKER
     }
 }
-
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Obstacle {
