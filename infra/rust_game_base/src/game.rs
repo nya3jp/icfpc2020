@@ -27,14 +27,20 @@ impl Point {
 impl Add for Point {
     type Output = Point;
     fn add(self, p: Point) -> Point {
-        Point{ x: self.x + p.x, y: self.y + p.y }
+        Point {
+            x: self.x + p.x,
+            y: self.y + p.y,
+        }
     }
 }
 
 impl Sub for Point {
     type Output = Point;
     fn sub(self, p: Point) -> Point {
-        Point{ x: self.x - p.x, y: self.y - p.y }
+        Point {
+            x: self.x - p.x,
+            y: self.y - p.y,
+        }
     }
 }
 
@@ -168,7 +174,7 @@ pub struct Machine {
     pub _2: isize,
 
     pub generated_heat: usize,
-    pub attack_heat: usize
+    pub attack_heat: usize,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
