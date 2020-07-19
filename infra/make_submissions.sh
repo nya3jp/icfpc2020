@@ -30,7 +30,7 @@ for platform in $(find . -name .platform); do
     cp -r "$root/." "$workdir/"
     pushd "$workdir"
     git add .
-    git commit --allow-empty -m "$msg"
+    git commit -m "$msg" || continue
     if [[ "$1" == "--push" ]]; then
         git push origin "$branch"
     fi
