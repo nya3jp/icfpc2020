@@ -1,4 +1,5 @@
 use self::super::value::*;
+use std::ops::{Add, Sub};
 
 pub const THRUST_COMMAND: i128 = 0;
 pub const SELF_DESTRUCT_COMMAND: i128 = 1;
@@ -18,14 +19,22 @@ impl Point {
             Box::new(Value::Int(self.y as i128)),
         )
     }
-    pub fn sub(&self, p: Point) -> Point {
-        Point{ x: self.x - p.x, y: self.y - p.y }
-    }
-    pub fn add(&self, p: Point) -> Point {
-        Point{ x: self.x + p.x, y: self.y + p.y }
-    }
     pub fn l0_distance(&self) -> isize {
         std::cmp::max(self.x.abs(), self.y.abs())
+    }
+}
+
+impl Add for Point {
+    type Output = Point;
+    fn add(self, p: Point) -> Point {
+        Point{ x: self.x + p.x, y: self.y + p.y }
+    }
+}
+
+impl Sub for Point {
+    type Output = Point;
+    fn sub(self, p: Point) -> Point {
+        Point{ x: self.x - p.x, y: self.y - p.y }
     }
 }
 
@@ -158,8 +167,8 @@ pub struct Machine {
     pub _1: isize,
     pub _2: isize,
 
-    pub generated_heat: isize,
-    pub attack_heat: isize
+    pub generated_heat: usize,
+    pub attack_heat: usize
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
