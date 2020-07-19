@@ -36,9 +36,10 @@ for platform in $(find . -name .platform); do
     pushd "$workdir"
     do_vendor
     git add .
-    git commit -m "$msg" || continue
-    if [[ "$1" == "--push" ]]; then
-        git push origin "$branch"
+    if git commit -m "$msg"; then
+        if [[ "$1" == "--push" ]]; then
+            git push origin "$branch"
+        fi
     fi
     popd
 done
