@@ -5,7 +5,7 @@ pub const SELF_DESTRUCT_COMMAND: i128 = 1;
 pub const BEAM_COMMAND: i128 = 2;
 pub const SPLIT_COMMAND: i128 = 3;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Point {
     pub x: isize,
     pub y: isize,
@@ -29,7 +29,7 @@ impl Point {
     }
 }
 
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Command {
     // Thrust(ShipNum, Point{x, y})
     Thrust(i8, Point),
@@ -102,7 +102,7 @@ pub enum CurrentGameState {
     END,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Obstacle {
     // 重力源の半径 (|x| と |y| がともにこれ以下になると死. 移動中にかすめてもセーフ),
     pub gravity_radius: usize,
@@ -110,7 +110,7 @@ pub struct Obstacle {
     pub stage_half_size: usize,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct StageData {
     pub total_turns: usize,
     pub role: isize, // 0: you are attacker. 1: defender.
@@ -120,14 +120,14 @@ pub struct StageData {
 }
 
 // deserialized response.
-#[derive(Debug)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Response {
     pub current_game_state: CurrentGameState,
     pub stage_data: StageData,
     pub current_state: Option<CurrentState>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Param {
     // コレがなくなると、 Thruster が吹けない
     pub energy: usize,
@@ -139,7 +139,7 @@ pub struct Param {
     pub life: usize,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Machine {
     // 0 attacker, 1 diffender
     pub team_id: isize,
@@ -157,7 +157,7 @@ pub struct Machine {
     pub attack_heat: isize
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ActionResult {
     // tag = 0
     Thruster {
@@ -180,7 +180,7 @@ pub enum ActionResult {
     },
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct CurrentState {
     pub turn: usize, // 現在のターン数
     pub obstacle: Option<Obstacle>,
