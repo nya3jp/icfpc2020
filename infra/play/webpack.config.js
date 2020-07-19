@@ -6,7 +6,6 @@ const distDir = path.resolve(__dirname, 'dist');
 module.exports = {
   mode: 'development',
   entry: {
-    cli: './src/cli.ts',
     web: './src/web.ts',
   },
   resolve: {

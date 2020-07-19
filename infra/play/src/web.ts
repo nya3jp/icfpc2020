@@ -2,41 +2,39 @@ import {parseExpr} from './parser';
 import {newGalaxyEnvironment} from './galaxy';
 import {evaluate} from './eval';
 import {
-    debugString, debugListString, Expr, isNil,
-    makeApply, makeNumber,
+    debugString,
+    debugListString,
+    Expr,
+    makeApply,
+    makeNumber,
     makeReference,
     parseList,
-    PictureValue,
-    Point, PrettyData, NumberData
+    Point,
+    PrettyData,
+    NumberData,
+    prettyDataString,
+    valueToPrettyData
 } from './data';
 
-import {
-    builtinNil
-} from './builtins';
-
-import {getSendLogs} from './logs';
+import {appendSendLog, getSendLogs} from './logs';
 import { annotate } from './annotate';
 import { sendToServer } from './utils';
 import { demodulate, modulate } from './modem';
+import {parsePictures, Picture} from './picture';
 
 const env = newGalaxyEnvironment();
-const mainExpr = parseExpr('ap interact galaxy');
+const galaxyExpr = makeReference('galaxy');
 
-interface State {
+interface RenderState {
+    input: Expr
     state: Expr
-    point: Point
-    pics: Array<PictureValue>
+    pics: Array<Picture>
 }
 
-const FAWAWAY_POINT = {x: -10000, y: -10000};
-const initState = {
-    state: parseExpr('ap ap cons 2 ap ap cons ap ap cons 1 ap ap cons -1 nil ap ap cons 0 ap ap cons nil nil'),
-    point: FAWAWAY_POINT,
-    pics: [],
-}
+const FARAWAY_POINT = {x: -10000, y: -10000};
 
-const history: Array<State> = [initState];
-let historyPos = 0;
+const history: Array<RenderState> = [];
+let historyPos = -1;
 
 const canvasElem = document.getElementById('canvas') as HTMLCanvasElement;
 const stateElem = document.getElementById('state') as HTMLInputElement;
@@ -63,7 +61,7 @@ function getQueryParams(key: string) {
     return urlParams.get(key);
 }
 
-function getPixelSize(pics: Array<PictureValue>): number {
+function getPixelSize(pics: Array<Picture>): number {
     const view = computeView(pics)
     if (pixelSizeElem.value != '') {
         return parseInt(pixelSizeElem.value);
@@ -71,7 +69,7 @@ function getPixelSize(pics: Array<PictureValue>): number {
     return Math.min((canvasElem.width - VIEW_MARGIN) / (view.maxX - view.minX), (canvasElem.height - VIEW_MARGIN) / (view.maxY - view.minY));
 }
 
-function computeView(pics: Array<PictureValue>): View {
+function computeView(pics: Array<Picture>): View {
     const INF = 100000000;
     let minX = INF, minY = INF, maxX = -INF, maxY = -INF;
     for (const pic of pics) {
@@ -89,7 +87,7 @@ function computeView(pics: Array<PictureValue>): View {
     return {minX, minY, maxX, maxY};
 }
 
-function renderCanvas(pics: Array<PictureValue>): void {
+function renderCanvas(pics: Array<Picture>): void {
     const view = computeView(pics);
 
     const ctx = canvasElem.getContext('2d');
@@ -126,11 +124,11 @@ function renderCanvas(pics: Array<PictureValue>): void {
 }
 
 function updateUI(): void {
-    const { state, point, pics } = history[historyPos];
+    const { state, pics } = history[historyPos];
     renderCanvas(pics);
-    infoElem.textContent = `Step ${historyPos + 1} / ${history.length} | Last point (${point.x}, ${point.y})`;
+    infoElem.textContent = `Step ${historyPos + 1} / ${history.length}`;
     stateElem.value = debugString(env, state);
-    stateListElem.textContent = debugListString(env, state);
+    stateListElem.textContent = prettyDataString(valueToPrettyData(env, evaluate(env, state)));
 
     updateLogs();
 }
@@ -282,24 +280,59 @@ function updateLogs(): void {
     sendLogsElem.innerHTML = elems.join('<br>');
 }
 
-function interact(state: Expr, point: Point): void {
-    const pt = makeApply(makeApply(makeReference('cons'), makeNumber(BigInt(point.x))), makeNumber(BigInt(point.y)));
+const DEBUG_INTERACT = false;
+
+function interact(state: Expr, input: Expr): void {
     try {
-        const result = evaluate(env, makeApply(makeApply(mainExpr, state), pt));
-        const [newState, picValues] = parseList(env, result);
-        const pics = parseList(env, picValues) as Array<PictureValue>;
+        if (DEBUG_INTERACT) {
+            console.log('interact start');
+        }
+        let pics: Array<Picture>;
+        loop: while (true) {
+            if (DEBUG_INTERACT) {
+                console.log(`evaluate state=${prettyDataString(valueToPrettyData(env, evaluate(env, state)))} input=${prettyDataString(valueToPrettyData(env, evaluate(env, input)))}`);
+            }
+            const result = evaluate(env, makeApply(makeApply(galaxyExpr, state), input));
+            const [syscall, s, output] = parseList(env, result);
+            state = s;
+            if (syscall.kind !== 'number') {
+                throw new Error('Flag not a number');
+            }
+            switch (Number(syscall.number)) {
+                case 0:  // Draw
+                    pics = parsePictures(valueToPrettyData(env, output));
+                    break loop;
+                case 1:  // Send
+                    const modReq = modulate(env, output);
+                    const modRes = sendToServer(modReq)
+                    input = demodulate(modRes);
+                    const req = valueToPrettyData(env, output);
+                    const res = valueToPrettyData(env, evaluate(env, input))
+                    appendSendLog({req, res});
+                    if (DEBUG_INTERACT) {
+                        console.log(`send:\nstate=${debugString(env, state)}\nreq=${prettyDataString(req)}\nres=${prettyDataString(res)}`);
+                    }
+                    break;
+                default:
+                    throw new Error(`Unsupported system call ${syscall.number}`);
+            }
+        }
+        if (DEBUG_INTERACT) {
+            console.log('interact end');
+        }
         history.splice(historyPos+1);
-        history.push({state: newState, point: point, pics});
+        history.push({state, input, pics});
         historyPos++;
     } catch (e) {
         reportError(e);
+    } finally {
+        updateUI();
     }
-    updateUI();
 }
 
-function step(): void {
-    const { point, state } = history[historyPos];
-    interact(state, point);
+function interactPoint(state: Expr, point: Point): void {
+    const input = makeApply(makeApply(makeReference('cons'), makeNumber(BigInt(point.x))), makeNumber(BigInt(point.y)));
+    interact(state, input);
 }
 
 function forward(): void {
@@ -318,6 +351,27 @@ function backward(): void {
     updateUI();
 }
 
+function loadState(stateStr: string): void {
+    let state: Expr;
+    try {
+        state = parseExpr(stateStr);
+    } catch (e) {
+        reportError(e);
+        throw new Error('not reached');
+    }
+    interactPoint(state, FARAWAY_POINT);
+}
+
+function loadReplay(key: string): void {
+    try {
+        loadState(`ap ap cons 5 ap ap cons ap ap cons 4 ap ap cons ${key} ap ap cons nil ap ap cons nil ap ap cons nil ap ap cons nil ap ap cons ap ap cons 36 0 ap ap cons 21839 nil ap ap cons 9 ap ap cons nil nil`);
+        replayElem.value = key;
+    } catch (e) {
+        replayElem.value = '';
+        throw e;
+    }
+}
+
 function onClickCanvas(ev: MouseEvent): void {
     const { state, pics } = history[historyPos];
     const view = computeView(pics);
@@ -325,64 +379,23 @@ function onClickCanvas(ev: MouseEvent): void {
     const ox = (canvasElem.width - d * (view.maxX - view.minX)) / 2;
     const oy = (canvasElem.height - d * (view.maxY - view.minY)) / 2;
     const point = {x: Math.floor((ev.offsetX - ox) / d + view.minX), y: Math.floor((ev.offsetY - oy) / d + view.minY)};
-    interact(state, point);
+    interactPoint(state, point);
 }
 
-function onStateChanged(ev: Event): void {
-    try {
-        const state = parseExpr(stateElem.value.trim());
-        interact(state, FAWAWAY_POINT);
-    } catch(e) {
-        updateUI();
-        reportError(e);
-    }
+function onStateChanged(): void {
+    loadState(stateElem.value.trim());
 }
 
-function onPixelSizeChanged(ev: Event): void {
+function onPixelSizeChanged(): void {
     updateUI();
 }
 
-function onAnnotateChanged(ev: Event): void {
+function onAnnotateChanged(): void {
     updateUI();
 }
 
-function onReplayPlayerKeyChanged(ev: Event): void {
-    function cadr(expr: string): string {
-        return `ap car ap cdr ${expr}`
-    }
-    function replayState(key: string, history: string, timestamp: string): string {
-        return `ap ap cons 5 ap ap cons ap ap cons 7 ap ap cons ${key} ap ap `
-            + `cons nil ap ap cons nil ap ap cons nil ap ap cons ${history} `
-            + `ap ap cons ap ap cons 0 0 ap ap cons ${timestamp} nil ap ap `
-            + `cons 1 ap ap cons nil nil`;
-    }
-
-    const playerKey = replayElem.value.trim();
-    try {
-        const getTimestampRequest = evaluate(env,
-            parseExpr(`ap ap cons 0 nil`));
-        const timestampVal = evaluate(env,
-            demodulate(sendToServer(modulate(env, getTimestampRequest))));
-        const timestamp = evaluate(env,
-            parseExpr(cadr(debugString(env, timestampVal))));
-
-        const getHistoryRequest = evaluate(env,
-            parseExpr(`ap ap cons 5 ap ap cons ${playerKey} nil`));
-        const history = evaluate(env,
-            demodulate(sendToServer(modulate(env, getHistoryRequest))));
-        const historyStr = debugString(env, history);
-        if (historyStr === "ap ap cons 0 nil") {
-            alert("Failed to fetch the history");
-            return;
-        }
-
-        const state = parseExpr(
-            replayState(playerKey, debugString(env, history), debugString(env, timestamp)));
-        interact(state, FAWAWAY_POINT);
-    } catch (e) {
-        updateUI();
-        reportError(e);
-    }
+function onReplayPlayerKeyChanged(): void {
+    loadReplay(replayElem.value.trim());
 }
 
 function reportError(e: Error): void {
@@ -396,12 +409,22 @@ function init(): void {
     pixelSizeElem.addEventListener('change', onPixelSizeChanged);
     annotateElem.addEventListener('change', onAnnotateChanged);
     replayElem.addEventListener('change', onReplayPlayerKeyChanged);
+
+    const initState = parseExpr('ap ap cons 2 ap ap cons ap ap cons 1 ap ap cons -1 nil ap ap cons 0 ap ap cons nil nil');
+    interactPoint(initState, FARAWAY_POINT);
+
     const givenState = getQueryParams('state');
-    if (givenState !== null) {
+    if (givenState) {
         stateElem.value = givenState;
-        onStateChanged(new Event('change'));
+        onStateChanged();
+        return;
     }
-    step();
+    const givenKey = getQueryParams('key');
+    if (givenKey) {
+        replayElem.value = givenKey;
+        onReplayPlayerKeyChanged();
+        return;
+    }
 }
 
 init();
@@ -412,6 +435,5 @@ interface Window {
     backward(): void
 }
 declare var window: Window;
-window.step = step;
 window.forward = forward;
 window.backward = backward;

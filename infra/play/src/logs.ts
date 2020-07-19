@@ -1,5 +1,5 @@
 import {
-    Expr, PrettyData
+    PrettyData
 } from './data';
 
 export interface SendLog {

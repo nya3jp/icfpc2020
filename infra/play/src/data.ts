@@ -1,6 +1,6 @@
 import {evaluate} from './eval';
 
-export type Value = NumberValue | FuncValue | PictureValue;
+export type Value = NumberValue | FuncValue;
 
 export interface NumberValue {
     kind: 'number'
@@ -10,11 +10,6 @@ export interface NumberValue {
 export interface FuncValue {
     kind: 'func'
     func: (env: Environment, expr: Expr) => Expr
-}
-
-export interface PictureValue {
-    kind: 'picture'
-    points: Array<Point>
 }
 
 export interface Point {
@@ -39,7 +34,7 @@ export function isNil(env: Environment, expr: Expr): boolean {
     }
 }
 
-type Thunk = ApplyThunk | ReferenceThunk | SideEffectThunk;
+type Thunk = ApplyThunk | ReferenceThunk;
 
 export interface ApplyThunk {
     kind: 'apply'
@@ -54,11 +49,6 @@ export interface ReferenceThunk {
     cache?: Value
 }
 
-export interface SideEffectThunk {
-    kind: 'sideEffect'
-    expr: Expr
-}
-
 export function debugString(env: Environment, expr: Expr): string {
     switch (expr.kind) {
         case 'number':
@@ -70,8 +60,6 @@ export function debugString(env: Environment, expr: Expr): string {
             const car = evaluate(env, makeApply(makeReference('car'), expr));
             const cdr = evaluate(env, makeApply(makeReference('cdr'), expr));
             return `ap ap cons ${debugString(env, car)} ${debugString(env, cdr)}`;
-        case 'picture':
-            return '<picture>';
         default:
             return debugString(env, evaluate(env, expr));
     }
@@ -89,8 +77,6 @@ export function debugListString(env: Environment, expr: Expr): string {
             const car = evaluate(env, makeApply(makeReference('car'), expr));
             const cdr = evaluate(env, makeApply(makeReference('cdr'), expr));
             return `( ${debugListString(env, car)}, ${debugListString(env, cdr)} )`;
-        case 'picture':
-            return '<picture>';
         default:
             return debugListString(env, evaluate(env, expr));
     }
@@ -114,8 +100,8 @@ export function makeBoolean(b: boolean): ReferenceThunk {
     return makeReference(b ? 't' : 'f');
 }
 
-export function makePicture(points: Array<Point>): PictureValue {
-    return {kind: 'picture', points};
+export function makePoint(p: Point): Expr {
+    return makeApply(makeApply(makeReference('cons'), makeNumber(BigInt(p.x))), makeNumber(BigInt(p.y)));
 }
 
 export function makeList(exprs: Array<Expr>): Expr {
@@ -123,10 +109,6 @@ export function makeList(exprs: Array<Expr>): Expr {
         return makeReference('nil')
     }
     return makeApply(makeApply(makeReference('cons'), exprs[0]), makeList(exprs.slice(1)));
-}
-
-export function makeSideEffect(e: Expr): SideEffectThunk {
-    return {kind: 'sideEffect', expr: e};
 }
 
 export function parseList(env: Environment, value: Value): Array<Value> {
@@ -179,7 +161,16 @@ export function valueToPrettyData(env: Environment, value: Value): PrettyData {
                 const cdr = evaluate(env, makeApply(makeReference('cdr'), cur));
                 cur = cdr;
             }
-        default:
-            throw new Error(`Unmodulatable value ${value.kind}`);
+    }
+}
+
+export function prettyDataString(data: PrettyData): string {
+    switch (data.kind) {
+        case 'number':
+            return String(data.number);
+        case 'list':
+            return `[${data.elems.map(prettyDataString).join(', ')}]`;
+        case 'cons':
+            return `(${prettyDataString(data.car)} . ${prettyDataString(data.cdr)})`;
     }
 }
