@@ -12,7 +12,16 @@ extern crate itertools;
 - 相手は次の段階では動かないことを仮定．
 */
 
+static mut DEV: bool = false;
+
+fn is_dev() -> bool {
+    unsafe { DEV }
+}
+
 fn main() {
+    if std::env::args().nth(1) == Some("dev".to_owned()) {
+        unsafe { DEV = true }
+    }
     Proxy::join_game();
     let state = Proxy::start_game(&StartParam {});
     run(state);
@@ -22,14 +31,20 @@ struct Proxy;
 
 impl Proxy {
     fn join_game() {
+        if is_dev() {
+            return;
+        }
         // TODO
         // rust_game_base::send_join_request();
     }
     fn start_game(p: &StartParam) -> State {
-        // TODO
-        // rust_game_base::send_start_request(4, 4, 4, 4)
+        if is_dev() {
+            return State::mock();
+        }
 
-        State::mock()
+        // TODO
+        let state = rust_game_base::send_start_request(4, 4, 4, 4);
+        State::from_game_state(state)
     }
 
     fn do_action(a: &Action) -> State {
