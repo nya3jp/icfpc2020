@@ -119,7 +119,7 @@ pub fn to_vec(val: Value) -> Vec<Value> {
                 break
             }
             _ => {
-                panic!();
+                panic!("unexpected value: ".to_string() + &val.to_string())
             }
         }
     }
@@ -136,7 +136,7 @@ pub fn to_option(val: Value) -> Option<Value> {
 pub fn to_int(val: &Value) -> i128 {
     match *val {
         Value::Int(n) => n,
-        _ => panic!(),
+        _ => panic!("unexpected value: ".to_string() + &val.to_string()),
     }
 }
 
