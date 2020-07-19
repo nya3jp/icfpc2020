@@ -11,6 +11,7 @@
 
 target/
 Cargo.lock
+!**/vendor/**/Cargo.lock
 node_modules/
 
 *.code-workspace
