@@ -7,6 +7,11 @@ git worktree prune
 
 msg="$(git show -s --format=%B)"
 
+function do_vendor() {
+    # TODO: Do cargo vendor
+    :
+}
+
 for platform in $(find . -name .platform); do
     root="$(dirname "$platform")"
     name="$(echo -n "$root" | tr -C 'a-z0-9_' _)"
@@ -29,10 +34,12 @@ for platform in $(find . -name .platform); do
     popd
     cp -r "$root/." "$workdir/"
     pushd "$workdir"
+    do_vendor
     git add .
-    git commit --allow-empty -m "$msg"
-    if [[ "$1" == "--push" ]]; then
-        git push origin "$branch"
+    if git commit -m "$msg"; then
+        if [[ "$1" == "--push" ]]; then
+            git push origin "$branch"
+        fi
     fi
     popd
 done

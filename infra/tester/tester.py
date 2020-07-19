@@ -1,9 +1,10 @@
+import argparse
+import logging
 import os
 import subprocess
 import sys
-import urllib.request
-import logging
 import threading
+import urllib.request
 
 logging.basicConfig(level=logging.INFO)
 
@@ -25,29 +26,78 @@ tutorials = [
 
 
 def main():
-    if len(sys.argv) == 4:
-        if sys.argv[1] == 'tutorial':
-            pk = get_tutorial_playerkey(int(sys.argv[2]))
-            print("tester: PlayerKey %d" % (pk, ))
-            run_bot(sys.argv[3], pk, True)
-            return
-        elif sys.argv[1] == 'battle':
-            pks = get_random_playerkeys()
-            print("tester: PlayerKey %d %d" % pks)
-            # NOTE: Untested
-            t = threading.Thread(target=run_bot,
-                                 args=(sys.argv[2], pks[0], False))
-            t.start()
-            run_bot(sys.argv[3], pks[1], False)
-            t.join()
-            return
+    parser = argparse.ArgumentParser()
+    parser.add_argument('subcommand',
+                        help="subcommand: 'tutorial' or 'battle'")
+    parser.add_argument(
+        'arg1',
+        help="if tutorial, the tutorial number. if battle, a binary path")
+    parser.add_argument('arg2', help="a binary path")
+    parser.add_argument('--logfile',
+                        '--logfile1',
+                        help='log file for the first bot')
+    parser.add_argument('--logfile2', help='log file for the second bot')
+    parser.add_argument('--logprefix',
+                        '--logprefix1',
+                        help='log prefix for the first bot')
+    parser.add_argument('--logprefix2', help='log prefix for the second bot')
+
+    args = parser.parse_args()
+
+    if args.subcommand == 'tutorial':
+        outfile = sys.stderr
+        if args.logfile:
+            outfile = open(args.logfile, mode='a')
+            print("============", file=outfile)
+        outprefix = None
+        if args.logprefix:
+            outprefix = args.logprefix
+
+        pk = get_tutorial_playerkey(int(args.arg1))
+        print("tester: PlayerKey %d" % (pk, ))
+        run_bot(args.arg2, pk, True, outprefix, outfile)
+        return
+    elif args.subcommand == 'battle':
+        outfile1 = sys.stderr
+        if args.logfile1:
+            outfile1 = open(args.logfile1, mode='a')
+            print("============", file=outfile1)
+        outprefix1 = 'bot1'
+        if args.logprefix1:
+            outprefix1 = args.logprefix2
+        outfile2 = sys.stderr
+        if args.logfile2:
+            outfile2 = open(args.logfile2, mode='a')
+            print("============", file=outfile2)
+        outprefix2 = 'bot2'
+        if args.logprefix2:
+            outprefix2 = args.logprefix2
+
+        pks = get_random_playerkeys()
+        print("tester: PlayerKey %d %d" % pks)
+        # NOTE: Untested
+        t = threading.Thread(target=run_bot,
+                             args=(args.arg1, pks[0], False, outprefix1,
+                                   outfile1))
+        t.start()
+        run_bot(args.arg2, pks[1], False, outprfix2, outfile2)
+        t.join()
+        return
 
     print("tester.py tutorial NUM BINARY_PATH")
     print("tester.py battle BINARY_PATH BINARY_PATH")
     sys.exit(1)
 
 
-def run_bot(main_program, player_key, is_tutorial):
+def wrap_err(err_pipe, prefix, outfile):
+    for line in err_pipe:
+        line = line.strip()
+        if prefix:
+            line = "[%s] %s" % (prefix, line)
+        print(line, file=outfile)
+
+
+def run_bot(main_program, player_key, is_tutorial, prefix, outfile):
     modified_env = os.environ.copy()
     if is_tutorial:
         modified_env["TUTORIAL_MODE"] = "1"
@@ -55,9 +105,12 @@ def run_bot(main_program, player_key, is_tutorial):
                          bufsize=0,
                          stdin=subprocess.PIPE,
                          stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE,
                          env=modified_env,
                          close_fds=True,
                          encoding='utf-8')
+    t = threading.Thread(target=wrap_err, args=(p.stderr, prefix, outfile))
+    t.start()
     (child_stdin, child_stdout) = (p.stdin, p.stdout)
     while True:
         line = child_stdout.readline().strip()
@@ -67,6 +120,7 @@ def run_bot(main_program, player_key, is_tutorial):
         body = post_to_server(line)
         logging.info('tester: recv: %s', body)
         child_stdin.write(body + '\n')
+    t.join()
 
 
 def get_tutorial_playerkey(tutorial_num):

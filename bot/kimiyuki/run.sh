@@ -1,5 +1,2 @@
 #!/bin/bash
-
-export RUST_BACKTRACE=1
-cd "$(dirname $0)"
-cargo build && python3 ../../infra/tester/tester.py tutorial 1 ./target/debug/kimiyuki
+exec python3 ../../infra/interact/interact.py "$1" "$2" ./target/release/kimiyuki --log=INFO

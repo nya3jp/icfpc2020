@@ -25,7 +25,7 @@ fn play(resp: &rust_game_base::Response) -> Vec<rust_game_base::Command> {
     let mut commands = vec![];
     let machines = resp.current_state.as_ref().map_or(vec![], |current_state| current_state.machines.clone());
     for (machine, _) in machines.iter() {
-        if machine.team_id == resp.stage_data.role {
+        if machine.role == resp.stage_data.self_role {
             let mut a = Point { x: 0, y: 0 };
             if 0 < machine.position.y && machine.velocity.y <= -2 {
                 a.y += 1;
