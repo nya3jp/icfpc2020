@@ -61,7 +61,7 @@ pub fn send_command_request(it: &mut impl Iterator<Item = Command>) -> Response 
 }
 
 fn parse_current_game_state(val: &Value) -> CurrentGameState {
-    match val {
+    match *val {
         Value::Int(0) => CurrentGameState::START,
         Value::Int(1) => CurrentGameState::PLAYING,
         Value::Int(2) => CurrentGameState::END,
@@ -69,35 +69,112 @@ fn parse_current_game_state(val: &Value) -> CurrentGameState {
     }
 }
 
-fn parse_stage_data(val: &Value) -> StageData {
-    StageData {
-        total_turns: 0,
-        _1: 0,
-        _2: (0, 0, 0),
-        obstacle: None,
-        _3: vec![],
+fn parse_obstacle(val: Value) -> Option<Obstacle> {
+    to_option(val).map(|val| {
+        match to_vec(val).as_slice() {
+            [gravity_radius, stage_half_size] =>
+                Obstacle {
+                    gravity_radius: to_int(gravity_radius) as usize,
+                    stage_half_size: to_int(stage_half_size) as usize,
+                },
+            _ => panic!(),
+        }
+    })
+}
+
+fn parse_stage_data(val: Value) -> StageData {
+    match to_vec(val).as_slice() {
+        [total_turns, _1, _2, obstacle, _3] =>
+            match to_vec(_2.clone()).as_slice() {
+                [_20, _21, _22] =>
+                    StageData {
+                        total_turns: to_int(total_turns) as usize,
+                        _1: to_int(_1) as isize,
+                        _2: (to_int(_20) as isize, to_int(_21) as isize, to_int(_22) as isize),
+                        obstacle: parse_obstacle(obstacle.clone()),
+                        _3: to_vec(_3.clone()).into_iter().map(|val| to_int(&val) as isize).collect(),
+                    },
+                _ => panic!(),
+            }
+        _ => panic!(),
     }
 }
 
-fn parse_current_state(val: &Value) -> CurrentState {
-    CurrentState {
-        turn: 0,
-        obstacle: None,
-        machines: vec![],
+fn parse_position(val: Value) -> (isize, isize) {
+    match to_vec(val).as_slice() {
+        [x, y] => (to_int(x) as isize, to_int(y) as isize),
+        _ => panic!(),
     }
 }
 
-fn parse_response(val: &Value) -> Response {
-    Response {
-        _1: 1,
-        current_game_state: parse_current_game_state(val),
-        stage_data: parse_stage_data(val),
-        current_state: parse_current_state(val),
+fn parse_params(val: Value) -> Param {
+    match to_vec(val).as_slice() {
+        [energy, laser_power, cool_down_per_turn, life] =>
+            Param {
+                energy: to_int(energy) as usize,
+                laser_power: to_int(laser_power) as usize,
+                cool_down_per_turn: to_int(cool_down_per_turn) as usize,
+                life: to_int(life) as usize,
+            },
+        _ => panic!(),
+    }
+}
+
+fn parse_machine(val: Value) -> Machine {
+    match to_vec(val).as_slice() {
+        [team_id, machine_id, position, velocity, params, heat, _1, _2] =>
+            Machine {
+                team_id: to_int(team_id) as isize,
+                machine_id: to_int(machine_id) as isize,
+                position: parse_position(position.clone()),
+                velocity: parse_position(velocity.clone()),
+                params: parse_params(params.clone()),
+                heat: to_int(heat) as usize,
+                _1: to_int(_1) as isize,
+                _2: to_int(_2) as isize,
+            },
+        _ => panic!(),
+    }
+}
+
+fn parse_action_result(val: Value) -> Option<ActionResult> {
+    None
+}
+
+fn parse_machine_and_action_result(val: Value) -> (Machine, Option<ActionResult>) {
+    match to_vec(val).as_slice() {
+        [machine, action_result] => (parse_machine(machine.clone()), parse_action_result(action_result.clone())),
+        _ => panic!(),
+    }
+}
+
+fn parse_current_state(val: Value) -> CurrentState {
+    match to_vec(val).as_slice() {
+        [turn, obstacle, machines] =>
+            CurrentState {
+                turn: to_int(turn) as usize,
+                obstacle: parse_obstacle(obstacle.clone()),
+                machines: to_vec(machines.clone()).into_iter().map(|val| parse_machine_and_action_result(val)).collect(),
+            },
+        _ => panic!(),
+    }
+}
+
+fn parse_response(val: Value) -> Response {
+    match to_vec(val).as_slice() {
+        [one, current_game_state, stage_data, current_state] =>
+            Response {
+                _1: to_int(&one) as usize,
+                current_game_state: parse_current_game_state(current_game_state),
+                stage_data: parse_stage_data(stage_data.clone()),
+                current_state: parse_current_state(current_state.clone()),
+            },
+        _ => panic!(),
     }
 }
 
 fn send_and_receive_game_state(val: &Value) -> Response {
-    parse_response(&send_and_receive(val))
+    parse_response(send_and_receive(val))
 }
 
 fn send_and_receive(val: &Value) -> Value {
