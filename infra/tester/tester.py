@@ -1,9 +1,10 @@
+import argparse
+import logging
 import os
 import subprocess
 import sys
-import urllib.request
-import logging
 import threading
+import urllib.request
 
 logging.basicConfig(level=logging.INFO)
 
@@ -25,22 +26,30 @@ tutorials = [
 
 
 def main():
-    if len(sys.argv) == 4:
-        if sys.argv[1] == 'tutorial':
-            pk = get_tutorial_playerkey(int(sys.argv[2]))
-            print("tester: PlayerKey %d" % (pk, ))
-            run_bot(sys.argv[3], pk, True)
-            return
-        elif sys.argv[1] == 'battle':
-            pks = get_random_playerkeys()
-            print("tester: PlayerKey %d %d" % pks)
-            # NOTE: Untested
-            t = threading.Thread(target=run_bot,
-                                 args=(sys.argv[2], pks[0], False))
-            t.start()
-            run_bot(sys.argv[3], pks[1], False)
-            t.join()
-            return
+    parser = argparse.ArgumentParser()
+    parser.add_argument('subcommand',
+                        help="subcommand: 'tutorial' or 'battle'")
+    parser.add_argument(
+        'arg1',
+        help="if tutorial, the tutorial number. if battle, a binary path")
+    parser.add_argument('arg2', help="a binary path")
+    args = parser.parse_args()
+
+    if args.subcommand == 'tutorial':
+        pk = get_tutorial_playerkey(int(args.arg1))
+        print("tester: PlayerKey %d" % (pk, ))
+        run_bot(args.arg2, pk, True)
+        return
+    elif args.subcommand == 'battle':
+        pks = get_random_playerkeys()
+        print("tester: PlayerKey %d %d" % pks)
+        # NOTE: Untested
+        t = threading.Thread(target=run_bot,
+                             args=(args.arg1, pks[0], False))
+        t.start()
+        run_bot(args.arg2, pks[1], False)
+        t.join()
+        return
 
     print("tester.py tutorial NUM BINARY_PATH")
     print("tester.py battle BINARY_PATH BINARY_PATH")
