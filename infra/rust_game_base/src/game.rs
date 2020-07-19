@@ -95,6 +95,7 @@ pub enum CurrentGameState {
     END,
 }
 
+#[derive(Debug)]
 pub struct Obstacle {
     // 重力源の半径 (|x| と |y| がともにこれ以下になると死. 移動中にかすめてもセーフ),
     pub gravity_radius: usize,
@@ -102,6 +103,7 @@ pub struct Obstacle {
     pub stage_half_size: usize,
 }
 
+#[derive(Debug)]
 pub struct StageData {
     pub total_turns: usize,
     pub _1: isize,
@@ -111,6 +113,7 @@ pub struct StageData {
 }
 
 // deserialized response.
+#[derive(Debug)]
 pub struct Response {
     pub _1: usize, // 常に 1?
     pub current_game_state: CurrentGameState,
@@ -130,6 +133,7 @@ pub struct Param {
     pub life: usize,
 }
 
+#[derive(Debug)]
 pub struct Machine {
     // 0/自陣営, 1/敵陣営 (or attacker diffender?) (TODO)
     pub team_id: isize,
@@ -144,6 +148,7 @@ pub struct Machine {
     pub _2: isize,
 }
 
+#[derive(Debug)]
 pub enum ActionResult {
     // tag = 0
     Thruster {
@@ -165,6 +170,8 @@ pub enum ActionResult {
         params: Param,
     },
 }
+
+#[derive(Debug)]
 pub struct CurrentState {
     pub turn: usize, // 現在のターン数
     pub obstacle: Option<Obstacle>,

@@ -203,12 +203,12 @@ fn parse_response(val: Value) -> Response {
 }
 
 fn send_and_receive_game_state(val: &Value) -> Response {
-    parse_response(send_and_receive(val))
-}
-
-fn send_and_receive(val: &Value) -> Value {
     println!("{}", modulate_to_string(&val));
+    eprintln!("send: {}", val.to_string());
     let mut resp = String::new();
     io::stdin().read_line(&mut resp).unwrap();
-    demodulate_from_string(&resp).unwrap()
+    let resp = demodulate_from_string(&resp).unwrap();
+    let resp = parse_response(resp);
+    eprintln!("recieve: {:?}", resp);
+    resp
 }
