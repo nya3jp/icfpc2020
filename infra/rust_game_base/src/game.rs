@@ -60,12 +60,6 @@ impl Command {
     }
 }
 
-#[derive(Debug)]
-pub struct GameState {
-    pub state1: Value,
-    pub state2: Value,
-}
-
 // 0/START, 1/PLAYING, 2/END (cf: 公式)
 pub enum CurrentGameState {
     START,
@@ -75,53 +69,53 @@ pub enum CurrentGameState {
 
 pub struct Obstacle {
     // 重力源の半径 (|x| と |y| がともにこれ以下になると死. 移動中にかすめてもセーフ),
-    gravity_radius: usize,
+    pub gravity_radius: usize,
     // ステージの半径 (|x| か |y| どちらかがこれを超えると死)
-    stage_half_size: usize,
+    pub stage_half_size: usize,
 }
 
 pub struct StageData {
-    total_turns: usize,
-    _1: isize,
-    _2: (isize, isize, isize),
-    obstacle: Option<Obstacle>,
-    _3: Vec<isize>,
+    pub total_turns: usize,
+    pub _1: isize,
+    pub _2: (isize, isize, isize),
+    pub obstacle: Option<Obstacle>,
+    pub _3: Vec<isize>,
 }
 
 pub struct CurrentState {
-    turn: usize, // 現在のターン数
+    pub turn: usize, // 現在のターン数
 }
 
 pub struct Response {
-    _1: usize, // 常に 1?
-    current_game_state: CurrentGameState,
-    stage_data: StageData,
-    current_state: CurrentState,
+    pub _1: usize, // 常に 1?
+    pub current_game_state: CurrentGameState,
+    pub stage_data: StageData,
+    pub current_state: CurrentState,
 }
 
 pub struct Param {
     // コレがなくなると、 Thruster が吹けない
-    energy: usize,
+    pub energy: usize,
     // 0 だとそもそも撃てない
-    laser_power: usize,
+    pub laser_power: usize,
     // 毎ターンHeatが減少
-    cool_down_per_turn: usize,
+    pub cool_down_per_turn: usize,
     // 分裂可能だと2, 分裂ソース? (死んだ時に 0)
-    life: usize,
+    pub life: usize,
 }
 
 pub struct Machine {
     // 0/自陣営, 1/敵陣営 (or attacker diffender?) (TODO)
-    team_id: isize,
+    pub team_id: isize,
     // 機体 ID. 多分自陣営/敵陣営通して unique.
-    machine_id: isize,
-    position: (isize, isize),
-    velocity: (isize, isize),
-    params: Param,
+    pub machine_id: isize,
+    pub position: (isize, isize),
+    pub velocity: (isize, isize),
+    pub params: Param,
     // 0-64
-    heat: usize,
-    _1: isize,
-    _2: isize,
+    pub heat: usize,
+    pub _1: isize,
+    pub _2: isize,
 }
 
 pub enum ActionResult {
@@ -148,7 +142,7 @@ pub enum ActionResult {
 
 // deserialized state.
 pub struct State {
-    turn: usize, // 現在のターン数
-    obstacle: Option<Obstacle>,
-    machines: Vec<(Machine, Option<ActionResult>)>,
+    pub turn: usize, // 現在のターン数
+    pub obstacle: Option<Obstacle>,
+    pub machines: Vec<(Machine, Option<ActionResult>)>,
 }

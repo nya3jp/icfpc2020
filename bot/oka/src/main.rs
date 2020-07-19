@@ -44,7 +44,7 @@ impl Proxy {
 
         // TODO
         let state = rust_game_base::send_start_request(4, 4, 4, 4);
-        State::from_game_state(state)
+        State::from_response(state)
     }
 
     fn do_action(a: &Action) -> State {
@@ -112,7 +112,7 @@ struct State {
 }
 
 impl State {
-    fn from_game_state(gs: rust_game_base::GameState) -> State {
+    fn from_response(gs: rust_game_base::Response) -> State {
         todo!();
     }
 
