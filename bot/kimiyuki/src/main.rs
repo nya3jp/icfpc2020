@@ -20,7 +20,7 @@ fn main() {
 }
 
 fn initialize() -> rust_game_base::Param {
-    let start_params = rust_game_base::Param { energy: 300, laser_power: 0, cool_down_per_turn: 10, life: 1 };
+    let start_params = rust_game_base::Param { energy: 300, laser_power: 10, cool_down_per_turn: 10, life: 1 };
     start_params
 }
 
@@ -92,7 +92,17 @@ fn play(resp: &rust_game_base::Response) -> Vec<rust_game_base::Command> {
         if a != (Point { x: 0, y: 0 }) {
             commands.push(rust_game_base::Command::Thrust(machine.machine_id, Point { y: -a.y, x: -a.x }));
         }
-        for opponent_machine in opponent_machines.iter() {
+    }
+    for machine in self_machines.iter() {
+        if machine.params.laser_power >= 1 && machine.heat <= 3 {
+            for opponent_machine in opponent_machines.iter() {
+                let p = Point {
+                    x: opponent_machine.position.x + opponent_machine.velocity.x,
+                    y: opponent_machine.position.y + opponent_machine.velocity.y,
+                };
+                commands.push(rust_game_base::Command::Beam(machine.machine_id, p, 1));
+                break
+            }
         }
     }
     commands
