@@ -90,6 +90,9 @@ for platform in $(find . -name .platform); do
     pwd
     ls -al "$workdir/$root/.platform"
     cp "$workdir/$root/.platform" "$workdir/"
+    pushd "$workdir"
+    git add .
+    popd
 
     pushd "$workdir/$root"
     do_vendor
