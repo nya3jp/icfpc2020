@@ -1,6 +1,6 @@
-use std::io;
-use self::super::value::*;
 use self::super::game::*;
+use self::super::value::*;
+use std::io;
 
 const JOIN_REQUEST_TAG: i128 = 2;
 const START_REQUEST_TAG: i128 = 3;
@@ -75,13 +75,15 @@ fn parse_stage_data(val: &Value) -> StageData {
         _1: 0,
         _2: (0, 0, 0),
         obstacle: None,
-        _3: vec!(),
+        _3: vec![],
     }
 }
 
 fn parse_current_state(val: &Value) -> CurrentState {
     CurrentState {
         turn: 0,
+        obstacle: None,
+        machines: vec![],
     }
 }
 
