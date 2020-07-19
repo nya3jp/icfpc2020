@@ -41,3 +41,30 @@ pub fn get_gravity(state: &CurrentState, machine_id: isize) -> Point {
         },
     }
 }
+
+// Assuming the current velocity satisfies |vx| <= 1, |vy| <= 1,
+// cooldown_per_turn >= 8, and it has enough energy, returns the
+// next command to get to the target.
+// TODO: consider the planet.
+pub fn move_to(state: &CurrentState, machine_id: isize, target: Point) -> Option<Command> {
+    let machine = get_machine_by_id(state, machine_id).unwrap();
+    let d = target - machine.position;
+    // let target_v = Point {x: d.x.signum(), y: d.y.signum()};
+    let target_v = if d.x.abs() < d.y.abs() {
+        Point {
+            x: 0,
+            y: d.y.signum(),
+        }
+    } else {
+        Point {
+            x: d.x.signum(),
+            y: 0,
+        }
+    };
+    eprintln!("target v: {:?}", target_v);
+    let dv = target_v - machine.velocity - get_gravity(state, machine_id);
+    if dv == (Point { x: 0, y: 0 }) {
+        return None;
+    }
+    return Some(Command::Thrust(machine_id, -dv));
+}

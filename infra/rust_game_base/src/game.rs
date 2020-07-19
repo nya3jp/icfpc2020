@@ -1,5 +1,5 @@
 use self::super::value::*;
-use std::ops::{Add, Sub};
+use std::ops::{Add, Neg, Sub};
 
 pub const THRUST_COMMAND: i128 = 0;
 pub const SELF_DESTRUCT_COMMAND: i128 = 1;
@@ -45,6 +45,16 @@ impl Sub for Point {
             x: self.x - p.x,
             y: self.y - p.y,
         }
+    }
+}
+
+impl Neg for Point {
+    type Output = Point;
+    fn neg(self) -> Self::Output {
+        return Point {
+            x: -self.x,
+            y: -self.y,
+        };
     }
 }
 
@@ -145,9 +155,16 @@ pub struct Obstacle {
 pub struct StageData {
     pub total_turns: usize,
     pub self_role: Role, // whether you're an attacker or a defender.
-    pub _2: (isize, isize, isize),
+    pub initialize_param: InitializeParam,
     pub obstacle: Option<Obstacle>,
-    pub _3: Vec<isize>,
+    pub defender: Option<Param>, // Attacker can receive this.
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct InitializeParam {
+    pub total_cost: usize,
+    pub _2: isize,
+    pub _3: isize,
 }
 
 // deserialized response.
@@ -232,4 +249,12 @@ pub fn get_roled_machine_ids(state: &CurrentState, role: Role) -> Vec<isize> {
             }
         })
         .collect::<Vec<_>>()
+}
+
+pub fn get_machine_by_id(state: &CurrentState, machine_id: isize) -> Option<&Machine> {
+    state
+        .machines
+        .iter()
+        .find(|(m, _)| m.machine_id == machine_id)
+        .map(|(m, _)| m)
 }

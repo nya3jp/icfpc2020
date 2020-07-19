@@ -76,24 +76,28 @@ fn parse_obstacle(val: Value) -> Result<Option<Obstacle>> {
     })
 }
 
+fn parse_initialize_param(val: Value) -> Result<InitializeParam> {
+    Ok(match to_vec(val.clone())?.as_slice() {
+        [total_cost, _2, _3] => InitializeParam {
+            total_cost: to_int(total_cost)? as usize,
+            _2: to_int(_2)? as isize,
+            _3: to_int(_3)? as isize,
+        },
+        _ => bail!("unexpected initialize param: {}", val.to_string()),
+    })
+}
+
 fn parse_stage_data(val: Value) -> Result<StageData> {
     Ok(match to_vec(val.clone())?.as_slice() {
-        [total_turns, role, _2, obstacle, _3] => match to_vec(_2.clone())?.as_slice() {
-            [_20, _21, _22] => StageData {
-                total_turns: to_int(total_turns)? as usize,
-                self_role: parse_role(role.clone())?,
-                _2: (
-                    to_int(_20)? as isize,
-                    to_int(_21)? as isize,
-                    to_int(_22)? as isize,
-                ),
-                obstacle: parse_obstacle(obstacle.clone())?,
-                _3: to_vec(_3.clone())?
-                    .into_iter()
-                    .map(|val| to_int(&val).map(|r| r as isize))
-                    .collect::<Result<Vec<_>>>()?,
+        [total_turns, role, initialize_param, obstacle, defender] => StageData {
+            total_turns: to_int(total_turns)? as usize,
+            self_role: parse_role(role.clone())?,
+            initialize_param: parse_initialize_param(initialize_param.clone())?,
+            obstacle: parse_obstacle(obstacle.clone())?,
+            defender: match defender {
+                Value::Nil => None,
+                _ => Some(parse_params(defender.clone())?),
             },
-            _ => bail!("unexpected value: {}", _2.to_string()),
         },
         _ => bail!("unexpected value: {}", val.to_string()),
     })
