@@ -182,9 +182,6 @@ pub struct Machine {
     pub heat: usize,
     pub _1: isize,
     pub _2: isize,
-
-    pub generated_heat: usize,
-    pub attack_heat: usize,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
