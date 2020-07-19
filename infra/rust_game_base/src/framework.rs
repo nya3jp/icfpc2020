@@ -140,7 +140,29 @@ fn parse_machine(val: Value) -> Machine {
 }
 
 fn parse_action_result(val: Value) -> Option<ActionResult> {
-    None
+    let vals = to_vec(val.clone());
+    if vals.is_empty() {
+        return None
+    } else {
+        let action_result =
+            match (to_int(&vals[0].clone()), vals.as_slice()) {
+                (0, [_, a]) => ActionResult::Thruster{
+                    a: parse_position(a.clone())
+                },
+                (1, [_, power, area]) => ActionResult::Bomb{
+                    power: to_int(power) as usize,
+                    area: to_int(area) as usize,
+                },
+                (2, [_, opponent]) => ActionResult::Laser{
+                    opponent: parse_position(opponent.clone()),
+                },
+                (3, [_, params]) => ActionResult::Split{
+                    params: parse_params(params.clone()),
+                },
+                _ => panic!("unexpected value: ".to_string() + &val.to_string()),
+            };
+        Some(action_result)
+    }
 }
 
 fn parse_machine_and_action_result(val: Value) -> (Machine, Option<ActionResult>) {
