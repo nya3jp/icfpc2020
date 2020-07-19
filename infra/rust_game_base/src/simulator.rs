@@ -2,7 +2,6 @@ use self::super::game::*;
 use std::cmp::{max, min};
 
 const THRUST_HEAT: usize = 8;
-const LASER_HEAT: usize = 64;
 const OVERHEAT: usize = 64;
 const THRUST_ENERGY: usize = 1;
 
@@ -110,8 +109,12 @@ fn do_laser_helper(s: &mut CurrentState, shipnum: isize, target: &Point, power: 
         } else {
             damage as usize >> (2 * dist as usize)
         };
-        mpair.0 = machine_damage(&mpair.0, finaldamage); // FIXME TODO: ActionResults
-        mpair.1.push(ActionResult::Laser { opponent: *target }) // FIXME TODO: damage
+        mpair.0.heat += finaldamage as usize;
+
+        if (mpair.0.machine_id == shipnum) {
+            mpair.0.heat += power as usize; // self heat dmg
+            mpair.1.push(ActionResult::Laser { opponent: *target }) // FIXME TODO: damage
+        }
     }
 }
 
@@ -264,15 +267,48 @@ fn state_update_obstacles(cstate: &mut CurrentState) {
     }
 }
 
+fn is_dead(m: &Machine) -> bool {
+    return m.params
+        == Param {
+            energy: 0,
+            laser_power: 0,
+            cool_down_per_turn: 0,
+            life: 0,
+        };
+}
+
+fn get_current_gamestate(cstate: &CurrentState) -> CurrentGameState {
+    let mut defender_alive = false;
+    let mut attacker_alive = false;
+    for mpair in &cstate.machines {
+        let m_is_dead = is_dead(&mpair.0);
+        if !m_is_dead {
+            match mpair.0.role {
+                Role::ATTACKER => attacker_alive = true,
+                Role::DEFENDER => defender_alive = true,
+            }
+        }
+    }
+    // TODO: winner is?
+    if (!defender_alive) || (!attacker_alive) {
+        CurrentGameState::END
+    } else {
+        CurrentGameState::PLAYING
+    }
+}
+
 /* Accepts CurrentState and Commands and outputs updated states. */
-pub fn state_update(cstate: &CurrentState, commands: &Vec<Command>) -> CurrentState {
+pub fn state_update(
+    cstate: &CurrentState,
+    commands: &Vec<Command>,
+) -> (CurrentGameState, CurrentState) {
     let mut cstate = state_clone_clear_actions(cstate);
     state_update_obstacles(&mut cstate);
     state_update_velocities(&mut cstate, commands);
     state_update_coordinates(&mut cstate);
     state_update_damages(&mut cstate, commands);
     state_update_cooldown(&mut cstate);
-    cstate
+    (get_current_gamestate(&cstate), cstate)
 }
 
 #[cfg(test)]
@@ -322,12 +358,13 @@ mod tests {
         let curstate = init_test_state();
         //println!("{:?}", curstate);
         let cmd1 = Command::Thrust(0, Point { x: -1, y: 0 });
-        let updated = state_update(&curstate, &vec![cmd1]);
+        let (status, updated) = state_update(&curstate, &vec![cmd1]);
         //println!("{:?}", updated);
         // machine 1 should be unchanged
         assert_eq!(updated.machines[0].0.position, Point { x: 33, y: 6 });
         assert_eq!(updated.machines[0].0.velocity, Point { x: 0, y: 0 });
         // machine 2 should ...
+        assert_eq!(status, CurrentGameState::PLAYING);
         assert_eq!(updated.machines[1].0.position, Point { x: 22, y: 0 });
         assert_eq!(updated.machines[1].0.velocity, Point { x: 2, y: 0 });
 
