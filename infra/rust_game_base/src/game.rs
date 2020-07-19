@@ -3,6 +3,7 @@ use self::super::value::*;
 pub const THRUST_COMMAND: i128 = 0;
 pub const SELF_DESTRUCT_COMMAND: i128 = 1;
 pub const BEAM_COMMAND: i128 = 2;
+pub const SPLIT_COMMAND: i128 = 3;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Point {
@@ -28,18 +29,19 @@ pub enum Command {
     // Beam(ShipNum, X, Y, Power)
     Beam(i8, Point, i8),
     // Split
+    Split(Param),
 }
 
 impl Command {
     pub fn to_value(&self) -> Value {
         match self {
             //   send: [0, SHIP_NUM, (X . Y)]
-            &Command::Thrust(ship_num, p) => Value::Cons(
+            &Command::Thrust(ship_num, ref pos) => Value::Cons(
                 Box::new(Value::Int(THRUST_COMMAND)),
                 Box::new(Value::Cons(
                     Box::new(Value::Int(ship_num as i128)),
                     Box::new(Value::Cons(
-                        Box::new(p.to_value()),
+                        Box::new(pos.to_value()),
                         Box::new(Value::Nil))),
                 )),
             ),
@@ -61,6 +63,22 @@ impl Command {
                         Box::new(Value::Cons(
                             Box::new(Value::Int(power as i128)),
                             Box::new(Value::Nil),
+                        )),
+                    )),
+                )),
+            ),
+            &Command::Split(ref param) => Value::Cons(
+                Box::new(Value::Int(SPLIT_COMMAND)),
+                Box::new(Value::Cons(
+                    Box::new(Value::Int(param.energy as i128)),
+                    Box::new(Value::Cons(
+                        Box::new(Value::Int(param.laser_power as i128)),
+                        Box::new(Value::Cons(
+                            Box::new(Value::Int(param.cool_down_per_turn as i128)),
+                            Box::new(Value::Cons(
+                                Box::new(Value::Int(param.life as i128)),
+                                Box::new(Value::Nil),
+                            )),
                         )),
                     )),
                 )),
@@ -100,6 +118,7 @@ pub struct Response {
     pub current_state: CurrentState,
 }
 
+#[derive(Debug)]
 pub struct Param {
     // コレがなくなると、 Thruster が吹けない
     pub energy: usize,
