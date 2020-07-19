@@ -8,7 +8,9 @@ git worktree prune
 msg="$(git show -s --format=%B)"
 
 function do_vendor() {
-   cargo vendor
+    if [ -f "Cargo.toml" ]; then
+        cargo vendor
+    fi
 }
 
 for platform in $(find . -name .platform); do
