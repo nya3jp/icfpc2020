@@ -1,5 +1,6 @@
 use self::super::game::*;
 use self::super::value::*;
+use io::Write;
 use std::io;
 
 const JOIN_REQUEST_TAG: i128 = 2;
@@ -201,6 +202,7 @@ fn parse_response(val: Value) -> Response {
 
 fn send_and_receive_game_state(val: &Value) -> Response {
     println!("{}", modulate_to_string(&val));
+    io::stdout().flush();
     eprintln!("send: {}", val.to_string());
     let mut resp = String::new();
     io::stdin().read_line(&mut resp).unwrap();
