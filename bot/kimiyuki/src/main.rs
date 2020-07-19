@@ -25,12 +25,10 @@ fn initialize() -> rust_game_base::Param {
 fn play(resp: &rust_game_base::Response) -> Vec<rust_game_base::Command> {
     let mut commands = vec![];
     let current_state = resp.current_state.as_ref().unwrap();
-    if current_state.turn % 4 != 0 {
-        for (machine, _) in current_state.machines.iter() {
-            match actions::stay(current_state, machine.machine_id) {
-                Some(command) => commands.push(command),
-                None => (),
-            }
+    for (machine, _) in current_state.machines.iter() {
+        match actions::stay(current_state, machine.machine_id) {
+            Some(command) => commands.push(command),
+            None => (),
         }
     }
     commands
