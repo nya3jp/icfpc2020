@@ -103,9 +103,11 @@ fn parse_stage_data(val: Value) -> StageData {
 }
 
 fn parse_position(val: Value) -> (isize, isize) {
-    match to_vec(val.clone()).as_slice() {
-        [x, y] => (to_int(x) as isize, to_int(y) as isize),
-        _ => panic!("unexpected value: ".to_string() + &val.to_string()),
+    match val {
+        Value::Cons(x, y) => {
+            (to_int(&*x) as isize, to_int(&*y) as isize)
+        },
+        _ => panic!("Unexpected value: ".to_string() + &val.to_string()),
     }
 }
 
