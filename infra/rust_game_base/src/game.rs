@@ -6,13 +6,17 @@ pub const SELF_DESTRUCT_COMMAND: i128 = 1;
 pub const BEAM_COMMAND: i128 = 2;
 pub const SPLIT_COMMAND: i128 = 3;
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Default)]
 pub struct Point {
     pub x: isize,
     pub y: isize,
 }
 
 impl Point {
+    pub fn new(x: isize, y: isize) -> Self {
+        Self { x, y }
+    }
+
     pub fn to_value(&self) -> Value {
         Value::Cons(
             Box::new(Value::Int(self.x as i128)),
@@ -123,6 +127,12 @@ pub enum Role {
     DEFENDER,
 }
 
+impl Default for Role {
+    fn default() -> Self {
+        Role::ATTACKER
+    }
+}
+
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub struct Obstacle {
     // 重力源の半径 (|x| と |y| がともにこれ以下になると死. 移動中にかすめてもセーフ),
@@ -148,7 +158,7 @@ pub struct Response {
     pub current_state: Option<CurrentState>,
 }
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Default)]
 pub struct Param {
     // コレがなくなると、 Thruster が吹けない
     pub energy: usize,
@@ -160,7 +170,7 @@ pub struct Param {
     pub life: usize,
 }
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Default)]
 pub struct Machine {
     pub role: Role,
     // 機体 ID. 多分自陣営/敵陣営通して unique.
@@ -204,5 +214,5 @@ pub enum ActionResult {
 pub struct CurrentState {
     pub turn: usize, // 現在のターン数
     pub obstacle: Option<Obstacle>,
-    pub machines: Vec<(Machine, Option<ActionResult>)>,
+    pub machines: Vec<(Machine, Vec<ActionResult>)>,
 }

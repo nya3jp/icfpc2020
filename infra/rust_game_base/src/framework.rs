@@ -1,6 +1,6 @@
 use crate::game::*;
 use crate::value::*;
-use anyhow::{bail, Result};
+use anyhow::{bail, Context, Result};
 use std::io::{self, Write};
 
 const JOIN_REQUEST_TAG: i128 = 2;
@@ -150,32 +150,36 @@ fn parse_machine(val: Value) -> Result<Machine> {
     })
 }
 
-fn parse_action_result(val: Value) -> Result<Option<ActionResult>> {
+fn parse_action_result(val: Value) -> Result<Vec<ActionResult>> {
     let vals = to_vec(val.clone())?;
-    if vals.is_empty() {
-        Ok(None)
-    } else {
-        let action_result = match (to_int(&vals[0].clone())?, vals.as_slice()) {
-            (0, [_, a]) => ActionResult::Thruster {
-                a: parse_point(a.clone())?,
-            },
-            (1, [_, power, area]) => ActionResult::Bomb {
-                power: to_int(power)? as usize,
-                area: to_int(area)? as usize,
-            },
-            (2, [_, opponent]) => ActionResult::Laser {
-                opponent: parse_point(opponent.clone())?,
-            },
-            (3, [_, params]) => ActionResult::Split {
-                params: parse_params(params.clone())?,
-            },
-            _ => bail!("unexpected value: ".to_string() + &val.to_string()),
-        };
-        Ok(Some(action_result))
-    }
+    vals.into_iter()
+        .map(|val| -> Result<ActionResult> {
+            let vals = to_vec(val)?;
+            Ok(match (to_int(&vals[0])?, &vals[1..]) {
+                (0, [a]) => ActionResult::Thruster {
+                    a: parse_point(a.clone())?,
+                },
+                (1, [power, area]) => ActionResult::Bomb {
+                    power: to_int(power)? as usize,
+                    area: to_int(area)? as usize,
+                },
+                (2, [opponent]) => ActionResult::Laser {
+                    opponent: parse_point(opponent.clone())?,
+                },
+                (3, [params]) => ActionResult::Split {
+                    params: parse_params(params.clone())?,
+                },
+                _ => bail!(
+                    "invalid action result: {:?}",
+                    vals.into_iter().map(|r| r.to_string()).collect::<Vec<_>>()
+                ),
+            })
+        })
+        .collect::<Result<Vec<_>>>()
+        .with_context(|| format!("invalid action results: {:?}", val.to_string()))
 }
 
-fn parse_machine_and_action_result(val: Value) -> Result<(Machine, Option<ActionResult>)> {
+fn parse_machine_and_action_result(val: Value) -> Result<(Machine, Vec<ActionResult>)> {
     match to_vec(val.clone())?.as_slice() {
         [machine, action_result] => Ok((
             parse_machine(machine.clone())?,

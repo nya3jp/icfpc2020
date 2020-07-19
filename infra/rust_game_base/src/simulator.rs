@@ -39,7 +39,7 @@ fn machine_update_velocity(cstate: &CurrentState, commands: &Vec<Command>) -> Cu
                             ..newmachine
                         };
                         newstate.machines[i] =
-                            (newmachine, Some(ActionResult::Thruster { a: *delta }));
+                            (newmachine, vec![ActionResult::Thruster { a: *delta }]);
                     }
                 }
                 ncount += 1

@@ -142,7 +142,7 @@ pub fn to_option(val: Value) -> Option<Value> {
 pub fn to_int(val: &Value) -> Result<i128> {
     match val {
         Value::Int(n) => Ok(*n),
-        _ => bail!("not a integer: {}", val.to_string()),
+        _ => bail!("not an integer: {}", val.to_string()),
     }
 }
 
