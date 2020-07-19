@@ -25,6 +25,15 @@ public:
   Value(Value car, Value cdr)
       : kind_(ValueKind::Cons), number_(0), car_(new Value(car)),
         cdr_(new Value(cdr)) {}
+  Value(const std::vector<Value> &values) {
+      if (values.empty()) {
+          kind_ = ValueKind::Nil;
+      } else {
+          kind_ = ValueKind::Cons;
+          car_ = std::make_shared<Value>(values[0]);
+          cdr_ = std::make_shared<Value>(std::vector<Value>(values.begin() + 1, values.end()));
+      }
+  }
 
   std::string to_string() const {
     switch (kind_) {

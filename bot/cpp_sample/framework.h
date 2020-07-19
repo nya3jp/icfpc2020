@@ -1,13 +1,10 @@
 #pragma once
 
 #include "value.h"
+#include "game.h"
 
 constexpr int JOIN_REQUEST_TAG = 2;
 constexpr int START_REQUEST_TAG = 3;
-
-struct GameState {
-  bool in_game;
-};
 
 GameState parse_game_state(Value v) {
   GameState state;
@@ -29,34 +26,33 @@ Value send_and_receive(Value v) {
 }
 
 Value send_join_request(int64_t player_key) {
-  Value req = Value(Value(JOIN_REQUEST_TAG),
-                    Value(Value(player_key),
-                          Value(Value(), Value())));
+  Value req = Value({JOIN_REQUEST_TAG, player_key, Value()});
   return send_and_receive(req);
 }
 
 GameState send_start_request(int64_t player_key, int equip1, int equip2, int equip3, int equip4) {
-  Value equip = Value(Value(equip1),
-                      Value(Value(equip2),
-                            Value(Value(equip3),
-                                  Value(Value(equip4),
-                                        Value()))));
-  Value req = Value(Value(START_REQUEST_TAG),
-                    Value(Value(player_key),
-                          Value(equip,
-                                Value())));
+  Value equip = Value({equip1, equip2, equip3, equip4});
+  Value req = Value({START_REQUEST_TAG, player_key, equip});
   Value res = send_and_receive(req);
   std::cerr << res.to_string() << std::endl;
   return parse_game_state(res);
 }
 
-GameState send_cmd(int64_t player_key) {
+GameState send_cmd(int64_t player_key, Command cmd) {
   // Do nothing.
-  Value skip_turn = Value(Value(4),
-                          Value(Value(player_key),
-                                Value(Value(),
-                                      Value())));
+  Value skip_turn = Value({4, player_key, Value()});
   Value res = send_and_receive(skip_turn);
   std::cerr << res.to_string() << std::endl;
   return parse_game_state(res);
+}
+
+void run_game(int64_t player_key, AIBase *ai) {
+  StartParams params = ai->initialize();
+  send_join_request(player_key);
+  send_start_request(player_key, params.equip1, params.equip2, params.equip3, params.equip4);
+  GameState state = {true};
+  while (state.in_game) {
+    Command cmd = ai->play(state);
+    state = send_cmd(player_key, cmd);
+  }
 }

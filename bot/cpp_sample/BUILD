@@ -5,6 +5,7 @@ cc_binary(
   srcs = [
       "value.h",
       "framework.h",
+      "game.h",
       "main.cpp",
   ],
 )
@@ -14,6 +15,7 @@ cc_test(
   srcs = [
       "value.h",
       "framework.h",
+      "game.h",
       "test.cpp",
   ],
   deps = [
