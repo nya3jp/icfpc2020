@@ -1,0 +1,6 @@
+// (0, 0) == last click point
+// (1, (nil, nil)) == UI state. no need to worry about it
+(5, (
+  (7, (${playerKey}, (nil, (nil, (nil, (${history}, ((0, 0), (${timestamp}, nil)))))))),
+  (1, (nil, nil))
+))
