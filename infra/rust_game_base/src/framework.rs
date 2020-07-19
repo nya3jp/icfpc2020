@@ -18,20 +18,20 @@ pub fn send_join_request() -> Response {
     ))
 }
 
-pub fn send_start_request(param1: i32, param2: i32, param3: i32, param4: i32) -> Response {
+pub fn send_start_request(params: &Param) -> Response {
     let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
     let is_tutorial: bool = std::env::vars().any(|(key, _)| key == "TUTORIAL_MODE");
     let params = if is_tutorial {
         Value::Nil
     } else {
         Value::Cons(
-            Box::new(Value::Int(param1 as i128)),
+            Box::new(Value::Int(params.energy as i128)),
             Box::new(Value::Cons(
-                Box::new(Value::Int(param2 as i128)),
+                Box::new(Value::Int(params.laser_power as i128)),
                 Box::new(Value::Cons(
-                    Box::new(Value::Int(param3 as i128)),
+                    Box::new(Value::Int(params.cool_down_per_turn as i128)),
                     Box::new(Value::Cons(
-                        Box::new(Value::Int(param4 as i128)),
+                        Box::new(Value::Int(params.life as i128)),
                         Box::new(Value::Nil),
                     )),
                 )),
