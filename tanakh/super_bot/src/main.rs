@@ -1,39 +1,12 @@
 use anyhow::{anyhow, bail, Context, Result};
 use rust_game_base::*;
+use std::cmp::{max, min};
 
 struct Bot {
     stage: CurrentGameState,
     static_info: StageData,
     state: CurrentState,
 }
-
-// main (args)
-// {
-//     // parse command line arguments
-//     serverUrl = args[0]
-//     playerKey = args[1]
-
-//     // make valid JOIN request using the provided playerKey
-//     joinRequest = makeJoinRequest(playerKey)
-
-//     // send it to aliens and get the GameResponse
-//     gameResponse = send(serverUrl, joinRequest)
-
-//     // make valid START request using the provided playerKey and gameResponse returned from JOIN
-//     startRequest = makeStartRequest(playerKey, gameResponse)
-
-//     // send it to aliens and get the updated GameResponse
-//     gameResponse = send(serverUrl, startRequest)
-
-//     while (true) // todo: you MAY detect somehow that game is finished using gameResponse
-//     {
-//         // make valid COMMANDS request using the provided playerKey and gameResponse returned from START or previous COMMANDS
-//         commandsRequest = makeCommandsRequest(playerKey, gameResponse)
-
-//         // send it to aliens and get the updated GameResponse
-//         gameResponse = send(serverUrl, commandsRequest)
-//     }
-// }
 
 impl Bot {
     fn new() -> Result<Bot> {
@@ -45,7 +18,16 @@ impl Bot {
         })
     }
 
+    fn apply_response(&mut self, resp: Response) {
+        self.stage = resp.current_game_state;
+        assert_eq!(self.static_info, resp.stage_data);
+        self.state = resp.current_state.unwrap();
+    }
+
     fn start(&mut self) -> Result<()> {
+        assert_eq!(self.stage, CurrentGameState::START);
+        dbg!(&self.static_info);
+
         let param = Param {
             energy: 0,
             laser_power: 0,
@@ -58,17 +40,40 @@ impl Bot {
     }
 
     fn step(&mut self) -> Result<()> {
-        let cmds = vec![];
-
+        assert_eq!(self.stage, CurrentGameState::PLAYING);
+        let cmds = self.think();
         self.apply_response(send_command_request(&mut cmds.into_iter())?);
         Ok(())
     }
 
-    fn apply_response(&mut self, resp: Response) {
-        self.stage = resp.current_game_state;
-        assert_eq!(self.static_info, resp.stage_data);
-        self.state = resp.current_state.unwrap();
+    fn think(&mut self) -> Vec<Command> {
+        dbg!(self.static_info.self_role);
+        dbg!(&self.state);
+
+        let mut cmds = vec![];
+
+        for m in self.state.machines.iter() {
+            let m = m.0;
+            if m.role != self.static_info.self_role {
+                continue;
+            }
+
+            if m.velocity.x.abs() + m.velocity.y.abs() > 0 {
+                let ax = clamp(m.velocity.x, -2, 2);
+                let ay = clamp(m.velocity.y, -2, 2);
+
+                dbg!(ax, ay);
+
+                cmds.push(Command::Thrust(m.machine_id as _, Point::new(ax, ay)));
+            }
+        }
+
+        cmds
     }
+}
+
+pub fn clamp<T: Ord>(input: T, min_v: T, max_v: T) -> T {
+    max(min_v, min(max_v, input))
 }
 
 fn main() -> Result<()> {
