@@ -5,12 +5,25 @@ pub enum Value {
     Cons(Box<Value>, Box<Value>),
 }
 
+fn is_list(val: &Value) -> bool {
+    match val {
+        Value::Int(_) => false,
+        Value::Nil => true,
+        Value::Cons(_, cdr) => is_list(cdr),
+    }
+}
+
 impl ToString for Value {
     fn to_string(&self) -> String {
         match self {
             &Value::Int(n) => format!("{}", n),
-            Value::Nil => format!("'nil"),
-            Value::Cons(x, y) => format!("({} . {})", x.to_string(), y.to_string()),
+            Value::Nil => format!("nil"),
+            Value::Cons(x, y) =>
+                if is_list(self) {
+                  "(".to_string() + &to_vec(self.clone()).into_iter().map(|val| val.to_string()).collect::<Vec<String>>().join(" ") + ")"
+                } else {
+                  format!("({} . {})", x.to_string(), y.to_string())
+                },
         }
     }
 }
