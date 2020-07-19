@@ -35,10 +35,12 @@ def main():
     parser.add_argument('arg2', help="a binary path")
     parser.add_argument('--logfile',
                         '--logfile1',
+                        dest='logfile1',
                         help='log file for the first bot')
     parser.add_argument('--logfile2', help='log file for the second bot')
     parser.add_argument('--logprefix',
                         '--logprefix1',
+                        dest='logprefix1',
                         help='log prefix for the first bot')
     parser.add_argument('--logprefix2', help='log prefix for the second bot')
 
@@ -46,12 +48,10 @@ def main():
 
     if args.subcommand == 'tutorial':
         outfile = sys.stderr
-        if args.logfile:
-            outfile = open(args.logfile, mode='a')
+        if args.logfile1:
+            outfile = open(args.logfile1, mode='a')
             print("============", file=outfile)
-        outprefix = None
-        if args.logprefix:
-            outprefix = args.logprefix
+        outprefix = args.logprefix1
 
         pk = get_tutorial_playerkey(int(args.arg1))
         print("tester: PlayerKey %d" % (pk, ))
@@ -80,7 +80,7 @@ def main():
                              args=(args.arg1, pks[0], False, outprefix1,
                                    outfile1))
         t.start()
-        run_bot(args.arg2, pks[1], False, outprfix2, outfile2)
+        run_bot(args.arg2, pks[1], False, outprefix2, outfile2)
         t.join()
         return
 
@@ -90,11 +90,14 @@ def main():
 
 
 def wrap_err(err_pipe, prefix, outfile):
-    for line in err_pipe:
-        line = line.rstrip()
-        if prefix:
-            line = "[%s] %s" % (prefix, line)
-        print(line, file=outfile)
+    buf = ''
+    for token in err_pipe:
+        buf += token
+        if '\n' in buf:
+            if prefix:
+                buf = "[%s] %s" % (prefix, buf.rstrip())
+            print(buf, file=outfile)
+            buf = ''
 
 
 def run_bot(main_program, player_key, is_tutorial, prefix, outfile):
