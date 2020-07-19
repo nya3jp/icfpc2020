@@ -25,56 +25,35 @@ fn update_machine_heat(m: &mut Machine, heat: usize) {
 }
 
 // returns None if machines die
-fn machine_cooldown(m: &Machine) -> Machine {
+fn machine_update_cooldown(m: &mut Machine) {
     let energy = m.params.energy;
-    let newh = m.heat;
-    let newh = newh - min(m.params.cool_down_per_turn, newh);
-    println!("newh: {}", newh);
-    if ((newh > OVERHEAT) && // attack indeed does damage and kill
-        (energy < (newh - OVERHEAT)))
-    {
-        // "0 0 0 0"
-        return Machine {
-            params: Param {
-                energy: 0,
-                laser_power: 0,
-                cool_down_per_turn: 0,
-                life: 0,
-            },
-            ..*m
-        };
-    };
-    // otherwise, cooldown is first used to block attack heat and then remaining heat deletes their own energy / laser effectiveness
+    let newh = m.heat - min(m.params.cool_down_per_turn, m.heat);
 
-    let newheat = m.heat - m.params.cool_down_per_turn;
-    let heatdamage = newheat - min(newheat, OVERHEAT);
+    let heatdamage = newh - min(newh, OVERHEAT);
+    let newheat = min(newh, OVERHEAT);
+    m.heat = newheat;
 
-    let newheat = min(newheat, OVERHEAT);
-    let heatdamage = max(heatdamage, 0);
+    let remaindamage = max(heatdamage, 0);
+    let energydamage = min(m.params.energy, remaindamage);
+    m.params.energy -= energydamage;
 
-    let energydamage = min(m.params.energy, heatdamage);
-    let laserdamage = min(heatdamage - energydamage, m.params.laser_power); // TODO (coner case): what if laser damage exceeds remaining laser eff?
+    let remaindamage = max(remaindamage - energydamage, 0);
+    let laserdamage = min(remaindamage, m.params.laser_power);
+    m.params.laser_power -= laserdamage;
 
-    Machine {
-        params: Param {
-            energy: m.params.energy - energydamage,
-            laser_power: m.params.laser_power - laserdamage,
-            ..m.params
-        },
-        heat: newheat,
-        ..*m
-    }
+    let remaindamage = max(remaindamage - laserdamage, 0);
+    let cooldowndamage = min(remaindamage, m.params.cool_down_per_turn);
+    m.params.cool_down_per_turn -= cooldowndamage;
+
+    let remaindamage = max(remaindamage - cooldowndamage, 0);
+    let lifedamage = min(remaindamage, m.params.life);
+    m.params.life -= lifedamage;
 }
 
-fn state_cooldown(s: &CurrentState) -> CurrentState {
-    let mut ret = s.clone();
-    let machines = &s.machines;
-    let retmachine = machines
-        .iter()
-        .map(|(m, a)| (machine_cooldown(m), a.clone()))
-        .collect();
-    ret.machines = retmachine;
-    ret
+fn state_update_cooldown(s: &mut CurrentState) {
+    for m in &mut s.machines {
+        machine_update_cooldown(&mut m.0)
+    }
 }
 
 fn lookup_machine(s: &CurrentState, id: isize) -> Option<Machine> {
@@ -120,7 +99,7 @@ fn do_laser_helper(s: &mut CurrentState, shipnum: isize, target: &Point, power: 
     let dx = *target - origin.position;
     let damage_base = laser_damage_base(&dx);
     let diminish = dx.l0_distance() - 1;
-    let damage = max(damage_base * power - diminish, 0);
+    let damage = max(damage_base * power - diminish, 0); // should be OK because it's isize
     for mpair in &mut s.machines {
         // check position
         let m = &mut mpair.0;
@@ -132,38 +111,98 @@ fn do_laser_helper(s: &mut CurrentState, shipnum: isize, target: &Point, power: 
             damage as usize >> (2 * dist as usize)
         };
         mpair.0 = machine_damage(&mpair.0, finaldamage); // FIXME TODO: ActionResults
+        mpair.1.push(ActionResult::Laser { opponent: *target }) // FIXME TODO: damage
     }
 }
 
-fn do_laser(s: &CurrentState, all_actions: &Vec<Command>) -> CurrentState {
-    let mut newstate = s.clone();
-    for (i, action) in all_actions.iter().enumerate() {
+fn do_laser(s: &mut CurrentState, all_actions: &Vec<Command>) {
+    for action in all_actions {
         match action {
             Command::Beam(shipnum, pt, power) => {
-                do_laser_helper(&mut newstate, *shipnum, &pt, *power as isize);
+                do_laser_helper(s, *shipnum, &pt, *power as isize);
             }
             _ => (),
         };
     }
-    newstate
 }
 
-fn state_update_damages(cstate: &CurrentState, commands: &Vec<Command>) -> CurrentState {
-    let cstate = do_laser(cstate, commands);
-    // TODO jibaku
-    cstate
+fn do_self_destruct_helper(
+    s: &mut CurrentState,
+    shipnum: isize,
+    size: usize,
+    power: usize,
+    attackorigin: Point,
+) {
+    for mpair in &mut s.machines {
+        let distance = (mpair.0.position - attackorigin).l0_distance();
+        if distance as usize <= size {
+            update_machine_heat(&mut mpair.0, power)
+        }
+        if shipnum == mpair.0.machine_id {
+            // self destruct
+            mpair.0.params = Param {
+                energy: 0,
+                laser_power: 0,
+                cool_down_per_turn: 0,
+                life: 0,
+            };
+            mpair.1.push(ActionResult::Bomb {
+                power: power,
+                area: size,
+            });
+        }
+    }
 }
 
-fn state_update_velocities(cstate: &CurrentState, commands: &Vec<Command>) -> CurrentState {
+fn self_destruct_power(m: &Machine) -> (usize, usize) {
+    let sumenergy =
+        m.params.energy + m.params.laser_power + m.params.cool_down_per_turn + m.params.life;
+    if sumenergy <= 1 {
+        (9, 128)
+    } else if sumenergy <= 2 {
+        (11, 161)
+    } else if sumenergy <= 3 {
+        (11, 181)
+    } else if sumenergy <= 15 {
+        (17, 256)
+    } else {
+        // sumenergy <= 511 ?
+        (25, 384)
+    }
+}
+
+fn do_self_destruct(s: &mut CurrentState, all_actions: &Vec<Command>) {
+    for action in all_actions {
+        match action {
+            Command::Bomb(shipnum) => {
+                let origin = lookup_machine(s, *shipnum).unwrap();
+                let (size, power) = self_destruct_power(&origin);
+                do_self_destruct_helper(s, *shipnum, size, power, origin.position);
+            }
+            _ => (),
+        }
+    }
+}
+
+fn state_update_damages(cstate: &mut CurrentState, commands: &Vec<Command>) {
+    do_laser(cstate, commands);
+    do_self_destruct(cstate, commands);
+}
+
+fn state_update_velocities(cstate: &mut CurrentState, commands: &Vec<Command>) {
     let mut ncount = 0;
-    let mut newstate = cstate.clone();
+    let mut thrust_ids = Vec::new();
     for c in commands {
         match c {
             Command::Thrust(shipnum, delta) => {
                 if (delta.l0_distance() == 0) {
                     panic!("Thrust(0,0) cannot be chosen in alien GUI")
                 };
-                for (i, (m, actionresult)) in cstate.machines.iter().enumerate() {
+                if thrust_ids.iter().any(|x| *x == shipnum) {
+                    panic!("Multiple thrusts from same id");
+                };
+                thrust_ids.push(shipnum);
+                for (m, actionresult) in &mut cstate.machines {
                     if m.machine_id != (*shipnum as isize) {
                         continue;
                     } else if m.params.energy < THRUST_ENERGY {
@@ -171,39 +210,22 @@ fn state_update_velocities(cstate: &CurrentState, commands: &Vec<Command>) -> Cu
                         // can't thrust
                         continue;
                     } else {
-                        let newmachine = machine_generated_heat(m, THRUST_HEAT);
-                        let newmachine = Machine {
-                            velocity: newmachine.velocity - *delta, // Thrusts to inverse direction
-                            params: Param {
-                                energy: newmachine.params.energy - THRUST_ENERGY,
-                                ..newmachine.params
-                            },
-                            ..newmachine
-                        };
-                        newstate.machines[i] =
-                            (newmachine, vec![ActionResult::Thruster { a: *delta }]);
+                        m.heat += THRUST_HEAT;
+                        m.velocity = m.velocity - *delta;
+                        m.params.energy = m.params.energy - THRUST_ENERGY;
+                        actionresult.push(ActionResult::Thruster { a: *delta });
                     }
                 }
-                ncount += 1
             }
             _ => (),
         }
     }
-    if ncount >= 2 {
-        panic!("Multiple thrusts in one action")
-    }
-    newstate
 }
 
-fn state_update_coordinates(s: &CurrentState) -> CurrentState {
-    let mut newmachines = s.machines.clone();
-    for mut mp in &mut newmachines {
+fn state_update_coordinates(s: &mut CurrentState) {
+    for mut mp in &mut s.machines {
         let m = &mut mp.0;
         m.position = m.position + m.velocity
-    }
-    CurrentState {
-        machines: newmachines,
-        ..*s
     }
 }
 
@@ -242,13 +264,14 @@ fn state_update_obstacles(cstate: &mut CurrentState) {
     }
 }
 
+/* Accepts CurrentState and Commands and outputs updated states. */
 pub fn state_update(cstate: &CurrentState, commands: &Vec<Command>) -> CurrentState {
     let mut cstate = state_clone_clear_actions(cstate);
     state_update_obstacles(&mut cstate);
-    let cstate = state_update_velocities(&cstate, commands);
-    let cstate = state_update_coordinates(&cstate);
-    let cstate = state_update_damages(&cstate, commands);
-    let cstate = state_cooldown(&cstate);
+    state_update_velocities(&mut cstate, commands);
+    state_update_coordinates(&mut cstate);
+    state_update_damages(&mut cstate, commands);
+    state_update_cooldown(&mut cstate);
     cstate
 }
 
