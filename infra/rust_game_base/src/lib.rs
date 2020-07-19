@@ -2,56 +2,11 @@ use std::io;
 
 const JOIN_REQUEST_TAG: i128 = 2;
 const START_REQUEST_TAG: i128 = 3;
+const COMMAND_REQUEST_TAG: i128 = 4;
 
-// move command
-// ( ( 0, ( 0, ( ( X, Y ), nil ) ) ), nil )
-//
-//   move (-1, 0)
-//   ( ( 0, ( 0, ( ( -1, 0 ), nil ) ) ), nil )
-//   send: ( 4, ( 2294550191781414755, ( ( ( 0, ( 0, ( ( -1, 0 ), nil ) ) ), nil ), nil ) ) ) => ( 1, ( 1, ( ( 12, ( 0, ( ( 512, ( 1, ( 64, nil ) ) ), ( nil, ( nil, nil ) ) ) ) ), ( ( 1, ( nil, ( ( ( ( 1, ( 1, ( ( 33, 6 ), ( ( 0, 0 ), ( ( 78, ( 0, ( 0, ( 1, nil ) ) ) ), ( 0, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ), ( ( ( 0, ( 0, ( ( 17, 0 ), ( ( 1, 0 ), ( ( 2, ( 0, ( 0, ( 1, nil ) ) ) ), ( 8, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( ( ( 0, ( ( -1, 0 ), nil ) ), nil ), nil ) ), nil ) ), nil ) ) ), nil ) ) ) )
-//
-//   move (-1, -1)
-//   send: ( 4, ( 2294550191781414755, ( ( ( 0, ( 0, ( ( -1, -1 ), nil ) ) ), nil ), nil ) ) ) => ( 1, ( 1, ( ( 12, ( 0, ( ( 512, ( 1, ( 64, nil ) ) ), ( nil, ( nil, nil ) ) ) ) ), ( ( 2, ( nil, ( ( ( ( 1, ( 1, ( ( 33, 6 ), ( ( 0, 0 ), ( ( 78, ( 0, ( 0, ( 1, nil ) ) ) ), ( 0, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ), ( ( ( 0, ( 0, ( ( 19, 1 ), ( ( 2, 1 ), ( ( 1, ( 0, ( 0, ( 1, nil ) ) ) ), ( 16, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( ( ( 0, ( ( -1, -1 ), nil ) ), nil ), nil ) ), nil ) ), nil ) ) ), nil ) ) ) )
-//
-//   Move twice
-//     send: ( 4, ( 2124087914363152034, ( ( ( 0, ( 0, ( ( -1, 0 ), nil ) ) ), nil ), nil ) ) ) => ( 1, ( 1, ( ( 8, ( 0, ( ( 512, ( 1, ( 64, nil ) ) ), ( nil, ( nil, nil ) ) ) ) ), ( ( 2, ( nil, ( ( ( ( 1, ( 1, ( ( 38, 0 ), ( ( 0, 0 ), ( ( 32, ( 0, ( 0, ( 1, nil ) ) ) ), ( 0, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ), ( ( ( 0, ( 0, ( ( 19, 0 ), ( ( 2, 0 ), ( ( 9, ( 0, ( 0, ( 1, nil ) ) ) ), ( 64, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( ( ( 0, ( ( -1, 0 ), nil ) ), nil ), nil ) ), nil ) ), nil ) ) ), nil ) ) ) )
-//     send: ( 4, ( 2124087914363152034, ( ( ( 0, ( 0, ( ( -1, 0 ), nil ) ) ), nil ), nil ) ) ) => ( 1, ( 1, ( ( 8, ( 0, ( ( 512, ( 1, ( 64, nil ) ) ), ( nil, ( nil, nil ) ) ) ) ), ( ( 1, ( nil, ( ( ( ( 1, ( 1, ( ( 38, 0 ), ( ( 0, 0 ), ( ( 32, ( 0, ( 0, ( 1, nil ) ) ) ), ( 0, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ), ( ( ( 0, ( 0, ( ( 17, 0 ), ( ( 1, 0 ), ( ( 14, ( 0, ( 0, ( 1, nil ) ) ) ), ( 60, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( ( ( 0, ( ( -1, 0 ), nil ) ), nil ), nil ) ), nil ) ), nil ) ) ), nil ) ) ) )
-//
-// self destruct command
-// ( ( 1, ( 0, nil ) ), nil )
-//
-// beam
-// ( ( 2, ( 0, ( ( X, Y ), ( power=86, nil ) ) ) ), nil )
-//   send: ( 4, ( 7346510104303901170, ( ( ( 2, ( 0, ( ( 48, 0 ), ( 86, nil ) ) ) ), nil ), nil ) ) ) =>
-//  ( 1, ( 1, (
-//              ( 4, ( 0, ( ( 512, ( 1, ( 64, nil ) ) ), ( nil, ( nil, nil ) ) ) ) ),
-//              ( ( 1, ( nil, ( (
-//                               ( ( 1, ( 1, ( ( 48, 0 ), ( ( 0, 0 ), ( ( 196, ( 0, ( 0, ( 1, nil ) ) ) ), ( 64, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ),
-//                                 ( ( ( 0, ( 0, ( ( 16, 0 ), ( ( 0, 0 ), ( ( 0, ( power_left=75, ( 11, ( 1, nil ) ) ) ), ( 64, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( ( ( 2, ( ( 48, 0 ), ( 86, ( 227, ( 4, nil ) ) ) ) ), nil ), nil ) ), nil ) ), nil ) ) ), nil ) ) ) )
-//
-//   send: ( 4, ( 7346510104303901170, ( ( ( 2, ( 0, ( ( 48, 0 ), ( 75, nil ) ) ) ), nil ), nil ) ) ) => ( 1, ( 1, ( ( 4, ( 0, ( ( 512, ( 1, ( 64, nil ) ) ), ( nil, ( nil, nil ) ) ) ) ), ( ( 2, ( nil, ( ( ( ( 1, ( 1, ( ( 48, 0 ), ( ( 0, 0 ), ( ( 2, ( 0, ( 0, ( 1, nil ) ) ) ), ( 64, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ), ( ( ( 0, ( 0, ( ( 16, 0 ), ( ( 0, 0 ), ( ( 0, ( 11, ( 11, ( 1, nil ) ) ) ), ( 64, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( ( ( 2, ( ( 48, 0 ), ( 75, ( 194, ( 4, nil ) ) ) ) ), nil ), nil ) ), nil ) ), nil ) ) ), nil ) ) ) )
-//
-//  multiple opponents:
-//  send: ( 3, ( 8163103398110191786, ( nil, nil ) ) ) =>
-//  ( 1, ( 1, (
-//              ( 8, ( 1, ( ( 448, ( 1, ( 64, nil ) ) ), ( nil, ( nil, nil ) ) ) ) ),
-//              ( ( 0, ( nil, ( (
-//                               ( ( 1, ( 0, ( ( 16 = X, 0 = Y ), ( ( 0, 0 ), ( ( 0, ( 16, ( 16, ( 1, nil ) ) ) ), ( 0, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ),
-//                                 ( ( ( 0, ( 1, ( ( 44 = X, 0 = Y ), ( ( -3, 0 ), ( ( 24, ( 0, ( 0, ( 1, nil ) ) ) ), ( 64, ( 64, ( 1, nil ) )) ) ) ) ) ), ( nil, nil ) ),
-//                                 ( ( ( 0, ( 2, ( ( 48 = X, 32 = Y ), ( ( -6, -6 ), ( ( 24, ( 0, ( 0, ( 1, nil ) ) ) ), ( 64, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ),
-//                                 ( ( ( 0, ( 3, ( ( 16 = X, 35 = Y ), ( ( 0, -5 ), ( ( 24, ( 0, ( 0, ( 1, nil ) ) ) ), ( 64, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ), nil ) ) ) ), nil ) ) ), nil ) ) ) )
-//
-//  send: ( 4, ( 8163103398110191786, ( nil, nil ) ) ) =>
-//  ( 1, ( 1, (
-//              ( 8, ( 1, ( ( 448, ( 1, ( 64, nil ) ) ), ( nil, ( nil, nil ) ) ) ) ),
-//              ( ( 1, ( nil, ( (
-//                               ( ( 1, ( 0, ( ( 16, 0 ), ( ( 0, 0 ), ( ( 0, ( 16, ( 16, ( 1, nil ) ) ) ), ( 0, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ),
-//                                 ( ( ( 0, ( 1, ( p=( 41, 0 ), ( v=( -3, 0 ), ( ( 24, ( 0, ( 0, ( 1, nil ) ) ) ), ( 64, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ),
-//                                 ( ( ( 0, ( 2, ( p=( 42, 26 ), ( v=( -6, -6 ), ( ( 24, ( 0, ( 0, ( 1, nil ) ) ) ), ( 64, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ),
-//                                 ( ( ( 0, ( 3, ( p=( 16, 30 ), ( v=( 0, -5 ), ( ( 24, ( 0, ( 0, ( 1, nil ) ) ) ), ( 64, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ), nil ) ) ) ), nil ) ) ), nil ) ) ) )
-//
-//  send: ( 4, ( 4515683523718609980, ( ( ( 2, ( 0, ( ( 23, 8 ), ( 16, nil ) ) ) ), nil ), nil ) ) ) =>
-//  ( 1, ( 1, ( ( 8, ( 1, ( ( 448, ( 1, ( 64, nil ) ) ), ( nil, ( nil, nil ) ) ) ) ), ( ( 4, ( nil, ( ( ( ( 1, ( 0, ( ( 16, 0 ), ( ( 0, 0 ), ( ( 0, ( 16, ( 16, ( 1, nil ) ) ) ), ( 0, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( ( ( 2, ( ( 23, 8 ), ( 16, ( 29, ( 4, nil ) ) ) ) ), nil ), nil ) ), ( ( ( 0, ( 2, ( ( 24, 8 ), ( ( -6, -6 ), ( ( 17, ( 0, ( 0, ( 1, nil ) ) ) ), ( 64, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ), ( ( ( 0, ( 3, ( ( 16, 15 ), ( ( 0, -5 ), ( ( 24, ( 0, ( 0, ( 1, nil ) ) ) ), ( 64, ( 64, ( 1, nil ) ) ) ) ) ) ) ), ( nil, nil ) ), nil ) ) ), nil ) ) ), nil ) ) ) )
+const THRUST_COMMAND: i128 = 0;
+const SELF_DESTRUCT_COMMAND: i128 = 1;
+const BEAM_COMMAND: i128 = 2;
 
 pub fn send_join_request() -> GameState {
     let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
@@ -88,6 +43,76 @@ pub fn send_start_request(param1: i32, param2: i32, param3: i32, param4: i32) ->
     ))
 }
 
+pub fn send_command_request(it: &mut impl Iterator<Item = Command>) -> GameState {
+    let commands = it.fold(Value::Nil, |acc, x| {
+        Value::Cons(Box::new(x.to_value()), Box::new(acc))
+    });
+    let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
+    send_and_receive_game_state(&Value::Cons(
+        Box::new(Value::Int(COMMAND_REQUEST_TAG)),
+        Box::new(Value::Cons(
+            Box::new(Value::Int(player_key)),
+            Box::new(Value::Cons(Box::new(commands), Box::new(Value::Nil))),
+        )),
+    ))
+}
+
+#[derive(Debug)]
+pub enum Command {
+    // Thrust(ShipNum, X, Y)
+    Thrust(i8, i8, i8),
+    // SelfDestruct(ShipNum)
+    SelfDestruct(i8),
+    // Beam(ShipNum, X, Y, Power)
+    Beam(i8, i16, i16, i8),
+}
+
+impl Command {
+    fn to_value(&self) -> Value {
+        match self {
+            //   send: [0, SHIP_NUM, (X . Y)]
+            &Command::Thrust(ship_num, x, y) => Value::Cons(
+                Box::new(Value::Int(THRUST_COMMAND)),
+                Box::new(Value::Cons(
+                    Box::new(Value::Int(ship_num as i128)),
+                    Box::new(Value::Cons(
+                        Box::new(Value::Cons(
+                            Box::new(Value::Int(x as i128)),
+                            Box::new(Value::Int(y as i128)),
+                        )),
+                        Box::new(Value::Nil),
+                    )),
+                )),
+            ),
+            // send [1, SHIP_NUM]
+            &Command::SelfDestruct(ship_num) => Value::Cons(
+                Box::new(Value::Int(SELF_DESTRUCT_COMMAND)),
+                Box::new(Value::Cons(
+                    Box::new(Value::Int(ship_num as i128)),
+                    Box::new(Value::Nil),
+                )),
+            ),
+            // send: [2, SHIP_NUM, ( X . Y ), POWER] =>
+            &Command::Beam(ship_num, x, y, power) => Value::Cons(
+                Box::new(Value::Int(BEAM_COMMAND)),
+                Box::new(Value::Cons(
+                    Box::new(Value::Int(ship_num as i128)),
+                    Box::new(Value::Cons(
+                        Box::new(Value::Cons(
+                            Box::new(Value::Int(x as i128)),
+                            Box::new(Value::Int(y as i128)),
+                        )),
+                        Box::new(Value::Cons(
+                            Box::new(Value::Int(power as i128)),
+                            Box::new(Value::Nil),
+                        )),
+                    )),
+                )),
+            ),
+        }
+    }
+}
+
 #[derive(Debug)]
 pub struct GameState {
     state1: Value,
@@ -95,7 +120,7 @@ pub struct GameState {
 }
 
 fn send_and_receive_game_state(val: &Value) -> GameState {
-    let state = send_and_receive(val);
+    send_and_receive(val);
     GameState {
         state1: Value::Nil,
         state2: Value::Nil,
