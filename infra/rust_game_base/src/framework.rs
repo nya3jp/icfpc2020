@@ -9,6 +9,7 @@ const COMMAND_REQUEST_TAG: i128 = 4;
 
 pub fn send_join_request() -> Result<Response> {
     let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
+    eprintln!("send: JOIN player_key={}", player_key);
     send_and_receive_game_state(&Value::Cons(
         Box::new(Value::Int(JOIN_REQUEST_TAG)),
         Box::new(Value::Cons(
@@ -38,6 +39,11 @@ pub fn send_start_request(params: &Param) -> Result<Response> {
             )),
         )
     };
+    if is_tutorial {
+        eprintln!("send: START player_key={} tutorial", player_key);
+    } else {
+        eprintln!("send: START player_key={} {:?}", player_key, params);
+    }
     send_and_receive_game_state(&Value::Cons(
         Box::new(Value::Int(START_REQUEST_TAG)),
         Box::new(Value::Cons(
@@ -48,15 +54,17 @@ pub fn send_start_request(params: &Param) -> Result<Response> {
 }
 
 pub fn send_command_request(it: &mut impl Iterator<Item = Command>) -> Result<Response> {
-    let commands = it.fold(Value::Nil, |acc, x| {
+    let commands = it.collect::<Vec<Command>>();
+    let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
+    eprintln!("send: COMMAND player_key={} commands={:?}", player_key, commands);
+    let serialized_commands = commands.into_iter().fold(Value::Nil, |acc, x| {
         Value::Cons(Box::new(x.to_value()), Box::new(acc))
     });
-    let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
     send_and_receive_game_state(&Value::Cons(
         Box::new(Value::Int(COMMAND_REQUEST_TAG)),
         Box::new(Value::Cons(
             Box::new(Value::Int(player_key)),
-            Box::new(Value::Cons(Box::new(commands), Box::new(Value::Nil))),
+            Box::new(Value::Cons(Box::new(serialized_commands), Box::new(Value::Nil))),
         )),
     ))
 }
@@ -232,7 +240,6 @@ fn parse_response(val: Value) -> Result<Response> {
 fn send_and_receive_game_state(val: &Value) -> Result<Response> {
     println!("{}", modulate_to_string(&val));
     io::stdout().flush();
-    eprintln!("send: {}", val.to_string());
     let mut resp = String::new();
     io::stdin().read_line(&mut resp).unwrap();
     let resp = demodulate_from_string(&resp).unwrap();

@@ -47,13 +47,19 @@ fn main() {
     );
 
     loop {
-        if res.current_game_state == rust_game_base::CurrentGameState::END {
-            let mut attacker_won = true;
-            for m in res.current_state.unwrap().machines {
-                if m.0.team_id == 1 && m.0.params.life > 0 {
-                    attacker_won = false;
-                }
+        let mut attacker_won = true;
+
+        let mut machine_id = 0;
+        for m in res.current_state.clone().unwrap().machines.iter() {
+            let is_attacker = m.0.team_id == 0;
+            if !is_attacker && m.0.params.life > 0 {
+                attacker_won = false;
             }
+            if is_attacker == im_attacker {
+                machine_id = m.0.machine_id;
+            }
+        }
+        if res.current_game_state == rust_game_base::CurrentGameState::END {
             if attacker_won == im_attacker {
                 eprintln!("I won!");
             } else {
@@ -64,18 +70,21 @@ fn main() {
         eprintln!("send_command_request");
 
         let mv = next_action(State::from_response(&res.current_state.unwrap()));
-        let mv = mv.iter().map(|m| match m {
+        let mv:Vec<_> = mv.iter().map(|m| match m {
             &Command::Thrust(p) => rust_game_base::Command::Thrust(
-                1,
+                machine_id as _,
                 rust_game_base::Point {
                     x: p.x as isize,
                     y: p.y as isize,
                 },
             ),
-            &Command::Bomb => rust_game_base::Command::SelfDestruct(1),
+            &Command::Bomb => rust_game_base::Command::SelfDestruct(machine_id as _),
             _ => panic!(),
             // Command::Beam { dir, power } => {}
-        });
+        }).collect();
+
+        eprintln!("{:?}", &mv);
+
         res = rust_game_base::send_command_request(&mut mv.into_iter()).unwrap();
     }
 }
@@ -213,7 +222,7 @@ fn next_state(s: &State, a: &Action) -> State {
     for c in a.iter() {
         match c {
             Command::Thrust(a) => {
-                s.me.v = s.me.v + *a;
+                s.me.v = s.me.v - *a;
                 s.me.pos = s.me.pos + s.me.v;
             }
             Command::Bomb => {
@@ -250,7 +259,7 @@ fn possible_actions(s: &State) -> Vec<Action> {
         if (dx != 0) && (dy != 0) {
             continue;
         }
-        res.push(vec![Command::Thrust(P::new(dx, dy))]);
+        // res.push(vec![Command::Thrust(P::new(dx, dy))]);
     }
     res
 }
