@@ -7,58 +7,38 @@ const JOIN_REQUEST_TAG: i128 = 2;
 const START_REQUEST_TAG: i128 = 3;
 const COMMAND_REQUEST_TAG: i128 = 4;
 
+fn get_player_ker() -> i128 {
+    std::env::args().nth(1).unwrap().parse().unwrap()
+}
+
 pub fn send_join_request() -> Result<Response> {
-    let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
-    send_and_receive_game_state(&Value::Cons(
-        Box::new(Value::Int(JOIN_REQUEST_TAG)),
-        Box::new(Value::Cons(
-            Box::new(Value::Int(player_key)),
-            Box::new(Value::Cons(Box::new(Value::Nil), Box::new(Value::Nil))),
-        )),
-    ))
+    use crate::dsl::*;
+    let player_key = get_player_ker();
+    send_and_receive_game_state(&list!(int(JOIN_REQUEST_TAG), int(player_key), nil()))
 }
 
 pub fn send_start_request(params: &Param) -> Result<Response> {
-    let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
+    use crate::dsl::*;
+    let player_key = get_player_ker();
     let is_tutorial: bool = std::env::vars().any(|(key, _)| key == "TUTORIAL_MODE");
     let params = if is_tutorial {
-        Value::Nil
+        list!()
     } else {
-        Value::Cons(
-            Box::new(Value::Int(params.energy as i128)),
-            Box::new(Value::Cons(
-                Box::new(Value::Int(params.laser_power as i128)),
-                Box::new(Value::Cons(
-                    Box::new(Value::Int(params.cool_down_per_turn as i128)),
-                    Box::new(Value::Cons(
-                        Box::new(Value::Int(params.life as i128)),
-                        Box::new(Value::Nil),
-                    )),
-                )),
-            )),
+        list!(
+            int(params.energy),
+            int(params.laser_power),
+            int(params.cool_down_per_turn),
+            int(params.life)
         )
     };
-    send_and_receive_game_state(&Value::Cons(
-        Box::new(Value::Int(START_REQUEST_TAG)),
-        Box::new(Value::Cons(
-            Box::new(Value::Int(player_key)),
-            Box::new(Value::Cons(Box::new(params), Box::new(Value::Nil))),
-        )),
-    ))
+    send_and_receive_game_state(&list!(int(START_REQUEST_TAG), int(player_key), params))
 }
 
 pub fn send_command_request(it: &mut impl Iterator<Item = Command>) -> Result<Response> {
-    let commands = it.fold(Value::Nil, |acc, x| {
-        Value::Cons(Box::new(x.to_value()), Box::new(acc))
-    });
-    let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
-    send_and_receive_game_state(&Value::Cons(
-        Box::new(Value::Int(COMMAND_REQUEST_TAG)),
-        Box::new(Value::Cons(
-            Box::new(Value::Int(player_key)),
-            Box::new(Value::Cons(Box::new(commands), Box::new(Value::Nil))),
-        )),
-    ))
+    use crate::dsl::*;
+    let player_key = get_player_ker();
+    let commands = it.fold(nil(), |acc, x| cons(x.to_value(), acc));
+    send_and_receive_game_state(&list!(int(COMMAND_REQUEST_TAG), int(player_key), commands))
 }
 
 fn parse_current_game_state(val: &Value) -> CurrentGameState {
@@ -173,7 +153,7 @@ fn parse_action_result(val: Value) -> Result<Option<ActionResult>> {
             (3, [_, params]) => ActionResult::Split {
                 params: parse_params(params.clone())?,
             },
-            _ => panic!("unexpected value: ".to_string() + &val.to_string()),
+            _ => bail!("unexpected value: ".to_string() + &val.to_string()),
         };
         Ok(Some(action_result))
     }
