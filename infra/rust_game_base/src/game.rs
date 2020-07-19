@@ -113,7 +113,6 @@ pub struct StageData {
 // deserialized response.
 #[derive(Debug)]
 pub struct Response {
-    pub _1: usize, // 常に 1?
     pub current_game_state: CurrentGameState,
     pub stage_data: StageData,
     pub current_state: Option<CurrentState>,

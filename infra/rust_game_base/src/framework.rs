@@ -1,13 +1,13 @@
-use self::super::game::*;
-use self::super::value::*;
-use io::Write;
-use std::io;
+use crate::game::*;
+use crate::value::*;
+use anyhow::{bail, Result};
+use std::io::{self, Write};
 
 const JOIN_REQUEST_TAG: i128 = 2;
 const START_REQUEST_TAG: i128 = 3;
 const COMMAND_REQUEST_TAG: i128 = 4;
 
-pub fn send_join_request() -> Response {
+pub fn send_join_request() -> Result<Response> {
     let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
     send_and_receive_game_state(&Value::Cons(
         Box::new(Value::Int(JOIN_REQUEST_TAG)),
@@ -18,7 +18,7 @@ pub fn send_join_request() -> Response {
     ))
 }
 
-pub fn send_start_request(param1: i32, param2: i32, param3: i32, param4: i32) -> Response {
+pub fn send_start_request(param1: i32, param2: i32, param3: i32, param4: i32) -> Result<Response> {
     let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
     let is_tutorial: bool = std::env::vars().any(|(key, _)| key == "TUTORIAL_MODE");
     let params = if is_tutorial {
@@ -47,7 +47,7 @@ pub fn send_start_request(param1: i32, param2: i32, param3: i32, param4: i32) ->
     ))
 }
 
-pub fn send_command_request(it: &mut impl Iterator<Item = Command>) -> Response {
+pub fn send_command_request(it: &mut impl Iterator<Item = Command>) -> Result<Response> {
     let commands = it.fold(Value::Nil, |acc, x| {
         Value::Cons(Box::new(x.to_value()), Box::new(acc))
     });
@@ -70,137 +70,146 @@ fn parse_current_game_state(val: &Value) -> CurrentGameState {
     }
 }
 
-fn parse_obstacle(val: Value) -> Option<Obstacle> {
-    to_option(val).map(|val| match to_vec(val.clone()).as_slice() {
-        [gravity_radius, stage_half_size] => Obstacle {
-            gravity_radius: to_int(gravity_radius) as usize,
-            stage_half_size: to_int(stage_half_size) as usize,
+fn parse_obstacle(val: Value) -> Result<Option<Obstacle>> {
+    Ok(if let Some(val) = to_option(val) {
+        Some(match to_vec(val.clone())?.as_slice() {
+            [gravity_radius, stage_half_size] => Obstacle {
+                gravity_radius: to_int(gravity_radius)? as usize,
+                stage_half_size: to_int(stage_half_size)? as usize,
+            },
+            _ => bail!("unexpected value: {}", val.to_string()),
+        })
+    } else {
+        None
+    })
+}
+
+fn parse_stage_data(val: Value) -> Result<StageData> {
+    Ok(match to_vec(val.clone())?.as_slice() {
+        [total_turns, role, _2, obstacle, _3] => match to_vec(_2.clone())?.as_slice() {
+            [_20, _21, _22] => StageData {
+                total_turns: to_int(total_turns)? as usize,
+                role: to_int(role)? as isize,
+                _2: (
+                    to_int(_20)? as isize,
+                    to_int(_21)? as isize,
+                    to_int(_22)? as isize,
+                ),
+                obstacle: parse_obstacle(obstacle.clone())?,
+                _3: to_vec(_3.clone())?
+                    .into_iter()
+                    .map(|val| to_int(&val).map(|r| r as isize))
+                    .collect::<Result<Vec<_>>>()?,
+            },
+            _ => bail!("unexpected value: {}", _2.to_string()),
+        },
+        _ => bail!("unexpected value: {}", val.to_string()),
+    })
+}
+
+fn parse_position(val: Value) -> Result<(isize, isize)> {
+    Ok(match val {
+        Value::Cons(x, y) => (to_int(&*x)? as isize, to_int(&*y)? as isize),
+        _ => bail!("Unexpected value: ".to_string() + &val.to_string()),
+    })
+}
+
+fn parse_params(val: Value) -> Result<Param> {
+    Ok(match to_vec(val.clone())?.as_slice() {
+        [energy, laser_power, cool_down_per_turn, life] => Param {
+            energy: to_int(energy)? as usize,
+            laser_power: to_int(laser_power)? as usize,
+            cool_down_per_turn: to_int(cool_down_per_turn)? as usize,
+            life: to_int(life)? as usize,
+        },
+        _ => bail!("unexpected value: {}", val.to_string()),
+    })
+}
+
+fn parse_machine(val: Value) -> Result<Machine> {
+    Ok(match to_vec(val.clone())?.as_slice() {
+        [team_id, machine_id, position, velocity, params, heat, _1, _2] => Machine {
+            team_id: to_int(team_id)? as isize,
+            machine_id: to_int(machine_id)? as isize,
+            position: parse_position(position.clone())?,
+            velocity: parse_position(velocity.clone())?,
+            params: parse_params(params.clone())?,
+            heat: to_int(heat)? as usize,
+            _1: to_int(_1)? as isize,
+            _2: to_int(_2)? as isize,
         },
         _ => panic!("unexpected value: ".to_string() + &val.to_string()),
     })
 }
 
-fn parse_stage_data(val: Value) -> StageData {
-    match to_vec(val.clone()).as_slice() {
-        [total_turns, role, _2, obstacle, _3] => match to_vec(_2.clone()).as_slice() {
-            [_20, _21, _22] => StageData {
-                total_turns: to_int(total_turns) as usize,
-                role: to_int(role) as isize,
-                _2: (
-                    to_int(_20) as isize,
-                    to_int(_21) as isize,
-                    to_int(_22) as isize,
-                ),
-                obstacle: parse_obstacle(obstacle.clone()),
-                _3: to_vec(_3.clone())
-                    .into_iter()
-                    .map(|val| to_int(&val) as isize)
-                    .collect(),
-            },
-            _ => panic!("unexpected value: ".to_string() + &_2.to_string()),
-        },
-        _ => panic!("unexpected value: ".to_string() + &val.to_string()),
-    }
-}
-
-fn parse_position(val: Value) -> (isize, isize) {
-    match val {
-        Value::Cons(x, y) => (to_int(&*x) as isize, to_int(&*y) as isize),
-        _ => panic!("Unexpected value: ".to_string() + &val.to_string()),
-    }
-}
-
-fn parse_params(val: Value) -> Param {
-    match to_vec(val.clone()).as_slice() {
-        [energy, laser_power, cool_down_per_turn, life] => Param {
-            energy: to_int(energy) as usize,
-            laser_power: to_int(laser_power) as usize,
-            cool_down_per_turn: to_int(cool_down_per_turn) as usize,
-            life: to_int(life) as usize,
-        },
-        _ => panic!("unexpected value: ".to_string() + &val.to_string()),
-    }
-}
-
-fn parse_machine(val: Value) -> Machine {
-    match to_vec(val.clone()).as_slice() {
-        [team_id, machine_id, position, velocity, params, heat, _1, _2] => Machine {
-            team_id: to_int(team_id) as isize,
-            machine_id: to_int(machine_id) as isize,
-            position: parse_position(position.clone()),
-            velocity: parse_position(velocity.clone()),
-            params: parse_params(params.clone()),
-            heat: to_int(heat) as usize,
-            _1: to_int(_1) as isize,
-            _2: to_int(_2) as isize,
-        },
-        _ => panic!("unexpected value: ".to_string() + &val.to_string()),
-    }
-}
-
-fn parse_action_result(val: Value) -> Option<ActionResult> {
-    let vals = to_vec(val.clone());
+fn parse_action_result(val: Value) -> Result<Option<ActionResult>> {
+    let vals = to_vec(val.clone())?;
     if vals.is_empty() {
-        return None;
+        Ok(None)
     } else {
-        let action_result = match (to_int(&vals[0].clone()), vals.as_slice()) {
+        let action_result = match (to_int(&vals[0].clone())?, vals.as_slice()) {
             (0, [_, a]) => ActionResult::Thruster {
-                a: parse_position(a.clone()),
+                a: parse_position(a.clone())?,
             },
             (1, [_, power, area]) => ActionResult::Bomb {
-                power: to_int(power) as usize,
-                area: to_int(area) as usize,
+                power: to_int(power)? as usize,
+                area: to_int(area)? as usize,
             },
             (2, [_, opponent]) => ActionResult::Laser {
-                opponent: parse_position(opponent.clone()),
+                opponent: parse_position(opponent.clone())?,
             },
             (3, [_, params]) => ActionResult::Split {
-                params: parse_params(params.clone()),
+                params: parse_params(params.clone())?,
             },
             _ => panic!("unexpected value: ".to_string() + &val.to_string()),
         };
-        Some(action_result)
+        Ok(Some(action_result))
     }
 }
 
-fn parse_machine_and_action_result(val: Value) -> (Machine, Option<ActionResult>) {
-    match to_vec(val.clone()).as_slice() {
-        [machine, action_result] => (
-            parse_machine(machine.clone()),
-            parse_action_result(action_result.clone()),
-        ),
-        _ => panic!("unexpected value: ".to_string() + &val.to_string()),
+fn parse_machine_and_action_result(val: Value) -> Result<(Machine, Option<ActionResult>)> {
+    match to_vec(val.clone())?.as_slice() {
+        [machine, action_result] => Ok((
+            parse_machine(machine.clone())?,
+            parse_action_result(action_result.clone())?,
+        )),
+        _ => bail!("unexpected value: {}", val.to_string()),
     }
 }
 
-fn parse_current_state(val: Value) -> Option<CurrentState> {
-    match to_vec(val.clone()).as_slice() {
-        [turn, obstacle, machines] => Some(CurrentState {
-            turn: to_int(turn) as usize,
-            obstacle: parse_obstacle(obstacle.clone()),
-            machines: to_vec(machines.clone())
+fn parse_current_state(val: Value) -> Result<Option<CurrentState>> {
+    match to_vec(val.clone())?.as_slice() {
+        [turn, obstacle, machines] => Ok(Some(CurrentState {
+            turn: to_int(turn)? as usize,
+            obstacle: parse_obstacle(obstacle.clone())?,
+            machines: to_vec(machines.clone())?
                 .into_iter()
                 .map(|val| parse_machine_and_action_result(val))
-                .collect(),
-        }),
-        [] => None,
-        _ => panic!("unexpected value: ".to_string() + &val.to_string()),
+                .collect::<Result<Vec<_>>>()?,
+        })),
+        [] => Ok(None),
+        _ => bail!("unexpected value: {}", val.to_string()),
     }
 }
 
-fn parse_response(val: Value) -> Response {
-    match to_vec(val.clone()).as_slice() {
-        [one, current_game_state, stage_data, current_state] => Response {
-            _1: to_int(&one) as usize,
-            current_game_state: parse_current_game_state(current_game_state),
-            stage_data: parse_stage_data(stage_data.clone()),
-            current_state: parse_current_state(current_state.clone()),
-        },
-        _ => panic!("unexpected value: ".to_string() + &val.to_string()),
+fn parse_response(val: Value) -> Result<Response> {
+    match to_vec(val.clone())?.as_slice() {
+        [tag, current_game_state, stage_data, current_state] => {
+            if to_int(tag)? != 1 {
+                bail!("tag is not 1: {}", tag.to_string());
+            }
+            Ok(Response {
+                current_game_state: parse_current_game_state(current_game_state),
+                stage_data: parse_stage_data(stage_data.clone())?,
+                current_state: parse_current_state(current_state.clone())?,
+            })
+        }
+        [tag] if to_int(tag)? == 0 => bail!("wrong request"),
+        _ => bail!("unexpected response value: {}", val.to_string()),
     }
 }
 
-fn send_and_receive_game_state(val: &Value) -> Response {
+fn send_and_receive_game_state(val: &Value) -> Result<Response> {
     println!("{}", modulate_to_string(&val));
     io::stdout().flush();
     eprintln!("send: {}", val.to_string());

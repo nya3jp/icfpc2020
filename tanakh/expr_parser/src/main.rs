@@ -1,375 +1,374 @@
-#![allow(dead_code)]
+use std::collections::{BTreeMap, VecDeque};
+use std::{
+    cell::RefCell,
+    cmp::{max, min},
+    fs::File,
+    io::{BufRead, BufReader},
+    iter::Peekable,
+    rc::Rc,
+};
+use structopt::StructOpt;
 
-use std::collections::BTreeMap;
-use std::rc::Rc;
+type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
-#[derive(Debug, Clone)]
-enum Literal {
-    Var(String),
+type Dictionary = BTreeMap<String, ExprRef>;
+type ExprRef = Rc<RefCell<Expr>>;
+type ExprValueRef = Rc<RefCell<ExprValue>>;
+
+#[derive(Debug)]
+pub enum ExprValue {
+    Lam(String, ExprRef),
+    App(ExprRef, ExprRef),
+    Atom(String),
     Int(i64),
-    Canvas(Vec<(i64, i64)>),
 }
 
-impl Literal {
-    fn new(s: &str) -> Literal {
-        if let Ok(n) = s.parse() {
-            Literal::Int(n)
-        } else {
-            Literal::Var(s.to_string())
-        }
-    }
-
-    pub fn print(&self) -> String {
+impl ExprValue {
+    fn atom(&self) -> Option<&str> {
         match self {
-            Literal::Int(n) => format!("{}", n),
-            Literal::Var(s) => format!("{}", s),
-            Literal::Canvas(ps) => format!("<canvas:{:?}>", ps),
-        }
-    }
-}
-
-#[derive(Debug, Clone)]
-enum Expr {
-    Lam(String, Box<Expr>),
-    App(Box<Expr>, Box<Expr>),
-    Lit(Literal),
-    Builtin(String, usize, Vec<Expr>),
-    Thunk(Rc<RefCell<Expr>>),
-}
-
-impl Expr {
-    fn make_var(s: &str) -> Expr {
-        Expr::Lit(Literal::Var(s.to_owned()))
-    }
-
-    fn make_builtin(s: &str, arity: usize) -> Expr {
-        Expr::Builtin(s.to_owned(), arity, vec![])
-    }
-
-    fn make_int(n: i64) -> Expr {
-        Expr::Lit(Literal::Int(n))
-    }
-
-    fn make_app(f: Expr, x: Expr) -> Expr {
-        Expr::App(Box::new(f), Box::new(x))
-    }
-
-    fn make_apps(f: Expr, xs: Vec<Expr>) -> Expr {
-        let mut ret = f;
-        for x in xs {
-            ret = Expr::make_app(ret, x);
-        }
-        ret
-    }
-
-    fn var(&self) -> Option<&str> {
-        match self {
-            Expr::Lit(lit) => match lit {
-                Literal::Var(v) => Some(&v),
-                _ => None,
-            },
+            ExprValue::Atom(s) => Some(&s),
             _ => None,
         }
     }
 
     fn int(&self) -> Option<i64> {
         match self {
-            Expr::Lit(lit) => match lit {
-                Literal::Int(n) => Some(*n),
-                _ => None,
-            },
+            ExprValue::Int(s) => Some(*s),
             _ => None,
-        }
-    }
-
-    // fn refine(&self) -> Expr2 {
-    //     match self {
-    //         Expr::App(f, x) => {
-    //             let mut args = vec![Box::new(x.refine())];
-    //             let mut f = f.clone();
-    //             loop {
-    //                 match *f {
-    //                     Expr::App(g, y) => {
-    //                         f = g.clone();
-    //                         args.push(Box::new(y.refine()));
-    //                     }
-    //                     Expr::Lit(s) => {
-    //                         args.reverse();
-    //                         return Expr2::App(Box::new(Expr2::Lit(s)), args);
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //         Expr::Lit(s) => Expr2::Lit(s.clone()),
-    //     }
-    // }
-
-    fn print(&self) -> String {
-        match self {
-            Expr::Lam(var, x) => format!("\\{} -> {}", var, x.print()),
-            Expr::App(f, x) => format!("({} {})", f.print(), x.print()),
-            Expr::Lit(lit) => lit.print(),
-            Expr::Builtin(f, _, xs) => format!("<builtin:{}:{}>", f, xs.len()),
-            Expr::Thunk(t) => t.borrow().print(),
-        }
-    }
-
-    fn to_scheme(&self) -> String {
-        match self {
-            Expr::Lam(var, x) => format!("\\{} -> {}", var, x.to_scheme()),
-            Expr::App(f, x) => format!("({} {})", f.to_scheme(), x.to_scheme()),
-            Expr::Lit(lit) => match lit {
-                Literal::Int(n) => format!("{}", n),
-                Literal::Var(v) => format!("({})", v),
-                _ => unreachable!(),
-            },
-            _ => unreachable!(),
-        }
-    }
-
-    fn cexpr(&self) -> Expr {
-        match self {
-            Expr::Lit(lit) => Expr::Lit(lit.clone()),
-            Expr::App(f, x) => Expr::make_app(f.cexpr(), x.cexpr()),
-            Expr::Lam(var, x) => {
-                if !x.contains(var) {
-                    Expr::make_app(Expr::make_var("k"), x.cexpr())
-                } else if x.var() == Some(&var) {
-                    Expr::make_var("i")
-                } else {
-                    match x.as_ref() {
-                        Expr::Lam(_, _) => Expr::Lam(var.to_string(), Box::new(x.cexpr())).cexpr(),
-                        Expr::App(f, x) => {
-                            let fc = f.contains(var);
-                            let xc = x.contains(var);
-
-                            if fc && xc {
-                                Expr::make_app(
-                                    Expr::make_app(
-                                        Expr::make_var("s"),
-                                        Expr::Lam(var.to_string(), f.clone()).cexpr(),
-                                    ),
-                                    Expr::Lam(var.to_string(), x.clone()).cexpr(),
-                                )
-                            } else if fc {
-                                Expr::make_app(
-                                    Expr::make_app(
-                                        Expr::make_var("c"),
-                                        Expr::Lam(var.to_string(), f.clone()).cexpr(),
-                                    ),
-                                    x.cexpr(),
-                                )
-                            } else if xc {
-                                Expr::make_app(
-                                    Expr::make_app(Expr::make_var("b"), f.cexpr()),
-                                    Expr::Lam(var.to_string(), x.clone()).cexpr(),
-                                )
-                            } else {
-                                unreachable!()
-                            }
-                        }
-                        _ => unreachable!(),
-                    }
-                }
-            }
-            _ => unreachable!(),
-        }
-    }
-
-    fn contains(&self, var: &str) -> bool {
-        match self {
-            Expr::Lit(lit) => match lit {
-                Literal::Var(v) => v == var,
-                _ => false,
-            },
-            Expr::App(f, x) => f.contains(var) || x.contains(var),
-            Expr::Lam(v, x) => {
-                if v == var {
-                    false
-                } else {
-                    x.contains(var)
-                }
-            }
-            _ => unreachable!(),
-        }
-    }
-
-    fn eval(&self, dict: &BTreeMap<String, Expr>) -> Expr {
-        // eprintln!("{:?}", self.print());
-        match self {
-            Expr::Lam(_, _) => unreachable!(),
-            Expr::App(f, x) => {
-                let f = f.eval(dict);
-                match f {
-                    Expr::Builtin(f, arity, mut xs) => {
-                        xs.push(x.as_ref().clone());
-                        if xs.len() == arity {
-                            eval_builtin(&f, &xs, dict)
-                        } else {
-                            Expr::Builtin(f, arity, xs)
-                        }
-                    }
-                    _ => unreachable!("Invalid app: {:?} {:?}", f.print(), x.print()),
-                }
-            }
-            Expr::Builtin(_, _, _) => self.clone(),
-            Expr::Lit(lit) => match lit {
-                Literal::Int(_n) => self.clone(),
-                Literal::Var(var) => {
-                    if let Some(e) = dict.get(var.as_str()) {
-                        e.eval(dict)
-                    } else {
-                        panic!("variable: {} is not defined", var)
-                    }
-                }
-                Literal::Canvas(_) => self.clone(),
-            },
-            Expr::Thunk(t) => {
-                let mut b = t.borrow_mut();
-                let c = b.eval(dict);
-                *b = c.clone();
-                c
-            }
-        }
-    }
-
-    fn to_value(self, dict: &BTreeMap<String, Expr>) -> Value {
-        if let Some(n) = self.int() {
-            Value::int(n)
-        } else {
-            match self {
-                Expr::Lit(Literal::Canvas(ps)) => Value::Canvas(ps),
-                _ => {
-                    let t = Expr::Thunk(Rc::new(RefCell::new(self))).eval(dict);
-                    let b = Expr::make_apps(
-                        Expr::make_var("isnil"),
-                        vec![t.clone(), Expr::make_int(1), Expr::make_int(0)],
-                    )
-                    .eval(dict);
-
-                    let b = b.int().unwrap();
-
-                    if b == 1 {
-                        Value::Nil
-                    } else {
-                        let car = Expr::make_app(Expr::make_var("car"), t.clone()).eval(dict);
-                        let cdr = Expr::make_app(Expr::make_var("cdr"), t).eval(dict);
-                        Value::cons(car.to_value(dict), cdr.to_value(dict))
-                    }
-                }
-            }
         }
     }
 }
 
-fn eval_builtin(f: &str, xs: &[Expr], dict: &BTreeMap<String, Expr>) -> Expr {
-    match f {
-        "s" => {
-            let x0 = xs[0].clone();
-            let x1 = xs[1].clone();
-            let x2 = xs[2].clone();
-            let x2 = Rc::new(RefCell::new(x2));
+#[derive(Debug)]
+pub struct Expr {
+    value: ExprValueRef,
+    evaluated: Option<ExprRef>,
+}
 
-            let x2_1 = Expr::Thunk(Rc::clone(&x2));
-            let x2_2 = Expr::Thunk(x2);
+impl Expr {
+    pub fn new(v: ExprValue) -> ExprRef {
+        Rc::new(RefCell::new(Expr {
+            value: Rc::new(RefCell::new(v)),
+            evaluated: None,
+        }))
+    }
 
-            Expr::make_app(Expr::make_app(x0, x2_1), Expr::make_app(x1, x2_2)).eval(dict)
-        }
-        "k" => xs[0].eval(dict),
-        "i" => xs[0].eval(dict),
+    pub fn make_atom(s: &str) -> ExprRef {
+        Expr::new(ExprValue::Atom(s.to_string()))
+    }
 
-        "b" => {
-            let x0 = xs[0].clone();
-            let x1 = xs[1].clone();
-            let x2 = xs[2].clone();
-            Expr::make_app(x0, Expr::make_app(x1, x2)).eval(dict)
+    pub fn make_int(n: i64) -> ExprRef {
+        let ret = Expr::new(ExprValue::Int(n));
+        ret.borrow_mut().evaluated = Some(Rc::clone(&ret));
+        ret
+    }
+
+    pub fn make_app(f: ExprRef, x: ExprRef) -> ExprRef {
+        Expr::new(ExprValue::App(f, x))
+    }
+
+    // fn print(&self) -> String {
+    //     match self.value {
+    //         Expr::App(f, x) => format!("({} {})", f.print(), x.print()),
+    //         Expr::Atom(f) => format!("<atom:{}>", f),
+    //         Expr::Int(lit) => lit.print(),
+    //     }
+    // }
+
+    // fn to_scheme(&self) -> String {
+    //     match self {
+    //         Expr::Lam(var, x) => format!("\\{} -> {}", var, x.to_scheme()),
+    //         Expr::App(f, x) => format!("({} {})", f.to_scheme(), x.to_scheme()),
+    //         Expr::Lit(lit) => match lit {
+    //             Literal::Int(n) => format!("{}", n),
+    //             Literal::Var(v) => format!("({})", v),
+    //             _ => unreachable!(),
+    //         },
+    //         _ => unreachable!(),
+    //     }
+    // }
+
+    // fn cexpr(&self) -> Expr {
+    //     match self {
+    //         Expr::Lit(lit) => Expr::Lit(lit.clone()),
+    //         Expr::App(f, x) => Expr::make_app(f.cexpr(), x.cexpr()),
+    //         Expr::Lam(var, x) => {
+    //             if !x.contains(var) {
+    //                 Expr::make_app(Expr::make_var("k"), x.cexpr())
+    //             } else if x.var() == Some(&var) {
+    //                 Expr::make_var("i")
+    //             } else {
+    //                 match x.as_ref() {
+    //                     Expr::Lam(_, _) => Expr::Lam(var.to_string(), Box::new(x.cexpr())).cexpr(),
+    //                     Expr::App(f, x) => {
+    //                         let fc = f.contains(var);
+    //                         let xc = x.contains(var);
+
+    //                         if fc && xc {
+    //                             Expr::make_app(
+    //                                 Expr::make_app(
+    //                                     Expr::make_var("s"),
+    //                                     Expr::Lam(var.to_string(), f.clone()).cexpr(),
+    //                                 ),
+    //                                 Expr::Lam(var.to_string(), x.clone()).cexpr(),
+    //                             )
+    //                         } else if fc {
+    //                             Expr::make_app(
+    //                                 Expr::make_app(
+    //                                     Expr::make_var("c"),
+    //                                     Expr::Lam(var.to_string(), f.clone()).cexpr(),
+    //                                 ),
+    //                                 x.cexpr(),
+    //                             )
+    //                         } else if xc {
+    //                             Expr::make_app(
+    //                                 Expr::make_app(Expr::make_var("b"), f.cexpr()),
+    //                                 Expr::Lam(var.to_string(), x.clone()).cexpr(),
+    //                             )
+    //                         } else {
+    //                             unreachable!()
+    //                         }
+    //                     }
+    //                     _ => unreachable!(),
+    //                 }
+    //             }
+    //         }
+    //         _ => unreachable!(),
+    //     }
+    // }
+
+    // fn contains(&self, var: &str) -> bool {
+    //     match self {
+    //         Expr::Lit(lit) => match lit {
+    //             Literal::Var(v) => v == var,
+    //             _ => false,
+    //         },
+    //         Expr::App(f, x) => f.contains(var) || x.contains(var),
+    //         Expr::Lam(v, x) => {
+    //             if v == var {
+    //                 false
+    //             } else {
+    //                 x.contains(var)
+    //             }
+    //         }
+    //         _ => unreachable!(),
+    //     }
+    // }
+
+    // fn eval(&self, dict: &BTreeMap<String, Expr>) -> Expr {
+    //     // eprintln!("{:?}", self.print());
+    //     match self {
+    //         Expr::Lam(_, _) => unreachable!(),
+    //         Expr::App(f, x) => {
+    //             let f = f.eval(dict);
+    //             match f {
+    //                 Expr::Builtin(f, arity, mut xs) => {
+    //                     xs.push(x.as_ref().clone());
+    //                     if xs.len() == arity {
+    //                         eval_builtin(&f, &xs, dict)
+    //                     } else {
+    //                         Expr::Builtin(f, arity, xs)
+    //                     }
+    //                 }
+    //                 _ => unreachable!("Invalid app: {:?} {:?}", f.print(), x.print()),
+    //             }
+    //         }
+    //         Expr::Builtin(_, _, _) => self.clone(),
+    //         Expr::Lit(lit) => match lit {
+    //             Literal::Int(_n) => self.clone(),
+    //             Literal::Var(var) => {
+    //                 if let Some(e) = dict.get(var.as_str()) {
+    //                     e.eval(dict)
+    //                 } else {
+    //                     panic!("variable: {} is not defined", var)
+    //                 }
+    //             }
+    //             Literal::Canvas(_) => self.clone(),
+    //         },
+    //         Expr::Thunk(t) => {
+    //             let mut b = t.borrow_mut();
+    //             let c = b.eval(dict);
+    //             *b = c.clone();
+    //             c
+    //         }
+    //     }
+    // }
+
+    // fn to_value(self, dict: &BTreeMap<String, Expr>) -> Value {
+    //     if let Some(n) = self.int() {
+    //         Value::int(n)
+    //     } else {
+    //         match self {
+    //             Expr::Lit(Literal::Canvas(ps)) => Value::Canvas(ps),
+    //             _ => {
+    //                 let t = Expr::Thunk(Rc::new(RefCell::new(self))).eval(dict);
+    //                 let b = Expr::make_apps(
+    //                     Expr::make_var("isnil"),
+    //                     vec![t.clone(), Expr::make_int(1), Expr::make_int(0)],
+    //                 )
+    //                 .eval(dict);
+
+    //                 let b = b.int().unwrap();
+
+    //                 if b == 1 {
+    //                     Value::Nil
+    //                 } else {
+    //                     let car = Expr::make_app(Expr::make_var("car"), t.clone()).eval(dict);
+    //                     let cdr = Expr::make_app(Expr::make_var("cdr"), t).eval(dict);
+    //                     Value::cons(car.to_value(dict), cdr.to_value(dict))
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+}
+
+mod dsl {
+    use super::{Expr, ExprRef};
+
+    pub fn app(f: ExprRef, x: ExprRef) -> ExprRef {
+        Expr::make_app(f, x)
+    }
+
+    pub fn atom(name: &str) -> ExprRef {
+        Expr::make_atom(name)
+    }
+
+    pub fn tt() -> ExprRef {
+        Expr::make_atom("t")
+    }
+
+    pub fn ff() -> ExprRef {
+        Expr::make_atom("f")
+    }
+
+    pub fn bool(b: bool) -> ExprRef {
+        if b {
+            tt()
+        } else {
+            ff()
         }
-        "c" => {
-            let x0 = xs[0].clone();
-            let x1 = xs[1].clone();
-            let x2 = xs[2].clone();
-            Expr::make_app(Expr::make_app(x0, x2), x1).eval(dict)
+    }
+
+    pub fn int(n: i64) -> ExprRef {
+        Expr::make_int(n)
+    }
+}
+
+fn as_num(x: ExprRef, dict: &Dictionary) -> Option<i64> {
+    eval(x, dict).borrow().value.borrow().int()
+}
+
+fn eval(e: ExprRef, dict: &Dictionary) -> ExprRef {
+    if let Some(e) = &e.borrow().evaluated {
+        return Rc::clone(&e);
+    }
+
+    let init_expr = Rc::clone(&e);
+    let mut e = e;
+
+    loop {
+        let res = try_eval(Rc::clone(&e), dict);
+        if Rc::ptr_eq(&res, &e) {
+            init_expr.borrow_mut().evaluated = Some(Rc::clone(&res));
+            return res;
+        }
+        e = res;
+    }
+}
+
+fn try_eval(e: ExprRef, dict: &Dictionary) -> ExprRef {
+    use dsl::*;
+
+    let eval_cons = |a, b| {
+        let ret = app(app(atom("cons"), eval(a, dict)), eval(b, dict));
+        ret.borrow_mut().evaluated = Some(Rc::clone(&ret));
+        ret
+    };
+
+    let num = |fname, x| {
+        as_num(x, dict).unwrap_or_else(|| panic!(format!("{}: argument is not int", fname)))
+    };
+
+    if let Some(e) = &e.borrow().evaluated {
+        return Rc::clone(e);
+    }
+
+    if let Some(name) = e.borrow().value.borrow().atom() {
+        if let Some(ret) = dict.get(name) {
+            return Rc::clone(ret);
+        }
+    }
+
+    if let Some(_) = Rc::clone(&e).borrow().value.borrow().int() {
+        return e;
+    }
+
+    let bf = e.borrow();
+    let bbf = bf.value.borrow();
+    if let ExprValue::App(f, x) = &*bbf {
+        let f = eval(Rc::clone(f), dict);
+        let x = Rc::clone(x);
+
+        match f.borrow().value.borrow().atom() {
+            Some("neg") => return Expr::make_int(-num("neg", x)),
+            Some("i") => return x,
+            Some("nil") => return tt(),
+            Some("isnil") => return app(x, app(tt(), app(tt(), ff()))),
+            Some("car") => return app(x, tt()),
+            Some("cdr") => return app(x, ff()),
+            _ => {}
         }
 
-        "add" => {
-            let x = xs[0].eval(dict).int().unwrap();
-            let y = xs[1].eval(dict).int().unwrap();
-            Expr::make_int(x + y)
-        }
-        "mul" => {
-            let x = xs[0].eval(dict).int().unwrap();
-            let y = xs[1].eval(dict).int().unwrap();
-            Expr::make_int(x * y)
-        }
-        "div" => {
-            let x = xs[0].eval(dict).int().unwrap();
-            let y = xs[1].eval(dict).int().unwrap();
-            Expr::make_int(x / y)
-        }
-        "neg" => {
-            let x = xs[0].eval(dict).int().unwrap();
-            Expr::make_int(-x)
-        }
-        "eq" => {
-            let x = xs[0].eval(dict).int().unwrap();
-            let y = xs[1].eval(dict).int().unwrap();
-            dict.get(if x == y { "t" } else { "f" }).unwrap().eval(dict)
-        }
-        "lt" => {
-            let x = xs[0].eval(dict).int().unwrap();
-            let y = xs[1].eval(dict).int().unwrap();
-            dict.get(if x < y { "t" } else { "f" }).unwrap().eval(dict)
-        }
+        let bf = f.borrow();
+        let bbf = bf.value.borrow();
+        if let ExprValue::App(f, y) = &*bbf {
+            let f = eval(Rc::clone(f), dict);
+            let y = Rc::clone(y);
 
-        "ifzero" => {
-            let b = xs[0].eval(dict).int().unwrap();
-            if b == 0 {
-                xs[1].eval(dict)
-            } else {
-                xs[2].eval(dict)
+            match f.borrow().value.borrow().atom() {
+                Some("t") => return y,
+                Some("f") => return x,
+                Some("add") => return int(num("add", y) + num("add", x)),
+                Some("mul") => return int(num("mul", y) * num("mul", x)),
+                Some("div") => return int(num("div", y) / num("div", x)),
+                Some("lt") => return bool(num("lt", y) < num("lt", x)),
+                Some("eq") => return bool(num("eq", y) == num("eq", x)),
+                Some("cons") => return eval_cons(y, x),
+                _ => {}
             }
-        }
 
-        "draw" => {
-            let xs = xs[0].eval(dict);
-            let mut xs = xs.to_value(dict);
-            let mut ps = vec![];
+            let bf = f.borrow();
+            let bbf = bf.value.borrow();
+            if let ExprValue::App(f, z) = &*bbf {
+                let f = eval(Rc::clone(f), dict);
+                let z = Rc::clone(z);
 
-            loop {
-                match xs {
-                    Value::Nil => {
-                        break;
-                    }
-                    Value::Cons(hd, tail) => match *hd {
-                        Value::Cons(x, y) => match (*x, *y) {
-                            (Value::Int(x), Value::Int(y)) => {
-                                ps.push((x, y));
-                                xs = *tail;
-                            }
-                            _ => unreachable!(),
-                        },
-                        _ => unreachable!(),
-                    },
-                    _ => unreachable!(),
+                let bf = f.borrow();
+                let bbf = bf.value.borrow();
+
+                match bbf.atom() {
+                    Some("s") => return app(app(z, Rc::clone(&x)), app(y, x)),
+                    Some("c") => return app(app(z, x), y),
+                    Some("b") => return app(z, app(y, x)),
+                    Some("cons") => return app(app(x, z), y),
+
+                    Some(f) => panic!("invalid function: {}", f),
+                    _ => panic!(
+                        "invalid ap: {:?}, {:?}, {:?}, {:?}",
+                        bbf,
+                        x.borrow().value,
+                        y.borrow().value,
+                        z.borrow().value,
+                    ),
                 }
             }
-
-            Expr::Lit(Literal::Canvas(ps))
         }
-
-        "send" => {
-            let msg = xs[0].eval(dict).to_value(dict);
-
-            let b = encode(&modulate(&msg));
-            eprintln!("request:  {} = {}", msg.to_sexp(), &b);
-            let b = send_request(&b);
-            let v = demodulate(&decode(&b)).unwrap();
-            eprintln!("response: {} = {}", v.to_sexp(), b);
-            v.to_expr().eval(dict)
-        }
-
-        _ => unreachable!(),
     }
+
+    drop(bbf);
+    drop(bf);
+    e
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -377,7 +376,6 @@ enum Value {
     Int(i64),
     Nil,
     Cons(Box<Value>, Box<Value>),
-    Canvas(Vec<(i64, i64)>),
 }
 
 impl Value {
@@ -470,27 +468,25 @@ impl Value {
             Value::Int(n) => format!("{}", *n),
             Value::Nil => "nil".to_string(),
             Value::Cons(hd, tl) => format!("({} . {})", hd.print(), tl.print()),
-            Value::Canvas(ps) => format!("<canvas:{:?}>", ps),
         }
     }
 
-    fn to_expr(&self) -> Expr {
-        match self {
-            Value::Int(n) => Expr::make_int(*n),
-            Value::Nil => Expr::make_var("nil"),
-            Value::Cons(hd, tl) => {
-                Expr::make_apps(Expr::make_var("cons"), vec![hd.to_expr(), tl.to_expr()])
-            }
-            Value::Canvas(ps) => Expr::Lit(Literal::Canvas(ps.clone())),
-        }
-    }
+    // fn to_expr(&self) -> Expr {
+    //     match self {
+    //         Value::Int(n) => Expr::make_int(*n),
+    //         Value::Nil => Expr::make_var("nil"),
+    //         Value::Cons(hd, tl) => {
+    //             Expr::make_apps(Expr::make_var("cons"), vec![hd.to_expr(), tl.to_expr()])
+    //         }
+    //         Value::Canvas(ps) => Expr::Lit(Literal::Canvas(ps.clone())),
+    //     }
+    // }
 
     fn to_sexp(&self) -> String {
         match self {
             &Value::Int(n) => format!("{}", n),
             Value::Nil => "()".to_string(),
             Value::Cons(hd, tl) => format!("({} . {})", hd.to_sexp(), tl.to_sexp()),
-            _ => unreachable!(),
         }
     }
 
@@ -499,7 +495,6 @@ impl Value {
             Value::Int(n) => format!("{}", *n),
             Value::Nil => "nil".to_string(),
             Value::Cons(hd, tl) => format!("ap ap cons {} {}", hd.to_raw(), tl.to_raw()),
-            _ => unreachable!(),
         }
     }
 }
@@ -545,12 +540,14 @@ fn test_demod() {
     assert_eq!(t, u);
 }
 
-fn parse<'a>(it: &mut impl Iterator<Item = &'a str>) -> Expr {
+fn parse<'a>(it: &mut impl Iterator<Item = &'a str>) -> ExprRef {
+    use dsl::*;
+
     let s = it.next().unwrap();
     if s == "ap" {
         let f = parse(it);
         let x = parse(it);
-        Expr::App(Box::new(f), Box::new(x))
+        Expr::make_app(f, x)
     } else if s == "(" {
         let mut v = vec![];
         loop {
@@ -559,10 +556,10 @@ fn parse<'a>(it: &mut impl Iterator<Item = &'a str>) -> Expr {
             if s == "," {
                 continue;
             } else if s == ")" {
-                let mut ret = Expr::make_var("nil");
+                let mut ret = atom("nil");
 
                 for x in v.into_iter().rev() {
-                    ret = Expr::make_app(Expr::make_app(Expr::make_var("cons"), x), ret);
+                    ret = app(app(atom("cons"), x), ret);
                 }
 
                 break ret;
@@ -571,44 +568,20 @@ fn parse<'a>(it: &mut impl Iterator<Item = &'a str>) -> Expr {
             }
         }
     } else {
-        Expr::Lit(Literal::new(s))
+        if let Ok(n) = s.parse() {
+            int(n)
+        } else {
+            atom(s)
+        }
     }
 }
 
-fn parse_expr(s: &str) -> Expr {
+fn parse_expr(s: &str) -> ExprRef {
     let mut it = s.split_whitespace();
     let ret = parse(&mut it);
     assert!(it.next().is_none());
     ret
 }
-
-use structopt::StructOpt;
-
-#[derive(StructOpt, Debug)]
-struct DemodOpt {
-    arg: String,
-}
-
-#[derive(StructOpt, Debug)]
-struct SendOpt {
-    msg: String,
-}
-
-#[derive(StructOpt, Debug)]
-struct ParseOpt {}
-
-#[derive(StructOpt, Debug)]
-enum Opt {
-    Send(SendOpt),
-    Parse(ParseOpt),
-    // Demod(DemodOpt),
-}
-
-use std::{
-    cell::RefCell,
-    cmp::{max, min},
-    iter::Peekable,
-};
 
 fn parse_sexp<'a>(it: &mut Peekable<impl Iterator<Item = &'a str>>) -> Option<Value> {
     let s = it.next()?;
@@ -710,6 +683,10 @@ fn send_request(req: &str) -> String {
     String::from_utf8(output.stdout).unwrap()
 }
 
+fn send_request_value(v: &Value) -> Value {
+    demodulate(&decode(&send_request(&encode(&modulate(v))))).expect("demodulate failed")
+}
+
 fn plot(ps: &[Vec<(i64, i64)>], html: bool) {
     let mut minx = i64::max_value();
     let mut maxx = i64::min_value();
@@ -792,20 +769,218 @@ fn plot(ps: &[Vec<(i64, i64)>], html: bool) {
         eprintln!("</table>");
         eprintln!("<br><br>");
     }
-
-    // for (i, row) in pict.iter().enumerate() {
-    //     for (j, c) in row.chars().enumerate() {
-    //         print!(" {:4} {:4} {}", (minx + j as i64), (miny + i as i64), c);
-    //     }
-    //     println!();
-    // }
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // let t = parse_sexp_str("(3 (2 (2 1 2 1 2 1 1 2 1) (6860065 6862459 6862465 7549537 7551595 7551937 7566001 7568353 7683601 12493153 12493195 12610459) 103652820) 0 ())").unwrap();
-    // println!("{}", t.to_raw());
-    // return Ok(());
+fn parse_functions() -> Result<Dictionary> {
+    let mut dict = Dictionary::new();
 
+    let mut f = BufReader::new(File::open("galaxy.txt")?);
+
+    loop {
+        let mut s = String::new();
+        f.read_line(&mut s)?;
+
+        if s == "" {
+            break;
+        }
+        if s.chars().all(|c| c.is_whitespace()) {
+            continue;
+        }
+        if s.starts_with("//") {
+            continue;
+        }
+
+        if s.contains('=') {
+            let mut jt = s.split("=");
+
+            let lhs = parse_expr(jt.next().unwrap());
+            let rhs = parse_expr(jt.next().unwrap());
+
+            // while lhs.var().is_none() {
+            //     match lhs {
+            //         Expr::App(f, x) => {
+            //             assert!(x.var().is_some());
+            //             rhs = Expr::Lam(x.var().unwrap().to_string(), Box::new(rhs));
+            //             lhs = *f;
+            //         }
+            //         _ => unreachable!(),
+            //     }
+            // }
+
+            let b = lhs.borrow();
+            let b = b.value.borrow();
+            if let Some(name) = b.atom() {
+                dict.insert(name.to_string(), rhs);
+            }
+        } else {
+            panic!()
+        }
+    }
+    Ok(dict)
+}
+
+fn expr_to_bool(e: ExprRef, dict: &Dictionary) -> bool {
+    use dsl::*;
+    as_num(app(app(e, int(0)), int(1)), dict).expect("expr_to_bool: failed to test bool") == 0
+}
+
+fn expr_to_list(e: ExprRef, dict: &Dictionary) -> VecDeque<ExprRef> {
+    use dsl::*;
+
+    if expr_to_bool(app(atom("isnil"), Rc::clone(&e)), dict) {
+        VecDeque::new()
+    } else {
+        let car = app(atom("car"), Rc::clone(&e));
+        let cdr = app(atom("cdr"), Rc::clone(&e));
+        let mut xs = expr_to_list(cdr, dict);
+        xs.push_front(car);
+        xs
+    }
+}
+
+fn value_to_list(v: Value) -> VecDeque<Value> {
+    match v {
+        Value::Nil => VecDeque::new(),
+        Value::Cons(a, b) => {
+            let mut ret = value_to_list(*b);
+            ret.push_front(*a);
+            ret
+        }
+        Value::Int(_) => panic!(),
+    }
+}
+
+fn expr_to_value(e: ExprRef, dict: &Dictionary) -> Value {
+    use dsl::*;
+
+    if expr_to_bool(app(atom("isnil"), Rc::clone(&e)), dict) {
+        Value::Nil
+    } else {
+        let car = app(atom("car"), Rc::clone(&e));
+        let cdr = app(atom("cdr"), Rc::clone(&e));
+        Value::cons(expr_to_value(car, dict), expr_to_value(cdr, dict))
+    }
+}
+
+fn value_to_expr(e: &Value) -> ExprRef {
+    use dsl::*;
+
+    match e {
+        Value::Int(n) => int(*n),
+        Value::Nil => atom("nil"),
+        Value::Cons(a, b) => app(app(atom("cons"), value_to_expr(a)), value_to_expr(b)),
+    }
+}
+
+fn interact(dict: &Dictionary, state: ExprRef, event: ExprRef) -> (ExprRef, ExprRef) {
+    use dsl::*;
+
+    let expr = app(app(atom("galaxy"), state), event);
+    let res = eval(expr, dict);
+
+    let res = expr_to_list(res, dict);
+    assert_eq!(res.len(), 3);
+
+    let flag = Rc::clone(&res[0]);
+    let new_state = Rc::clone(&res[1]);
+    let data = Rc::clone(&res[2]);
+
+    let flag = as_num(flag, dict).unwrap_or_else(|| panic!("interact: flag is not zero"));
+
+    if flag == 0 {
+        (new_state, data)
+    } else {
+        interact(
+            dict,
+            new_state,
+            value_to_expr(&send_request_value(&expr_to_value(data, dict))),
+        )
+    }
+}
+
+fn print_image(images: ExprRef, dict: &Dictionary) {
+    // assume e is [[(int, int)]]
+
+    use dsl::*;
+
+    let mut vs = vec![];
+
+    for image in expr_to_list(images, dict) {
+        let mut v = vec![];
+
+        let pts = expr_to_list(image, dict);
+        for pt in pts {
+            let x = as_num(app(atom("car"), Rc::clone(&pt)), dict)
+                .expect("images contains non-integer value");
+            let y = as_num(app(atom("cdr"), pt), dict).expect("images contains non-integer value");
+
+            v.push((x, y));
+        }
+
+        vs.push(v);
+    }
+
+    plot(&vs, false);
+}
+
+fn run(opt: &RunOpt) -> Result<()> {
+    use dsl::*;
+
+    let dict = parse_functions()?;
+
+    let mut state = value_to_expr(&parse_sexp_str(&opt.state).ok_or("Failed to parse state")?);
+    let input = value_to_list(parse_sexp_str(&opt.input).ok_or("Failed to parse input")?);
+
+    for (step, pt) in input.iter().enumerate() {
+        let pt = value_to_expr(&pt);
+        let x = app(atom("car"), Rc::clone(&pt));
+        let y = app(atom("cdr"), pt);
+
+        let click = app(app(atom("cons"), Rc::clone(&x)), Rc::clone(&y));
+        let (new_state, images) = interact(&dict, state, click);
+
+        println!("step:  {}", step + 1);
+        println!(
+            "input: {:?}",
+            (as_num(x, &dict).unwrap(), as_num(y, &dict).unwrap())
+        );
+        println!(
+            "state: {}",
+            expr_to_value(Rc::clone(&new_state), &dict).print()
+        );
+
+        print_image(images, &dict);
+
+        state = new_state;
+    }
+
+    Ok(())
+}
+
+#[derive(StructOpt, Debug)]
+struct DemodOpt {
+    arg: String,
+}
+
+#[derive(StructOpt, Debug)]
+struct SendOpt {
+    msg: String,
+}
+
+#[derive(StructOpt, Debug)]
+struct RunOpt {
+    state: String,
+    input: String,
+}
+
+#[derive(StructOpt, Debug)]
+enum Opt {
+    Send(SendOpt),
+    SendRaw,
+    Run(RunOpt),
+}
+
+fn main() -> Result<()> {
     match Opt::from_args() {
         Opt::Send(opt) => {
             let msg = parse_sexp_str(&opt.msg).unwrap();
@@ -816,209 +991,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             eprintln!("response: {} = {}", v.to_sexp(), b);
             println!("{}", v.to_sexp());
         }
-        Opt::Parse(_opt) => {
-            let mut dict = BTreeMap::new();
-
-            let builtins = [
-                ("s", 3),
-                ("k", 2),
-                ("i", 1),
-                ("b", 3),
-                ("c", 3),
-                ("add", 2),
-                ("mul", 2),
-                ("div", 2),
-                ("neg", 1),
-                ("eq", 2),
-                ("lt", 2),
-                ("ifzero", 3),
-                ("draw", 1),
-                ("send", 1),
-            ];
-
-            for (name, arity) in builtins.iter() {
-                dict.insert(name.to_string(), Expr::make_builtin(name, *arity));
-            }
-
-            loop {
-                let mut s = String::new();
-                std::io::stdin().read_line(&mut s)?;
-                if s == "" {
-                    break;
-                }
-                if s.chars().all(|c| c.is_whitespace()) {
-                    continue;
-                }
-                if s.starts_with("//") {
-                    continue;
-                }
-
-                if s.contains('=') {
-                    let mut jt = s.split("=");
-
-                    let mut lhs = parse_expr(jt.next().unwrap());
-                    let mut rhs = parse_expr(jt.next().unwrap());
-
-                    while lhs.var().is_none() {
-                        match lhs {
-                            Expr::App(f, x) => {
-                                assert!(x.var().is_some());
-                                rhs = Expr::Lam(x.var().unwrap().to_string(), Box::new(rhs));
-                                lhs = *f;
-                            }
-                            _ => unreachable!(),
-                        }
-                    }
-
-                    // dbg!(&rhs.print());
-
-                    dict.insert(lhs.var().unwrap().to_string(), rhs.cexpr());
-                } else {
-                    // println!("{}", parse_expr(&s).refine().pp());
-                    panic!()
-                }
-            }
-
-            // println!(r#"(load "lib.scm")"#);
-
-            // for (var, expr) in dict.iter() {
-            //     // println!("(define ({}) {})", var, expr.print());
-            //     println!("{} = {}", var, expr.print());
-            // }
-
-            let input = vec![
-                //
-                (0, 0),
-                (0, 0),
-                (0, 0),
-                (0, 0),
-                (0, 0),
-                (0, 0),
-                (0, 0),
-                (0, 0),
-                (8, 4),
-                (2, -8),
-                (3, 6),
-                (0, -14),
-                (-4, 10),
-                (9, -3),
-                (-4, 10),
-                (1, 4),
-            ];
-
-            let init_state = Expr::make_var("nil");
-            let mut state = init_state.clone();
-
-            // let mut state = parse_sexp_str("(2 (1 -1) 0 ())").unwrap().to_expr();
-            // let mut state = parse_sexp_str("(2 (1 -1) 0 (103652820))")
-            //     .unwrap()
-            //     .to_expr();
-
-            let mut state = parse_expr("ap ap cons 2 ap ap cons ap ap cons 1 ap ap cons -1 nil ap ap cons 0 ap ap cons ap ap cons 192496425430 ap ap cons 0 ap ap cons 192495633910 nil nil");
-
-            // let input = vec![
-            //     //
-            //     (0, 0),
-            //     (0, 0),
-            //     (-108, 0),
-            //     (0, 0),
-            //     (-98, 0),
-            //     (0, 0),
-            //     (0, 0),
-            //     (15, -48),
-            //     (-16, 45),
-            //     (0, 0),
-            // ];
-
-            // let input = vec![
-            //     //
-            //     (0, 0),
-            //     (0, 0),
-            //     (0, 0),
-            //     (0, 0),
-            //     (0, 0),
-            //     (0, 0),
-            //     (0, 0),
-            //     (0, 0),
-            //     (0, 0),
-            //     // (0, 0),
-            //     // (0, 0),
-            //     // (0, 0),
-            //     // (0, 0),
-            //     // (0, 0),
-            //     // (0, 0),
-            //     // (0, 0),
-            //     // (0, 0),
-            //     // (0, 0),
-            //     // (0, 0),
-            //     // (0, 0),
-            //     // (0, 0),
-            //     (18, 0),
-            //     (0, 0),
-            //     // (-90, 0),
-            //     // (-80, 0),
-            // ];
-
-            let input = vec![
-                (0, 0),
-                (0, 0),
-                // (0, 0),
-                // (0, 0),
-                // (0, 0),
-                // (0, 0),
-                // (0, 0),
-                // (0, 0),
-                // (0, 0),
-            ];
-
-            for (i, (x, y)) in input.iter().enumerate() {
-                let expr = Expr::make_app(
-                    Expr::make_app(
-                        Expr::make_app(Expr::make_var("interact"), Expr::make_var("galaxy")),
-                        state.clone(),
-                    ),
-                    Expr::make_app(
-                        Expr::make_app(Expr::make_var("vec"), Expr::make_int(*x)),
-                        Expr::make_int(*y),
-                    ),
-                );
-
-                let t = expr.eval(&dict);
-                // eprintln!("{:?}", &t);
-                let v = t.to_value(&dict);
-
-                if let Value::Cons(new_state, tl) = v {
-                    println!("turn: {}", i + 1);
-                    println!("vec: {:?}", (x, y));
-                    println!("state:  {}", new_state.to_raw());
-                    println!("canvas:");
-
-                    let mut canvases;
-
-                    if let Value::Cons(cs, _nil) = *tl {
-                        canvases = *cs;
-                    } else {
-                        panic!();
-                    }
-
-                    let mut cs = vec![];
-
-                    while let Value::Cons(hd, tl) = canvases {
-                        if let Value::Canvas(ps) = *hd {
-                            cs.push(ps);
-                        } else {
-                            panic!("{}", hd.print());
-                        }
-                        canvases = *tl;
-                    }
-
-                    plot(&cs, i + 20 >= input.len());
-
-                    state = new_state.to_expr();
-                } else {
-                    panic!("invalid output");
-                }
-            }
+        Opt::SendRaw => loop {
+            let mut s = String::new();
+            std::io::stdin().read_line(&mut s).unwrap();
+            let s = s.trim().to_owned();
+            println!("send: {}", &s);
+            let resp = send_request(&s);
+            println!("resp: {}", resp);
+        },
+        Opt::Run(opt) => {
+            run(&opt)?;
         }
     }
 

@@ -1,3 +1,4 @@
+use anyhow::{bail, Result};
 #[derive(Clone, Debug)]
 pub enum Value {
     Int(i128),
@@ -18,12 +19,20 @@ impl ToString for Value {
         match self {
             &Value::Int(n) => format!("{}", n),
             Value::Nil => format!("nil"),
-            Value::Cons(x, y) =>
+            Value::Cons(x, y) => {
                 if is_list(self) {
-                  "(".to_string() + &to_vec(self.clone()).into_iter().map(|val| val.to_string()).collect::<Vec<String>>().join(" ") + ")"
+                    "(".to_string()
+                        + &to_vec(self.clone())
+                            .unwrap()
+                            .into_iter()
+                            .map(|val| val.to_string())
+                            .collect::<Vec<String>>()
+                            .join(" ")
+                        + ")"
                 } else {
-                  format!("({} . {})", x.to_string(), y.to_string())
-                },
+                    format!("({} . {})", x.to_string(), y.to_string())
+                }
+            }
         }
     }
 }
@@ -106,7 +115,7 @@ pub fn demodulate(it: &mut impl Iterator<Item = bool>) -> Option<Value> {
 // pub fn from_vec(vals: Vec<Value>) -> Value {
 // }
 
-pub fn to_vec(val: Value) -> Vec<Value> {
+pub fn to_vec(val: Value) -> Result<Vec<Value>> {
     let mut val = val;
     let mut vals = Vec::new();
     loop {
@@ -115,15 +124,11 @@ pub fn to_vec(val: Value) -> Vec<Value> {
                 vals.push(*car);
                 val = *cdr;
             }
-            Value::Nil => {
-                break
-            }
-            _ => {
-                panic!("unexpected value: ".to_string() + &val.to_string())
-            }
+            Value::Nil => break,
+            _ => bail!("unexpected value: {}", val.to_string()),
         }
     }
-    vals
+    Ok(vals)
 }
 
 pub fn to_option(val: Value) -> Option<Value> {
@@ -133,10 +138,10 @@ pub fn to_option(val: Value) -> Option<Value> {
     }
 }
 
-pub fn to_int(val: &Value) -> i128 {
-    match *val {
-        Value::Int(n) => n,
-        _ => panic!("unexpected value: ".to_string() + &val.to_string()),
+pub fn to_int(val: &Value) -> Result<i128> {
+    match val {
+        Value::Int(n) => Ok(*n),
+        _ => bail!("not a integer: {}", val.to_string()),
     }
 }
 
