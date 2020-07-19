@@ -2,4 +2,5 @@
 
 set -e
 
-cd bot/oka; cargo build
+( cd bot/oka; cargo build )
+( cd bot/do_nothing; cargo build )
