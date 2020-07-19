@@ -55,7 +55,7 @@ pub enum Command {
     // SelfDestruct(ShipNum)
     SelfDestruct(i8),
     // Beam(ShipNum, X, Y, Power)
-    Beam(isize, Point, i8),
+    Beam(isize, Point, isize),
     // Split
     Split(Param),
 }
@@ -133,7 +133,7 @@ impl Default for Role {
     }
 }
 
-#[derive(Debug, Clone, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Obstacle {
     // 重力源の半径 (|x| と |y| がともにこれ以下になると死. 移動中にかすめてもセーフ),
     pub gravity_radius: usize,
@@ -215,4 +215,21 @@ pub struct CurrentState {
     pub turn: usize, // 現在のターン数
     pub obstacle: Option<Obstacle>,
     pub machines: Vec<(Machine, Vec<ActionResult>)>,
+}
+
+// Utilities.
+
+// Returns machine ids of the given role.
+pub fn get_roled_machine_ids(state: &CurrentState, role: Role) -> Vec<isize> {
+    state
+        .machines
+        .iter()
+        .filter_map(|(m, _)| {
+            if m.role == role {
+                Some(m.machine_id)
+            } else {
+                None
+            }
+        })
+        .collect::<Vec<_>>()
 }
