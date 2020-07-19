@@ -108,7 +108,7 @@ pub enum Role {
     DEFENDER,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Eq, PartialEq)]
 pub struct Obstacle {
     // 重力源の半径 (|x| と |y| がともにこれ以下になると死. 移動中にかすめてもセーフ),
     pub gravity_radius: usize,
