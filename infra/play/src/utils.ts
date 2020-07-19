@@ -25,6 +25,18 @@ export function queryServer(path: string): string {
     return xhr.responseText;
 }
 
+export function queryNonRatingRuns(): string {
+    // Synchronous XHR - don't do this at home.
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://icfpc2020-api.testkontur.ru/games/non-rating?take=400&apiKey=' + getApiKey(), false);
+    xhr.setRequestHeader('Accept', '*/*');
+    xhr.send();
+    if (xhr.status !== 200) {
+        throw new Error(`HTTP ${xhr.status}`);
+    }
+    return xhr.responseText;
+}
+
 export function startNonRating(subId1: number, subId2: number): string {
     // Synchronous XHR - don't do this at home.
     const xhr = new XMLHttpRequest();

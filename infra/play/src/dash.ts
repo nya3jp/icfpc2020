@@ -1,5 +1,5 @@
 import { getApiKey } from "./auth";
-import { queryServer, startNonRating } from "./utils";
+import { queryServer, startNonRating, queryNonRatingRuns } from "./utils";
 
 const resultsElem = document.getElementById('results') as HTMLElement;
 const refreshElem = document.getElementById('refresh') as HTMLButtonElement;
@@ -133,7 +133,7 @@ function getOurLatestBots(): [Record<string, number>, Record<number, string>, Re
 }
 
 function getResults(): [Record<number, string>, Record<number, Record<number, [string, number]>>, Record<number, Record<number, [string, number]>>] {
-    const games = <GamesList>JSON.parse(queryServer('/games/non-rating'));
+    const games = <GamesList>JSON.parse(queryNonRatingRuns());
     let subidToTeamName: Record<number, string> = {};
     let resultsAtk: Record<number, Record<number, [string, number]>> = {};
     let resultsDef: Record<number, Record<number, [string, number]>> = {};
