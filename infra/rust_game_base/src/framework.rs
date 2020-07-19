@@ -70,32 +70,34 @@ fn parse_current_game_state(val: &Value) -> CurrentGameState {
 }
 
 fn parse_obstacle(val: Value) -> Option<Obstacle> {
-    to_option(val).map(|val| {
-        match to_vec(val.clone()).as_slice() {
-            [gravity_radius, stage_half_size] =>
-                Obstacle {
-                    gravity_radius: to_int(gravity_radius) as usize,
-                    stage_half_size: to_int(stage_half_size) as usize,
-                },
-            _ => panic!("unexpected value: ".to_string() + &val.to_string()),
-        }
+    to_option(val).map(|val| match to_vec(val.clone()).as_slice() {
+        [gravity_radius, stage_half_size] => Obstacle {
+            gravity_radius: to_int(gravity_radius) as usize,
+            stage_half_size: to_int(stage_half_size) as usize,
+        },
+        _ => panic!("unexpected value: ".to_string() + &val.to_string()),
     })
 }
 
 fn parse_stage_data(val: Value) -> StageData {
     match to_vec(val.clone()).as_slice() {
-        [total_turns, _1, _2, obstacle, _3] =>
-            match to_vec(_2.clone()).as_slice() {
-                [_20, _21, _22] =>
-                    StageData {
-                        total_turns: to_int(total_turns) as usize,
-                        _1: to_int(_1) as isize,
-                        _2: (to_int(_20) as isize, to_int(_21) as isize, to_int(_22) as isize),
-                        obstacle: parse_obstacle(obstacle.clone()),
-                        _3: to_vec(_3.clone()).into_iter().map(|val| to_int(&val) as isize).collect(),
-                    },
-                _ => panic!("unexpected value: ".to_string() + &_2.to_string()),
-            }
+        [total_turns, _1, _2, obstacle, _3] => match to_vec(_2.clone()).as_slice() {
+            [_20, _21, _22] => StageData {
+                total_turns: to_int(total_turns) as usize,
+                _1: to_int(_1) as isize,
+                _2: (
+                    to_int(_20) as isize,
+                    to_int(_21) as isize,
+                    to_int(_22) as isize,
+                ),
+                obstacle: parse_obstacle(obstacle.clone()),
+                _3: to_vec(_3.clone())
+                    .into_iter()
+                    .map(|val| to_int(&val) as isize)
+                    .collect(),
+            },
+            _ => panic!("unexpected value: ".to_string() + &_2.to_string()),
+        },
         _ => panic!("unexpected value: ".to_string() + &val.to_string()),
     }
 }
@@ -109,30 +111,28 @@ fn parse_position(val: Value) -> (isize, isize) {
 
 fn parse_params(val: Value) -> Param {
     match to_vec(val.clone()).as_slice() {
-        [energy, laser_power, cool_down_per_turn, life] =>
-            Param {
-                energy: to_int(energy) as usize,
-                laser_power: to_int(laser_power) as usize,
-                cool_down_per_turn: to_int(cool_down_per_turn) as usize,
-                life: to_int(life) as usize,
-            },
+        [energy, laser_power, cool_down_per_turn, life] => Param {
+            energy: to_int(energy) as usize,
+            laser_power: to_int(laser_power) as usize,
+            cool_down_per_turn: to_int(cool_down_per_turn) as usize,
+            life: to_int(life) as usize,
+        },
         _ => panic!("unexpected value: ".to_string() + &val.to_string()),
     }
 }
 
 fn parse_machine(val: Value) -> Machine {
     match to_vec(val.clone()).as_slice() {
-        [team_id, machine_id, position, velocity, params, heat, _1, _2] =>
-            Machine {
-                team_id: to_int(team_id) as isize,
-                machine_id: to_int(machine_id) as isize,
-                position: parse_position(position.clone()),
-                velocity: parse_position(velocity.clone()),
-                params: parse_params(params.clone()),
-                heat: to_int(heat) as usize,
-                _1: to_int(_1) as isize,
-                _2: to_int(_2) as isize,
-            },
+        [team_id, machine_id, position, velocity, params, heat, _1, _2] => Machine {
+            team_id: to_int(team_id) as isize,
+            machine_id: to_int(machine_id) as isize,
+            position: parse_position(position.clone()),
+            velocity: parse_position(velocity.clone()),
+            params: parse_params(params.clone()),
+            heat: to_int(heat) as usize,
+            _1: to_int(_1) as isize,
+            _2: to_int(_2) as isize,
+        },
         _ => panic!("unexpected value: ".to_string() + &val.to_string()),
     }
 }
@@ -143,32 +143,37 @@ fn parse_action_result(val: Value) -> Option<ActionResult> {
 
 fn parse_machine_and_action_result(val: Value) -> (Machine, Option<ActionResult>) {
     match to_vec(val.clone()).as_slice() {
-        [machine, action_result] => (parse_machine(machine.clone()), parse_action_result(action_result.clone())),
+        [machine, action_result] => (
+            parse_machine(machine.clone()),
+            parse_action_result(action_result.clone()),
+        ),
         _ => panic!("unexpected value: ".to_string() + &val.to_string()),
     }
 }
 
-fn parse_current_state(val: Value) -> CurrentState {
+fn parse_current_state(val: Value) -> Option<CurrentState> {
     match to_vec(val.clone()).as_slice() {
-        [turn, obstacle, machines] =>
-            CurrentState {
-                turn: to_int(turn) as usize,
-                obstacle: parse_obstacle(obstacle.clone()),
-                machines: to_vec(machines.clone()).into_iter().map(|val| parse_machine_and_action_result(val)).collect(),
-            },
+        [turn, obstacle, machines] => Some(CurrentState {
+            turn: to_int(turn) as usize,
+            obstacle: parse_obstacle(obstacle.clone()),
+            machines: to_vec(machines.clone())
+                .into_iter()
+                .map(|val| parse_machine_and_action_result(val))
+                .collect(),
+        }),
+        [] => None,
         _ => panic!("unexpected value: ".to_string() + &val.to_string()),
     }
 }
 
 fn parse_response(val: Value) -> Response {
     match to_vec(val.clone()).as_slice() {
-        [one, current_game_state, stage_data, current_state] =>
-            Response {
-                _1: to_int(&one) as usize,
-                current_game_state: parse_current_game_state(current_game_state),
-                stage_data: parse_stage_data(stage_data.clone()),
-                current_state: parse_current_state(current_state.clone()),
-            },
+        [one, current_game_state, stage_data, current_state] => Response {
+            _1: to_int(&one) as usize,
+            current_game_state: parse_current_game_state(current_game_state),
+            stage_data: parse_stage_data(stage_data.clone()),
+            current_state: parse_current_state(current_state.clone()),
+        },
         _ => panic!("unexpected value: ".to_string() + &val.to_string()),
     }
 }
