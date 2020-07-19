@@ -28,6 +28,10 @@ pub fn get_gravity(state: &CurrentState, machine_id: isize) -> Point {
         .unwrap()
         .0
         .position;
+    get_gravity_from_point(&pos)
+}
+
+pub fn get_gravity_from_point(pos: &Point) -> Point {
     Point {
         x: if pos.x.abs() < pos.y.abs() {
             0

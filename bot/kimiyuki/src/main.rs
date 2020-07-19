@@ -3,6 +3,8 @@
 extern crate rust_game_base;
 #[macro_use]
 extern crate itertools;
+extern crate rand;
+use rand::prelude::*;
 
 use rust_game_base::Point;
 use rust_game_base::actions;
@@ -22,9 +24,37 @@ fn initialize() -> rust_game_base::Param {
     start_params
 }
 
+fn predict_crash_time(machine: &rust_game_base::Machine, obstacle: &rust_game_base::Obstacle) -> isize {
+    let mut t = 0;
+    let mut p = machine.position;
+    let mut v = machine.velocity;
+    while t < 32 {
+        let a = actions::get_gravity_from_point(&p);
+        v.y += a.y;
+        v.x += a.x;
+        p.y += v.y;
+        p.x += v.x;
+        if p.y.abs() <= obstacle.gravity_radius as isize {
+            break;
+        }
+        if p.x.abs() <= obstacle.gravity_radius as isize {
+            break;
+        }
+        if obstacle.stage_half_size as isize <= p.y.abs() {
+            break;
+        }
+        if obstacle.stage_half_size as isize <= p.x.abs() {
+            break;
+        }
+        t += 1;
+    }
+    t
+}
+
 fn play(resp: &rust_game_base::Response) -> Vec<rust_game_base::Command> {
     let mut commands = vec![];
     let current_state = resp.current_state.as_ref().unwrap();
+    let obstacle = current_state.obstacle.unwrap();
     let mut self_machines = vec![];
     let mut opponent_machines = vec![];
     for (machine, _) in current_state.machines.iter() {
@@ -35,41 +65,32 @@ fn play(resp: &rust_game_base::Response) -> Vec<rust_game_base::Command> {
         }
     }
     for machine in self_machines.iter() {
-        let gravity = actions::get_gravity(current_state, machine.machine_id);
         let mut a = Point { x: 0, y: 0 };
-        if gravity.x == -1 {
-            a.x -= 1;
-            a.y += 1;
-        } else if gravity.y == 1 {
-            a.x += 1;
-            a.y += 1;
-        } else if gravity.x == 1 {
-            a.x += 1;
-            a.y -= 1;
-        } else if gravity.y == -1 {
-            a.x -= 1;
-            a.y -= 1;
-        }
-        if a.x > 0 && machine.velocity.x <= -3 {
-            a.x = 0
-        }
-        if a.x < 0 && machine.velocity.x >= 3 {
-            a.x = 0
-        }
-        if a.y > 0 && machine.velocity.y <= -3 {
-            a.y = 0
-        }
-        if a.y < 0 && machine.velocity.y >= 3 {
-            a.y = 0
-        }
-        if machine.position.x.abs() >= 100 {
-            a.x = 0;
-        }
-        if machine.position.y.abs() >= 100 {
-            a.y = 0;
+        let mut t = predict_crash_time(machine, &obstacle);
+        let mut k = 1;
+        if t < 10 {
+            for dy in vec![-1, 0, 1] {
+                for dx in vec![-1, 0, 1] {
+                    let m = rust_game_base::Machine {
+                        velocity: Point { y: machine.velocity.y + dy, x: machine.velocity.x + dx },
+                        ..**machine
+                    };
+                    let dt = predict_crash_time(&m, &obstacle) - t;
+                    if dt > 0 {
+                        a = Point { y: dy, x: dx };
+                        t += dt;
+                        k = 1;
+                    } else if dt == 0 {
+                        k += 1;
+                        if rand::random::<f64>() < 1.0 / (k as f64) {
+                            a = Point { y: dy, x: dx };
+                        }
+                    }
+                }
+            }
         }
         if a != (Point { x: 0, y: 0 }) {
-            commands.push(rust_game_base::Command::Thrust(machine.machine_id, a));
+            commands.push(rust_game_base::Command::Thrust(machine.machine_id, Point { y: -a.y, x: -a.x }));
         }
         for opponent_machine in opponent_machines.iter() {
         }
