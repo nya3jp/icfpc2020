@@ -35,7 +35,7 @@ impl Bot {
             energy: 128,
             laser_power: 10,
             life: 10,
-            cool_down_per_turn: 64,
+            cool_down_per_turn: 8,
         };
 
         assert!(
