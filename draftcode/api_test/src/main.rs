@@ -1,7 +1,7 @@
 use std::io;
 
-const JOIN_REQUEST_TAG: i64 = 2;
-const START_REQUEST_TAG: i64 = 3;
+const JOIN_REQUEST_TAG: i128 = 2;
+const START_REQUEST_TAG: i128 = 3;
 // move command
 // ( ( 0, ( 0, ( ( X, Y ), nil ) ) ), nil )
 //
@@ -58,7 +58,7 @@ fn main() {
 }
 
 fn send_join_request() -> GameState {
-    let player_key: i64 = std::env::args().nth(1).unwrap().parse().unwrap();
+    let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
     send_and_receive_game_state(&Value::Cons(
         Box::new(Value::Int(JOIN_REQUEST_TAG)),
         Box::new(Value::Cons(
@@ -69,15 +69,15 @@ fn send_join_request() -> GameState {
 }
 
 fn send_start_request(equip1: i32, equip2: i32, equip3: i32, equip4: i32) -> GameState {
-    let player_key: i64 = std::env::args().nth(1).unwrap().parse().unwrap();
+    let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
     let equipval = Value::Cons(
-        Box::new(Value::Int(equip1 as i64)),
+        Box::new(Value::Int(equip1 as i128)),
         Box::new(Value::Cons(
-            Box::new(Value::Int(equip2 as i64)),
+            Box::new(Value::Int(equip2 as i128)),
             Box::new(Value::Cons(
-                Box::new(Value::Int(equip3 as i64)),
+                Box::new(Value::Int(equip3 as i128)),
                 Box::new(Value::Cons(
-                    Box::new(Value::Int(equip4 as i64)),
+                    Box::new(Value::Int(equip4 as i128)),
                     Box::new(Value::Nil),
                 )),
             )),
@@ -116,7 +116,7 @@ fn send_and_receive(val: &Value) -> Value {
 
 #[derive(Debug)]
 enum Value {
-    Int(i64),
+    Int(i128),
     Nil,
     Cons(Box<Value>, Box<Value>),
 }
