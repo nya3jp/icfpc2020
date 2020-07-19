@@ -221,9 +221,9 @@ fn send_and_receive_game_state(val: &Value) -> Result<Response> {
     println!("{}", modulate_to_string(&val));
     io::stdout().flush();
     let mut resp = String::new();
-    io::stdin().read_line(&mut resp).unwrap();
+    io::stdin().read_line(&mut resp)?;
     let resp = demodulate_from_string(&resp).unwrap();
-    let resp = parse_response(resp);
-    eprintln!("recieve: {:?}", resp);
-    resp
+    let resp = parse_response(resp)?;
+    eprintln!("recieve: {:#?}", resp);
+    Ok(resp)
 }
