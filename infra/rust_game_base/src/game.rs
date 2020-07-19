@@ -61,6 +61,7 @@ impl Command {
 }
 
 // 0/START, 1/PLAYING, 2/END (cf: 公式)
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum CurrentGameState {
     START,
     PLAYING,

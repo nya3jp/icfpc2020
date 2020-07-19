@@ -24,35 +24,18 @@ fn main() {
     if std::env::args().nth(1) == Some("dev".to_owned()) {
         unsafe { DEV = true }
     }
-    Proxy::join_game();
-    let state = Proxy::start_game(&StartParam {});
-    run(state);
-}
+    eprintln!("send_join_request");
+    let resp = rust_game_base::send_join_request();
 
-struct Proxy;
+    eprintln!("send_start_request");
+    let mut res = rust_game_base::send_start_request(4, 4, 4, 4);
 
-impl Proxy {
-    fn join_game() {
-        if is_dev() {
-            return;
+    eprintln!("send_command_request");
+    loop {
+        if res.current_game_state == rust_game_base::CurrentGameState::END {
+            break;
         }
-        // TODO
-        // rust_game_base::send_join_request();
-    }
-    fn start_game(p: &StartParam) -> State {
-        if is_dev() {
-            return State::dummy();
-        }
-
-        // TODO
-        let state = rust_game_base::send_start_request(4, 4, 4, 4);
-        State::from_response(state)
-    }
-
-    fn do_action(a: &Action) -> State {
-        // TODO
-
-        State::dummy()
+        res = rust_game_base::send_command_request(&mut vec![].into_iter());
     }
 }
 
@@ -68,7 +51,7 @@ fn run(mut state: State) {
                 best = (val, a, Some(ns));
             }
         }
-        let got_state = Proxy::do_action(&best.1);
+        // let got_state = Proxy::do_action(&best.1);
 
         // TODO: log if state != got_state.
 
