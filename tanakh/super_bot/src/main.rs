@@ -53,7 +53,7 @@ impl Bot {
         };
 
         assert!(
-            param.energy + param.laser_power + param.life + param.cool_down_per_turn
+            param.energy + param.laser_power * 4 + param.life * 2 + param.cool_down_per_turn * 12
                 <= param_rest as usize
         );
 
