@@ -13,8 +13,8 @@ import {
 import {evaluate} from './eval';
 import {makeNumber} from './data';
 import {demodulate, modulate} from './modem';
-import {getApiKey} from './auth';
 import {appendSendLog} from './logs';
+import { sendToServer } from './utils';
 
 function func1Value(f: (env: Environment, a: Expr) => Expr): Value {
     return {kind: 'func', func: f};
@@ -225,16 +225,8 @@ function builtinMultipledraw(env: Environment, a: Expr): Expr {
 function builtinSend(env: Environment, a: Expr): Expr {
     const pa = evaluate(env, a);
     const req = modulate(env, pa);
-    // Synchronous XHR - don't do this at home.
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://icfpc2020-api.testkontur.ru/aliens/send?apiKey=' + getApiKey(), false);
-    xhr.setRequestHeader('Accept', '*/*');
-    xhr.setRequestHeader('Content-Type', 'text/plain');
-    xhr.send(req);
-    if (xhr.status !== 200) {
-        throw new Error(`HTTP ${xhr.status}`);
-    }
-    const res = evaluate(env, demodulate(xhr.responseText.trim()));
+    const res = evaluate(env, demodulate(sendToServer(req)));
+
     appendSendLog({req: valueToPrettyData(env, pa), res: valueToPrettyData(env, res)});
     return makeSideEffect(res);
 }

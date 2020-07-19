@@ -16,6 +16,8 @@ import {
 
 import {getSendLogs} from './logs';
 import { annotate } from './annotate';
+import { sendToServer } from './utils';
+import { demodulate, modulate } from './modem';
 
 const env = newGalaxyEnvironment();
 const mainExpr = parseExpr('ap interact galaxy');
@@ -44,6 +46,7 @@ const infoElem = document.getElementById('info') as HTMLElement;
 const logsElem = document.getElementById('logs') as HTMLTextAreaElement;
 const sendLogsElem = document.getElementById('sendlogs') as HTMLElement;
 const annotateElem = document.getElementById('annotate') as HTMLInputElement;
+const replayElem = document.getElementById('replay-player-key') as HTMLInputElement;
 
 const VIEW_MARGIN = 60;
 
@@ -259,6 +262,40 @@ function onAnnotateChanged(ev: Event): void {
     updateUI();
 }
 
+function onReplayPlayerKeyChanged(ev: Event): void {
+    function cadr(expr: string): string {
+        return `ap car ap cdr ${expr}`
+    }
+    function replayState(key: string, history: string, timestamp: string): string {
+        return `ap ap cons 5 ap ap cons ap ap cons 7 ap ap cons ${key} ap ap `
+            + `cons nil ap ap cons nil ap ap cons nil ap ap cons ${history} `
+            + `ap ap cons ap ap cons 0 0 ap ap cons ${timestamp} nil ap ap `
+            + `cons 1 ap ap cons nil nil`;
+    }
+
+    const playerKey = replayElem.value.trim();
+    try {
+        const getTimestampRequest = evaluate(env,
+            parseExpr(`ap ap cons 0 nil`));
+        const timestampVal = evaluate(env,
+            demodulate(sendToServer(modulate(env, getTimestampRequest))));
+        const timestamp = evaluate(env,
+            parseExpr(cadr(debugString(env, timestampVal))));
+
+        const getHistoryRequest = evaluate(env,
+            parseExpr(`ap ap cons 5 ap ap cons ${playerKey} nil`));
+        const history = evaluate(env,
+            demodulate(sendToServer(modulate(env, getHistoryRequest))));
+
+        const state = parseExpr(
+            replayState(playerKey, debugString(env, history), debugString(env, timestamp)));
+        interact(state, FAWAWAY_POINT);
+    } catch (e) {
+        updateUI();
+        reportError(e);
+    }
+}
+
 function reportError(e: Error): void {
     alert(e);
     throw e;
@@ -269,6 +306,7 @@ function init(): void {
     stateElem.addEventListener('change', onStateChanged);
     pixelSizeElem.addEventListener('change', onPixelSizeChanged);
     annotateElem.addEventListener('change', onAnnotateChanged);
+    replayElem.addEventListener('change', onReplayPlayerKeyChanged);
     const givenState = getQueryParams('state');
     if (givenState !== null) {
         stateElem.value = givenState;
