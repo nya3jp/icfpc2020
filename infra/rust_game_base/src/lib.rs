@@ -21,19 +21,24 @@ pub fn send_join_request() -> GameState {
 
 pub fn send_start_request(param1: i32, param2: i32, param3: i32, param4: i32) -> GameState {
     let player_key: i128 = std::env::args().nth(1).unwrap().parse().unwrap();
-    let params = Value::Cons(
-        Box::new(Value::Int(param1 as i128)),
-        Box::new(Value::Cons(
-            Box::new(Value::Int(param2 as i128)),
+    let is_tutorial: bool = std::env::vars().any(|(key, _)| key == "TUTORIAL_MODE");
+    let params = if is_tutorial {
+        Value::Nil
+    } else {
+        Value::Cons(
+            Box::new(Value::Int(param1 as i128)),
             Box::new(Value::Cons(
-                Box::new(Value::Int(param3 as i128)),
+                Box::new(Value::Int(param2 as i128)),
                 Box::new(Value::Cons(
-                    Box::new(Value::Int(param4 as i128)),
-                    Box::new(Value::Nil),
+                    Box::new(Value::Int(param3 as i128)),
+                    Box::new(Value::Cons(
+                        Box::new(Value::Int(param4 as i128)),
+                        Box::new(Value::Nil),
+                    )),
                 )),
             )),
-        )),
-    );
+        )
+    };
     send_and_receive_game_state(&Value::Cons(
         Box::new(Value::Int(START_REQUEST_TAG)),
         Box::new(Value::Cons(
