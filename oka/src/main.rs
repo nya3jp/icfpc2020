@@ -67,6 +67,11 @@ fn run() -> Result<(), Error> {
                 .long("decimal")
                 .help("use decimal notation in demodulation"),
         )
+        .arg(
+            clap::Arg::with_name("ap")
+            .long("ap")
+            .help("demodulate as ap format"),
+        )
         .get_matches();
 
     let mut w = writer(m.value_of("output"))?;
@@ -85,7 +90,11 @@ fn run() -> Result<(), Error> {
         }
         let val = demodulate(&mut s.trim().chars().map(|c| c == '1'))
             .ok_or(Error::from("demodulate failed"))?;
-        println!("{}", val.to_string());
+        if m.is_present("ap") {
+            println!("{}", val.to_ap());
+        } else {
+            println!("{}", val.to_string());
+        }
     } else {
         let val = Value::from_str(&s)?;
         let v = modulate_to_string(&val);
@@ -157,6 +166,14 @@ impl Value {
             }
             b' ' => Value::from_iter(i),
             _ => Err(Error::from(format!("parse fail {}", b as char))),
+        }
+    }
+
+    fn to_ap(&self) -> String {
+        match self {
+            &Value::Int(n) => format!("{}", n),
+            Value::Nil => format!("nil"),
+            Value::Cons(x, y) => format!("ap ap cons {} {}", x.to_ap(), y.to_ap()),
         }
     }
 }
