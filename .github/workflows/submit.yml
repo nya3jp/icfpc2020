@@ -11,5 +11,7 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v2
+      - name: Fetch whole repository
+        run: git fetch origin
       - name: Run make_submissions.sh
         run: ./infra/make_submissions.sh --push
