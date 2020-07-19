@@ -18,7 +18,7 @@ fn main() {
 }
 
 fn initialize() -> rust_game_base::Param {
-    let start_params = rust_game_base::Param { energy: 400, laser_power: 0, cool_down_per_turn: 2, life: 1 };
+    let start_params = rust_game_base::Param { energy: 300, laser_power: 0, cool_down_per_turn: 8, life: 1 };
     start_params
 }
 
