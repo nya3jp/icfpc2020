@@ -10,8 +10,8 @@ use rust_game_base::Point;
 use rust_game_base::actions;
 
 fn main() {
-    let start_params = initialize();
-    let resp = rust_game_base::send_join_request();
+    let resp = rust_game_base::send_join_request().unwrap();
+    let start_params = initialize(&resp);
     let mut resp = rust_game_base::send_start_request(&start_params).unwrap();
     while resp.current_game_state != rust_game_base::CurrentGameState::END {
         let commands = play(&resp);
@@ -19,8 +19,9 @@ fn main() {
     }
 }
 
-fn initialize() -> rust_game_base::Param {
-    let start_params = rust_game_base::Param { energy: 300, laser_power: 3, cool_down_per_turn: 10, life: 1 };
+fn initialize(resp: &rust_game_base::Response) -> rust_game_base::Param {
+    let total_cost = resp.stage_data.initialize_param.total_cost;
+    let start_params = rust_game_base::Param { energy: total_cost - 16 * 4 - 8 * 12 - 2, laser_power: 16, cool_down_per_turn: 8, life: 1 };
     start_params
 }
 
