@@ -21,7 +21,7 @@ function generate_sh() {
 #!/bin/bash
 
 pushd "$root"
-./run.sh
+./run.sh "\$1" "\$2"
 popd
 EOF
     chmod a+x "$workdir/run.sh"
@@ -38,6 +38,18 @@ EOF
     pushd "$workdir"
     git add .
     popd
+}
+
+function generate_cargo_config() {
+    mkdir ".cargo"
+    cat <<EOF > ".cargo/config"
+[source.crates-io]
+replace-with = "vendored-sources"
+
+[source.vendored-sources]
+directory = "vendor"
+EOF
+    git add .cargo
 }
 
 function copy_dependencies() {
@@ -96,6 +108,7 @@ for platform in $(find . -name .platform); do
 
     pushd "$workdir/$root"
     do_vendor
+    generate_cargo_config
     git add .
 
     if git commit -m "$msg"; then
