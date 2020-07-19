@@ -36,7 +36,7 @@ fn main() {
     })
     .unwrap();
 
-    let im_attacker = res.stage_data.role == 0; // 0: attacker, 1: defender
+    let im_attacker = res.stage_data.self_role == rust_game_base::Role::ATTACKER;
     eprintln!(
         "I'm {}",
         if (im_attacker) {
@@ -51,7 +51,7 @@ fn main() {
 
         let mut machine_id = 0;
         for m in res.current_state.clone().unwrap().machines.iter() {
-            let is_attacker = m.0.team_id == 0;
+            let is_attacker = m.0.role == rust_game_base::Role::ATTACKER;
             if !is_attacker && m.0.params.life > 0 {
                 attacker_won = false;
             }
@@ -162,7 +162,7 @@ impl State {
         let mut me = None;
         let mut you = None;
         for m in gs.machines.iter() {
-            if m.0.team_id == 0 {
+            if m.0.role == rust_game_base::Role::ATTACKER {
                 me = Some(Machine {
                     pos: P::new(m.0.position.x, m.0.position.y),
                     v: P::new(m.0.velocity.x, m.0.velocity.y),
