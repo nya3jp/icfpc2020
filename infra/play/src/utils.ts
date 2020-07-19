@@ -24,3 +24,16 @@ export function queryServer(path: string): string {
     }
     return xhr.responseText;
 }
+
+export function startNonRating(subId1: number, subId2: number): string {
+    // Synchronous XHR - don't do this at home.
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://icfpc2020-api.testkontur.ru/games/non-rating/run?apiKey=' + getApiKey() + 
+        '&attackerSubmissionId=' + subId1 + '&defenderSubmissionId=' + subId2, false);
+    xhr.setRequestHeader('Accept', '*/*');
+    xhr.send('');
+    if (xhr.status !== 200) {
+        throw new Error(`HTTP ${xhr.status}`);
+    }
+    return xhr.responseText;
+}

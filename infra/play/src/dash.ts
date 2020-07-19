@@ -1,46 +1,84 @@
 import { getApiKey } from "./auth";
-import { queryServer } from "./utils";
+import { queryServer, startNonRating } from "./utils";
 
 const resultsElem = document.getElementById('results') as HTMLElement;
-const refreshElem = document.getElementById('refresh') as HTMLElement;
+const refreshElem = document.getElementById('refresh') as HTMLButtonElement;
+const missingRunElem = document.getElementById('run_missing') as HTMLButtonElement;
 
-function loadResults(): void {
-    let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
-    let [currentBots, subIdToBranch] = getOurLatestBots();
-    let topPlayers = getOpponents().slice(0, 10);
-    let ourBots = ['bot_kimiyuki', 'bot_psh_testbot', 'tanakh_super_bot'];
+function startMissingResults(): void {
+    refreshElem.disabled = true;
+    missingRunElem.disabled = true;
+    try {
+        let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
+        let [currentBots, subIdToBranch] = getOurLatestBots();
+        let topPlayers = getOpponents().slice(0, 10);
+        let ourBots = ['bot_kimiyuki', 'bot_psh_testbot', 'tanakh_super_bot'];
 
-    let head = [];
-    for (var name of ourBots) {
-        head.push('<th>' + name + ' atk (' + currentBots[name] + ')</th>');
-        head.push('<th>' + name + ' def (' + currentBots[name] + ')</th>');
-    }
-
-    let rows: Array<string> = [];
-    rows.push('<tr><th></th>' + head.join('') + '</tr>');
-    for (var [oppName, oppSubId] of topPlayers) {
-        let result = "<tr><td>" + oppName + " (" + oppSubId + ")</td>";
-        for (var ourBotName of ourBots) {
-            const ourSubId = currentBots[ourBotName];
-            if (ourSubId in resultsAtk && oppSubId in resultsAtk[ourSubId]) {
-                let [status, playerKey] = resultsAtk[ourSubId][oppSubId];
-                let url = 'https://icfpcontest2020.github.io/#/visualize?playerkey=' + playerKey;
-                result += '<td class=' + status.toLowerCase() + '><a href="' + url + '">' + status + '</a></td>';
-            } else {
-                result += "<td></td>";
-            }
-            if (ourSubId in resultsDef && oppSubId in resultsDef[ourSubId]) {
-                let [status, playerKey] = resultsDef[ourSubId][oppSubId];
-                let url = 'https://icfpcontest2020.github.io/#/visualize?playerkey=' + playerKey;
-                result += '<td class=' + status.toLowerCase() + '><a href="' + url + '">' + status + '</a></td>';
-            } else {
-                result += "<td></td>";
+        for (var [oppName, oppSubId] of topPlayers) {
+            for (var ourBotName of ourBots) {
+                const ourSubId = currentBots[ourBotName];
+                if (ourSubId in resultsAtk && oppSubId in resultsAtk[ourSubId]) {
+                    // Already exist
+                } else {
+                    startNonRating(ourSubId, oppSubId);
+                    // Query
+                }
+                if (ourSubId in resultsDef && oppSubId in resultsDef[ourSubId]) {
+                    // Already exist
+                } else {
+                    startNonRating(oppSubId, ourSubId);
+                }
             }
         }
-        result += "</tr>";
-        rows.push(result);
+    } finally {
+        refreshElem.disabled = true;
+        missingRunElem.disabled = false;
+        loadResults();
     }
-    resultsElem.innerHTML = rows.join('');
+}
+
+function loadResults(): void {
+    try {
+        let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
+        let [currentBots, subIdToBranch] = getOurLatestBots();
+        let topPlayers = getOpponents().slice(0, 10);
+        let ourBots = ['bot_kimiyuki', 'bot_psh_testbot', 'tanakh_super_bot'];
+
+        let head = [];
+        for (var name of ourBots) {
+            head.push('<th>' + name + ' atk (' + currentBots[name] + ')</th>');
+            head.push('<th>' + name + ' def (' + currentBots[name] + ')</th>');
+        }
+
+        let rows: Array<string> = [];
+        rows.push('<tr><th></th>' + head.join('') + '</tr>');
+        for (var [oppName, oppSubId] of topPlayers) {
+            let result = "<tr><td>" + oppName + " (" + oppSubId + ")</td>";
+            for (var ourBotName of ourBots) {
+                const ourSubId = currentBots[ourBotName];
+                if (ourSubId in resultsAtk && oppSubId in resultsAtk[ourSubId]) {
+                    let [status, playerKey] = resultsAtk[ourSubId][oppSubId];
+                    let url = 'https://icfpcontest2020.github.io/#/visualize?playerkey=' + playerKey;
+                    result += '<td class=' + status.toLowerCase() + '><a href="' + url + '">' + status + '</a></td>';
+                } else {
+                    result += "<td></td>";
+                }
+                if (ourSubId in resultsDef && oppSubId in resultsDef[ourSubId]) {
+                    let [status, playerKey] = resultsDef[ourSubId][oppSubId];
+                    let url = 'https://icfpcontest2020.github.io/#/visualize?playerkey=' + playerKey;
+                    result += '<td class=' + status.toLowerCase() + '><a href="' + url + '">' + status + '</a></td>';
+                } else {
+                    result += "<td></td>";
+                }
+            }
+            result += "</tr>";
+            rows.push(result);
+        }
+        resultsElem.innerHTML = rows.join('');
+    } finally {
+        refreshElem.disabled = false;
+        missingRunElem.disabled = false;
+    }
 }
 
 function getOpponents(): Array<[string, number]> {
@@ -197,7 +235,8 @@ interface GamesList {
 }
 
 function init(): void {
-    refreshElem.addEventListener('refresh', loadResults);
+    refreshElem.addEventListener('click', loadResults);
+    missingRunElem.addEventListener('click', startMissingResults);
 
     if (getApiKey() != '') {
         loadResults();
