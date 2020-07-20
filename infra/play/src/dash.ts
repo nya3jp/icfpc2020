@@ -161,7 +161,7 @@ function getOurLatestBots(): [Record<string, number>, Record<number, string>, Re
             continue;
         }
         subidToBranch[sub.submissionId] = sub.branchName;
-        if (OUR_BOTS.includes(sub.branchName) && (i < 10 || sub.active)) {
+        if (OUR_BOTS.includes(sub.branchName) && (i < 20 || sub.active)) {
             currentBots[i] = sub.submissionId;
         }
     }
