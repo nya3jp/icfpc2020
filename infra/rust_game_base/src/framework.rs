@@ -169,8 +169,11 @@ fn parse_action_result(val: Value) -> Result<Vec<ActionResult>> {
                     power: to_int(power)? as usize,
                     area: to_int(area)? as usize,
                 },
-                (2, [opponent, _, _, _]) => ActionResult::Laser {
+                (2, [opponent, power, intensity, _3]) => ActionResult::Laser {
                     opponent: parse_point(opponent.clone())?,
+                    power: to_int(power)? as usize,
+                    intensity: to_int(intensity)? as usize,
+                    _3: to_int(_3)? as isize,
                 },
                 (3, [params]) => ActionResult::Split {
                     params: parse_params(params.clone())?,

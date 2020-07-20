@@ -325,3 +325,8 @@ pub fn move_to3(state: &CurrentState, machine_id: isize, target: Point) -> Optio
         next = cur.clone();
     }
 }
+
+pub fn laser(state: &CurrentState, machine_id: isize, target: Point) -> Option<Command> {
+    let machine = get_machine_by_id(state, machine_id).unwrap();
+    return Some(Command::Beam(machine_id, target, 32));
+}
