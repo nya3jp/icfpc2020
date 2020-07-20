@@ -166,17 +166,35 @@ function getOurLatestBots(): [Record<string, number>, Record<number, string>, Re
 }
 
 function getResults(): [Record<number, string>, Record<number, Record<number, [string, number]>>, Record<number, Record<number, [string, number]>>] {
-    let games: Array<Game> = [];
+    let cachedGames: Array<Game> = [];
+    const cache = localStorage.getItem('cached_games');
+    if (cache) {
+        cachedGames = JSON.parse(cache) as Array<Game>;
+    }
+
+    let newGames: Array<Game> = [];
     let prevDate = '';
-    while (true) {
+    loop: while (true) {
         const ret = <GamesList>JSON.parse(queryNonRatingRuns(prevDate));
-        games = games.concat(ret.games);
+        newGames = newGames.concat(ret.games);
+        if (cachedGames.length > 0) {
+            const knownGame = cachedGames[0];
+            for (let i = 0; i < newGames.length; i++) {
+                if (newGames[i].gameId === knownGame.gameId) {
+                    newGames.splice(i);
+                    break loop;
+                }
+            }
+        }
         if (ret.hasMore && ret.next) {
             prevDate = ret.next;
             continue;
         }
         break;
     }
+    const games = ([] as Array<Game>).concat(newGames, cachedGames);
+    localStorage.setItem('cached_games', JSON.stringify(games));
+
     let subidToTeamName: Record<number, string> = {};
     let resultsAtk: Record<number, Record<number, [string, number]>> = {};
     let resultsDef: Record<number, Record<number, [string, number]>> = {};
