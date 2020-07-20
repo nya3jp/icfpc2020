@@ -436,8 +436,41 @@ impl Bot {
                                 continue;
                             }
 
-                            let dmg = rust_game_base::get_intensity(
-                                &v, max_beam_pow as usize);
+                            let dmg =
+                                rust_game_base::get_intensity(&v, max_beam_pow as usize) as isize;
+
+                            let dmg = min(
+                                dmg - (ene.heat_limit + ene.params.cool_down_per_turn - ene.heat)
+                                    as isize,
+                                (ene.params.energy
+                                    + ene.params.laser_power
+                                    + ene.params.cool_down_per_turn
+                                    + ene.params.life) as isize,
+                            );
+
+                            // 与えるダメージが変わらない範囲で出力を下げる
+                            let mut max_beam_pow = max_beam_pow;
+                            while max_beam_pow > 1 {
+                                max_beam_pow -= 1;
+                                let t = rust_game_base::get_intensity(&v, max_beam_pow as usize)
+                                    as isize;
+
+                                let t = min(
+                                    t - (ene.heat_limit + ene.params.cool_down_per_turn - ene.heat)
+                                        as isize,
+                                    (ene.params.energy
+                                        + ene.params.laser_power
+                                        + ene.params.cool_down_per_turn
+                                        + ene.params.life)
+                                        as isize,
+                                );
+
+                                if t != dmg {
+                                    max_beam_pow += 1;
+                                    break;
+                                }
+                            }
+
                             let dd = -(dx.abs() + dy.abs());
 
                             if (dmg, dd) <= best_dmg {
