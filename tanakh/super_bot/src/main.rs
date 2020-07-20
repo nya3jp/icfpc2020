@@ -266,7 +266,7 @@ impl Bot {
                 // エネルギー多めの方がよさそう
 
                 if param_rest >= 12
-                    && param.cool_down_per_turn < 8
+                    && param.cool_down_per_turn < 4
                     && param.cool_down_per_turn * 12 <= param.energy
                 {
                     param.cool_down_per_turn += 1;
@@ -274,7 +274,7 @@ impl Bot {
                     continue;
                 }
 
-                if param_rest >= 2 && param.life * 5 <= param.energy * 2 {
+                if param_rest >= 2 && param.life * 7 <= param.energy * 3 {
                     param.life += 1;
                     param_rest -= 2;
                     continue;
@@ -472,7 +472,9 @@ impl Bot {
                             }
 
                             let dd = -(dx.abs() + dy.abs());
-                            let dist = -(v.x.abs() + v.y.abs());
+
+                            // let dist = -(v.x.abs() + v.y.abs());
+                            let dist = 0;
 
                             if (dmg, dist, dd) <= best_dmg {
                                 continue;
@@ -709,10 +711,12 @@ impl Bot {
             .machines
             .iter()
             .filter(|r| r.0.role == self.static_info.self_role)
-            .filter(|r| r.0.params.energy == 0 &&
-                    r.0.params.laser_power == 0 &&
-                    r.0.params.cool_down_per_turn == 0 &&
-                    r.0.params.life == 1)
+            .filter(|r| {
+                r.0.params.energy == 0
+                    && r.0.params.laser_power == 0
+                    && r.0.params.cool_down_per_turn == 0
+                    && r.0.params.life == 1
+            })
             .map(|r| &r.0)
             .collect()
     }
