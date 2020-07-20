@@ -498,14 +498,9 @@ impl Bot {
                 }
 
                 let (dx, dy) = loop {
-                    // let dx = rand::thread_rng().gen_range(-1, 2);
-                    // let dy = rand::thread_rng().gen_range(-1, 2);
-                    // if (dx, dy) != (0, 0) {
-                    //     break (dx, dy);
-                    // }
                     break (
                         -(self.get_leader().position.x.signum() as isize),
-                        -(self.get_leader().position.x.signum() as isize),
+                        -(self.get_leader().position.y.signum() as isize),
                     );
                 };
 
