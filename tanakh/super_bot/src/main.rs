@@ -1,22 +1,24 @@
 use anyhow::{anyhow, bail, Context, Result};
 use rust_game_base::*;
-use std::cmp::{max, min};
+use std::{
+    cmp::{max, min},
+    collections::VecDeque,
+};
 
 mod sa;
 
+use rand::Rng;
 use sa::*;
 
 // 知見
 // レーザーの威力はmin(初期設定のlaser_power, 発射時のパラメーター)
 // heatは実際に発射された威力分上昇
 
-const MAX_STEP: usize = 256;
-
-#[derive(Clone)]
 struct Bot {
     stage: CurrentGameState,
     static_info: StageData,
     state: CurrentState,
+    cmd_queue: VecDeque<Vec<Command>>,
 }
 
 static VECT: &[Point] = &[
@@ -33,7 +35,9 @@ static VECT: &[Point] = &[
 
 #[derive(Clone)]
 struct Problem {
-    bot: Bot,
+    static_info: StageData,
+    state: CurrentState,
+    me: Machine,
 }
 
 impl Annealer for Problem {
@@ -41,7 +45,7 @@ impl Annealer for Problem {
     type Move = (usize, (i64, i64), (i64, i64));
 
     fn init_state(&self, rng: &mut impl rand::Rng) -> Self::State {
-        let rest_step = self.bot.static_info.total_turns - self.bot.state.turn;
+        let rest_step = min(20, self.static_info.total_turns - self.state.turn);
         let mut v = vec![(0, 0); rest_step];
 
         for r in v.iter_mut() {
@@ -53,31 +57,39 @@ impl Annealer for Problem {
     }
 
     fn eval(&self, state: &Self::State) -> f64 {
-        let me = self.bot.get_me();
+        let rest_step = self.static_info.total_turns - self.state.turn;
 
-        let mut cur = me.position;
-        let mut heat = me.heat;
-        let mut velo = me.velocity;
+        let mut cur = self.me.position;
+        let mut heat = self.me.heat;
+        let mut velo = self.me.velocity;
 
         let mut ovh_pena = 0;
         let mut comp_step = 0;
         let mut use_acc = 0;
+        let mut last_use = 0;
 
-        for &(dx, dy) in state.iter() {
+        for step in 0..rest_step {
+            let (dx, dy) = if step < state.len() {
+                state[step]
+            } else {
+                (0, 0)
+            };
+
             velo -= Point::new(dx as _, dy as _);
-            velo += get_gravity(&self.bot.state, &cur);
+            velo += get_gravity(&self.state, &cur);
             cur += velo;
 
-            if !self.bot.is_safe(&cur) {
+            if !is_safe(&self.static_info, &cur) {
                 break;
             }
 
             if dx != 0 || dy != 0 {
                 heat += 8;
                 use_acc += 1;
+                last_use = step;
             }
 
-            heat -= min(heat, me.params.cool_down_per_turn);
+            heat -= min(heat, self.me.params.cool_down_per_turn);
 
             if heat > 64 {
                 let over = heat - 64;
@@ -88,14 +100,15 @@ impl Annealer for Problem {
             comp_step += 1;
         }
 
-        // dbg!(comp_step, state.len(), use_acc, ovh_pena);
+        // dbg!(comp_step, state.len(), rest_step, use_acc, ovh_pena);
 
-        let score = if comp_step < state.len() {
+        let score = if comp_step < rest_step {
             // 完走できず
-            1000 + state.len() - comp_step
+            1000 + rest_step - comp_step
         } else {
             // アクセル使った回数にオーバーヒートペナを加味して
-            use_acc + ovh_pena * 10
+            // -> やっぱ最終利用にしたほうがよさそう
+            last_use + ovh_pena * 10
         };
 
         score as f64
@@ -129,6 +142,18 @@ impl Annealer for Problem {
     }
 }
 
+fn is_safe(stage: &StageData, p: &Point) -> bool {
+    if let Some(obs) = &stage.obstacle {
+        if p.x.abs() <= obs.gravity_radius as isize && p.y.abs() <= obs.gravity_radius as isize {
+            return false;
+        }
+        if p.x.abs() > obs.stage_half_size as isize || p.y.abs() > obs.stage_half_size as isize {
+            return false;
+        }
+    }
+    true
+}
+
 impl Bot {
     fn new() -> Result<Bot> {
         let resp = send_join_request()?;
@@ -136,6 +161,7 @@ impl Bot {
             stage: resp.current_game_state,
             static_info: resp.stage_data,
             state: Default::default(),
+            cmd_queue: VecDeque::new(),
         })
     }
 
@@ -197,7 +223,8 @@ impl Bot {
                 }
             } else {
                 // ディフェンダーはパワーに振らない
-                // cool_down_per_turnは8あれば十分
+                // スラスターを使い放題にするためにcool_down_per_turnを8にしたい
+                // あとはライフとエネルギーを均等に
 
                 if param_rest >= 12
                     && param.cool_down_per_turn < 8
@@ -205,6 +232,12 @@ impl Bot {
                 {
                     param.cool_down_per_turn += 1;
                     param_rest -= 12;
+                    continue;
+                }
+
+                if param_rest >= 2 && param.life <= param.energy {
+                    param.life += 1;
+                    param_rest -= 2;
                     continue;
                 }
             }
@@ -238,14 +271,25 @@ impl Bot {
 
     fn step(&mut self) -> Result<()> {
         assert_eq!(self.stage, CurrentGameState::PLAYING);
-        let cmds = self.think();
+
+        let cmds = if self.get_me().role == Role::ATTACKER {
+            self.attacker()
+        } else {
+            self.defender()
+        };
+
         self.apply_response(send_command_request(&mut cmds.into_iter())?);
         Ok(())
     }
 
-    fn think(&mut self) -> Vec<Command> {
+    fn attacker(&mut self) -> Vec<Command> {
         dbg!(self.static_info.self_role);
         dbg!(&self.state);
+
+        // コマンドキューが残ってるならそれを使う
+        if let Some(cs) = self.cmd_queue.pop_front() {
+            return cs;
+        }
 
         let mut cmds = vec![];
 
@@ -256,20 +300,41 @@ impl Bot {
         // TODO: アタッカー：偶然自爆で殺せる位置にいたとき、自爆する
         // TODO: ディフェンダー：打たれそうになったら、移動して直撃を避けようとする
 
-        let sol = annealing(
-            &Problem { bot: self.clone() },
-            &AnnealingOptions::new(0.2, 1000.0, 0.1),
-        );
+        // 周回軌道に乗るってるか？
+        if self.state.turn + self.live_time(self.get_me(), &Point::new(0, 0))
+            < self.static_info.total_turns
+        {
+            // 乗ってない
+            // 周回軌道へ速やかに乗る
+            eprintln!("Searching geocentric orbit...");
 
-        if !sol.is_empty() {
-            let dx = sol[0].0;
-            let dy = sol[0].1;
+            let mut sol = annealing(
+                &Problem {
+                    static_info: self.static_info.clone(),
+                    state: self.state.clone(),
+                    me: self.get_me().clone(),
+                },
+                &AnnealingOptions::new(0.8, 1000.0, 0.1),
+            );
 
-            if dx != 0 || dy != 0 {
-                cmds.push(Command::Thrust(
-                    self.get_me().machine_id as _,
+            while !sol.is_empty() && sol[sol.len() - 1] == (0, 0) {
+                sol.pop();
+            }
+
+            let mut first = true;
+
+            for (dx, dy) in sol {
+                let cs = vec![Command::Thrust(
+                    self.get_me().machine_id,
                     Point::new(dx as _, dy as _),
-                ));
+                )];
+
+                if first {
+                    first = false;
+                    cmds = cs;
+                } else {
+                    self.cmd_queue.push_back(cs);
+                }
             }
         }
 
@@ -295,7 +360,7 @@ impl Bot {
                 for dy in -1..=1 {
                     for dx in -1..=1 {
                         // ここにはいないだろう
-                        if !self.is_safe(&next_ene_pos) {
+                        if !is_safe(&self.static_info, &next_ene_pos) {
                             continue;
                         }
 
@@ -338,52 +403,141 @@ impl Bot {
         cmds
     }
 
-    // fn live_time(&self, r: &Machine, acc: &Point) -> usize {
-    //     let step_limit = MAX_STEP - self.state.turn;
+    fn defender(&mut self) -> Vec<Command> {
+        dbg!(self.static_info.self_role);
+        dbg!(&self.state);
 
-    //     let mut ret = 0;
-    //     let mut v = r.velocity - *acc;
-    //     let mut cur = r.position;
+        // コマンドキューが残ってるならそれを使う
+        if let Some(cs) = self.cmd_queue.pop_front() {
+            return cs;
+        }
 
-    //     while ret < step_limit {
-    //         v += get_gravity(&self.state, &cur);
-    //         cur += v;
+        let mut cmds = vec![];
 
-    //         if !self.is_safe(&cur) {
-    //             break;
-    //         }
+        // なるべく早く周回軌道を見つける
 
-    //         ret += 1;
-    //     }
+        // 周回軌道に乗るってるか？
+        if self.state.turn + self.live_time(self.get_me(), &Point::new(0, 0))
+            < self.static_info.total_turns
+        {
+            // 乗ってない
+            // 周回軌道へ速やかに乗る
+            eprintln!("Searching geocentric orbit...");
 
-    //     dbg!(ret);
+            // FIXME: DFSかIDにでもする
+            let mut sol = annealing(
+                &Problem {
+                    static_info: self.static_info.clone(),
+                    state: self.state.clone(),
+                    me: self.get_me().clone(),
+                },
+                &AnnealingOptions::new(0.88, 1000.0, 0.1),
+            );
 
-    //     ret
-    // }
-
-    fn is_safe(&self, p: &Point) -> bool {
-        if let Some(obs) = &self.static_info.obstacle {
-            if p.x.abs() <= obs.gravity_radius as isize && p.y.abs() <= obs.gravity_radius as isize
-            {
-                return false;
+            while !sol.is_empty() && sol[sol.len() - 1] == (0, 0) {
+                sol.pop();
             }
 
-            if p.x.abs() > obs.stage_half_size as isize || p.y.abs() > obs.stage_half_size as isize
+            let mut first = true;
+
+            for (dx, dy) in sol {
+                let cs = vec![Command::Thrust(
+                    self.get_me().machine_id,
+                    Point::new(dx as _, dy as _),
+                )];
+
+                if first {
+                    first = false;
+                    cmds = cs;
+                } else {
+                    self.cmd_queue.push_back(cs);
+                }
+            }
+        } else {
+            // ライフが2以上あれば、分裂する
+            // その後ランダムに移動する
+
+            let np = self.next_pos(self.get_me());
+
+            if self.get_me().params.energy >= 2
+                && self.get_me().params.life >= 2
+                && (np.x.abs() > self.grav_area() * 2 || np.y.abs() > self.grav_area() * 2)
             {
-                return false;
+                eprintln!("Splitting...");
+
+                cmds.push(Command::Split(
+                    self.get_me().machine_id,
+                    Param {
+                        energy: 0,
+                        laser_power: 0,
+                        cool_down_per_turn: 0,
+                        life: 1,
+                    },
+                ));
+
+                let (dx, dy) = loop {
+                    let dx = rand::thread_rng().gen_range(-1, 2);
+                    let dy = rand::thread_rng().gen_range(-1, 2);
+                    if (dx, dy) != (0, 0) {
+                        break (dx, dy);
+                    }
+                };
+
+                self.cmd_queue.push_back(vec![Command::Thrust(
+                    self.get_me().machine_id,
+                    Point::new(dx, dy),
+                )]);
             }
         }
-        true
+
+        cmds
     }
 
-    fn get_me(&self) -> &Machine {
-        for m in self.state.machines.iter() {
-            let m = &m.0;
-            if m.role == self.static_info.self_role {
-                return m;
-            }
+    fn next_pos(&self, m: &Machine) -> Point {
+        m.position + m.velocity + get_gravity(&self.state, &m.position)
+    }
+
+    fn grav_area(&self) -> isize {
+        if let Some(obs) = &self.static_info.obstacle {
+            obs.gravity_radius as isize
+        } else {
+            0
         }
-        panic!("Cannot find me")
+    }
+
+    fn live_time(&self, r: &Machine, acc: &Point) -> usize {
+        let step_limit = self.static_info.total_turns - self.state.turn;
+
+        let mut ret = 0;
+        let mut v = r.velocity - *acc;
+        let mut cur = r.position;
+
+        while ret < step_limit {
+            v += get_gravity(&self.state, &cur);
+            cur += v;
+
+            if !is_safe(&self.static_info, &cur) {
+                break;
+            }
+
+            ret += 1;
+        }
+
+        dbg!(ret);
+
+        ret
+    }
+
+    // 自分の中で、一番でかいやつを見つける
+    fn get_me(&self) -> &Machine {
+        &self
+            .state
+            .machines
+            .iter()
+            .filter(|r| r.0.role == self.static_info.self_role)
+            .max_by_key(|r| r.0.params.life)
+            .expect("Cannot find me")
+            .0
     }
 
     fn get_some_enemy(&self) -> &Machine {
