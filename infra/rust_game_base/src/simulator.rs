@@ -225,18 +225,7 @@ fn self_destruct_power(m: &Machine) -> (usize, usize) {
     let area = 32;
     let sumenergy =
         m.params.energy + m.params.laser_power + m.params.cool_down_per_turn + m.params.life;
-    if sumenergy <= 1 {
-        (9, 128)
-    } else if sumenergy <= 2 {
-        (11, 161)
-    } else if sumenergy <= 3 {
-        (11, 181)
-    } else if sumenergy <= 15 {
-        (17, 256)
-    } else {
-        // sumenergy <= 511 ?
-        (25, 384)
-    }
+    (area, lookup_destruct_power_table(sumenergy))
 }
 
 fn do_self_destruct(s: &mut CurrentState, all_actions: &Vec<Command>) {
