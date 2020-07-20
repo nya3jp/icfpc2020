@@ -11,7 +11,7 @@ function startMissingResults(): void {
     try {
         let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
         let [currentBots, subIdToBranch, subIdToCommit] = getOurLatestBots();
-        let topPlayers = getOpponents().slice(0, 10);
+        let topPlayers = getOpponents().slice(0, 20);
         let ourBots = ['bot_kimiyuki', 'bot_psh_testbot', 'tanakh_super_bot'];
 
         for (var [oppName, oppSubId] of topPlayers) {
@@ -41,7 +41,7 @@ function loadResults(): void {
     try {
         let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
         let [currentBots, subIdToBranch, subidToCommit] = getOurLatestBots();
-        let topPlayers = getOpponents().slice(0, 10);
+        let topPlayers = getOpponents().slice(0, 20);
         let ourBots = ['bot_kimiyuki', 'bot_psh_testbot', 'tanakh_super_bot'];
 
         let head = [];
