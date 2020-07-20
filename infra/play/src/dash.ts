@@ -17,7 +17,7 @@ function startMissingResults(): void {
     try {
         let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
         let [currentBots, subIdToBranch, subidToCommit, activeSub] = getOurLatestBots();
-        let topPlayers = getOpponents().slice(0, TEAM_SIZE);
+        let topPlayers = getOpponents();
         let botIDs = Object.values(currentBots);
         if (!botIDs.includes(activeSub)) {
             botIDs.push(activeSub);
@@ -49,7 +49,7 @@ function loadResults(): void {
     try {
         let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
         let [currentBots, subIdToBranch, subidToCommit, activeSub] = getOurLatestBots();
-        let topPlayers = getOpponents().slice(0, TEAM_SIZE);
+        let topPlayers = getOpponents();
 
         let botIDs = Object.values(currentBots);
         if (!botIDs.includes(activeSub)) {
@@ -132,7 +132,7 @@ function getOpponents(): Array<[string, number]> {
     }
 
     submissions.sort((a, b) => b[0] - a[0]);
-    for (var [score, name, subid] of submissions) {
+    for (var [score, name, subid] of submissions.slice(0, TEAM_SIZE)) {
         ret.push([name, subid]);
     }
     return ret;
