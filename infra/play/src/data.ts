@@ -1,4 +1,5 @@
 import {evaluate} from './eval';
+import {Picture} from './picture';
 
 export type Value = NumberValue | FuncValue;
 
@@ -161,6 +162,34 @@ export function valueToPrettyData(env: Environment, value: Value): PrettyData {
                 const cdr = evaluate(env, makeApply(makeReference('cdr'), cur));
                 cur = cdr;
             }
+    }
+}
+
+export function prettyDataEqual(a: PrettyData, b: PrettyData): boolean {
+    switch (a.kind) {
+        case 'number':
+            if (b.kind !== 'number') {
+                return false;
+            }
+            return a.number === b.number;
+        case 'list':
+            if (b.kind !== 'list') {
+                return false;
+            }
+            if (a.elems.length !== b.elems.length) {
+                return false;
+            }
+            for (let i = 0; i < a.elems.length; ++i) {
+                if (!prettyDataEqual(a.elems[i], b.elems[i])) {
+                    return false;
+                }
+            }
+            return true;
+        case 'cons':
+            if (b.kind !== 'cons') {
+                return false;
+            }
+            return prettyDataEqual(a.car, b.car) && prettyDataEqual(a.cdr, b.cdr);
     }
 }
 

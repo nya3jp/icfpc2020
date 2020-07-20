@@ -27,3 +27,29 @@ export function parsePictures(data: PrettyData): Array<Picture> {
     }
     return data.elems.map(parsePicture);
 }
+
+export function pictureEqual(a: Picture, b: Picture): boolean {
+    if (a.points.length !== b.points.length) {
+        return false;
+    }
+    for (let i = 0; i < a.points.length; i++) {
+        const pa = a.points[i];
+        const pb = b.points[i];
+        if (pa.x !== pb.x || pa.y !== pb.y) {
+            return false;
+        }
+    }
+    return true;
+}
+
+export function picturesEqual(a: Array<Picture>, b: Array<Picture>): boolean {
+    if (a.length !== b.length) {
+        return false;
+    }
+    for (let i = 0; i < a.length; i++) {
+        if (!pictureEqual(a[i], b[i])) {
+            return false;
+        }
+    }
+    return true;
+}
