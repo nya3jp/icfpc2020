@@ -167,8 +167,8 @@ pub struct StageData {
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct InitializeParam {
     pub total_cost: usize,
-    pub _2: isize,
-    pub _3: isize,
+    pub thrust_limit: usize,
+    pub heat_limit: usize,
 }
 
 // deserialized response.

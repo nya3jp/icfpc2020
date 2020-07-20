@@ -82,10 +82,10 @@ fn parse_obstacle(val: Value) -> Result<Option<Obstacle>> {
 
 fn parse_initialize_param(val: Value) -> Result<InitializeParam> {
     Ok(match to_vec(val.clone())?.as_slice() {
-        [total_cost, _2, _3] => InitializeParam {
+        [total_cost, thrust_limit, heat_limit] => InitializeParam {
             total_cost: to_int(total_cost)? as usize,
-            _2: to_int(_2)? as isize,
-            _3: to_int(_3)? as isize,
+            thrust_limit: to_int(thrust_limit)? as usize,
+            heat_limit: to_int(heat_limit)? as usize,
         },
         _ => bail!("unexpected initialize param: {}", val.to_string()),
     })
