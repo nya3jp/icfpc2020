@@ -419,12 +419,12 @@ impl Bot {
 
                             let v = next_me_pos - Point::new(dx, dy) - next_ene_pos;
 
-                            // スイートスポット以外は打たない
-                            let zure =
-                                min(v.x.abs(), min(v.y.abs(), (v.x.abs() - v.y.abs()).abs()));
-                            if zure >= 9 {
-                                continue;
-                            }
+                            // // スイートスポット以外は打たない
+                            // let zure =
+                            //     min(v.x.abs(), min(v.y.abs(), (v.x.abs() - v.y.abs()).abs()));
+                            // if zure >= 9 {
+                            //     continue;
+                            // }
 
                             // ずれてるときは移動しながら打つのでヒートに余裕を見る
                             let max_beam_pow = min(
