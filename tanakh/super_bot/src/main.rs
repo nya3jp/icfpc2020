@@ -221,7 +221,8 @@ impl Bot {
                 }
 
                 if param_rest >= 4
-                    && param.laser_power < self.static_info.initialize_param.heat_limit as usize
+                    && param.laser_power
+                        < min(96, self.static_info.initialize_param.heat_limit) as usize
                     && param.laser_power * 2 <= param.energy * 4
                 {
                     param.laser_power += 1;
@@ -322,7 +323,7 @@ impl Bot {
                     state: self.state.clone(),
                     me: self.get_me().clone(),
                 },
-                &AnnealingOptions::new(0.8, 1000.0, 0.1),
+                &AnnealingOptions::new(0.4, 1000.0, 0.1),
             );
 
             while !sol.is_empty() && sol[sol.len() - 1] == (0, 0) {
@@ -467,7 +468,7 @@ impl Bot {
                     state: self.state.clone(),
                     me: self.get_leader().clone(),
                 },
-                &AnnealingOptions::new(0.88, 1000.0, 0.1),
+                &AnnealingOptions::new(0.4, 1000.0, 0.1),
             );
 
             while !sol.is_empty() && sol[sol.len() - 1] == (0, 0) {
@@ -524,11 +525,15 @@ impl Bot {
                 }
 
                 let (dx, dy) = loop {
-                    let dx = rand::thread_rng().gen_range(-1, 2);
-                    let dy = rand::thread_rng().gen_range(-1, 2);
-                    if (dx, dy) != (0, 0) {
-                        break (dx, dy);
-                    }
+                    // let dx = rand::thread_rng().gen_range(-1, 2);
+                    // let dy = rand::thread_rng().gen_range(-1, 2);
+                    // if (dx, dy) != (0, 0) {
+                    //     break (dx, dy);
+                    // }
+                    break (
+                        -(self.get_leader().position.x.signum() as isize),
+                        -(self.get_leader().position.x.signum() as isize),
+                    );
                 };
 
                 self.cmd_queue.push_back(vec![Command::Thrust(
