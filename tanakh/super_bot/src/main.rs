@@ -453,7 +453,7 @@ impl Bot {
         // なるべく早く周回軌道を見つける
 
         // 周回軌道に乗るってるか？
-        if self.state.turn + self.live_time(self.get_me(), &Point::new(0, 0))
+        if self.state.turn + self.live_time(self.get_leader(), &Point::new(0, 0))
             < self.static_info.total_turns
         {
             // 乗ってない
@@ -465,7 +465,7 @@ impl Bot {
                 &Problem {
                     static_info: self.static_info.clone(),
                     state: self.state.clone(),
-                    me: self.get_me().clone(),
+                    me: self.get_leader().clone(),
                 },
                 &AnnealingOptions::new(0.88, 1000.0, 0.1),
             );
@@ -478,7 +478,7 @@ impl Bot {
 
             for (dx, dy) in sol {
                 let cs = vec![Command::Thrust(
-                    self.get_me().machine_id,
+                    self.get_leader().machine_id,
                     Point::new(dx as _, dy as _),
                 )];
 
@@ -493,23 +493,35 @@ impl Bot {
             // ライフが2以上あれば、分裂する
             // その後ランダムに移動する
 
-            let np = self.next_pos(self.get_me());
+            let np = self.next_pos(self.get_leader());
 
-            if self.get_me().params.energy >= 5
-                && self.get_me().params.life >= 2
+            if self.get_leader().params.energy >= 5
+                && self.get_leader().params.life >= 2
                 && (np.x.abs() > self.grav_area() * 3 / 2 || np.y.abs() > self.grav_area() * 3 / 2)
             {
                 eprintln!("Splitting...");
 
-                cmds.push(Command::Split(
-                    self.get_me().machine_id,
-                    Param {
-                        energy: self.get_me().params.energy / 2,
-                        laser_power: 0,
-                        cool_down_per_turn: 0,
-                        life: self.get_me().params.life / 2,
-                    },
-                ));
+                if self.leader_num() == 1 {
+                    cmds.push(Command::Split(
+                        self.get_leader().machine_id,
+                        Param {
+                            energy: self.get_leader().params.energy / 2,
+                            laser_power: 0,
+                            cool_down_per_turn: 0,
+                            life: self.get_leader().params.life / 2 - 1,
+                        },
+                    ));
+                } else {
+                    cmds.push(Command::Split(
+                        self.get_leader().machine_id,
+                        Param {
+                            energy: 0,
+                            laser_power: 0,
+                            cool_down_per_turn: 0,
+                            life: 1,
+                        },
+                    ));
+                }
 
                 let (dx, dy) = loop {
                     let dx = rand::thread_rng().gen_range(-1, 2);
@@ -520,7 +532,7 @@ impl Bot {
                 };
 
                 self.cmd_queue.push_back(vec![Command::Thrust(
-                    self.get_me().machine_id,
+                    self.get_leader().machine_id,
                     Point::new(dx, dy),
                 )]);
             }
@@ -574,6 +586,27 @@ impl Bot {
             .max_by_key(|r| r.0.params.life)
             .expect("Cannot find me")
             .0
+    }
+
+    fn get_leader(&self) -> &Machine {
+        self
+            .state
+            .machines
+            .iter()
+            .filter(|r| r.0.role == self.static_info.self_role)
+            .filter(|r| r.0.params.life > 1)
+            .min_by_key(|r| r.0.machine_id)
+            .map_or_else(|| self.get_me(), |r| &r.0)
+    }
+
+    fn leader_num(&self) -> usize {
+        self
+            .state
+            .machines
+            .iter()
+            .filter(|r| r.0.role == self.static_info.self_role)
+            .filter(|r| r.0.params.life > 1)
+            .count()
     }
 
     fn get_some_enemy(&self) -> &Machine {
