@@ -615,6 +615,32 @@ impl Bot {
                     self.get_leader().machine_id,
                     Point::new(dx, dy),
                 )]);
+            } else {
+                // if we have enough bots, and the attacker is only one.
+                // try to give some damage to the attacker.
+                let machines = self.get_machines();
+                if machines.len() > 12 && self.get_num_enemies() == 1 {
+                    let enemy = self.get_some_enemy();
+
+                    let next_ene_pos = self.next_pos(enemy);
+                    let mut dmg = 0;
+                    let mut remaining = 4;
+                    'search: for d in 0..=3 {
+                        for m in machines.iter() {
+                            let next_pos = self.next_pos(m);
+                            let diff = next_pos - next_ene_pos;
+                            let distance = max(diff.x.abs(), diff.y.abs());
+                            if d == distance {
+                                dmg += 128 - 32 * d;
+                                cmds.push(Command::Bomb(m.machine_id));
+                                remaining -= 1;
+                                if remaining == 0 {
+                                    break 'search;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -678,6 +704,19 @@ impl Bot {
             .map_or_else(|| self.get_me(), |r| &r.0)
     }
 
+    fn get_machines(&self) -> Vec<&Machine> {
+        self.state
+            .machines
+            .iter()
+            .filter(|r| r.0.role == self.static_info.self_role)
+            .filter(|r| r.0.params.energy == 0 &&
+                    r.0.params.laser_power == 0 &&
+                    r.0.params.cool_down_per_turn == 0 &&
+                    r.0.params.life == 1)
+            .map(|r| &r.0)
+            .collect()
+    }
+
     fn leader_num(&self) -> usize {
         self.state
             .machines
@@ -695,6 +734,14 @@ impl Bot {
             }
         }
         panic!("Cannot find enemy")
+    }
+
+    fn get_num_enemies(&self) -> usize {
+        self.state
+            .machines
+            .iter()
+            .filter(|r| r.0.role != self.static_info.self_role)
+            .count()
     }
 }
 
