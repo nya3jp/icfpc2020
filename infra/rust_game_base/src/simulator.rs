@@ -97,13 +97,13 @@ fn do_laser_helper(s: &mut CurrentState, shipnum: isize, target: &Point, power: 
     let origin = lookup_machine(s, shipnum).unwrap();
     let dx = *target - origin.position;
     let damage_base = laser_damage_base(&dx);
-    let diminish = dx.l0_distance() - 1;
+    let diminish = dx.lmax_distance() - 1;
     let damage = max(damage_base * power - diminish, 0); // should be OK because it's isize
     for mpair in &mut s.machines {
         // check position
         let m = &mut mpair.0;
         let dpos = m.position - *target;
-        let dist = dpos.l0_distance();
+        let dist = dpos.lmax_distance();
         let finaldamage = if dist > 15 {
             0
         } else {
@@ -142,7 +142,7 @@ fn do_self_destruct_helper(
     attackorigin: Point,
 ) {
     for mpair in &mut s.machines {
-        let distance = (mpair.0.position - attackorigin).l0_distance();
+        let distance = (mpair.0.position - attackorigin).lmax_distance();
         if distance as usize <= size {
             // TODO: Verify this.
             let diminish = 32 * (distance as usize);
@@ -164,7 +164,65 @@ fn do_self_destruct_helper(
     }
 }
 
+const SELF_DESTRUCT_TABLE: [(usize, usize); 35] = [
+    (1, 128),
+    (2, 161),
+    (3, 181),
+    (4, 195),
+    (5, 205),
+    (6, 214),
+    (8, 227),
+    (9, 233),
+    (10, 238),
+    (12, 246),
+    (15, 256),
+    (16, 258),
+    (17, 261),
+    (18, 263),
+    (19, 266),
+    (24, 275),
+    (32, 287),
+    (33, 288),
+    (40, 296),
+    (48, 303),
+    (56, 309),
+    (64, 314),
+    (65, 314),
+    (72, 318),
+    (80, 322),
+    (96, 328),
+    (100, 330),
+    (110, 333),
+    (128, 338),
+    (178, 350),
+    (323, 369),
+    (333, 370),
+    (343, 371),
+    (380, 374),
+    (384, 375),
+];
+
+fn lookup_destruct_power_table(sumenergy: usize) -> usize {
+    let pos = SELF_DESTRUCT_TABLE.binary_search_by_key(&sumenergy, |&(a, b)| a);
+    match pos {
+        Ok(index) => SELF_DESTRUCT_TABLE[index].1,
+        Err(index) => {
+            if index >= SELF_DESTRUCT_TABLE.len() {
+                return SELF_DESTRUCT_TABLE.last().unwrap().1;
+            } else if index == 0 {
+                return 0;
+            }
+            let left = SELF_DESTRUCT_TABLE[index - 1];
+            let right = SELF_DESTRUCT_TABLE[index];
+            let dx = right.0 - left.0;
+            let dy = right.1 - left.1;
+            left.1 + (sumenergy - left.0) * dy / dx
+        }
+    }
+}
+
 fn self_destruct_power(m: &Machine) -> (usize, usize) {
+    let area = 32;
     let sumenergy =
         m.params.energy + m.params.laser_power + m.params.cool_down_per_turn + m.params.life;
     if sumenergy <= 1 {
@@ -205,7 +263,7 @@ fn state_update_velocities(cstate: &mut CurrentState, commands: &Vec<Command>) {
     for c in commands {
         match c {
             Command::Thrust(shipnum, delta) => {
-                if (delta.l0_distance() == 0) {
+                if (delta.lmax_distance() == 0) {
                     panic!("Thrust(0,0) cannot be chosen in alien GUI")
                 };
                 if thrust_ids.iter().any(|x| *x == shipnum) {
@@ -245,7 +303,7 @@ fn state_update_kill_gravity(cstate: &mut CurrentState) {
         Some(obs) => {
             for m in &mut cstate.machines {
                 let pos = m.0.position;
-                if pos.l0_distance() <= obs.gravity_radius as isize {
+                if pos.lmax_distance() <= obs.gravity_radius as isize {
                     // kill
                     m.0.params = Param {
                         energy: 0,
@@ -590,5 +648,17 @@ mod tests {
             }
         );
         assert_eq!(updated.machines[1].0.heat, 120);
+    }
+
+    #[test]
+    fn power_table_test() {
+        assert_eq!(lookup_destruct_power_table(1), 128);
+        assert_eq!(lookup_destruct_power_table(2), 161);
+        assert_eq!(lookup_destruct_power_table(3), 181);
+        assert!(lookup_destruct_power_table(11) > 238);
+        assert!(lookup_destruct_power_table(11) < 246);
+        assert_eq!(lookup_destruct_power_table(384), 375);
+        assert!(lookup_destruct_power_table(385) >= 375);
+        assert!(lookup_destruct_power_table(0) < 128);
     }
 }

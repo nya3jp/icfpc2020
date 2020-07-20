@@ -24,7 +24,7 @@ impl Point {
             Box::new(Value::Int(self.y as i128)),
         )
     }
-    pub fn l0_distance(&self) -> isize {
+    pub fn lmax_distance(&self) -> isize {
         std::cmp::max(self.x.abs(), self.y.abs())
     }
     pub fn dist(self, p: Point) -> f64 {
