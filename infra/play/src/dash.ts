@@ -6,7 +6,11 @@ const refreshElem = document.getElementById('refresh') as HTMLButtonElement;
 const missingRunElem = document.getElementById('run_missing') as HTMLButtonElement;
 
 const MY_TEAM_ID = '3dfa39ba-93b8-4173-92ad-51da07002f1b';
-const OUR_BOTS: Array<string> = ['bot_kimiyuki', 'bot_psh_testbot', 'tanakh_super_bot'];
+const OUR_BOTS: Array<string> = [
+    'bot_kimiyuki',
+    'tanakh_super_bot',
+];
+const TEAM_SIZE = 30;
 
 function startMissingResults(): void {
     refreshElem.disabled = true;
@@ -14,7 +18,7 @@ function startMissingResults(): void {
     try {
         let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
         let [currentBots, subIdToBranch, subidToCommit, activeSub] = getOurLatestBots();
-        let topPlayers = getOpponents().slice(0, 20);
+        let topPlayers = getOpponents().slice(0, TEAM_SIZE);
         let botIDs = Object.values(currentBots);
         if (!botIDs.includes(activeSub)) {
             botIDs.push(activeSub);
@@ -46,7 +50,7 @@ function loadResults(): void {
     try {
         let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
         let [currentBots, subIdToBranch, subidToCommit, activeSub] = getOurLatestBots();
-        let topPlayers = getOpponents().slice(0, 20);
+        let topPlayers = getOpponents().slice(0, TEAM_SIZE);
 
         let botIDs = Object.values(currentBots);
         if (!botIDs.includes(activeSub)) {
