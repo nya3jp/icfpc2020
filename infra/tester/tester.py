@@ -184,7 +184,7 @@ def post_to_server(command):
         data=command.encode('utf-8'),
         method='POST')
     req.add_header('Content-Type', 'text/plain')
-    with urllib.request.urlopen(req, timeout=10) as resp:
+    with urllib.request.urlopen(req) as resp:
         if resp.status != 200:
             logging.error('tester: non-200 response %s', resp)
             sys.exit(1)

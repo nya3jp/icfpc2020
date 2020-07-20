@@ -330,3 +330,125 @@ pub fn laser(state: &CurrentState, machine_id: isize, target: Point) -> Option<C
     let machine = get_machine_by_id(state, machine_id).unwrap();
     return Some(Command::Beam(machine_id, target, 32));
 }
+
+fn is_dead(obstacle: &Obstacle, position: &Point) -> bool {
+    cmp::max(position.x.abs(), position.y.abs()) < (obstacle.gravity_radius as isize)
+        || cmp::min(position.x.abs(), position.y.abs()) > (obstacle.stage_half_size as isize)
+}
+
+fn run_until_end(
+    num_turns: usize,
+    obstacle: &Option<Obstacle>,
+    init_position: Point,
+    init_velocity: Point,
+) -> bool {
+    if obstacle.is_none() {
+        return true;
+    }
+
+    let obstacle = obstacle.as_ref().unwrap();
+    if is_dead(obstacle, &init_position) {
+        return false;
+    }
+
+    let mut position = init_position;
+    let mut velocity = init_velocity;
+    for _ in 0..num_turns {
+        velocity += get_gravity_from_point(&position);
+        position += velocity;
+        if is_dead(obstacle, &position) {
+            return false;
+        }
+    }
+    true
+}
+
+pub fn make_surviving_path(
+    stage: &StageData,
+    state: &CurrentState,
+    machine_id: isize,
+    max_depth: usize,
+) -> Option<Vec<Option<Command>>> {
+    let mut visited = HashMap::new();
+    let mut queue = VecDeque::new();
+
+    let machine = get_machine_by_id(state, machine_id).unwrap();
+    let num_remaining_turns = stage.total_turns - state.turn;
+
+    if run_until_end(
+        num_remaining_turns,
+        &state.obstacle,
+        machine.position,
+        machine.velocity,
+    ) {
+        // Do nothing!
+        return Some(vec![]);
+    }
+
+    let init = BfsState::new(machine.position, machine.velocity);
+    visited.insert(init.clone(), None);
+    queue.push_back((init.clone(), 0));
+    let found = 'search: loop {
+        if queue.is_empty() {
+            break None;
+        }
+        let top = queue.pop_front().unwrap();
+        eprintln!("== top == {:?}", top);
+        let turn = top.1;
+        let top = top.0;
+        for ax in -1..=1 {
+            for ay in -1..=1 {
+                let nv = top.velocity + Point::new(ax, ay);
+                let np = top.position + nv;
+
+                let mut inserted = false;
+                let mut insert = || {
+                    inserted = true;
+                    Some(top.clone())
+                };
+                let nstate = BfsState::new(np, nv);
+                visited.entry(nstate.clone()).or_insert_with(insert);
+                if !inserted {
+                    continue;
+                }
+
+                if run_until_end(num_remaining_turns, &state.obstacle, np, nv) {
+                    // Found.
+                    break 'search Some(nstate);
+                }
+                if turn + 1 < max_depth {
+                    queue.push_back((nstate, turn + 1))
+                }
+            }
+        }
+    };
+
+    if found.is_none() {
+        return None;
+    }
+
+    // Back track.
+    let mut result = vec![];
+    let mut cur = found.unwrap();
+    loop {
+        let prev = visited.get(&cur);
+        if prev.is_none() {
+            // Should not happen.
+            return None;
+        }
+        let prev = prev.unwrap();
+        if prev.is_none() {
+            // At the end.
+            result.reverse();
+            return Some(result);
+        }
+        let prev = prev.as_ref().unwrap();
+        let dv = cur.velocity - prev.velocity;
+        if dv == Point::new(0, 0) {
+            result.push(None);
+        } else {
+            result.push(Some(Command::Thrust(machine_id, -dv)));
+        }
+        cur = prev.clone();
+    }
+}
