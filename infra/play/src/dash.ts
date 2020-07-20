@@ -308,7 +308,7 @@ function init(): void {
     if (getApiKey() != '') {
         loadResults();
         if (location.href.indexOf('__autorun__') >= 0) {
-            window.setTimeout(startMissingResults, 1000 * 30);
+            window.setInterval(startMissingResults, 1000 * 30);
         }
     }
 }
