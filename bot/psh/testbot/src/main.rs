@@ -16,9 +16,10 @@ fn main() -> Result<()> {
         return stay_bot(resp);
     }
 
-    laser_test(resp)
+    // laser_test(resp)
     // heat_test1(resp)
     // move_test1(resp)
+    survive_test(resp)
 }
 
 fn stay_bot(resp: rust_game_base::Response) -> Result<()> {
@@ -163,4 +164,45 @@ fn laser_test(resp: rust_game_base::Response) -> Result<()> {
             &mut next_actions.into_iter())?;
     }
 
+}
+
+fn survive_test(resp: rust_game_base::Response) -> Result<()> {
+    let self_role = resp.stage_data.self_role;
+    eprintln!("send_start_request");
+    let mut res = rust_game_base::send_start_request(&rust_game_base::Param{
+        energy: resp.stage_data.initialize_param.total_cost - 8 * 12 - 2,
+        laser_power: 0,
+        cool_down_per_turn: 8,
+        life: 1
+    })?;
+
+    // find self machines.
+    let self_machine_ids = rust_game_base::get_roled_machine_ids(
+        res.current_state.as_ref().unwrap(), self_role);
+    eprintln!("machine_ids: {:?}", self_machine_ids);
+
+    eprintln!("send_command_request");
+    loop {
+        if res.current_game_state == rust_game_base::CurrentGameState::END {
+            return Ok(());
+        }
+        let next_actions = self_machine_ids.iter()
+            .filter_map(
+                |id| {
+                    let p = actions::make_surviving_path(
+                        &res.stage_data,
+                        res.current_state.as_ref().unwrap(),
+                        *id,
+                        7,
+                    );
+                    if let Some(path) = p {
+                        path[0]
+                    } else {
+                        actions::stay(res.current_state.as_ref().unwrap(), *id)
+                    }
+                })
+            .collect::<Vec<_>>();
+        res = rust_game_base::send_command_request(
+            &mut next_actions.into_iter())?;
+    }
 }
