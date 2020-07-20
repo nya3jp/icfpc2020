@@ -9,7 +9,7 @@ const MY_TEAM_ID = '3dfa39ba-93b8-4173-92ad-51da07002f1b';
 const OUR_BOTS: Array<string> = [
     'tanakh_super_bot',
 ];
-const TEAM_SIZE = 30;
+const TEAM_SIZE = 40;
 
 function startMissingResults(): void {
     refreshElem.disabled = true;
@@ -117,6 +117,7 @@ function getOpponents(): Array<[string, number]> {
             if (subid == team.tournaments[k].submission.submissionId) {
                 continue;
             }
+            /*
             if (team.tournaments[k].score == 50) {
                 oldones.push([name + " (Top in round " + k + ")", team.tournaments[k].submission.submissionId])
             }
@@ -126,6 +127,7 @@ function getOpponents(): Array<[string, number]> {
             if (team.tournaments[k].score == 42) {
                 oldones.push([name + " (Third in round " + k + ")", team.tournaments[k].submission.submissionId])
             }
+            */
         }
         submissions.push([score, name, subid]);
     }
@@ -159,7 +161,7 @@ function getOurLatestBots(): [Record<string, number>, Record<number, string>, Re
             continue;
         }
         subidToBranch[sub.submissionId] = sub.branchName;
-        if (OUR_BOTS.includes(sub.branchName) && (i < 6 || sub.active)) {
+        if (OUR_BOTS.includes(sub.branchName) && (i < 10 || sub.active)) {
             currentBots[i] = sub.submissionId;
         }
     }
