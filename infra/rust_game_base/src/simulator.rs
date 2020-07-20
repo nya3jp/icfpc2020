@@ -144,7 +144,8 @@ fn do_self_destruct_helper(
     for mpair in &mut s.machines {
         let distance = (mpair.0.position - attackorigin).l0_distance();
         if distance as usize <= size {
-            update_machine_heat(&mut mpair.0, power)
+            // TODO: Verify this.
+            update_machine_heat(&mut mpair.0, power - 32 * (distance as usize));
         }
         if shipnum == mpair.0.machine_id {
             // self destruct
