@@ -225,6 +225,7 @@ impl Bot {
                 // ディフェンダーはパワーに振らない
                 // スラスターを使い放題にするためにcool_down_per_turnを8にしたい
                 // あとはライフとエネルギーを均等に
+                // エネルギー多めの方がよさそう
 
                 if param_rest >= 12
                     && param.cool_down_per_turn < 8
@@ -235,7 +236,7 @@ impl Bot {
                     continue;
                 }
 
-                if param_rest >= 2 && param.life <= param.energy {
+                if param_rest >= 2 && param.life * 3 <= param.energy * 2 {
                     param.life += 1;
                     param_rest -= 2;
                     continue;
@@ -367,7 +368,8 @@ impl Bot {
                         let v = next_me_pos - Point::new(dx, dy) - next_ene_pos;
 
                         // スイートスポット以外は打たない
-                        if !(v.x == 0 || v.y == 0 || v.x.abs() == v.y.abs()) {
+                        let zure = min(v.x.abs(), min(v.y.abs(), (v.x.abs() - v.y.abs()).abs()));
+                        if zure >= 4 {
                             continue;
                         }
 
@@ -379,6 +381,9 @@ impl Bot {
 
                         let decay = max(v.x.abs(), v.y.abs());
                         let dmg = max_beam_pow * 3 - decay;
+
+                        // FIXME: 適当なので直して
+                        let dmg = dmg * (4 - zure) / 4;
 
                         let dd = -(dx.abs() + dy.abs());
 
@@ -395,6 +400,7 @@ impl Bot {
                     if dx != 0 || dy != 0 {
                         cmds.push(Command::Thrust(me.machine_id, Point::new(dx, dy)));
                     }
+                    eprintln!("Beam: expected dmg = {}", best_dmg.0);
                     cmds.push(Command::Beam(me.machine_id, next_ene_pos, beam_pow as _));
                 }
             }
@@ -461,7 +467,7 @@ impl Bot {
 
             if self.get_me().params.energy >= 2
                 && self.get_me().params.life >= 2
-                && (np.x.abs() > self.grav_area() * 2 || np.y.abs() > self.grav_area() * 2)
+                && (np.x.abs() > self.grav_area() * 3 / 2 || np.y.abs() > self.grav_area() * 3 / 2)
             {
                 eprintln!("Splitting...");
 
