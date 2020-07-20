@@ -490,10 +490,10 @@ impl Bot {
                 cmds.push(Command::Split(
                     self.get_me().machine_id,
                     Param {
-                        energy: 0,
+                        energy: self.get_me().params.energy / 2,
                         laser_power: 0,
                         cool_down_per_turn: 0,
-                        life: 1,
+                        life: self.get_me().params.life / 2,
                     },
                 ));
 
