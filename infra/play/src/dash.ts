@@ -20,11 +20,11 @@ function startMissingResults(): void {
         let topPlayers = getOpponents();
         let botIDs = Object.values(currentBots);
         if (!botIDs.includes(activeSub)) {
-            botIDs.push(activeSub);
+            botIDs.unshift(activeSub);
         }
 
-        for (var [oppName, oppSubId] of topPlayers) {
-            for (var ourSubId of botIDs) {
+        for (var ourSubId of botIDs) {
+            for (var [oppName, oppSubId] of topPlayers) {
                 if (ourSubId in resultsAtk && oppSubId in resultsAtk[ourSubId]) {
                     // Already exist
                 } else {
