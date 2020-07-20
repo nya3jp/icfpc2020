@@ -59,12 +59,10 @@ function loadResults(): void {
         let head = [];
         for (var sub of botIDs) {
             let name = subIdToBranch[sub];
-            if (sub == activeSub) {
-                name = "[ACTIVE] " + name;
-            }
+            const label = (sub == activeSub) ? '<br>[ACTIVE]' : '';
             const commit = subidToCommit[sub];
-            head.push('<th>' + name + ' atk <br />(' + sub + ', ' + commit.substring(0, 6) + ')</th>');
-            head.push('<th>' + name + ' def <br />(' + sub + ', ' + commit.substring(0, 6) + ')</th>');
+            head.push(`<th>${sub}<br>${commit.substring(0, 6)}<br>atk${label}</th>`);
+            head.push(`<th>${sub}<br>${commit.substring(0, 6)}<br>def${label}</th>`);
         }
 
         let rows: Array<string> = [];
@@ -145,8 +143,8 @@ function getOurLatestBots(): [Record<string, number>, Record<number, string>, Re
     let subidToBranch: Record<number, string> = {};
     let subidToCommit: Record<number, string> = {};
     let activeSub: number = 0;
-    submissions.reverse();
-    for (var sub of submissions) {
+    for (let i = 0; i < submissions.length; i++) {
+        const sub = submissions[i];
         subidToCommit[sub.submissionId] = sub.commitHash;
         if (sub.active) {
             activeSub = sub.submissionId;
@@ -158,8 +156,8 @@ function getOurLatestBots(): [Record<string, number>, Record<number, string>, Re
             continue;
         }
         subidToBranch[sub.submissionId] = sub.branchName;
-        if (OUR_BOTS.includes(sub.branchName)) {
-            currentBots[sub.branchName] = sub.submissionId;
+        if (OUR_BOTS.includes(sub.branchName) && (i < 6 || sub.active)) {
+            currentBots[i] = sub.submissionId;
         }
     }
     return [currentBots, subidToBranch, subidToCommit, activeSub];
