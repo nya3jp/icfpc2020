@@ -392,7 +392,7 @@ impl Bot {
                 let can_move = next_me_pos.x.abs() > self.grav_area() * 3 / 2
                     || next_me_pos.y.abs() > self.grav_area() * 3 / 2;
 
-                let mut best_dmg = (0, 0);
+                let mut best_dmg = (0, 0, 0);
                 let mut cand = None;
 
                 for m in self.state.machines.iter() {
@@ -472,12 +472,13 @@ impl Bot {
                             }
 
                             let dd = -(dx.abs() + dy.abs());
+                            let dist = -(v.x.abs() + v.y.abs());
 
-                            if (dmg, dd) <= best_dmg {
+                            if (dmg, dist, dd) <= best_dmg {
                                 continue;
                             }
 
-                            best_dmg = (dmg, dd);
+                            best_dmg = (dmg, dist, dd);
                             cand = Some((dx, dy, max_beam_pow, next_ene_pos));
                         }
                     }
