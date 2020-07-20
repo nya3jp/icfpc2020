@@ -498,6 +498,7 @@ impl Bot {
 
     fn defender(&mut self) -> Vec<Command> {
         dbg!(self.static_info.self_role);
+        eprintln!("Current ships: {}", self.state.machines.len());
         // dbg!(&self.state);
 
         // コマンドキューが残ってるならそれを使う
@@ -580,12 +581,29 @@ impl Bot {
                     ));
                 }
 
-                let (dx, dy) = loop {
+                let (dx, dy) = 'outer: loop {
                     // let dx = rand::thread_rng().gen_range(-1, 2);
                     // let dy = rand::thread_rng().gen_range(-1, 2);
                     // if (dx, dy) != (0, 0) {
                     //     break (dx, dy);
                     // }
+
+                    // 近傍で最後まで回れるところがあるならそこに行く。
+                    // そうじゃなければ外側に向かうように
+
+                    for dx in -1..=1 {
+                        for dy in -1..=1 {
+                            if self.state.turn
+                                + self.live_time(self.get_leader(), &Point::new(dx, dy))
+                                < self.static_info.total_turns
+                            {
+                                eprintln!("stable adj point found!");
+                                break 'outer (dx, dy);
+                            }
+                        }
+                    }
+
+                    // fallback
                     break (
                         -(self.get_leader().position.x.signum() as isize),
                         -(self.get_leader().position.x.signum() as isize),
