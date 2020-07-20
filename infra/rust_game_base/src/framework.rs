@@ -15,7 +15,11 @@ pub fn send_join_request() -> Result<Response> {
     use crate::dsl::*;
     let player_key = get_player_key();
     eprintln!("send: JOIN player_key={}", player_key);
-    send_and_receive_game_state(&list!(int(JOIN_REQUEST_TAG), int(player_key), nil()))
+    send_and_receive_game_state(&list!(
+        int(JOIN_REQUEST_TAG),
+        int(player_key),
+        list!(int(192496425430_i64), int(103652820))
+    ))
 }
 
 pub fn send_start_request(params: &Param) -> Result<Response> {
@@ -142,15 +146,15 @@ fn parse_params(val: Value) -> Result<Param> {
 
 fn parse_machine(val: Value) -> Result<Machine> {
     Ok(match to_vec(val.clone())?.as_slice() {
-        [role, machine_id, position, velocity, params, heat, _1, _2] => Machine {
+        [role, machine_id, position, velocity, params, heat, heat_limit, move_limit] => Machine {
             role: parse_role(role.clone())?,
             machine_id: to_int(machine_id)? as isize,
             position: parse_point(position.clone())?,
             velocity: parse_point(velocity.clone())?,
             params: parse_params(params.clone())?,
             heat: to_int(heat)? as usize,
-            _1: to_int(_1)? as isize,
-            _2: to_int(_2)? as isize,
+            heat_limit: to_int(heat_limit)? as usize,
+            move_limit: to_int(move_limit)? as usize,
         },
         _ => bail!("unexpected value: ".to_string() + &val.to_string()),
     })

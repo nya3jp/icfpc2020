@@ -188,8 +188,8 @@ pub struct Machine {
     pub params: Param,
     // 0-64
     pub heat: usize,
-    pub _1: isize,
-    pub _2: isize,
+    pub heat_limit: usize,
+    pub move_limit: usize,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
