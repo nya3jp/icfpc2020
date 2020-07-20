@@ -173,16 +173,17 @@ function getResults(): [Record<number, string>, Record<number, Record<number, [s
         cachedGames = JSON.parse(cache) as Array<Game>;
     }
 
-    let newGames: Array<Game> = [];
+    let games: Array<Game> = [];
     let prevDate = '';
     loop: while (true) {
         const ret = <GamesList>JSON.parse(queryNonRatingRuns(prevDate));
-        newGames = newGames.concat(ret.games);
+        games = games.concat(ret.games);
         if (cachedGames.length > 0) {
             const knownGame = cachedGames[0];
-            for (let i = 0; i < newGames.length; i++) {
-                if (newGames[i].gameId === knownGame.gameId) {
-                    newGames.splice(i);
+            for (let i = 0; i < games.length; i++) {
+                if (games[i].gameId === knownGame.gameId) {
+                    const restSize = games.length - i;
+                    games = games.concat(cachedGames.slice(restSize));
                     break loop;
                 }
             }
@@ -193,7 +194,6 @@ function getResults(): [Record<number, string>, Record<number, Record<number, [s
         }
         break;
     }
-    const games = ([] as Array<Game>).concat(newGames, cachedGames);
     localStorage.setItem('cached_games', JSON.stringify(games));
 
     let subidToTeamName: Record<number, string> = {};
