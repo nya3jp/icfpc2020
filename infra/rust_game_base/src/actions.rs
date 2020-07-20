@@ -393,7 +393,6 @@ pub fn make_surviving_path(
             break None;
         }
         let top = queue.pop_front().unwrap();
-        eprintln!("== top == {:?}", top);
         let turn = top.1;
         let top = top.0;
         for ax in -1..=1 {
