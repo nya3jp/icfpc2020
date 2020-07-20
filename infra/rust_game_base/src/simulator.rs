@@ -239,6 +239,26 @@ fn state_update_coordinates(s: &mut CurrentState) {
     }
 }
 
+fn state_update_kill_gravity(cstate: &mut CurrentState) {
+    match cstate.obstacle {
+        None => (),
+        Some(obs) => {
+            for m in &mut cstate.machines {
+                let pos = m.0.position;
+                if pos.l0_distance() <= obs.gravity_radius as isize {
+                    // kill
+                    m.0.params = Param {
+                        energy: 0,
+                        laser_power: 0,
+                        cool_down_per_turn: 0,
+                        life: 0,
+                    }
+                }
+            }
+        }
+    }
+}
+
 fn state_clone_clear_actions(cstate: &CurrentState) -> CurrentState {
     let mut newstate = cstate.clone();
     for m in &mut newstate.machines {
@@ -326,6 +346,7 @@ pub fn state_update(
     state_update_coordinates(&mut cstate);
     state_update_damages(&mut cstate, commands);
     state_update_cooldown(&mut cstate);
+    state_update_kill_gravity(&mut cstate);
     (get_current_gamestate(&cstate).0, cstate)
 }
 
@@ -540,7 +561,7 @@ mod tests {
             CurrentState {
                 turn: 0,
                 obstacle: Some(Obstacle {
-                    gravity_radius: 16,
+                    gravity_radius: 12,
                     stage_half_size: 128,
                 }),
                 machines: vec![(machine1, vec![]), (machine2, vec![]), (machine3, vec![])],
