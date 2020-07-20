@@ -5,18 +5,27 @@ const resultsElem = document.getElementById('results') as HTMLElement;
 const refreshElem = document.getElementById('refresh') as HTMLButtonElement;
 const missingRunElem = document.getElementById('run_missing') as HTMLButtonElement;
 
+const MY_TEAM_ID = '3dfa39ba-93b8-4173-92ad-51da07002f1b';
+const OUR_BOTS: Array<string> = [
+    'bot_kimiyuki',
+    'tanakh_super_bot',
+];
+const TEAM_SIZE = 30;
+
 function startMissingResults(): void {
     refreshElem.disabled = true;
     missingRunElem.disabled = true;
     try {
         let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
-        let [currentBots, subIdToBranch, subIdToCommit] = getOurLatestBots();
-        let topPlayers = getOpponents().slice(0, 10);
-        let ourBots = ['bot_kimiyuki', 'bot_psh_testbot', 'tanakh_super_bot'];
+        let [currentBots, subIdToBranch, subidToCommit, activeSub] = getOurLatestBots();
+        let topPlayers = getOpponents().slice(0, TEAM_SIZE);
+        let botIDs = Object.values(currentBots);
+        if (!botIDs.includes(activeSub)) {
+            botIDs.push(activeSub);
+        }
 
         for (var [oppName, oppSubId] of topPlayers) {
-            for (var ourBotName of ourBots) {
-                const ourSubId = currentBots[ourBotName];
+            for (var ourSubId of botIDs) {
                 if (ourSubId in resultsAtk && oppSubId in resultsAtk[ourSubId]) {
                     // Already exist
                 } else {
@@ -40,21 +49,30 @@ function startMissingResults(): void {
 function loadResults(): void {
     try {
         let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
-        let [currentBots, subIdToBranch, subidToCommit] = getOurLatestBots();
-        let topPlayers = getOpponents().slice(0, 10);
-        let ourBots = ['bot_kimiyuki', 'bot_psh_testbot', 'tanakh_super_bot'];
+        let [currentBots, subIdToBranch, subidToCommit, activeSub] = getOurLatestBots();
+        let topPlayers = getOpponents().slice(0, TEAM_SIZE);
+
+        let botIDs = Object.values(currentBots);
+        if (!botIDs.includes(activeSub)) {
+            botIDs.push(activeSub);
+        }
 
         let head = [];
-        for (var name of ourBots) {
-            head.push('<th>' + name + ' atk <br />(' + currentBots[name] + ', ' + subidToCommit[currentBots[name]].substring(0, 6) + ')</th>');
-            head.push('<th>' + name + ' def <br />(' + currentBots[name] + ', ' + subidToCommit[currentBots[name]].substring(0, 6) + ')</th>');
+        for (var sub of botIDs) {
+            let name = subIdToBranch[sub];
+            if (sub == activeSub) {
+                name = "[ACTIVE] " + name;
+            }
+            const commit = subidToCommit[sub];
+            head.push('<th>' + name + ' atk <br />(' + sub + ', ' + commit.substring(0, 6) + ')</th>');
+            head.push('<th>' + name + ' def <br />(' + sub + ', ' + commit.substring(0, 6) + ')</th>');
         }
 
         let rows: Array<string> = [];
         rows.push('<tr><th></th>' + head.join('') + '</tr>');
         for (var [oppName, oppSubId] of topPlayers) {
             let result = "<tr><td>" + oppName + " (" + oppSubId + ")</td>";
-            for (var ourBotName of ourBots) {
+            for (var ourBotName of OUR_BOTS) {
                 const ourSubId = currentBots[ourBotName];
                 if (ourSubId in resultsAtk && oppSubId in resultsAtk[ourSubId]) {
                     let [status, playerKey] = resultsAtk[ourSubId][oppSubId];
@@ -85,7 +103,7 @@ function getOpponents(): Array<[string, number]> {
     const scores = <Scoreboard>JSON.parse(queryServer('/scoreboard'));
     let submissions: Array<[number, string, number]> = [];
     for (var team of scores.teams) {
-        if (team.team.teamId == '3dfa39ba-93b8-4173-92ad-51da07002f1b') {
+        if (team.team.teamId == MY_TEAM_ID) {
             continue;
         }
         const name = team.team.teamName;
@@ -100,7 +118,7 @@ function getOpponents(): Array<[string, number]> {
         submissions.push([score, name, subid]);
     }
 
-    submissions.sort().reverse();
+    submissions.sort((a, b) => b[0] - a[0]);
     let ret: Array<[string, number]> = [];
     for (var [score, name, subid] of submissions) {
         ret.push([name, subid]);
@@ -108,14 +126,18 @@ function getOpponents(): Array<[string, number]> {
     return ret;
 }
 
-function getOurLatestBots(): [Record<string, number>, Record<number, string>, Record<number, string>] {
+function getOurLatestBots(): [Record<string, number>, Record<number, string>, Record<number, string>, number] {
     const submissions = <Array<Submission>>JSON.parse(queryServer('/submissions'));
     let currentBots: Record<string, number> = {};
     let subidToBranch: Record<number, string> = {};
     let subidToCommit: Record<number, string> = {};
+    let activeSub: number = 0;
     submissions.reverse();
     for (var sub of submissions) {
         subidToCommit[sub.submissionId] = sub.commitHash;
+        if (sub.active) {
+            activeSub = sub.submissionId;
+        }
         if (!sub.branchName) {
             continue;
         }
@@ -123,27 +145,35 @@ function getOurLatestBots(): [Record<string, number>, Record<number, string>, Re
             continue;
         }
         subidToBranch[sub.submissionId] = sub.branchName;
-        if (sub.branchName == 'bot_kimiyuki' ||
-        sub.branchName == 'bot_psh_testbot' ||
-        sub.branchName == 'tanakh_super_bot') {
+        if (OUR_BOTS.includes(sub.branchName)) {
             currentBots[sub.branchName] = sub.submissionId;
         }
     }
-    return [currentBots, subidToBranch, subidToCommit];
+    return [currentBots, subidToBranch, subidToCommit, activeSub];
 }
 
 function getResults(): [Record<number, string>, Record<number, Record<number, [string, number]>>, Record<number, Record<number, [string, number]>>] {
-    const games = <GamesList>JSON.parse(queryNonRatingRuns());
+    let games: Array<Game> = [];
+    let prevDate = '';
+    while (true) {
+        const ret = <GamesList>JSON.parse(queryNonRatingRuns(prevDate));
+        games = games.concat(ret.games);
+        if (ret.hasMore && ret.next) {
+            prevDate = ret.next;
+            continue;
+        }
+        break;
+    }
     let subidToTeamName: Record<number, string> = {};
     let resultsAtk: Record<number, Record<number, [string, number]>> = {};
     let resultsDef: Record<number, Record<number, [string, number]>> = {};
-    for (var game of games.games) {
+    for (var game of games) {
         const atkTeamName = game.attacker.team.teamName;
         const atkSubId = game.attacker.submissionId;
         const defTeamName = game.defender.team.teamName;
         const defSubId = game.defender.submissionId;
 
-        if (game.attacker.team.teamId == '3dfa39ba-93b8-4173-92ad-51da07002f1b' && game.defender.team.teamId == '3dfa39ba-93b8-4173-92ad-51da07002f1b') {
+        if (game.attacker.team.teamId == MY_TEAM_ID && game.defender.team.teamId == MY_TEAM_ID) {
             continue;
         }
 
@@ -153,7 +183,7 @@ function getResults(): [Record<number, string>, Record<number, Record<number, [s
         let mySide: string = '';
         let results: Record<number, Record<number, [string, number]>> = {};
         let playerKey: number = 0;
-        if (game.attacker.team.teamId == '3dfa39ba-93b8-4173-92ad-51da07002f1b') {
+        if (game.attacker.team.teamId == MY_TEAM_ID) {
             myTeamSubId = atkSubId;
             oppTeamName = defTeamName;
             oppSubId = defSubId;
@@ -194,6 +224,7 @@ interface Submission {
     branchName?: string,
     status: string,
     commitHash: string
+    active: boolean,
 }
 
 interface Scoreboard {
@@ -234,6 +265,8 @@ interface Game {
 }
 
 interface GamesList {
+    hasMore: boolean,
+    next?: string,
     games: Array<Game>
 }
 

@@ -207,7 +207,9 @@ pub enum ActionResult {
     // 2
     Laser {
         opponent: Point,
-        // TODO
+        power: usize,     // The cost the player paid.
+        intensity: usize, // The instensity of the laser at the target.
+        _3: isize,        // what...?
     },
     // 3
     Split {

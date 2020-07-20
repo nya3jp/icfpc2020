@@ -113,7 +113,12 @@ fn do_laser_helper(s: &mut CurrentState, shipnum: isize, target: &Point, power: 
 
         if (mpair.0.machine_id == shipnum) {
             mpair.0.heat += power as usize; // self heat dmg
-            mpair.1.push(ActionResult::Laser { opponent: *target }) // FIXME TODO: damage
+            mpair.1.push(ActionResult::Laser {
+                opponent: *target,
+                power: power as usize,
+                intensity: 0, // FIXME TODO.
+                _3: 0,        // FIXME TODO.
+            }) // FIXME TODO: damage
         }
     }
 }

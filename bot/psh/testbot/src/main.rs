@@ -16,7 +16,7 @@ fn main() -> Result<()> {
         return stay_bot(resp);
     }
 
-    stay_bot(resp)
+    laser_test(resp)
     // heat_test1(resp)
     // move_test1(resp)
 }
@@ -115,4 +115,52 @@ fn move_test1(resp: rust_game_base::Response) -> Result<()> {
         res = rust_game_base::send_command_request(
             &mut next_actions.into_iter())?;
     }
+}
+
+fn laser_test(resp: rust_game_base::Response) -> Result<()> {
+    // Must be an attacker.
+    eprintln!("send_start_request");
+    let mut res = rust_game_base::send_start_request(&rust_game_base::Param{
+        energy: resp.stage_data.initialize_param.total_cost
+            - 4 * 64
+            - 16 * 12
+            - 2,
+        laser_power: 64,
+        cool_down_per_turn: 16,
+        life: 1
+    })?;
+
+    // find self machines.
+    let self_machine_ids = rust_game_base::get_roled_machine_ids(
+        res.current_state.as_ref().unwrap(), rust_game_base::Role::ATTACKER);
+    eprintln!("self machine_ids: {:?}", self_machine_ids);
+
+    let mut turn = 0;
+    eprintln!("send_command_request");
+    loop {
+        if res.current_game_state == rust_game_base::CurrentGameState::END {
+            return Ok(());
+        }
+        let mut next_actions = self_machine_ids.iter()
+            .filter_map(
+                |id| actions::stay(res.current_state.as_ref().unwrap(), *id))
+            .collect::<Vec<_>>();
+        if turn == 0 {
+            next_actions.append(&mut self_machine_ids.iter()
+                .filter_map(
+                    |id| {
+                        let machine = rust_game_base::get_machine_by_id(
+                            res.current_state.as_ref().unwrap(), *id).unwrap();
+                        actions::laser(
+                            res.current_state.as_ref().unwrap(),
+                            *id,
+                            machine.position + rust_game_base::Point::new(0, 10),
+                        )
+                    })
+                .collect::<Vec<_>>());
+        }
+        res = rust_game_base::send_command_request(
+            &mut next_actions.into_iter())?;
+    }
+
 }

@@ -25,10 +25,14 @@ export function queryServer(path: string): string {
     return xhr.responseText;
 }
 
-export function queryNonRatingRuns(): string {
+export function queryNonRatingRuns(date: string): string {
     // Synchronous XHR - don't do this at home.
+    let url: string = 'https://icfpc2020-api.testkontur.ru/games/non-rating?take=400&apiKey=' + getApiKey();
+    if (date != '') {
+        url += '&before=' + encodeURIComponent(date);
+    }
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://icfpc2020-api.testkontur.ru/games/non-rating?take=400&apiKey=' + getApiKey(), false);
+    xhr.open('GET', url, false);
     xhr.setRequestHeader('Accept', '*/*');
     xhr.send();
     if (xhr.status !== 200) {
