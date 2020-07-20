@@ -22,8 +22,9 @@ import { sendToServer } from './utils';
 import { demodulate, modulate } from './modem';
 import {parsePictures, Picture} from './picture';
 import { getTutorialState } from './tutorials';
+import { newGalaxy2Environment } from './galaxy2';
 
-const env = newGalaxyEnvironment();
+let env = newGalaxyEnvironment();
 const galaxyExpr = makeReference('galaxy');
 
 interface RenderState {
@@ -47,6 +48,7 @@ const annotateElem = document.getElementById('annotate') as HTMLInputElement;
 const replayElem = document.getElementById('replay-player-key') as HTMLInputElement;
 const fastElem = document.getElementById('fast') as HTMLInputElement;
 const tutorialElem = document.getElementById('jump-to-tutorial') as HTMLSelectElement;
+const galaxyElem = document.getElementById('another-galaxy') as HTMLSelectElement;
 
 const VIEW_MARGIN = 60;
 
@@ -439,6 +441,18 @@ function onTutorialSelected(): void {
     loadState(getTutorialState(playerKey, parseInt(selectedStage)));
 }
 
+function onGalaxyChanged(): void {
+    const selectedGalaxy = galaxyElem.options[galaxyElem.selectedIndex].value;
+    if (selectedGalaxy === "0") {
+        env = newGalaxyEnvironment();
+    } else {
+        env = newGalaxy2Environment();
+    }
+    const initState = parseExpr('ap ap cons 2 ap ap cons ap ap cons 1 ap ap cons -1 nil ap ap cons 0 ap ap cons nil nil');
+    interactPoint(initState, FARAWAY_POINT);
+    updateUI();
+}
+
 function reportError(e: Error): void {
     alert(e);
     throw e;
@@ -498,6 +512,7 @@ function init(): void {
     replayElem.addEventListener('change', onReplayPlayerKeyChanged);
     fastElem.addEventListener('change', onFastChanged);
     tutorialElem.addEventListener('change', onTutorialSelected);
+    galaxyElem.addEventListener('change', onGalaxyChanged);
 
     const initState = parseExpr('ap ap cons 2 ap ap cons ap ap cons 1 ap ap cons -1 nil ap ap cons 0 ap ap cons nil nil');
     interactPoint(initState, FARAWAY_POINT);
