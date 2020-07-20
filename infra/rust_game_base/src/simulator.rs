@@ -230,7 +230,7 @@ fn self_destruct_power(m: &Machine) -> (usize, usize) {
 
 pub fn self_destruct_damage(m: &Machine, target: Point) -> usize {
     let (_, power) = self_destruct_power(&m);
-    let d = (target - m.position).lmax_distance();
+    let d = (target - m.position + m.velocity).lmax_distance();
     let damage = power as isize - d * 32;
     if damage < 0 {
         0

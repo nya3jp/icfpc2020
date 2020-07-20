@@ -9,7 +9,7 @@ const MY_TEAM_ID = '3dfa39ba-93b8-4173-92ad-51da07002f1b';
 const OUR_BOTS: Array<string> = [
     'tanakh_super_bot',
 ];
-const TEAM_SIZE = 40;
+const TEAM_SIZE = 30;
 
 function startMissingResults(): void {
     refreshElem.disabled = true;

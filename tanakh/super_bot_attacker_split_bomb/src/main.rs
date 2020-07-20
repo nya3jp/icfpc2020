@@ -159,6 +159,13 @@ fn is_safe(stage: &StageData, p: &Point) -> bool {
     true
 }
 
+fn total_hp_buffer(m: &Machine) -> usize {
+    let p = m.params;
+    let remain_heat = m.heat_limit - m.heat; // this should be >= 0
+    return p.energy + p.laser_power + 2 * p.cool_down_per_turn + p.life + remain_heat
+    // 2 * cooldown for heat damage mitigation scheme
+}
+
 impl Bot {
     fn new() -> Result<Bot> {
         let resp = send_join_request()?;
@@ -364,7 +371,7 @@ impl Bot {
                 let (dx, dy) = loop {
                     break (
                         -(self.get_leader().position.x.signum() as isize),
-                        -(self.get_leader().position.x.signum() as isize),
+                        -(self.get_leader().position.y.signum() as isize),
                     );
                 };
 
@@ -398,7 +405,7 @@ impl Bot {
 
                     let damage =
                         rust_game_base::self_destruct_damage(&attacker_machine, next_ene_pos);
-                    if damage >= ene_machine.params.life && !killed.contains(&machine_id) {
+                    if damage >= total_hp_buffer(&ene_machine) && !killed.contains(&machine_id) {
                         if !use_bomb {
                             eprintln!("using bomb: {}", attacker_machine.machine_id);
                             cmds.push(Command::Bomb(attacker_machine.machine_id));
@@ -498,14 +505,9 @@ impl Bot {
                 }
 
                 let (dx, dy) = loop {
-                    // let dx = rand::thread_rng().gen_range(-1, 2);
-                    // let dy = rand::thread_rng().gen_range(-1, 2);
-                    // if (dx, dy) != (0, 0) {
-                    //     break (dx, dy);
-                    // }
                     break (
                         -(self.get_leader().position.x.signum() as isize),
-                        -(self.get_leader().position.x.signum() as isize),
+                        -(self.get_leader().position.y.signum() as isize),
                     );
                 };
 
