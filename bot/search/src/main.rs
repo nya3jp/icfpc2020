@@ -1,255 +1,162 @@
-#![allow(non_snake_case, unused, non_upper_case_globals)]
+#![allow(non_snake_case, unused, unused, non_upper_case_globals)]
 
 extern crate rust_game_base;
 #[macro_use]
 extern crate itertools;
+#[macro_use]
+extern crate lazy_static;
 
-
-fn main() {
-    eprintln!("send_join_request");
-    let resp = rust_game_base::send_join_request().unwrap();
-
-    eprintln!("send_start_request");
-    let mut res = rust_game_base::send_start_request(&rust_game_base::Param {
-        energy: 4,
-        laser_power: 4,
-        cool_down_per_turn: 4,
-        life: 4,
-    });
-
-    let im_attacker = res.stage_data.self_role == rust_game_base::Role::ATTACKER;
-    eprintln!(
-        "I'm {}",
-        if (im_attacker) {
-            "attacker"
-        } else {
-            "defender"
-        }
-    );
-
-    loop {
-        let mut attacker_won = true;
-
-        let mut machine_id = 0;
-        for m in res.current_state.clone().unwrap().machines.iter() {
-            let is_attacker = m.0.role == rust_game_base::Role::ATTACKER;
-            if !is_attacker && m.0.params.life > 0 {
-                attacker_won = false;
-            }
-            if is_attacker == im_attacker {
-                machine_id = m.0.machine_id;
-            }
-        }
-        if res.current_game_state == rust_game_base::CurrentGameState::END {
-            if attacker_won == im_attacker {
-                eprintln!("I won!");
-            } else {
-                eprintln!("I lost!");
-            }
-            break;
-        }
-        eprintln!("send_command_request");
-
-        let mv = next_action(State::from_response(&res.current_state.unwrap()));
-        let mv:Vec<_> = mv.iter().map(|m| match m {
-            &Command::Thrust(p) => rust_game_base::Command::Thrust(
-                machine_id as _,
-                rust_game_base::Point {
-                    x: p.x as isize,
-                    y: p.y as isize,
-                },
-            ),
-            &Command::Bomb => rust_game_base::Command::SelfDestruct(machine_id as _),
-            _ => panic!(),
-            // Command::Beam { dir, power } => {}
-        }).collect();
-
-        eprintln!("{:?}", &mv);
-
-        res = rust_game_base::send_command_request(&mut mv.into_iter()).unwrap();
-    }
-}
-
-struct StartParam {}
-
-fn next_action(mut state: State) -> Action {
-    let mut best = (-10000.0, vec![], None);
-    for a in possible_actions(&state) {
-        let ns = next_state(&state, &a);
-        let val = evaluate_state(&ns);
-        if best.0 < val {
-            best = (val, a, Some(ns));
-        }
-    }
-    best.1
-}
-
-#[derive(Clone, Debug, Copy)]
-struct P {
-    x: isize,
-    y: isize,
-}
-
-impl std::ops::Add for P {
-    type Output = P;
-    fn add(self, p: Self) -> Self::Output {
-        P::new(self.x + p.x, self.y + p.y)
-    }
-}
-
-impl std::ops::Sub for P {
-    type Output = P;
-    fn sub(self, p: Self) -> Self::Output {
-        P::new(self.x - p.x, self.y - p.y)
-    }
-}
-
-impl P {
-    fn new(x: isize, y: isize) -> P {
-        P { x, y }
-    }
-    fn dist(&self, p: P) -> f64 {
-        self.dist2(p).sqrt()
-    }
-    fn dist2(&self, p: P) -> f64 {
-        (*self - p).norm2()
-    }
-    fn norm2(&self) -> f64 {
-        let (x, y) = (self.x, self.y);
-        (x * x + y * y) as _
-    }
-    fn norm(&self) -> f64 {
-        self.norm2().sqrt()
-    }
-}
-
-#[derive(Clone, Debug)]
-struct Machine {
-    pos: P,
-    v: P,
-    killed: bool,
-}
-
-#[derive(Clone, Debug)]
-struct State {
-    me: Machine,
-    you: Machine,
-    turn: usize,
-}
-
-impl State {
-    fn from_response(gs: &rust_game_base::CurrentState) -> State {
-        let attacker = 0;
-        let mut me = None;
-        let mut you = None;
-        for m in gs.machines.iter() {
-            if m.0.role == rust_game_base::Role::ATTACKER {
-                me = Some(Machine {
-                    pos: P::new(m.0.position.x, m.0.position.y),
-                    v: P::new(m.0.velocity.x, m.0.velocity.y),
-                    killed: false,
-                })
-            } else {
-                you = Some(Machine {
-                    pos: P::new(m.0.position.x, m.0.position.y),
-                    v: P::new(m.0.velocity.x, m.0.velocity.y),
-                    killed: false,
-                })
-            }
-        }
-        State {
-            me: me.unwrap(),
-            you: you.unwrap(),
-            turn: 10,
-        }
-    }
-
-    fn dummy() -> State {
-        State {
-            turn: 100,
-            me: Machine {
-                pos: P::new(1, 1),
-                v: P::new(0, 0),
-                killed: false,
-            },
-            you: Machine {
-                pos: P::new(-1, -1),
-                v: P::new(0, 0),
-                killed: false,
-            },
-        }
-    }
-
-    fn finished(&self) -> bool {
-        // TODO
-        self.turn == 0
-    }
-}
-
-// the higher the better
-fn evaluate_state(s: &State) -> f64 {
-    const small: f64 = 1.0 / 1000.0;
-    if s.you.killed {
-        return 1000000.0;
-    }
-    1.0 / (s.me.pos.dist(s.you.pos) + 1.0) - small * s.me.v.norm()
-}
-
-// get next states without actually running the action.
-fn next_state(s: &State, a: &Action) -> State {
-    let mut s = s.clone();
-    s.turn -= 1;
-
-    for c in a.iter() {
-        match c {
-            Command::Thrust(a) => {
-                s.me.v = s.me.v - *a;
-                s.me.pos = s.me.pos + s.me.v;
-            }
-            Command::Bomb => {
-                if s.you.pos.x == s.me.pos.x && s.you.pos.y == s.me.pos.y {
-                    s.you.killed = true;
-                }
-            }
-            _ => unimplemented!(),
-        }
-    }
-    s
-}
+use rust_game_base::*;
 
 type Action = Vec<Command>;
 
-#[derive(Debug, Clone)]
-enum Command {
-    // 自機の速度を変える。指定したそのターンから即時効果を発揮する。
-    // e.g.: Pos(0 . 0), V(1 . 0) の時に Thruster を A(1 . 0) 吹くと、次のターンでは Pos(2 . 0), V(2 . 0)
-    Thrust(P), // (dx, dy)
-    Bomb,
-    Beam { dir: P, power: usize },
-}
+fn main() {
+    let resp = send_join_request().unwrap();
+    let param = Solver::decide_param(&resp.stage_data);
 
-fn possible_actions(s: &State) -> Vec<Action> {
-    let mut res = vec![];
+    let my_role = resp.stage_data.self_role;
 
-    res.push(vec![]); // do nothing
-    res.push(vec![Command::Bomb]);
-    for (dx, dy) in iproduct!(-1..=1, -1..=1) {
-        if dx == 0 && dy == 0 {
-            continue;
-        }
-        if (dx != 0) && (dy != 0) {
-            continue;
-        }
-        // res.push(vec![Command::Thrust(P::new(dx, dy))]);
+    let res = send_start_request(&param).unwrap();
+    let mut state = res.current_state.unwrap();
+
+    loop {
+        let ab_result = alpha_beta(&state, my_role, 1, true);
     }
-    res
 }
 
-#[cfg(tests)]
-mod tests {
-    use super::*;
-    #[test]
-    fn test() {
-        assert_eq!(1 + 1, 2);
+lazy_static! {
+    static ref LIMIT: std::time::Duration = std::time::Duration::from_millis(150);
+}
+
+const BIG: f64 = 1e64;
+
+#[derive(Debug)]
+struct ABResult {
+    // evaluation score of the current state.
+    current_score: f64,
+    attacker_action: Action,
+    defender_action: Action,
+}
+
+fn win_result(winner: Role) -> ABResult {
+    ABResult {
+        current_score: if winner == Role::ATTACKER { BIG } else { -BIG },
+        attacker_action: vec![],
+        defender_action: vec![],
+    }
+}
+
+impl ABResult {
+    // is better than b for role.
+    fn is_better_than_for(&self, b: &ABResult, role: Role) -> bool {
+        if (role == Role::ATTACKER && self.current_score > b.current_score) {
+            return true;
+        }
+        if (role == Role::DEFENDER && self.current_score < b.current_score) {
+            return true;
+        }
+        return false;
+    }
+
+    fn set_action_for(&mut self, a: Action, role: Role) {
+        if role == Role::ATTACKER {
+            self.attacker_action = a;
+        } else {
+            self.defender_action = a;
+        }
+    }
+}
+
+// choose best move and next action.
+fn alpha_beta(state: &CurrentState, my_role: Role, depth: usize, need_move: bool) -> ABResult {
+    let your_role = my_role.opposite();
+
+    if let Some(winner) = get_winner(&state) {
+        return win_result(winner);
+    }
+
+    // if depth is 0, return evaluated score.
+    if depth == 0 {
+        let current_score = Solver::evaluate(&state);
+        return ABResult {
+            current_score,
+            attacker_action: vec![],
+            defender_action: vec![],
+        };
+    }
+
+    // choose my move.
+    // my worst result is your win.
+    let mut my_best = win_result(my_role.opposite());
+
+    for a in Solver::action_cands(state, my_role) {
+        // choose your move.
+        // your worst result is my win.
+        let mut your_best = win_result(my_role);
+        for b in Solver::action_cands(state, my_role.opposite()) {
+            let mut v = a.clone();
+            v.append(&mut b.clone());
+            let (_, next_state) = state_update(state, &v);
+
+            // evaluate next state
+            let cur_res = alpha_beta(&next_state, my_role, depth - 1, false);
+
+            if cur_res.is_better_than_for(&your_best, your_role) {
+                your_best = cur_res;
+
+                if need_move {
+                    your_best.set_action_for(b.clone(), your_role);
+                }
+            }
+        }
+
+        // update my best move.
+        if my_best.is_better_than_for(&your_best, my_role) {
+            my_best = your_best;
+
+            if need_move {
+                my_best.set_action_for(a.clone(), my_role);
+            }
+        }
+    }
+    my_best
+}
+
+struct Solver {}
+
+impl Solver {
+    fn decide_param(static_info: &StageData) -> Param {
+        Param {
+            energy: 4,
+            laser_power: 4,
+            life: 4,
+            cool_down_per_turn: 4,
+        }
+    }
+
+    fn action_cands(state: &CurrentState, role: Role) -> Vec<Action> {
+        let ids = get_roled_machine_ids(&state, role);
+
+        let id = ids[0];
+
+        let mut res = vec![];
+
+        res.push(vec![]); // do nothing
+
+        const max_len: usize = 10;
+        res.push(vec![Command::Bomb(id)]);
+        for (dx, dy) in iproduct!(-1..=1, -1..=1) {
+            if dx == 0 && dy == 0 {
+                continue;
+            }
+            res.push(vec![Command::Thrust(id, Point::new(dx, dy))]);
+        }
+        res
+    }
+
+    // evaluate state.
+    // 大きいと，attacker が有利であることを示す．
+    fn evaluate(state: &CurrentState) -> f64 {
+        0.0
     }
 }
