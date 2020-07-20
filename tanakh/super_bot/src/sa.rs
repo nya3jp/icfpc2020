@@ -130,6 +130,11 @@ fn do_annealing<A: Annealer>(
                 }
                 best_score = cur_score;
                 best_ans = state.clone();
+
+                // FIXME:
+                if best_score.abs() < 1e-6 {
+                    break;
+                }
             }
         } else {
             annealer.unapply(&mut state, &mov);

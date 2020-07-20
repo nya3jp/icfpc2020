@@ -40,17 +40,23 @@ struct Problem {
     me: Machine,
 }
 
+impl Problem {
+    fn gen_rand_move(&self, rng: &mut impl rand::Rng) -> (i64, i64) {
+        let lim = self.me.move_limit as i64;
+        (rng.gen_range(-lim, lim + 1), rng.gen_range(-lim, lim + 1))
+    }
+}
+
 impl Annealer for Problem {
     type State = Vec<(i64, i64)>;
     type Move = (usize, (i64, i64), (i64, i64));
 
     fn init_state(&self, rng: &mut impl rand::Rng) -> Self::State {
-        let rest_step = min(20, self.static_info.total_turns - self.state.turn);
+        let rest_step = min(10, self.static_info.total_turns - self.state.turn);
         let mut v = vec![(0, 0); rest_step];
 
         for r in v.iter_mut() {
-            r.0 = rng.gen_range(-1, 2);
-            r.1 = rng.gen_range(-1, 2);
+            *r = self.gen_rand_move(rng);
         }
 
         v
@@ -84,7 +90,7 @@ impl Annealer for Problem {
             }
 
             if dx != 0 || dy != 0 {
-                heat += 8;
+                heat += max(dx.abs(), dy.abs()) as usize * 8;
                 use_acc += 1;
                 last_use = step;
             }
@@ -122,8 +128,7 @@ impl Annealer for Problem {
     ) -> Self::Move {
         loop {
             let ix = rng.gen_range(0, state.len());
-            let dx = rng.gen_range(-1, 2);
-            let dy = rng.gen_range(-1, 2);
+            let (dx, dy) = self.gen_rand_move(rng);
 
             if (dx, dy) == state[ix] {
                 continue;
@@ -189,7 +194,7 @@ impl Bot {
         // attackerの時はレーザーに多めに、
         // defenderの時はレーザーに割り振らないようにするといい？
 
-        dbg!(self.static_info.initialize_param._3);
+        dbg!(self.static_info.initialize_param.heat_limit);
 
         while param_rest > 0 {
             if param.life == 0 {
@@ -216,7 +221,7 @@ impl Bot {
                 }
 
                 if param_rest >= 4
-                    && param.laser_power < self.static_info.initialize_param._3 as usize
+                    && param.laser_power < self.static_info.initialize_param.heat_limit as usize
                     && param.laser_power <= param.energy
                     && (param.cool_down_per_turn >= 8
                         || param.laser_power * 2 <= param.cool_down_per_turn * 12)
