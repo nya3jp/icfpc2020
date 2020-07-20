@@ -16,7 +16,7 @@ function startMissingResults(): void {
     missingRunElem.disabled = true;
     try {
         let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
-        let [currentBots, subIdToBranch, subidToCommit, activeSub] = getOurLatestBots();
+        let [currentBots, subIdToBranch, subidToCommit, subidToCommitMsg, activeSub] = getOurLatestBots();
         let topPlayers = getOpponents();
         let botIDs = Object.values(currentBots);
         if (!botIDs.includes(activeSub)) {
@@ -48,7 +48,7 @@ function startMissingResults(): void {
 function loadResults(): void {
     try {
         let [subIdToTeamName, resultsAtk, resultsDef] = getResults();
-        let [currentBots, subIdToBranch, subidToCommit, activeSub] = getOurLatestBots();
+        let [currentBots, subIdToBranch, subidToCommit, subidToCommitMsg, activeSub] = getOurLatestBots();
         let topPlayers = getOpponents();
 
         let botIDs = Object.values(currentBots);
@@ -61,8 +61,9 @@ function loadResults(): void {
             let name = subIdToBranch[sub];
             const label = (sub == activeSub) ? '<br>[ACTIVE]' : '';
             const commit = subidToCommit[sub];
-            head.push(`<th>${sub}<br>${commit.substring(0, 6)}<br>atk${label}</th>`);
-            head.push(`<th>${sub}<br>${commit.substring(0, 6)}<br>def${label}</th>`);
+            const commitMsg = subidToCommitMsg[sub];
+            head.push(`<th><span title="${commitMsg}">${sub}<br>${commit.substring(0, 6)}<br>atk${label}</span></th>`);
+            head.push(`<th><span title="${commitMsg}">${sub}<br>${commit.substring(0, 6)}<br>def${label}</span></th>`);
         }
 
         let rows: Array<string> = [];
@@ -137,15 +138,17 @@ function getOpponents(): Array<[string, number]> {
     return ret.concat(oldones);
 }
 
-function getOurLatestBots(): [Record<string, number>, Record<number, string>, Record<number, string>, number] {
+function getOurLatestBots(): [Record<string, number>, Record<number, string>, Record<number, string>, Record<number, string>, number] {
     const submissions = <Array<Submission>>JSON.parse(queryServer('/submissions'));
     let currentBots: Record<string, number> = {};
     let subidToBranch: Record<number, string> = {};
     let subidToCommit: Record<number, string> = {};
+    let subidToCommitMsg: Record<number, string> = {};
     let activeSub: number = 0;
     for (let i = 0; i < submissions.length; i++) {
         const sub = submissions[i];
         subidToCommit[sub.submissionId] = sub.commitHash;
+        subidToCommitMsg[sub.submissionId] = sub.commitMessage;
         if (sub.active) {
             activeSub = sub.submissionId;
         }
@@ -160,7 +163,7 @@ function getOurLatestBots(): [Record<string, number>, Record<number, string>, Re
             currentBots[i] = sub.submissionId;
         }
     }
-    return [currentBots, subidToBranch, subidToCommit, activeSub];
+    return [currentBots, subidToBranch, subidToCommit, subidToCommitMsg, activeSub];
 }
 
 function getResults(): [Record<number, string>, Record<number, Record<number, [string, number]>>, Record<number, Record<number, [string, number]>>] {
@@ -253,6 +256,7 @@ interface Submission {
     branchName?: string,
     status: string,
     commitHash: string
+    commitMessage: string
     active: boolean,
 }
 
