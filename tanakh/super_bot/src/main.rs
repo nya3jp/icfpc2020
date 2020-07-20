@@ -21,17 +21,17 @@ struct Bot {
     cmd_queue: VecDeque<Vec<Command>>,
 }
 
-static VECT: &[Point] = &[
-    Point::new(-1, -1),
-    Point::new(-1, 0),
-    Point::new(-1, 1),
-    Point::new(0, -1),
-    Point::new(0, 1),
-    Point::new(1, -1),
-    Point::new(1, 0),
-    Point::new(1, 1),
-    Point::new(0, 0),
-];
+// static VECT: &[Point] = &[
+//     Point::new(-1, -1),
+//     Point::new(-1, 0),
+//     Point::new(-1, 1),
+//     Point::new(0, -1),
+//     Point::new(0, 1),
+//     Point::new(1, -1),
+//     Point::new(1, 0),
+//     Point::new(1, 1),
+//     Point::new(0, 0),
+// ];
 
 #[derive(Clone)]
 struct Problem {
@@ -209,25 +209,55 @@ impl Bot {
                 // TODO: もっといいパラメーターあるかも
 
                 // laser_power 極振りがよさそう？
+                // cool_down_per_turnはもっといるだろ
 
-                if param_rest >= 12
-                    && param.cool_down_per_turn < 8
-                    && param.cool_down_per_turn * 12 <= param.energy * 2
-                    && param.cool_down_per_turn * 12 <= param.laser_power * 4
-                {
-                    param.cool_down_per_turn += 1;
-                    param_rest -= 12;
-                    continue;
-                }
+                match &self.static_info.defender {
+                    Some(ene) if ene.life >= 20 => {
+                        // 超分裂タイプか？
+                        // cool_down_per_turn をでかめにしたい
 
-                if param_rest >= 4
-                    && param.laser_power
-                        < min(96, self.static_info.initialize_param.heat_limit) as usize
-                    && param.laser_power * 2 <= param.energy * 4
-                {
-                    param.laser_power += 1;
-                    param_rest -= 4;
-                    continue;
+                        if param_rest >= 12
+                            && param.cool_down_per_turn < 14
+                            && param.cool_down_per_turn * 12 <= param.laser_power * 3
+                        {
+                            param.cool_down_per_turn += 1;
+                            param_rest -= 12;
+                            continue;
+                        }
+
+                        if param_rest >= 4
+                            && param.laser_power
+                                < min(96, self.static_info.initialize_param.heat_limit) as usize
+                            && param.laser_power * 3 <= param.energy * 4
+                        {
+                            param.laser_power += 1;
+                            param_rest -= 4;
+                            continue;
+                        }
+                    }
+                    _ => {
+                        // 分裂しなさそう
+                        // laser_power 極振りでいく
+                        if param_rest >= 12
+                            && param.cool_down_per_turn < 8
+                            && param.cool_down_per_turn * 12 <= param.energy * 2
+                            && param.cool_down_per_turn * 12 <= param.laser_power * 4
+                        {
+                            param.cool_down_per_turn += 1;
+                            param_rest -= 12;
+                            continue;
+                        }
+
+                        if param_rest >= 4
+                            && param.laser_power
+                                < min(96, self.static_info.initialize_param.heat_limit) as usize
+                            && param.laser_power * 2 <= param.energy * 4
+                        {
+                            param.laser_power += 1;
+                            param_rest -= 4;
+                            continue;
+                        }
+                    }
                 }
             } else {
                 // ディフェンダーはパワーに振らない
