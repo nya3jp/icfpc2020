@@ -27,7 +27,8 @@ def main():
         logging.info('interact: sending %s', line)
         req = urllib.request.Request(url=server_url + '/aliens/send',
                                      data=line.encode('utf-8'),
-                                     method='POST')
+                                     method='POST',
+                                     timeout=10)
         req.add_header('Content-Type', 'text/plain')
         with urllib.request.urlopen(req) as resp:
             if resp.status != 200:
