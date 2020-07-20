@@ -265,7 +265,7 @@ fn state_update_obstacles(cstate: &mut CurrentState) {
                 if y > 0 && x.abs() <= y.abs() {
                     fy -= 1;
                 }
-                if y > 0 && x.abs() <= y.abs() {
+                if y < 0 && x.abs() <= y.abs() {
                     fy += 1;
                 }
                 m.0.velocity = m.0.velocity + Point { x: fx, y: fy }
@@ -486,5 +486,88 @@ mod tests {
             }
         );
         assert_eq!(updated.machines[1].0.heat, 64);
+    }
+
+    #[test]
+    fn test_laser_kill() {
+        let curstate = {
+            let machine1 = Machine {
+                role: Role::DEFENDER,
+                machine_id: 19,
+                position: Point { x: 35, y: -5 },
+                velocity: Point { x: 2, y: 4 },
+                params: Param {
+                    energy: 0,
+                    laser_power: 0,
+                    cool_down_per_turn: 0,
+                    life: 1,
+                },
+                heat: 90,
+                heat_limit: 128,
+                move_limit: 2,
+            };
+            let machine2 = Machine {
+                role: Role::ATTACKER,
+                machine_id: 1,
+                position: Point { x: 13, y: 25 },
+                velocity: Point { x: 8, y: -1 },
+                params: Param {
+                    energy: 27,
+                    laser_power: 96,
+                    cool_down_per_turn: 8,
+                    life: 1,
+                },
+                heat: 40,
+                heat_limit: 128,
+                move_limit: 2,
+            };
+            let machine3 = Machine {
+                // to prevent game over
+                role: Role::DEFENDER,
+                machine_id: 0,
+                position: Point { x: 30, y: -62 },
+                velocity: Point { x: 3, y: 9 },
+                params: Param {
+                    energy: 3,
+                    laser_power: 0,
+                    cool_down_per_turn: 8,
+                    life: 4,
+                },
+                heat: 0,
+                heat_limit: 128,
+                move_limit: 2,
+            };
+            CurrentState {
+                turn: 0,
+                obstacle: Some(Obstacle {
+                    gravity_radius: 16,
+                    stage_half_size: 128,
+                }),
+                machines: vec![(machine1, vec![]), (machine2, vec![]), (machine3, vec![])],
+            }
+        };
+        // step 1
+        let (status, updated) = state_update(
+            &curstate,
+            &vec![Command::Beam(1, Point { x: -36, y: -1 }, 88)],
+        );
+        //println!("{:?}", updated);
+        // machine 1 position
+        assert_eq!(updated.machines[0].0.velocity, Point { x: 1, y: 4 });
+        assert_eq!(updated.machines[0].0.position, Point { x: 36, y: -1 });
+        // machine 2 should ...
+        assert_eq!(status, CurrentGameState::PLAYING);
+        assert_eq!(updated.machines[1].0.position, Point { x: 21, y: 23 });
+        assert_eq!(updated.machines[1].0.velocity, Point { x: 8, y: -2 });
+        assert_eq!(
+            updated.machines[1].0.params,
+            Param {
+                energy: 27,
+                laser_power: 96,
+                cool_down_per_turn: 8,
+                life: 1
+            }
+        );
+        assert_eq!(updated.machines[1].0.heat, 120);
     }
 }
