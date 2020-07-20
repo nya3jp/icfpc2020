@@ -474,7 +474,9 @@ impl Bot {
                             let dd = -(dx.abs() + dy.abs());
 
                             // let dist = -(v.x.abs() + v.y.abs());
-                            let dist = 0;
+
+                            // 同じダメージなら使うエネルギーが少ないところを打ちたい気がする
+                            let dist = -(max_beam_pow + max(dx.abs(), dy.abs()) * 8);
 
                             if (dmg, dist, dd) <= best_dmg {
                                 continue;
