@@ -228,6 +228,17 @@ fn self_destruct_power(m: &Machine) -> (usize, usize) {
     (area, lookup_destruct_power_table(sumenergy))
 }
 
+pub fn self_destruct_damage(m: &Machine, target: Point) -> usize {
+    let (_, power) = self_destruct_power(&m);
+    let d = (target - m.position).lmax_distance();
+    let damage = power as isize - d * 32;
+    if damage < 0 {
+        0
+    } else {
+        damage as usize
+    }
+}
+
 fn do_self_destruct(s: &mut CurrentState, all_actions: &Vec<Command>) {
     for action in all_actions {
         match action {
