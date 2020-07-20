@@ -121,6 +121,12 @@ function getOpponents(): Array<[string, number]> {
             if (team.tournaments[k].score == 50) {
                 ret.push([name + " (Top in round " + k + ")", team.tournaments[k].submission.submissionId])
             }
+            if (team.tournaments[k].score == 46) {
+                ret.push([name + " (Second in round " + k + ")", team.tournaments[k].submission.submissionId])
+            }
+            if (team.tournaments[k].score == 42) {
+                ret.push([name + " (Third in round " + k + ")", team.tournaments[k].submission.submissionId])
+            }
         }
         submissions.push([score, name, subid]);
     }

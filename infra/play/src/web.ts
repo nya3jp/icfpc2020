@@ -21,6 +21,7 @@ import { annotate } from './annotate';
 import { sendToServer } from './utils';
 import { demodulate, modulate } from './modem';
 import {parsePictures, Picture} from './picture';
+import { getTutorialState } from './tutorials';
 
 const env = newGalaxyEnvironment();
 const galaxyExpr = makeReference('galaxy');
@@ -45,6 +46,7 @@ const sendLogsElem = document.getElementById('sendlogs') as HTMLElement;
 const annotateElem = document.getElementById('annotate') as HTMLInputElement;
 const replayElem = document.getElementById('replay-player-key') as HTMLInputElement;
 const fastElem = document.getElementById('fast') as HTMLInputElement;
+const tutorialElem = document.getElementById('jump-to-tutorial') as HTMLSelectElement;
 
 const VIEW_MARGIN = 60;
 
@@ -415,6 +417,28 @@ function onFastChanged(): void {
     updateUI();
 }
 
+function onTutorialSelected(): void {
+    function car(expr: string): string {
+        return `ap car ${expr}`;
+    }
+    function cdr(expr: string): string {
+        return `ap cdr ${expr}`;
+    }
+
+    const selectedStage = tutorialElem.options[tutorialElem.selectedIndex].value;
+    const createReq = `ap ap cons 1 ap ap cons ${selectedStage} nil`;
+    const createReqVal = evaluate(env, parseExpr(createReq));
+    const createRes = debugString(env, evaluate(env, demodulate(sendToServer(modulate(env, createReqVal)))));
+    const playerKey = debugString(env, evaluate(env, parseExpr(car(cdr(car(car(cdr(createRes))))))));
+
+    const startReq = `ap ap cons 2 ap ap cons ${playerKey} ap ap cons nil nil`;
+    const startRes = demodulate(sendToServer(modulate(env, evaluate(env, parseExpr(startReq)))))
+    const joinReq = `ap ap cons 3 ap ap cons ${playerKey} ap ap cons nil nil`;
+    const joinRes = demodulate(sendToServer(modulate(env, evaluate(env, parseExpr(joinReq)))));
+
+    loadState(getTutorialState(playerKey, parseInt(selectedStage)));
+}
+
 function reportError(e: Error): void {
     alert(e);
     throw e;
@@ -427,6 +451,7 @@ function init(): void {
     annotateElem.addEventListener('change', onAnnotateChanged);
     replayElem.addEventListener('change', onReplayPlayerKeyChanged);
     fastElem.addEventListener('change', onFastChanged);
+    tutorialElem.addEventListener('change', onTutorialSelected);
 
     const initState = parseExpr('ap ap cons 2 ap ap cons ap ap cons 1 ap ap cons -1 nil ap ap cons 0 ap ap cons nil nil');
     interactPoint(initState, FARAWAY_POINT);
