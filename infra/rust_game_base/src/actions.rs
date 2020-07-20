@@ -331,6 +331,17 @@ pub fn laser(state: &CurrentState, machine_id: isize, target: Point) -> Option<C
     return Some(Command::Beam(machine_id, target, 32));
 }
 
+pub fn laser_relative(
+    state: &CurrentState,
+    machine_id: isize,
+    diff: Point,
+    power: isize,
+) -> Option<Command> {
+    let machine = get_machine_by_id(state, machine_id).unwrap();
+    let target = machine.position + diff;
+    return Some(Command::Beam(machine_id, target, power));
+}
+
 fn is_dead(obstacle: &Obstacle, position: &Point) -> bool {
     cmp::max(position.x.abs(), position.y.abs()) < (obstacle.gravity_radius as isize)
         || cmp::min(position.x.abs(), position.y.abs()) > (obstacle.stage_half_size as isize)

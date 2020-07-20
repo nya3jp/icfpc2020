@@ -16,10 +16,10 @@ fn main() -> Result<()> {
         return stay_bot(resp);
     }
 
-    // laser_test(resp)
+    laser_test(resp)
     // heat_test1(resp)
     // move_test1(resp)
-    survive_test(resp)
+    // survive_test(resp)
 }
 
 fn stay_bot(resp: rust_game_base::Response) -> Result<()> {
@@ -121,13 +121,18 @@ fn move_test1(resp: rust_game_base::Response) -> Result<()> {
 fn laser_test(resp: rust_game_base::Response) -> Result<()> {
     // Must be an attacker.
     eprintln!("send_start_request");
+    let power = match env::var("LASER_POWER") {
+        Ok(x) => x.parse::<isize>().unwrap_or(96),
+        _ => 96,
+    };
+    let cooldown = 0 as usize;
     let mut res = rust_game_base::send_start_request(&rust_game_base::Param{
         energy: resp.stage_data.initialize_param.total_cost
-            - 4 * 64
-            - 16 * 12
+            - 4 * (power as usize)
+            - 12 * cooldown
             - 2,
-        laser_power: 64,
-        cool_down_per_turn: 16,
+        laser_power: power as usize,
+        cool_down_per_turn: cooldown,
         life: 1
     })?;
 
@@ -135,6 +140,18 @@ fn laser_test(resp: rust_game_base::Response) -> Result<()> {
     let self_machine_ids = rust_game_base::get_roled_machine_ids(
         res.current_state.as_ref().unwrap(), rust_game_base::Role::ATTACKER);
     eprintln!("self machine_ids: {:?}", self_machine_ids);
+
+    let rel_pos = {
+        let x = match env::var("LASER_REL_X") {
+            Ok(x) => x.parse::<isize>().unwrap_or(10),
+            _ => 10,
+        };
+        let y = match env::var("LASER_REL_Y") {
+            Ok(y) => y.parse::<isize>().unwrap_or(10),
+            _ => 10,
+        };
+        rust_game_base::Point::new(x, y)
+    };
 
     let mut turn = 0;
     eprintln!("send_command_request");
@@ -149,21 +166,38 @@ fn laser_test(resp: rust_game_base::Response) -> Result<()> {
         if turn == 0 {
             next_actions.append(&mut self_machine_ids.iter()
                 .filter_map(
-                    |id| {
-                        let machine = rust_game_base::get_machine_by_id(
-                            res.current_state.as_ref().unwrap(), *id).unwrap();
-                        actions::laser(
-                            res.current_state.as_ref().unwrap(),
-                            *id,
-                            machine.position + rust_game_base::Point::new(0, 10),
-                        )
-                    })
+                    |id| actions::laser_relative(
+                        res.current_state.as_ref().unwrap(),
+                        *id,
+                        rel_pos,
+                        power),
+                )
                 .collect::<Vec<_>>());
+        } else if turn == 1 {
+            next_actions.append(&mut self_machine_ids.iter()
+                                .map(|id| rust_game_base::Command::Bomb(*id))
+                                .collect::<Vec<_>>());
         }
         res = rust_game_base::send_command_request(
             &mut next_actions.into_iter())?;
+        if turn == 0 {
+           for id in self_machine_ids.iter() {
+               let results = rust_game_base::get_results_by_id(
+                   res.current_state.as_ref().unwrap(),
+                   *id,
+               ).unwrap();
+               let intensity = results.iter()
+                   .find_map(|r| match r {
+                       rust_game_base::ActionResult::Laser {intensity: i, ..} => Some(i),
+                       _ => None,
+                   });
+               if let Some(i) = intensity {
+                   eprintln!("=== {}, {}, {}, {}", rel_pos.x, rel_pos.y, power, i);
+               }
+           }
+        }
+        turn += 1;
     }
-
 }
 
 fn survive_test(resp: rust_game_base::Response) -> Result<()> {
