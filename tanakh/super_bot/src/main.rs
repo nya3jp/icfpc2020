@@ -341,7 +341,7 @@ impl Bot {
 
         // 周回軌道に乗るってるか？
         if self.state.turn + self.live_time(self.get_me(), &Point::new(0, 0))
-            < self.static_info.total_turns
+            < self.static_info.total_turns && self.get_me().params.energy > 0
         {
             // 乗ってない
             // 周回軌道へ速やかに乗る
