@@ -1,5 +1,6 @@
 import {parseExpr} from './parser';
 import {newGalaxyEnvironment} from './galaxy';
+import { newGalaxy2Environment } from './galaxy2';
 import {evaluate} from './eval';
 import {
     debugString,
@@ -22,7 +23,6 @@ import { sendToServer } from './utils';
 import { demodulate, modulate } from './modem';
 import {parsePictures, Picture} from './picture';
 import { getTutorialState } from './tutorials';
-import { newGalaxy2Environment } from './galaxy2';
 
 let env = newGalaxyEnvironment();
 const galaxyExpr = makeReference('galaxy');
@@ -443,14 +443,20 @@ function onTutorialSelected(): void {
 
 function onGalaxyChanged(): void {
     const selectedGalaxy = galaxyElem.options[galaxyElem.selectedIndex].value;
+    // Erase cache.
+    delete galaxyExpr.cache;
     if (selectedGalaxy === "0") {
+        console.log('old galaxy: ' + env.get(":1029"));
         env = newGalaxyEnvironment();
+        const initState = parseExpr('ap ap cons 2 ap ap cons ap ap cons 1 ap ap cons -1 nil ap ap cons 0 ap ap cons nil nil');
+        if (galaxyExpr.cache)
+        interactPoint(initState, FARAWAY_POINT);
     } else {
         env = newGalaxy2Environment();
+        console.log('new galaxy: ' + env.get(":1029"));
+        const initState = parseExpr('nil');
+        interactPoint(initState, {x: 0, y: 0});
     }
-    const initState = parseExpr('ap ap cons 2 ap ap cons ap ap cons 1 ap ap cons -1 nil ap ap cons 0 ap ap cons nil nil');
-    interactPoint(initState, FARAWAY_POINT);
-    updateUI();
 }
 
 function reportError(e: Error): void {
