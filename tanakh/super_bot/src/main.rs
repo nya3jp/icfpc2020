@@ -212,7 +212,7 @@ impl Bot {
 
                 if param_rest >= 12
                     && param.cool_down_per_turn < 8
-                    && param.cool_down_per_turn * 12 <= param.energy
+                    && param.cool_down_per_turn * 12 <= param.energy * 2
                     && param.cool_down_per_turn * 12 <= param.laser_power * 4
                 {
                     param.cool_down_per_turn += 1;
@@ -222,9 +222,7 @@ impl Bot {
 
                 if param_rest >= 4
                     && param.laser_power < self.static_info.initialize_param.heat_limit as usize
-                    && param.laser_power <= param.energy
-                    && (param.cool_down_per_turn >= 8
-                        || param.laser_power * 2 <= param.cool_down_per_turn * 12)
+                    && param.laser_power * 2 <= param.energy * 4
                 {
                     param.laser_power += 1;
                     param_rest -= 4;
@@ -352,72 +350,88 @@ impl Bot {
             if self.get_me().role == Role::ATTACKER {
                 // いい感じのポジショニングならビームを打つ
 
-                let ene = self.get_some_enemy();
                 let me = self.get_me();
 
                 let heat_mergin = me.heat_limit as usize + me.params.cool_down_per_turn - me.heat;
 
                 // 次の位置予測
-                let next_ene_pos =
-                    ene.position + ene.velocity + get_gravity(&self.state, &ene.position);
-
                 let next_me_pos =
                     me.position + me.velocity + get_gravity(&self.state, &me.position);
-
-                let mut best_dmg = (0, 0);
-                let mut cand = None;
 
                 let can_move = next_me_pos.x.abs() > self.grav_area() * 3 / 2
                     || next_me_pos.y.abs() > self.grav_area() * 3 / 2;
 
-                for dy in -1..=1 {
-                    for dx in -1..=1 {
-                        if !can_move && (dx, dy) != (0, 0) {
-                            continue;
+                let mut best_dmg = (0, 0);
+                let mut cand = None;
+
+                for m in self.state.machines.iter() {
+                    let m = m.0;
+                    if m.role == self.get_me().role {
+                        continue;
+                    }
+
+                    let ene = m;
+
+                    let next_ene_pos =
+                        ene.position + ene.velocity + get_gravity(&self.state, &ene.position);
+
+                    for dy in -1..=1 {
+                        for dx in -1..=1 {
+                            if !can_move && (dx, dy) != (0, 0) {
+                                continue;
+                            }
+
+                            // ここにはいないだろう
+                            if !is_safe(&self.static_info, &next_ene_pos) {
+                                continue;
+                            }
+
+                            let v = next_me_pos - Point::new(dx, dy) - next_ene_pos;
+
+                            // スイートスポット以外は打たない
+                            let zure =
+                                min(v.x.abs(), min(v.y.abs(), (v.x.abs() - v.y.abs()).abs()));
+                            if zure >= 4 {
+                                continue;
+                            }
+
+                            // ずれてるときは移動しながら打つのでヒートに余裕を見る
+                            let max_beam_pow = min(
+                                heat_mergin as isize - max(dx.abs(), dy.abs()) * 8,
+                                me.params.laser_power as isize,
+                            );
+
+                            let decay = max(v.x.abs(), v.y.abs());
+                            let dmg = max_beam_pow * 3 - decay;
+
+                            // FIXME: 適当なので直して
+                            let dmg = dmg * (4 - zure) / 4;
+                            let dmg = min(
+                                dmg - 64,
+                                (ene.params.energy
+                                    + ene.params.laser_power
+                                    + ene.params.cool_down_per_turn
+                                    + ene.params.life) as isize,
+                            );
+
+                            let dd = -(dx.abs() + dy.abs());
+
+                            if (dmg, dd) <= best_dmg {
+                                continue;
+                            }
+
+                            best_dmg = (dmg, dd);
+                            cand = Some((dx, dy, max_beam_pow, next_ene_pos));
                         }
-
-                        // ここにはいないだろう
-                        if !is_safe(&self.static_info, &next_ene_pos) {
-                            continue;
-                        }
-
-                        let v = next_me_pos - Point::new(dx, dy) - next_ene_pos;
-
-                        // スイートスポット以外は打たない
-                        let zure = min(v.x.abs(), min(v.y.abs(), (v.x.abs() - v.y.abs()).abs()));
-                        if zure >= 4 {
-                            continue;
-                        }
-
-                        // ずれてるときは移動しながら打つのでヒートに余裕を見る
-                        let max_beam_pow = min(
-                            heat_mergin as isize - if dx == 0 && dy == 0 { 0 } else { 8 },
-                            me.params.laser_power as isize,
-                        );
-
-                        let decay = max(v.x.abs(), v.y.abs());
-                        let dmg = max_beam_pow * 3 - decay;
-
-                        // FIXME: 適当なので直して
-                        let dmg = dmg * (4 - zure) / 4;
-
-                        let dd = -(dx.abs() + dy.abs());
-
-                        if (dmg, dd) <= best_dmg {
-                            continue;
-                        }
-
-                        best_dmg = (dmg, dd);
-                        cand = Some((dx, dy, max_beam_pow));
                     }
                 }
 
-                if let Some((dx, dy, beam_pow)) = cand {
+                if let Some((dx, dy, beam_pow, pos)) = cand {
                     if dx != 0 || dy != 0 {
                         cmds.push(Command::Thrust(me.machine_id, Point::new(dx, dy)));
                     }
                     eprintln!("Beam: expected dmg = {}", best_dmg.0);
-                    cmds.push(Command::Beam(me.machine_id, next_ene_pos, beam_pow as _));
+                    cmds.push(Command::Beam(me.machine_id, pos, beam_pow as _));
                 }
             }
         }
