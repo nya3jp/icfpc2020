@@ -91,10 +91,10 @@ impl Annealer for Problem {
 
             heat -= min(heat, self.me.params.cool_down_per_turn);
 
-            if heat > 64 {
-                let over = heat - 64;
+            if heat > self.me.heat_limit {
+                let over = heat - self.me.heat_limit;
                 ovh_pena += over;
-                heat = 64;
+                heat = self.me.heat_limit;
             }
 
             comp_step += 1;
@@ -189,6 +189,8 @@ impl Bot {
         // attackerの時はレーザーに多めに、
         // defenderの時はレーザーに割り振らないようにするといい？
 
+        dbg!(self.static_info.initialize_param._3);
+
         while param_rest > 0 {
             if param.life == 0 {
                 param.life += 1;
@@ -201,6 +203,8 @@ impl Bot {
                 // cool_down_per_turn はこっちも8で十分か？
                 // TODO: もっといいパラメーターあるかも
 
+                // laser_power 極振りがよさそう？
+
                 if param_rest >= 12
                     && param.cool_down_per_turn < 8
                     && param.cool_down_per_turn * 12 <= param.energy
@@ -212,8 +216,8 @@ impl Bot {
                 }
 
                 if param_rest >= 4
-                    && param.laser_power < 64
-                    && param.laser_power * 2 <= param.energy
+                    && param.laser_power < self.static_info.initialize_param._3 as usize
+                    && param.laser_power <= param.energy
                     && (param.cool_down_per_turn >= 8
                         || param.laser_power * 2 <= param.cool_down_per_turn * 12)
                 {
@@ -236,7 +240,7 @@ impl Bot {
                     continue;
                 }
 
-                if param_rest >= 2 && param.life * 3 <= param.energy * 2 {
+                if param_rest >= 2 && param.life * 5 <= param.energy * 2 {
                     param.life += 1;
                     param_rest -= 2;
                     continue;
@@ -346,7 +350,7 @@ impl Bot {
                 let ene = self.get_some_enemy();
                 let me = self.get_me();
 
-                let heat_mergin = 64 - me.heat + me.params.cool_down_per_turn;
+                let heat_mergin = me.heat_limit as usize + me.params.cool_down_per_turn - me.heat;
 
                 // 次の位置予測
                 let next_ene_pos =
@@ -358,8 +362,15 @@ impl Bot {
                 let mut best_dmg = (0, 0);
                 let mut cand = None;
 
+                let can_move = next_me_pos.x.abs() > self.grav_area() * 3 / 2
+                    || next_me_pos.y.abs() > self.grav_area() * 3 / 2;
+
                 for dy in -1..=1 {
                     for dx in -1..=1 {
+                        if !can_move && (dx, dy) != (0, 0) {
+                            continue;
+                        }
+
                         // ここにはいないだろう
                         if !is_safe(&self.static_info, &next_ene_pos) {
                             continue;
@@ -465,7 +476,7 @@ impl Bot {
 
             let np = self.next_pos(self.get_me());
 
-            if self.get_me().params.energy >= 2
+            if self.get_me().params.energy >= 5
                 && self.get_me().params.life >= 2
                 && (np.x.abs() > self.grav_area() * 3 / 2 || np.y.abs() > self.grav_area() * 3 / 2)
             {
