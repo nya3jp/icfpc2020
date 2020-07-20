@@ -607,7 +607,7 @@ impl Bot {
                     // fallback
                     break (
                         -(self.get_leader().position.x.signum() as isize),
-                        -(self.get_leader().position.x.signum() as isize),
+                        -(self.get_leader().position.y.signum() as isize),
                     );
                 };
 
