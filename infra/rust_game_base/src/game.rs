@@ -1,6 +1,6 @@
 use self::super::value::*;
-use std::ops::{Add, AddAssign, Neg, Sub, SubAssign};
 use std::cmp;
+use std::ops::{Add, AddAssign, Neg, Sub, SubAssign};
 
 pub const THRUST_COMMAND: i128 = 0;
 pub const SELF_DESTRUCT_COMMAND: i128 = 1;
@@ -285,18 +285,17 @@ pub fn get_intensity(d: &Point, power: usize) -> usize {
     let dx = d.x.abs() as usize;
     let dy = d.y.abs() as usize;
 
-    let dist = {
-        let max = cmp::max(dx, dy);
-        if max == 0 { 0 } else { max - 1 }
-    };
-    let mut intensity = 3 * power - dist;
+    let mut intensity = 3 * power;
+    // Decay on horizontal/vertiacal or diagonal direction.
+    let dist = cmp::max(dx, dy);
+    intensity -= cmp::min((cmp::max(dist, 1) - 1), intensity);
 
-    if cmp::max(dx, dy) > 0 {
+    // Additional decay if the target is not aligned.
+    if dist > 0 {
         // 6 * power * min(min(dx, dy), max(dx, dy) - min(dx, dy)) / max(dx, dy)
-        let offset =
-            cmp::min(cmp::min(dx, dy), cmp::max(dx, dy) - cmp::min(dx, dy));
-        let decay = 6 * power * offset / cmp::max(dx, dy);
-        intensity -= decay;
+        let offset = cmp::min(cmp::min(dx, dy), dist - cmp::min(dx, dy));
+        let decay = 6 * power * offset / dist;
+        intensity -= cmp::min(intensity, decay);
     }
     return intensity;
 }

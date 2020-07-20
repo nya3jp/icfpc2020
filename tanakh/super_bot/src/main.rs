@@ -432,19 +432,12 @@ impl Bot {
                                 me.params.laser_power as isize,
                             );
 
-                            let decay = max(v.x.abs(), v.y.abs());
-                            let dmg = max_beam_pow * 3 - decay;
+                            if max_beam_pow <= 0 {
+                                continue;
+                            }
 
-                            // FIXME: 適当なので直して
-                            let dmg = dmg * (10 - zure) / 10;
-                            let dmg = min(
-                                dmg - 64,
-                                (ene.params.energy
-                                    + ene.params.laser_power
-                                    + ene.params.cool_down_per_turn
-                                    + ene.params.life) as isize,
-                            );
-
+                            let dmg = rust_game_base::get_intensity(
+                                &v, max_beam_pow as usize);
                             let dd = -(dx.abs() + dy.abs());
 
                             if (dmg, dd) <= best_dmg {
