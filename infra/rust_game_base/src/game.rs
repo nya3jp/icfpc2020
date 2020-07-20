@@ -270,3 +270,11 @@ pub fn get_machine_by_id(state: &CurrentState, machine_id: isize) -> Option<&Mac
         .find(|(m, _)| m.machine_id == machine_id)
         .map(|(m, _)| m)
 }
+
+pub fn get_results_by_id(state: &CurrentState, machine_id: isize) -> Option<&Vec<ActionResult>> {
+    state
+        .machines
+        .iter()
+        .find(|(m, _)| m.machine_id == machine_id)
+        .map(|(m, r)| r)
+}
