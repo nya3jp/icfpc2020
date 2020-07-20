@@ -78,58 +78,37 @@ pub enum Command {
     Bomb(isize),
     // Beam(ShipNum, X, Y, Power)
     Beam(isize, Point, isize),
-    // Split
-    Split(Param),
+    // Split(ShipNum, Param)
+    Split(isize, Param),
 }
 
 impl Command {
     pub fn to_value(&self) -> Value {
+        use crate::dsl::*;
+
         match self {
             //   send: [0, SHIP_NUM, (X . Y)]
-            &Command::Thrust(ship_num, ref pos) => Value::Cons(
-                Box::new(Value::Int(THRUST_COMMAND)),
-                Box::new(Value::Cons(
-                    Box::new(Value::Int(ship_num as i128)),
-                    Box::new(Value::Cons(Box::new(pos.to_value()), Box::new(Value::Nil))),
-                )),
-            ),
+            &Command::Thrust(ship_num, ref pos) => {
+                list!(int(THRUST_COMMAND), int(ship_num), pos.to_value())
+            }
             // send [1, SHIP_NUM]
-            &Command::Bomb(ship_num) => Value::Cons(
-                Box::new(Value::Int(SELF_DESTRUCT_COMMAND)),
-                Box::new(Value::Cons(
-                    Box::new(Value::Int(ship_num as i128)),
-                    Box::new(Value::Nil),
-                )),
-            ),
+            &Command::Bomb(ship_num) => list!(int(SELF_DESTRUCT_COMMAND), int(ship_num)),
             // send: [2, SHIP_NUM, ( X . Y ), POWER] =>
-            &Command::Beam(ship_num, point, power) => Value::Cons(
-                Box::new(Value::Int(BEAM_COMMAND)),
-                Box::new(Value::Cons(
-                    Box::new(Value::Int(ship_num as i128)),
-                    Box::new(Value::Cons(
-                        Box::new(point.to_value()),
-                        Box::new(Value::Cons(
-                            Box::new(Value::Int(power as i128)),
-                            Box::new(Value::Nil),
-                        )),
-                    )),
-                )),
+            &Command::Beam(ship_num, point, power) => list!(
+                int(BEAM_COMMAND),
+                int(ship_num),
+                point.to_value(),
+                int(power)
             ),
-            &Command::Split(ref param) => Value::Cons(
-                Box::new(Value::Int(SPLIT_COMMAND)),
-                Box::new(Value::Cons(
-                    Box::new(Value::Int(param.energy as i128)),
-                    Box::new(Value::Cons(
-                        Box::new(Value::Int(param.laser_power as i128)),
-                        Box::new(Value::Cons(
-                            Box::new(Value::Int(param.cool_down_per_turn as i128)),
-                            Box::new(Value::Cons(
-                                Box::new(Value::Int(param.life as i128)),
-                                Box::new(Value::Nil),
-                            )),
-                        )),
-                    )),
-                )),
+            &Command::Split(ship_num, ref param) => list!(
+                int(SPLIT_COMMAND),
+                int(ship_num),
+                list!(
+                    int(param.energy),
+                    int(param.laser_power),
+                    int(param.cool_down_per_turn),
+                    int(param.life)
+                )
             ),
         }
     }

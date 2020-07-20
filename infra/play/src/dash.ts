@@ -72,8 +72,7 @@ function loadResults(): void {
         rows.push('<tr><th></th>' + head.join('') + '</tr>');
         for (var [oppName, oppSubId] of topPlayers) {
             let result = "<tr><td>" + oppName + " (" + oppSubId + ")</td>";
-            for (var ourBotName of OUR_BOTS) {
-                const ourSubId = currentBots[ourBotName];
+            for (var ourSubId of botIDs) {
                 if (ourSubId in resultsAtk && oppSubId in resultsAtk[ourSubId]) {
                     let [status, playerKey] = resultsAtk[ourSubId][oppSubId];
                     let url = 'https://icfpcontest2020.github.io/#/visualize?playerkey=' + playerKey;
