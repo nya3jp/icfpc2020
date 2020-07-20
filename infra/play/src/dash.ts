@@ -100,7 +100,7 @@ function getOpponents(): Array<[string, number]> {
         submissions.push([score, name, subid]);
     }
 
-    submissions.sort().reverse();
+    submissions.sort((a, b) => b[0] - a[0]);
     let ret: Array<[string, number]> = [];
     for (var [score, name, subid] of submissions) {
         ret.push([name, subid]);
