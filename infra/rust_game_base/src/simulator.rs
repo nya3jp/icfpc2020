@@ -28,8 +28,8 @@ fn machine_update_cooldown(m: &mut Machine) {
     let energy = m.params.energy as isize;
     let newh = m.heat as isize - min(m.params.cool_down_per_turn, m.heat) as isize;
 
-    let heatdamage = newh - min(newh, OVERHEAT as isize) as isize;
-    let newheat = min(newh, OVERHEAT as isize) as isize;
+    let heatdamage = newh - min(newh, m.heat_limit as isize) as isize;
+    let newheat = min(newh, m.heat_limit as isize) as isize;
     m.heat = newheat as usize;
 
     let remaindamage = max(heatdamage, 0) as isize;
