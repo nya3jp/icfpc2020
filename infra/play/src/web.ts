@@ -13,7 +13,7 @@ import {
     PrettyData,
     NumberData,
     prettyDataString,
-    valueToPrettyData
+    valueToPrettyData, makePoint, prettyDataEqual
 } from './data';
 
 import {appendSendLog, getSendLogs} from './logs';
@@ -444,6 +444,52 @@ function reportError(e: Error): void {
     throw e;
 }
 
+function interactPointOnce(state: Expr, point: Point): Expr | null {
+    const result = evaluate(env, makeApply(makeApply(galaxyExpr, state), makePoint(point)));
+    const [syscall, newState, output] = parseList(env, result);
+    if (syscall.kind !== 'number') {
+        throw new Error('Flag not a number');
+    }
+    if (syscall.number !== BigInt(0)) {
+        return null;
+    }
+    return newState;
+}
+
+function detect(): void {
+    const { state, pics } = history[historyPos];
+    const view = computeView(pics);
+    const prettyState = valueToPrettyData(env, evaluate(env, state));
+
+    const ctx = canvasElem.getContext('2d');
+    if (!ctx) {
+        throw new Error('Canvas context unavailable');
+    }
+
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+
+    const d = getPixelSize(pics)
+    const ox = (canvasElem.width - d * (view.maxX - view.minX)) / 2;
+    const oy = (canvasElem.height - d * (view.maxY - view.minY)) / 2;
+    function translate(p: Point): Point {
+        return {x: ox + d * (p.x - view.minX), y: oy + d * (p.y - view.minY)};
+    }
+    for (let y = view.minY; y < view.maxY; y++) {
+        for (let x = view.minX; x < view.maxX; x++) {
+            const newState = interactPointOnce(state, {x, y});
+            if (!newState) {
+                continue;
+            }
+            const prettyNewState = valueToPrettyData(env, evaluate(env, newState));
+            if (!prettyDataEqual(prettyNewState, prettyState)) {
+                continue;
+            }
+            const {x: tx, y: ty} = translate({x, y});
+            ctx.fillRect(tx, ty, d, d);
+        }
+    }
+}
+
 function init(): void {
     canvasElem.addEventListener('click', onClickCanvas);
     stateElem.addEventListener('change', onStateChanged);
@@ -471,10 +517,11 @@ function init(): void {
 init();
 
 interface Window {
-    step(): void
+    detect(): void
     forward(): void
     backward(): void
 }
 declare var window: Window;
+window.detect = detect;
 window.forward = forward;
 window.backward = backward;
