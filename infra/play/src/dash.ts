@@ -133,11 +133,21 @@ function getOurLatestBots(): [Record<string, number>, Record<number, string>, Re
 }
 
 function getResults(): [Record<number, string>, Record<number, Record<number, [string, number]>>, Record<number, Record<number, [string, number]>>] {
-    const games = <GamesList>JSON.parse(queryNonRatingRuns());
+    let games: Array<Game> = [];
+    let prevDate = '';
+    while (true) {
+        const ret = <GamesList>JSON.parse(queryNonRatingRuns(prevDate));
+        games = games.concat(ret.games);
+        if (ret.hasMore && ret.next) {
+            prevDate = ret.next;
+            continue;
+        }
+        break;
+    }
     let subidToTeamName: Record<number, string> = {};
     let resultsAtk: Record<number, Record<number, [string, number]>> = {};
     let resultsDef: Record<number, Record<number, [string, number]>> = {};
-    for (var game of games.games) {
+    for (var game of games) {
         const atkTeamName = game.attacker.team.teamName;
         const atkSubId = game.attacker.submissionId;
         const defTeamName = game.defender.team.teamName;
@@ -234,6 +244,8 @@ interface Game {
 }
 
 interface GamesList {
+    hasMore: boolean,
+    next?: string,
     games: Array<Game>
 }
 
