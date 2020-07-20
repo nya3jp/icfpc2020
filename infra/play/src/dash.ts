@@ -101,6 +101,7 @@ function loadResults(): void {
 function getOpponents(): Array<[string, number]> {
     const scores = <Scoreboard>JSON.parse(queryServer('/scoreboard'));
     let submissions: Array<[number, string, number]> = [];
+    let ret: Array<[string, number]> = [];
     for (var team of scores.teams) {
         if (team.team.teamId == MY_TEAM_ID) {
             continue;
@@ -114,11 +115,18 @@ function getOpponents(): Array<[string, number]> {
             }
         }
         const subid = team.tournaments[latestKey.toString()].submission.submissionId;
+        for (var k in team.tournaments) {
+            if (subid == team.tournaments[k].submission.submissionId) {
+                continue;
+            }
+            if (team.tournaments[k].score == 50) {
+                ret.push([name + " (Top in round " + k + ")", team.tournaments[k].submission.submissionId])
+            }
+        }
         submissions.push([score, name, subid]);
     }
 
     submissions.sort((a, b) => b[0] - a[0]);
-    let ret: Array<[string, number]> = [];
     for (var [score, name, subid] of submissions) {
         ret.push([name, subid]);
     }
