@@ -333,47 +333,45 @@ pub fn state_update(
 mod tests {
     use super::*;
 
-    fn init_test_state() -> CurrentState {
-        let machine1 = Machine {
-            role: Role::DEFENDER,
-            machine_id: 1,
-            position: Point { x: 33, y: 6 },
-            velocity: Point { x: 0, y: 0 },
-            params: Param {
-                energy: 78,
-                laser_power: 0,
-                cool_down_per_turn: 0,
-                life: 1,
-            },
-            heat: 0,
-            heat_limit: 64,
-            move_limit: 1,
-        };
-        let machine2 = Machine {
-            role: Role::ATTACKER,
-            machine_id: 0,
-            position: Point { x: 20, y: 0 },
-            velocity: Point { x: 1, y: 0 },
-            params: Param {
-                energy: 2,
-                laser_power: 0,
-                cool_down_per_turn: 0,
-                life: 1,
-            },
-            heat: 8,
-            heat_limit: 64,
-            move_limit: 1,
-        };
-        CurrentState {
-            turn: 0,
-            obstacle: None,
-            machines: vec![(machine1, vec![]), (machine2, vec![])],
-        }
-    }
-
     #[test]
     fn test_update() {
-        let curstate = init_test_state();
+        let curstate = {
+            let machine1 = Machine {
+                role: Role::DEFENDER,
+                machine_id: 1,
+                position: Point { x: 33, y: 6 },
+                velocity: Point { x: 0, y: 0 },
+                params: Param {
+                    energy: 78,
+                    laser_power: 0,
+                    cool_down_per_turn: 0,
+                    life: 1,
+                },
+                heat: 0,
+                heat_limit: 64,
+                move_limit: 1,
+            };
+            let machine2 = Machine {
+                role: Role::ATTACKER,
+                machine_id: 0,
+                position: Point { x: 20, y: 0 },
+                velocity: Point { x: 1, y: 0 },
+                params: Param {
+                    energy: 2,
+                    laser_power: 0,
+                    cool_down_per_turn: 0,
+                    life: 1,
+                },
+                heat: 8,
+                heat_limit: 64,
+                move_limit: 1,
+            };
+            CurrentState {
+                turn: 0,
+                obstacle: None,
+                machines: vec![(machine1, vec![]), (machine2, vec![])],
+            }
+        };
         //println!("{:?}", curstate);
         let cmd1 = Command::Thrust(0, Point { x: -1, y: 0 });
         let (status, updated) = state_update(&curstate, &vec![cmd1]);
@@ -396,5 +394,97 @@ mod tests {
             }
         );
         assert_eq!(updated.machines[1].0.heat, 16);
+    }
+
+    #[test]
+    fn test_laser_overheat() {
+        let curstate = {
+            let machine1 = Machine {
+                role: Role::DEFENDER,
+                machine_id: 1,
+                position: Point { x: 30, y: -6 },
+                velocity: Point { x: -2, y: -3 },
+                params: Param {
+                    energy: 291,
+                    laser_power: 0,
+                    cool_down_per_turn: 7,
+                    life: 1,
+                },
+                heat: 0,
+                heat_limit: 64,
+                move_limit: 1,
+            };
+            let machine2 = Machine {
+                role: Role::ATTACKER,
+                machine_id: 0,
+                position: Point { x: -27, y: -5 },
+                velocity: Point { x: 3, y: -2 },
+                params: Param {
+                    energy: 18,
+                    laser_power: 64,
+                    cool_down_per_turn: 10,
+                    life: 1,
+                },
+                heat: 64,
+                heat_limit: 64,
+                move_limit: 1,
+            };
+            CurrentState {
+                turn: 0,
+                obstacle: Some(Obstacle {
+                    gravity_radius: 16,
+                    stage_half_size: 128,
+                }),
+                machines: vec![(machine1, vec![]), (machine2, vec![])],
+            }
+        };
+
+        //println!("{:?}", curstate);
+        // step 1
+        let (status, updated) = state_update(
+            &curstate,
+            &vec![Command::Beam(0, Point { x: -20, y: 40 }, 64)],
+        );
+        //println!("{:?}", updated);
+        // machine 1 position
+        assert_eq!(updated.machines[0].0.position, Point { x: 27, y: -9 });
+        assert_eq!(updated.machines[0].0.velocity, Point { x: -3, y: -3 });
+        // machine 2 should ...
+        assert_eq!(status, CurrentGameState::PLAYING);
+        assert_eq!(updated.machines[1].0.position, Point { x: -23, y: -7 });
+        assert_eq!(updated.machines[1].0.velocity, Point { x: 4, y: -2 });
+        assert_eq!(
+            updated.machines[1].0.params,
+            Param {
+                energy: 0,
+                laser_power: 28,
+                cool_down_per_turn: 10,
+                life: 1
+            }
+        );
+        assert_eq!(updated.machines[1].0.heat, 64);
+
+        // step 2
+        let (status, updated) = state_update(
+            &updated,
+            &vec![Command::Beam(0, Point { x: -34, y: 28 }, 28)],
+        );
+        // machine 1 position
+        assert_eq!(updated.machines[0].0.position, Point { x: 23, y: -12 });
+        assert_eq!(updated.machines[0].0.velocity, Point { x: -4, y: -3 });
+        // machine 2 should ...
+        assert_eq!(status, CurrentGameState::PLAYING);
+        assert_eq!(updated.machines[1].0.position, Point { x: -18, y: -9 });
+        assert_eq!(updated.machines[1].0.velocity, Point { x: 5, y: -2 });
+        assert_eq!(
+            updated.machines[1].0.params,
+            Param {
+                energy: 0,
+                laser_power: 10,
+                cool_down_per_turn: 10,
+                life: 1
+            }
+        );
+        assert_eq!(updated.machines[1].0.heat, 64);
     }
 }
