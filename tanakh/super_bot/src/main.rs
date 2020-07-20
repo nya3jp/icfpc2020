@@ -589,8 +589,7 @@ impl Bot {
     }
 
     fn get_leader(&self) -> &Machine {
-        self
-            .state
+        self.state
             .machines
             .iter()
             .filter(|r| r.0.role == self.static_info.self_role)
@@ -600,8 +599,7 @@ impl Bot {
     }
 
     fn leader_num(&self) -> usize {
-        self
-            .state
+        self.state
             .machines
             .iter()
             .filter(|r| r.0.role == self.static_info.self_role)

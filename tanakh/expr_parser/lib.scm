@@ -32,10 +32,8 @@
 
 (define (ifzero)
     (lambda (b) (lambda (x0) (lambda (x1)
-
-(display "***ifzero***")
-
-(if (= b 0) x0 x1)
+    
+(((((eq) b) 0) x0) x1)
 
 ))))
 
