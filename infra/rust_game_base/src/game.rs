@@ -1,5 +1,6 @@
 use self::super::value::*;
 use std::ops::{Add, AddAssign, Neg, Sub, SubAssign};
+use std::cmp;
 
 pub const THRUST_COMMAND: i128 = 0;
 pub const SELF_DESTRUCT_COMMAND: i128 = 1;
@@ -277,4 +278,25 @@ pub fn get_results_by_id(state: &CurrentState, machine_id: isize) -> Option<&Vec
         .iter()
         .find(|(m, _)| m.machine_id == machine_id)
         .map(|(m, r)| r)
+}
+
+// Returns the intensity of the laser.
+pub fn get_intensity(d: &Point, power: usize) -> usize {
+    let dx = d.x.abs() as usize;
+    let dy = d.y.abs() as usize;
+
+    let dist = {
+        let max = cmp::max(dx, dy);
+        if max == 0 { 0 } else { max - 1 }
+    };
+    let mut intensity = 3 * power - dist;
+
+    if cmp::max(dx, dy) > 0 {
+        // 6 * power * min(min(dx, dy), max(dx, dy) - min(dx, dy)) / max(dx, dy)
+        let offset =
+            cmp::min(cmp::min(dx, dy), cmp::max(dx, dy) - cmp::min(dx, dy));
+        let decay = 6 * power * offset / cmp::max(dx, dy);
+        intensity -= decay;
+    }
+    return intensity;
 }
