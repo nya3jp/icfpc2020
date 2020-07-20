@@ -283,7 +283,7 @@ fn is_dead(m: &Machine) -> bool {
         };
 }
 
-fn get_current_gamestate(cstate: &CurrentState) -> CurrentGameState {
+fn get_current_gamestate(cstate: &CurrentState) -> (CurrentGameState, Option<Role>) {
     let mut defender_alive = false;
     let mut attacker_alive = false;
     for mpair in &cstate.machines {
@@ -297,10 +297,21 @@ fn get_current_gamestate(cstate: &CurrentState) -> CurrentGameState {
     }
     // TODO: winner is?
     if (!defender_alive) || (!attacker_alive) {
-        CurrentGameState::END
+        (
+            CurrentGameState::END,
+            Some(if defender_alive {
+                Role::DEFENDER
+            } else {
+                Role::ATTACKER
+            }),
+        )
     } else {
-        CurrentGameState::PLAYING
+        (CurrentGameState::PLAYING, None)
     }
+}
+
+pub fn get_winner(cstate: &CurrentState) -> Option<Role> {
+    get_current_gamestate(cstate).1
 }
 
 /* Accepts CurrentState and Commands and outputs updated states. */
@@ -314,7 +325,7 @@ pub fn state_update(
     state_update_coordinates(&mut cstate);
     state_update_damages(&mut cstate, commands);
     state_update_cooldown(&mut cstate);
-    (get_current_gamestate(&cstate), cstate)
+    (get_current_gamestate(&cstate).0, cstate)
 }
 
 #[cfg(test)]

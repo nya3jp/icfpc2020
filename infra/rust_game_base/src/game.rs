@@ -147,6 +147,15 @@ impl Default for Role {
     }
 }
 
+impl Role {
+    pub fn opposite(self) -> Role {
+        match self {
+            Role::ATTACKER => Role::DEFENDER,
+            Role::DEFENDER => Role::ATTACKER,
+        }
+    }
+}
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Obstacle {
     // 重力源の半径 (|x| と |y| がともにこれ以下になると死. 移動中にかすめてもセーフ),
