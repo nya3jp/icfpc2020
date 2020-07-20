@@ -346,8 +346,8 @@ mod tests {
                 life: 1,
             },
             heat: 0,
-            _1: 64,
-            _2: 1,
+            heat_limit: 64,
+            move_limit: 1,
         };
         let machine2 = Machine {
             role: Role::ATTACKER,
@@ -361,8 +361,8 @@ mod tests {
                 life: 1,
             },
             heat: 8,
-            _1: 64,
-            _2: 1,
+            heat_limit: 64,
+            move_limit: 1,
         };
         CurrentState {
             turn: 0,
