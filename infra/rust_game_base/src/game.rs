@@ -26,6 +26,19 @@ impl Point {
     pub fn l0_distance(&self) -> isize {
         std::cmp::max(self.x.abs(), self.y.abs())
     }
+    pub fn dist(self, p: Point) -> f64 {
+        (self.dist2(p) as f64).sqrt()
+    }
+    pub fn dist2(self, p: Point) -> isize {
+        (self - p).norm2()
+    }
+    pub fn norm2(self) -> isize {
+        let (x, y) = (self.x, self.y);
+        x * x + y * y
+    }
+    pub fn norm(self) -> f64 {
+        Point::new(0, 0).dist(self)
+    }
 }
 
 impl Add for Point {
