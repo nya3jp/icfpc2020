@@ -203,68 +203,11 @@ impl Bot {
                 continue;
             }
 
-            if self.static_info.self_role == Role::ATTACKER {
-                // アタッカーはまんべんなく振る
-                // cool_down_per_turn はこっちも8で十分か？
-                // TODO: もっといいパラメーターあるかも
-
-                // laser_power 極振りがよさそう？
-                // cool_down_per_turnはもっといるだろ
-
-                match &self.static_info.defender {
-                    Some(ene) if ene.life >= 20 => {
-                        // 超分裂タイプか？
-                        // cool_down_per_turn をでかめにしたい
-
-                        if param_rest >= 12
-                            && param.cool_down_per_turn < 14
-                            && param.cool_down_per_turn * 12 <= param.laser_power * 3
-                        {
-                            param.cool_down_per_turn += 1;
-                            param_rest -= 12;
-                            continue;
-                        }
-
-                        if param_rest >= 4
-                            && param.laser_power
-                                < min(96, self.static_info.initialize_param.heat_limit) as usize
-                            && param.laser_power * 3 <= param.energy * 4
-                        {
-                            param.laser_power += 1;
-                            param_rest -= 4;
-                            continue;
-                        }
-                    }
-                    _ => {
-                        // 分裂しなさそう
-                        // laser_power 極振りでいく
-                        if param_rest >= 12
-                            && param.cool_down_per_turn < 8
-                            && param.cool_down_per_turn * 12 <= param.energy * 2
-                            && param.cool_down_per_turn * 12 <= param.laser_power * 4
-                        {
-                            param.cool_down_per_turn += 1;
-                            param_rest -= 12;
-                            continue;
-                        }
-
-                        if param_rest >= 4
-                            && param.laser_power
-                                < min(96, self.static_info.initialize_param.heat_limit) as usize
-                            && param.laser_power * 2 <= param.energy * 4
-                        {
-                            param.laser_power += 1;
-                            param_rest -= 4;
-                            continue;
-                        }
-                    }
-                }
-            } else {
+            {
                 // ディフェンダーはパワーに振らない
                 // スラスターを使い放題にするためにcool_down_per_turnを8にしたい
                 // あとはライフとエネルギーを均等に
                 // エネルギー多めの方がよさそう
-
                 if param_rest >= 12
                     && param.cool_down_per_turn < 8
                     && param.cool_down_per_turn * 12 <= param.energy
@@ -297,6 +240,7 @@ impl Bot {
             param_rest -= 1;
         }
 
+        eprintln!("initial life parameter: {}", param.life);
         dbg!(&param);
 
         assert!(
@@ -377,8 +321,17 @@ impl Bot {
         } else {
             // ライフが2以上あれば、分裂する
             // その後ランダムに移動する
-
             let np = self.next_pos(self.get_leader());
+
+            eprintln!("next leader pos == {:?}", np);
+
+            eprintln!(
+                "energy: {}, life: {}, x: {}, y: {}",
+                self.get_leader().params.energy,
+                self.get_leader().params.life,
+                np.x.abs() > self.grav_area() * 3 / 2,
+                np.y.abs() > self.grav_area() * 3 / 2
+            );
 
             if self.get_leader().params.energy >= 5
                 && self.get_leader().params.life >= 2
@@ -447,6 +400,7 @@ impl Bot {
                         rust_game_base::self_destruct_damage(&attacker_machine, next_ene_pos);
                     if damage >= ene_machine.params.life && !killed.contains(&machine_id) {
                         if !use_bomb {
+                            eprintln!("using bomb: {}", attacker_machine.machine_id);
                             cmds.push(Command::Bomb(attacker_machine.machine_id));
                         }
                         use_bomb = true;
