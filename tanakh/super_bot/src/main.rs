@@ -293,7 +293,7 @@ impl Bot {
 
     fn attacker(&mut self) -> Vec<Command> {
         dbg!(self.static_info.self_role);
-        dbg!(&self.state);
+        // dbg!(&self.state);
 
         // コマンドキューが残ってるならそれを使う
         if let Some(cs) = self.cmd_queue.pop_front() {
@@ -392,7 +392,7 @@ impl Bot {
                             // スイートスポット以外は打たない
                             let zure =
                                 min(v.x.abs(), min(v.y.abs(), (v.x.abs() - v.y.abs()).abs()));
-                            if zure >= 4 {
+                            if zure >= 9 {
                                 continue;
                             }
 
@@ -406,7 +406,7 @@ impl Bot {
                             let dmg = max_beam_pow * 3 - decay;
 
                             // FIXME: 適当なので直して
-                            let dmg = dmg * (4 - zure) / 4;
+                            let dmg = dmg * (10 - zure) / 10;
                             let dmg = min(
                                 dmg - 64,
                                 (ene.params.energy
@@ -442,7 +442,7 @@ impl Bot {
 
     fn defender(&mut self) -> Vec<Command> {
         dbg!(self.static_info.self_role);
-        dbg!(&self.state);
+        // dbg!(&self.state);
 
         // コマンドキューが残ってるならそれを使う
         if let Some(cs) = self.cmd_queue.pop_front() {
@@ -598,7 +598,7 @@ impl Bot {
             .machines
             .iter()
             .filter(|r| r.0.role == self.static_info.self_role)
-            .filter(|r| r.0.params.life > 1)
+            .filter(|r| r.0.params.life > 1 && r.0.params.energy >= 5)
             .min_by_key(|r| r.0.machine_id)
             .map_or_else(|| self.get_me(), |r| &r.0)
     }
