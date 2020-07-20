@@ -25,28 +25,28 @@ fn update_machine_heat(m: &mut Machine, heat: usize) {
 
 // returns None if machines die
 fn machine_update_cooldown(m: &mut Machine) {
-    let energy = m.params.energy;
-    let newh = m.heat - min(m.params.cool_down_per_turn, m.heat);
+    let energy = m.params.energy as isize;
+    let newh = m.heat as isize - min(m.params.cool_down_per_turn, m.heat) as isize;
 
-    let heatdamage = newh - min(newh, OVERHEAT);
-    let newheat = min(newh, OVERHEAT);
-    m.heat = newheat;
+    let heatdamage = newh - min(newh, OVERHEAT as isize) as isize;
+    let newheat = min(newh, OVERHEAT as isize) as isize;
+    m.heat = newheat as usize;
 
-    let remaindamage = max(heatdamage, 0);
-    let energydamage = min(m.params.energy, remaindamage);
-    m.params.energy -= energydamage;
+    let remaindamage = max(heatdamage, 0) as isize;
+    let energydamage = min(m.params.energy as isize, remaindamage);
+    m.params.energy -= energydamage as usize;
 
     let remaindamage = max(remaindamage - energydamage, 0);
-    let laserdamage = min(remaindamage, m.params.laser_power);
-    m.params.laser_power -= laserdamage;
+    let laserdamage = min(remaindamage, m.params.laser_power as isize);
+    m.params.laser_power -= laserdamage as usize;
 
     let remaindamage = max(remaindamage - laserdamage, 0);
-    let cooldowndamage = min(remaindamage, m.params.cool_down_per_turn);
-    m.params.cool_down_per_turn -= cooldowndamage;
+    let cooldowndamage = min(remaindamage, m.params.cool_down_per_turn as isize);
+    m.params.cool_down_per_turn -= cooldowndamage as usize;
 
     let remaindamage = max(remaindamage - cooldowndamage, 0);
-    let lifedamage = min(remaindamage, m.params.life);
-    m.params.life -= lifedamage;
+    let lifedamage = min(remaindamage, m.params.life as isize);
+    m.params.life -= lifedamage as usize;
 }
 
 fn state_update_cooldown(s: &mut CurrentState) {
