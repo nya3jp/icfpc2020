@@ -8,12 +8,13 @@ consisting of 9 members: [@chiro], [@draftcode], [@gusmachine], [@kmyk],
 
 This repository contains all the code we wrote for the contest.
 
-We used Rust and C++ to build [bots to play the space fighting game] for the
-final round, TypeScript to build [a Galaxy Pad implementation],
-Go, Python, Ruby, OCaml to build support infrastructure, utilities, and so on.
+We used Rust to build [bots to play the space fighting game] for the final
+round, TypeScript to build [a Galaxy Pad implementation],
+Python, Go, C++, Ruby, OCaml to build support infrastructure and various
+utilities.
 
 Note that we decided the team name after the lightning round. Until then our
-team name on the system was `???` tentatively.
+team name on the system was `???`.
 
 [ICFP Programming Contest 2020]: https://icfpcontest2020.github.io/
 [@chiro]: https://github.com/chiro/
@@ -30,25 +31,47 @@ team name on the system was `???` tentatively.
 
 ## Bots
 
-### super_bot
+### super_bot (submitted solution)
 
-TODO: Write
+Code: [`./tanakh/super_bot`]
+
+TODO(tanakh): Write
+
+[`./tanakh/super_bot`]: ./tanakh/super_bot/
 
 ## Infra
 
 ### Galaxy Player
+
+Code: [`./infra/play`]
 
 Galaxy Player is our implementation of Galaxy Pad written in TypeScript.
 [A live demo is available](https://nya3jp.github.io/icfpc2020/).
 
 ![Screenshot](/images/galaxy-player.png?raw=true)
 
+[`./infra/play`]: ./infra/play/
+
 ### Dashboard
 
-TODO: Write
+Code: [`./infra/play/src/dash.ts`]
+
+TODO(draftcode): Write
 
 ![Screenshot](/images/dashboard.png?raw=true)
 
+[`./infra/play/src/dash.ts`]: ./infra/play/src/dash.ts
+
 ### Submission System
 
-TODO: Write
+Code: [`./infra/make_submissions.sh`]
+
+The script is run on every commit by [a GitHub action] to update submission
+branches.
+
+[`./infra/make_submissions.sh`]: ./infra/make_submissions.sh
+[a GitHub action]: ./.github/workflows/submit.yml
+
+## Support tools
+
+TODO(everyone): Write
