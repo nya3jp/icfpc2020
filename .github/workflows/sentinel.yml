@@ -1,10 +1,5 @@
 name: Sentinel
 
-on:
-  push:
-    branches:
-      - master
-
 jobs:
   deploy:
     name: Deploy to sentinel

@@ -1,9 +1,5 @@
 name: Submit
 
-on:
-  push:
-    branches: []
-
 jobs:
   submit:
     runs-on: ubuntu-18.04
