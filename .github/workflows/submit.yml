@@ -2,8 +2,7 @@ name: Submit
 
 on:
   push:
-    branches:
-      - master
+    branches: []
 
 jobs:
   submit:
