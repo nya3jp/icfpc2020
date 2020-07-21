@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <title>Galaxy Player</title>
+  <style>
+    html {
+      font-size: 12px;
+    }
+    .annotation {
+      user-select: none;
+      color: #888;
+      font-weight: normal !important;
+    }
+    .slow {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid">
+  <h1 class="mb-3">Galaxy Player</h1>
+
+  <form id="control">
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">API key</label>
+      <input id="api_key" class="col-sm-6 form-control">
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-2">Options</div>
+      <div class="col-sm-2">
+        <div class="form-check">
+          <input id="fast" type="checkbox" checked class="form-check-input">
+          <label class="form-check-label">Fast Mode</label>
+        </div>
+      </div>
+    </div>
+    <div class="slow">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">State</label>
+        <input id="state" class="col-sm-6 form-control">
+        <label id="state-list" class="col-sm-6 col-form-label" style="white-space:nowrap"></label>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Custom pixel size</label>
+        <input id="fixed" type="number" class="col-sm-2 form-control">
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Replay player key</label>
+        <input id="replay-player-key" class="col-sm-6 form-control">
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Jump to tutorial</label>
+        <select id="jump-to-tutorial">
+          <option value="0">None</option>
+          <option value="1">L-1</option>
+          <option value="2">L-2</option>
+          <option value="3">L-3</option>
+          <option value="4">L-4</option>
+          <option value="5">L-5</option>
+          <option value="6">L-6</option>
+          <option value="7">L-7</option>
+          <option value="8">L-8</option>
+          <option value="9">L-9</option>
+          <option value="10">L-10</option>
+          <option value="11">L-11</option>
+          <option value="12">L-12</option>
+          <option value="13">L-13</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Galaxy</label>
+        <select id="another-galaxy">
+          <option value="0">Galaxy</option>
+          <option value="1">Galaxy2</option>
+        </select>
+      </div>
+      <div class="form-group row" style="display: none">
+        <div class="col-sm-2">Annotate</div>
+        <div class="col-sm-2">
+          <div class="form-check">
+            <input id="annotate" type="checkbox" checked class="form-check-input">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="m-2">
+    <button onclick="backward()">&lt;&lt;</button>
+    <button onclick="forward()">&gt;&gt;</button>
+    <button onclick="detect()">Detect Clickable Area</button>
+    <span id="info"></span>
+  </div>
+
+  <div>
+    <canvas id="canvas" width="800" height="800" style="border: 3px solid black; user-select: none"></canvas>
+  </div>
+
+  <div class="slow">
+    <h2 class="m-3">Logs</h2>
+    <!--textarea id="logs" style="width: 800px; height: 12em" readonly></textarea-->
+    <div id="sendlogs" readonly></div>
+  </div>
+</div>
+
+<script src="web.js"></script>
+</body>
+</html>
