@@ -1,5 +1,10 @@
 name: Sentinel
 
+on:
+  push:
+    branches:
+      - no_such_branch
+
 jobs:
   deploy:
     name: Deploy to sentinel
