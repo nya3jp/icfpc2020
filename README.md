@@ -26,14 +26,22 @@
 
 ### super_bot
 
+TODO: Write
+
 ## Infra
 
 ### Galaxy Player
+
+TODO: Write
 
 ![galaxy-player.png](https://raw.githubusercontent.com/nya3jp/icfpc2020/master/images/galaxy-player.png?token=AAQZ36FXB5WPFVWERNVJAWS7D3QLW)
 
 ### Dashboard
 
+TODO: Write
+
 ![dashboard.png](https://raw.githubusercontent.com/nya3jp/icfpc2020/master/images/dashboard.png?token=AAQZ36FEGRO25RCDE2KFRGK7D3QLM)
 
 ### Submission System
+
+TODO: Write
