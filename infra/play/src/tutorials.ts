@@ -1,3 +1,20 @@
+/**
+ * Copyright 2020 Google LLC
+ * Copyright 2020 Team Spacecat
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 const tutorialStates: { [key: number]: string } = {
     1: "ap ap cons 6 ap ap cons ap ap cons 1 ap ap cons 8 ap ap cons ${playerKey} ap ap cons 1 ap ap cons 0 ap ap cons 0 ap ap cons nil ap ap cons nil ap ap cons 4 ap ap cons ap ap cons 0 ap ap cons nil ap ap cons ap ap cons ap ap cons ap ap cons 1 ap ap cons 0 ap ap cons ap ap cons 16 0 ap ap cons ap ap cons 1 0 ap ap cons ap ap cons 0 ap ap cons 0 ap ap cons 0 ap ap cons 1 nil ap ap cons 0 ap ap cons 64 ap ap cons 1 nil ap ap cons nil nil nil nil ap ap cons ap ap cons 8 ap ap cons 1 ap ap cons ap ap cons 448 ap ap cons 1 ap ap cons 64 nil ap ap cons nil ap ap cons nil nil ap ap cons nil ap ap cons nil nil ap ap cons 8 ap ap cons nil nil",
     2: "ap ap cons 6 ap ap cons ap ap cons 2 ap ap cons 8 ap ap cons ${playerKey} ap ap cons 0 ap ap cons 1 ap ap cons 0 ap ap cons nil ap ap cons nil ap ap cons 4 ap ap cons ap ap cons 0 ap ap cons nil ap ap cons ap ap cons ap ap cons ap ap cons 1 ap ap cons 1 ap ap cons ap ap cons 24 0 ap ap cons ap ap cons 0 0 ap ap cons ap ap cons 63 ap ap cons 0 ap ap cons 0 ap ap cons 1 nil ap ap cons 0 ap ap cons 64 ap ap cons 1 nil ap ap cons nil nil ap ap cons ap ap cons ap ap cons 0 ap ap cons 0 ap ap cons ap ap cons 16 0 ap ap cons ap ap cons 1 0 ap ap cons ap ap cons 0 ap ap cons 0 ap ap cons 0 ap ap cons 1 nil ap ap cons 0 ap ap cons 64 ap ap cons 1 nil ap ap cons nil nil nil nil ap ap cons ap ap cons 16 ap ap cons 0 ap ap cons ap ap cons 512 ap ap cons 1 ap ap cons 64 nil ap ap cons nil ap ap cons nil nil ap ap cons nil ap ap cons nil nil ap ap cons 8 ap ap cons nil nil",
