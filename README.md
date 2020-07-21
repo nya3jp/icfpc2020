@@ -1,5 +1,27 @@
 # ICFPC 2020, Team Spacecat
 
+## Members
+
+- [chiro]
+- [draftcode]
+- [gusmachine]
+- [kmyk]
+- [nya3jp]
+- [ogiekako]
+- [phoenixstarhiro]
+- [shunsakuraba]
+- [tanakh]
+
+[chiro]: https://github.com/chiro
+[draftcode]: https://github.com/draftcode
+[gusmachine]: https://github.com/gusmachine
+[kmyk]: https://github.com/kmyk
+[nya3jp]: https://github.com/nya3jp
+[ogiekako]: https://github.com/ogiekako
+[phoenixstarhiro]: https://github.com/phoenixstarhiro
+[shunsakuraba]: https://github.com/shunsakuraba
+[tanakh]: https://github.com/tanakh
+
 ## Bot
 
 ### super_bot
