@@ -1,28 +1,34 @@
 # ICFPC 2020, Team Spacecat
 
-## Members
+## Summary
 
-- [chiro]
-- [draftcode]
-- [gusmachine]
-- [kmyk]
-- [nya3jp]
-- [ogiekako]
-- [phoenixstarhiro]
-- [shunsakuraba]
-- [tanakh]
+Spacecat is a team competed in [ICFP Programming Contest 2020],
+consisting of 9 members: [@chiro], [@draftcode], [@gusmachine], [@kmyk],
+[@nya3jp], [@ogiekako], [@phoenixstarhiro], [@shunsakuraba], and [@tanakh].
 
-[chiro]: https://github.com/chiro
-[draftcode]: https://github.com/draftcode
-[gusmachine]: https://github.com/gusmachine
-[kmyk]: https://github.com/kmyk
-[nya3jp]: https://github.com/nya3jp
-[ogiekako]: https://github.com/ogiekako
-[phoenixstarhiro]: https://github.com/phoenixstarhiro
-[shunsakuraba]: https://github.com/shunsakuraba
-[tanakh]: https://github.com/tanakh
+This repository contains all the code we wrote for the contest.
 
-## Bot
+We used Rust and C++ to build [bots to play the space fighting game] for the
+final round, TypeScript to build [a Galaxy Pad implementation],
+Go, Python, Ruby, OCaml to build support infrastructure, utilities, and so on.
+
+Note that we decided the team name after the lightning round. Until then our
+team name on the system was `???` tentatively.
+
+[ICFP Programming Contest 2020]: https://icfpcontest2020.github.io/
+[@chiro]: https://github.com/chiro/
+[@draftcode]: https://github.com/draftcode/
+[@gusmachine]: https://github.com/gusmachine/
+[@kmyk]: https://github.com/kmyk/
+[@nya3jp]: https://github.com/nya3jp/
+[@ogiekako]: https://github.com/ogiekako/
+[@phoenixstarhiro]: https://github.com/phoenixstarhiro/
+[@shunsakuraba]: https://github.com/shunsakuraba/
+[@tanakh]: https://github.com/tanakh/
+[bots to play the space fighting game]: #bots
+[a Galaxy Pad implementation]: #galaxy-player
+
+## Bots
 
 ### super_bot
 
@@ -32,15 +38,16 @@ TODO: Write
 
 ### Galaxy Player
 
-TODO: Write
+Galaxy Player is our implementation of Galaxy Pad written in TypeScript.
+[A live demo is available](https://nya3jp.github.io/icfpc2020/).
 
-![galaxy-player.png](https://raw.githubusercontent.com/nya3jp/icfpc2020/master/images/galaxy-player.png?token=AAQZ36FXB5WPFVWERNVJAWS7D3QLW)
+![Screenshot](/images/galaxy-player.png?raw=true)
 
 ### Dashboard
 
 TODO: Write
 
-![dashboard.png](https://raw.githubusercontent.com/nya3jp/icfpc2020/master/images/dashboard.png?token=AAQZ36FEGRO25RCDE2KFRGK7D3QLM)
+![Screenshot](/images/dashboard.png?raw=true)
 
 ### Submission System
 
