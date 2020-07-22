@@ -131,3 +131,9 @@ This transpiler translates the input into a Scheme program. See the README there
 for details.
 
 [`./draftcode/interpreter/cmd`]: ./draftcode/interpreter/cmd
+
+## Acknowledgments
+
+Fluffy helped the team by meowing, demanding food, and jumping on to the desk.
+
+![Fluffy](/images/fluffy.jpg?raw=true)
