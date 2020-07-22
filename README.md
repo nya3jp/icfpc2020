@@ -56,7 +56,12 @@ Galaxy Player is our implementation of Galaxy Pad written in TypeScript.
 
 Code: [`./infra/play/src/dash.ts`]
 
-TODO(draftcode): Write
+During the contest, the participants are allowed to request non-rating matches
+with the bots of their choice. We used this feature to evaluate the strength of
+our bots. This dashboard shows the results of those non-rating matches. In
+addition to win-and-lose, it shows links to replay the match by using the
+official visualizer. (The official visualizer had an undocumented feature that
+you can specify a player key of the match.)
 
 ![Screenshot](/images/dashboard.png?raw=true)
 
@@ -75,3 +80,54 @@ branches.
 ## Support tools
 
 TODO(everyone): Write
+
+### Tester
+
+Code: [`./infra/tester/tester.py`]
+
+The endpoint `/aliens/send` had a hidden feature that you can generate player
+keys to test. If you send a modulated value of `[1, 0]`, you'll receive two
+player keys to start a match by yourself. If you send a modulated value of `[1,
+N]`, you'll receive a player key to start tutorial stages of your choice.
+
+This tester script utilizes this endpoint to run a match with two bots without
+submitting the code. There are two modes: One mode runs two bots locally and let
+them fight against each other. The other mode runs one bot locally and let it do
+the tutorial stages.
+
+[`./infra/tester/tester.py`]: ./infra/tester/tester.py
+
+### interact.py
+
+Code: [`./infra/interact`]
+
+The bot programs are executed on the organizer's environment and need to
+interact with an API server with HTTP. The program is build with no network
+access, and the third party libraries must be vendored. However, a minimal setup
+like [starterkit-rust] needs 150MiB for vendoring.
+
+Instead, we wrote a small Python program that converts stdin and stdout into
+HTTP request and response. When invoked with a server URL, a player key, and an
+actual bot program, it execs the bot program and reads and writes its stdin and
+stdout. The actual bot program writes a modulated request into stdout and then
+the Python program makes a POST request with it. The response body is written
+back to the bot program's stdin.
+
+Feedback to the organizer: Making an HTTP request can be hard in some languages.
+As shown with this program, the bot programs could have used stdio instead of
+HTTP without any substantial rule changes. It would be nice to lift this type of
+requirements to be fair to all languages.
+
+[`./infra/interact`]: ./infra/interact
+[starterkit-rust]: https://github.com/icfpcontest2020/starterkit-rust
+
+### Galaxy Pad Scheme Transpiler
+
+Code: [`./draftcode/interpreter/cmd`]
+
+In order to implement Galaxy Pad, you need to write an evaluator of a functional
+language. Since it's a functional language, it's easy to write a transpiler.
+This transpiler translates the input into a Scheme program. See the README there
+for details.
+
+[`./draftcode/interpreter/cmd`]: ./draftcode/interpreter/cmd
