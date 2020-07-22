@@ -1,5 +1,7 @@
 # ICFPC 2020, Team Spacecat
 
+![Spacecat](/images/spacecat.jpg?raw=true | width=480)
+
 ## Summary
 
 Spacecat is a team competed in [ICFP Programming Contest 2020],
