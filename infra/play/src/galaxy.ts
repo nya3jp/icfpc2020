@@ -15,10 +15,11 @@
  * limitations under the License.
  */
 
-import {Environment} from './data';
-import {parseEnvironment} from './parser';
+import {stdEnv} from './builtins';
+import {parseDefines} from './parser';
+import {Environment, Expr, makeReference} from './data';
 
-export const galaxyDefs = `:1029 = ap ap cons 7 ap ap cons 123229502148636 nil
+const galaxyCode = `:1029 = ap ap cons 7 ap ap cons 123229502148636 nil
 :1030 = ap ap cons 2 ap ap cons 7 nil
 :1031 = ap ap cons 4 ap ap cons 21855 nil
 :1032 = ap ap cons 7 ap ap cons 560803991675135 nil
@@ -410,10 +411,13 @@ export const galaxyDefs = `:1029 = ap ap cons 7 ap ap cons 123229502148636 nil
 :1492 = ap ap s ap ap b s ap ap b ap b b ap ap b ap b c ap ap b ap b ap b :1473 ap ap c ap ap b s ap ap b ap b c ap ap c ap ap b c ap ap b ap b b ap ap c ap ap b b :1490 ap ap c :1217 8 i i ap ap c ap ap b c ap ap b ap b b ap ap b :1493 ap ap c :1172 ap ap :1162 12 12 i
 :1493 = ap ap c ap ap b s ap ap b ap b c ap ap s ap ap b b ap ap b b b ap ap c ap ap b c ap ap b ap b c ap ap b ap b ap b c ap ap b ap b ap b ap b s ap ap b ap b ap b ap b ap b s ap ap c ap ap b c ap ap b ap b c ap ap b ap b ap b c ap ap b ap b ap b ap b b ap ap b ap b ap b ap b b ap ap b ap b ap b ap b c ap ap c ap ap b c ap ap b ap b c ap ap b ap b ap b c ap ap b ap b ap b ap b b ap ap b ap b ap b ap b b ap ap b ap b ap b ap b ap b :1476 ap ap b ap b ap b ap b ap c :1115 ap ap c ap ap b c ap ap b ap b c ap ap b ap b ap b c ap ap b ap b ap b ap c :1127 ap ap c ap ap b c ap ap b ap b b ap ap b ap b c ap ap b ap b ap b c ap ap c ap ap b c ap ap b ap b c ap ap b ap b ap b b ap ap c ap ap b c ap ap b ap b b ap c :1494 i i i 0 ap ap b ap b ap cons nil ap ap c ap ap b c ap ap b ap b cons ap ap c ap ap b c ap ap b ap b cons :1131 nil nil ap ap b ap b :1134 ap ap b ap b ap :1126 ap :1139 8 ap ap b ap b ap b ap :1183 ap :1199 1 ap ap c ap ap b b ap ap b b ap ap b :1162 ap add -3 ap ap c ap ap b b add ap ap c mul 3 ap ap b ap b :1134 ap ap b ap b ap :1126 ap :1139 8 ap ap b ap b ap b ap :1183 ap :1199 1 ap ap c ap ap b b ap ap b c ap ap b ap b :1162 ap ap c ap ap b b add ap ap c mul 3 ap add -3 ap ap c :1208 64
 :1494 = ap ap c ap ap b c ap ap b ap b c ap ap b ap b ap b s ap ap b ap b ap b ap b c ap ap c ap ap b b ap ap b c ap ap b ap b c ap ap b ap b ap b c ap ap b ap b ap b ap b b ap ap b ap b ap b ap b ap s i ap ap s ap ap b c ap ap b ap b s ap ap b ap b ap b s ap ap b ap b ap b ap b s ap ap b ap b ap b ap b ap b b ap ap b ap b ap b ap b ap b b ap ap b ap c ap ap b b ap ap b b ap ap b b ap eq 1 ap ap b ap b ap c ap ap b c ap c ap ap c :1490 ap :1199 1 ap c ap ap b add ap ap b neg :1117 ap ap b ap b ap c ap ap b c ap ap b ap b c ap ap b ap b ap b c ap ap b ap c ap ap b b ap ap b b ap ap b b ap ap b ap c ap ap b cons ap ap c cons nil ap ap c ap ap b cons ap ap c ap ap b cons ap ap c cons nil nil nil ap ap b ap c ap ap b c ap ap b ap b b ap ap b ap b cons ap ap c ap ap b c ap ap c ap ap b c ap ap c ap ap b b ap ap b :1166 ap add -1 ap add -1 3 3 ap ap c ap ap b b cons ap ap c cons nil ap ap c ap ap b b add :1117 :1172 ap ap s ap ap b :1162 ap ap b ap mul 3 ap ap c ap ap s ap ap b b ap ap c ap ap b b add neg ap ap b ap s mul div 8 ap ap b ap mul 3 ap ap c div 8
-galaxy = :1338
-statelessdraw = ap ap c ap ap b b ap ap b ap b ap cons 0 ap ap c ap ap b b cons ap ap c cons nil ap ap c ap ap b cons ap ap c cons nil nil
-statefuldraw = ap ap b ap b ap ap s ap ap b ap b ap cons 0 ap ap c ap ap b b cons ap ap c cons nil ap ap c cons nil ap c cons`;
+galaxy = :1338`;
 
-export function newGalaxyEnvironment(): Environment {
-    return parseEnvironment(galaxyDefs);
+function newGalaxyEnvironment(): Environment {
+    const env = new Environment(stdEnv);
+    env.defineAll(parseDefines(env, galaxyCode));
+    return env;
 }
+
+export const galaxyEnv: Environment = newGalaxyEnvironment();
+export const galaxyMain: Expr = makeReference(galaxyEnv, 'galaxy');

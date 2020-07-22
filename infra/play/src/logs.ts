@@ -16,12 +16,12 @@
  */
 
 import {
-    PrettyData
+    StaticData
 } from './data';
 
 export interface SendLog {
-    req: PrettyData
-    res: PrettyData
+    req: StaticData
+    res: StaticData
 }
 
 const sendLogs: Array<SendLog> = [];

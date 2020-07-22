@@ -15,10 +15,11 @@
  * limitations under the License.
  */
 
-import {Environment} from './data';
-import {parseEnvironment} from './parser';
+import {stdEnv} from './builtins';
+import {parseDefines} from './parser';
+import {Environment, Expr, makeReference} from './data';
 
-export const galaxy2Defs = `:1029 = ap ap cons 7 ap ap cons 123229502148636 nil
+const galaxy2Code = `:1029 = ap ap cons 7 ap ap cons 123229502148636 nil
 :1030 = ap ap cons 2 ap ap cons 7 nil
 :1031 = ap ap cons 4 ap ap cons 21855 nil
 :1032 = ap ap cons 7 ap ap cons 560803991675135 nil
@@ -413,6 +414,11 @@ export const galaxy2Defs = `:1029 = ap ap cons 7 ap ap cons 123229502148636 nil
 :1497 = ap ap c ap ap b c ap ap b ap b c ap ap b ap b ap b s ap ap b ap b ap b ap b c ap ap c ap ap b b ap ap b c ap ap b ap b c ap ap b ap b ap b c ap ap b ap b ap b ap b b ap ap b ap b ap b ap b ap s i ap ap s ap ap b c ap ap b ap b s ap ap b ap b ap b s ap ap b ap b ap b ap b s ap ap b ap b ap b ap b ap b b ap ap b ap b ap b ap b ap b b ap ap b ap c ap ap b b ap ap b b ap ap b b ap eq 1 ap ap b ap b ap c ap ap b c ap c ap ap c :1493 ap :1201 1 ap c ap ap b add ap ap b neg :1119 ap ap b ap b ap c ap ap b c ap ap b ap b c ap ap b ap b ap b c ap ap b ap c ap ap b b ap ap b b ap ap b b ap ap b ap c ap ap b cons ap ap c cons nil ap ap c ap ap b cons ap ap c ap ap b cons ap ap c cons nil nil nil ap ap b ap c ap ap b c ap ap b ap b b ap ap b ap b cons ap ap c ap ap b c ap ap c ap ap b c ap ap c ap ap b b ap ap b :1168 ap add -1 ap add -1 3 3 ap ap c ap ap b b cons ap ap c cons nil ap ap c ap ap b b add :1119 :1174 ap ap s ap ap b :1164 ap ap b ap mul 3 ap ap c ap ap s ap ap b b ap ap c ap ap b b add neg ap ap b ap s mul div 8 ap ap b ap mul 3 ap ap c div 8
 galaxy = :1340`;
 
-export function newGalaxy2Environment(): Environment {
-    return parseEnvironment(galaxy2Defs);
+function newGalaxy2Environment(): Environment {
+    const env = new Environment(stdEnv);
+    env.defineAll(parseDefines(env, galaxy2Code));
+    return env;
 }
+
+export const galaxy2Env: Environment = newGalaxy2Environment();
+export const galaxy2Main: Expr = makeReference(galaxy2Env, 'galaxy');

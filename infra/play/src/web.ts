@@ -16,22 +16,22 @@
  */
 
 import {parseExpr} from './parser';
-import {newGalaxyEnvironment} from './galaxy';
-import { newGalaxy2Environment } from './galaxy2';
-import {evaluate} from './eval';
 import {
     debugString,
-    debugListString,
     Expr,
     makeApply,
-    makeNumber,
-    makeReference,
     parseList,
     Point,
-    PrettyData,
+    StaticData,
     NumberData,
-    prettyDataString,
-    valueToPrettyData, makePoint, prettyDataEqual
+    staticDataString,
+    exprToStaticData,
+    makePoint,
+    staticDataEqual,
+    makeCar,
+    makeCdr,
+    Environment,
+    evaluate
 } from './data';
 
 import {appendSendLog, getSendLogs} from './logs';
@@ -40,9 +40,8 @@ import { sendToServer } from './utils';
 import { demodulate, modulate } from './modem';
 import {parsePictures, Picture} from './picture';
 import { getTutorialState } from './tutorials';
-
-let env = newGalaxyEnvironment();
-const galaxyExpr = makeReference('galaxy');
+import {galaxyEnv, galaxyMain} from './galaxy';
+import {galaxy2Env, galaxy2Main} from './galaxy2';
 
 interface RenderState {
     input: Expr
@@ -52,6 +51,8 @@ interface RenderState {
 
 const FARAWAY_POINT = {x: -10000, y: -10000};
 
+let currentEnv: Environment = galaxyEnv;
+let currentMain: Expr = galaxyMain;
 const history: Array<RenderState> = [];
 let historyPos = -1;
 
@@ -156,8 +157,8 @@ function updateUI(): void {
         return;
     }
 
-    stateElem.value = debugString(env, state);
-    stateListElem.textContent = prettyDataString(valueToPrettyData(env, evaluate(env, state)));
+    stateElem.value = debugString(state);
+    stateListElem.textContent = staticDataString(exprToStaticData(state));
     updateLogs();
 }
 
@@ -223,7 +224,7 @@ function updateLogs(): void {
     function emph(s: string): string {
         return `<b>${s}</b>`;
     }
-    function pushPos(pos: TreePos, elems: Array<PrettyData>, i: number): TreePos {
+    function pushPos(pos: TreePos, elems: Array<StaticData>, i: number): TreePos {
         if (!pos) {
             return null;
         }
@@ -233,7 +234,7 @@ function updateLogs(): void {
         }
         return `${pos}/${i}`;
     }
-    function explain(data: PrettyData, pos: TreePos): string {
+    function explain(data: StaticData, pos: TreePos): string {
         if (!pos) {
             return '';
         }
@@ -248,16 +249,16 @@ function updateLogs(): void {
         }
         return '';
     }
-    function toDiffedLispList(data: PrettyData, last: PrettyData, pos: TreePos): string {
-        switch (data.kind) {
+    function toDiffedLispList(data: StaticData, last: StaticData, pos: TreePos): string {
+        switch (data.dataType) {
             case 'number':
                 const s = toLispList(data, pos);
-                if (last.kind == 'number' && last.number === data.number) {
+                if (last.dataType == 'number' && last.number === data.number) {
                     return s;
                 }
                 return emph(s);
             case 'list':
-                if (last.kind !== 'list') {
+                if (last.dataType !== 'list') {
                     return emph(toLispList(data, pos));
                 }
                 const elems: Array<string> = [];
@@ -272,14 +273,14 @@ function updateLogs(): void {
                 }
                 return explain(data, pos) + `[${elems.join(', ')}]`;
             case 'cons':
-                if (last.kind !== 'cons') {
+                if (last.dataType !== 'cons') {
                     return emph(toLispList(data, pos));
                 }
                 return explain(data, pos) + `(${toDiffedLispList(data.car, last.car, null)} . ${toDiffedLispList(data.cdr, last.cdr, null)})`;
         }
     }
-    function toLispList(data: PrettyData, pos: TreePos): string {
-        switch (data.kind) {
+    function toLispList(data: StaticData, pos: TreePos): string {
+        switch (data.dataType) {
             case 'number':
                 return explain(data, pos) + String(data.number);
             case 'list':
@@ -297,8 +298,8 @@ function updateLogs(): void {
     let elems: Array<string> = [];
     for (let i = sends.length - 1; i >= 0; i--) { // new -> old
         const {req, res} = sends[i];
-        const op = req.kind === 'list' && req.elems[0].kind === 'number' ? String(req.elems[0].number) : '?';
-        const code = res.kind === 'list' && res.elems[0].kind === 'number' ? String(res.elems[0].number) : '?';
+        const op = req.dataType === 'list' && req.elems[0].dataType === 'number' ? String(req.elems[0].number) : '?';
+        const code = res.dataType === 'list' && res.elems[0].dataType === 'number' ? String(res.elems[0].number) : '?';
         let reqLog: String;
         let resLog: String;
         if (i == 0) {
@@ -324,27 +325,28 @@ function interact(state: Expr, input: Expr): void {
         let pics: Array<Picture>;
         loop: while (true) {
             if (DEBUG_INTERACT) {
-                console.log(`evaluate state=${prettyDataString(valueToPrettyData(env, evaluate(env, state)))} input=${prettyDataString(valueToPrettyData(env, evaluate(env, input)))}`);
+                console.log(`evaluate state=${staticDataString(exprToStaticData(state))} input=${staticDataString(exprToStaticData(input))}`);
             }
-            const result = evaluate(env, makeApply(makeApply(galaxyExpr, state), input));
-            const [syscall, s, output] = parseList(env, result);
+            const result = makeApply(currentMain, state, input);
+            const [syscallExpr, s, output] = parseList(result);
             state = s;
+            const syscall = evaluate(syscallExpr);
             if (syscall.kind !== 'number') {
-                throw new Error('Flag not a number');
+                throw new Error(`Flag not a number: ${syscall.kind}`);
             }
             switch (Number(syscall.number)) {
                 case 0:  // Draw
-                    pics = parsePictures(valueToPrettyData(env, output));
+                    pics = parsePictures(exprToStaticData(output));
                     break loop;
                 case 1:  // Send
-                    const modReq = modulate(env, output);
+                    const modReq = modulate(output);
                     const modRes = sendToServer(modReq)
                     input = demodulate(modRes);
-                    const req = valueToPrettyData(env, output);
-                    const res = valueToPrettyData(env, evaluate(env, input))
+                    const req = exprToStaticData(output);
+                    const res = exprToStaticData(input);
                     appendSendLog({req, res});
                     if (DEBUG_INTERACT) {
-                        console.log(`send:\nstate=${debugString(env, state)}\nreq=${prettyDataString(req)}\nres=${prettyDataString(res)}`);
+                        console.log(`send:\nstate=${debugString(state)}\nreq=${staticDataString(req)}\nres=${staticDataString(res)}`);
                     }
                     break;
                 default:
@@ -362,11 +364,6 @@ function interact(state: Expr, input: Expr): void {
     } finally {
         updateUI();
     }
-}
-
-function interactPoint(state: Expr, point: Point): void {
-    const input = makeApply(makeApply(makeReference('cons'), makeNumber(BigInt(point.x))), makeNumber(BigInt(point.y)));
-    interact(state, input);
 }
 
 function forward(): void {
@@ -388,12 +385,12 @@ function backward(): void {
 function loadState(stateStr: string, point: Point = FARAWAY_POINT): void {
     let state: Expr;
     try {
-        state = parseExpr(stateStr);
+        state = parseExpr(currentEnv, stateStr);
     } catch (e) {
         reportError(e);
         throw new Error('not reached');
     }
-    interactPoint(state, point);
+    interact(state, makePoint(point));
 }
 
 function loadReplay(key: string): void {
@@ -413,7 +410,7 @@ function onClickCanvas(ev: MouseEvent): void {
     const ox = (canvasElem.width - d * (view.maxX - view.minX)) / 2;
     const oy = (canvasElem.height - d * (view.maxY - view.minY)) / 2;
     const point = {x: Math.floor((ev.offsetX - ox) / d + view.minX), y: Math.floor((ev.offsetY - oy) / d + view.minY)};
-    interactPoint(state, point);
+    interact(state, makePoint(point));
 }
 
 function onStateChanged(): void {
@@ -437,53 +434,39 @@ function onFastChanged(): void {
 }
 
 function onTutorialSelected(): void {
-    function car(expr: string): string {
-        return `ap car ${expr}`;
-    }
-    function cdr(expr: string): string {
-        return `ap cdr ${expr}`;
-    }
-
     const selectedStage = tutorialElem.options[tutorialElem.selectedIndex].value;
     const createReq = `ap ap cons 1 ap ap cons ${selectedStage} nil`;
-    const createReqVal = evaluate(env, parseExpr(createReq));
-    const createRes = debugString(env, evaluate(env, demodulate(sendToServer(modulate(env, createReqVal)))));
-    const playerKey = debugString(env, evaluate(env, parseExpr(car(cdr(car(car(cdr(createRes))))))));
+    const createReqVal = parseExpr(currentEnv, createReq);
+    const createRes = debugString(demodulate(sendToServer(modulate(createReqVal))));
+    const playerKey = debugString(makeCar(makeCdr(makeCar(makeCar(makeCdr(parseExpr(currentEnv, createRes)))))));
 
     const startReq = `ap ap cons 2 ap ap cons ${playerKey} ap ap cons nil nil`;
-    const startRes = demodulate(sendToServer(modulate(env, evaluate(env, parseExpr(startReq)))))
+    const startRes = demodulate(sendToServer(modulate(parseExpr(currentEnv, startReq))))
     const joinReq = `ap ap cons 3 ap ap cons ${playerKey} ap ap cons nil nil`;
-    const joinRes = demodulate(sendToServer(modulate(env, evaluate(env, parseExpr(joinReq)))));
+    const joinRes = demodulate(sendToServer(modulate(parseExpr(currentEnv, joinReq))));
 
     loadState(getTutorialState(playerKey, parseInt(selectedStage)));
 }
 
 function onGalaxyChanged(): void {
     const selectedGalaxy = galaxyElem.options[galaxyElem.selectedIndex].value;
-    // Erase cache.
-    delete galaxyExpr.cache;
-    if (selectedGalaxy === "0") {
-        console.log('old galaxy: ' + env.get(":1029"));
-        env = newGalaxyEnvironment();
-        const initState = parseExpr('ap ap cons 2 ap ap cons ap ap cons 1 ap ap cons -1 nil ap ap cons 0 ap ap cons nil nil');
-        if (galaxyExpr.cache)
-        interactPoint(initState, FARAWAY_POINT);
+    if (selectedGalaxy === '0') {
+        resetGalaxy(galaxyEnv, galaxyMain);
     } else {
-        env = newGalaxy2Environment();
-        console.log('new galaxy: ' + env.get(":1029"));
-        const initState = parseExpr('nil');
-        interactPoint(initState, {x: 0, y: 0});
+        resetGalaxy(galaxy2Env, galaxy2Main);
     }
 }
 
 function reportError(e: Error): void {
+    console.log(e);
     alert(e);
     throw e;
 }
 
 function interactPointOnce(state: Expr, point: Point): Expr | null {
-    const result = evaluate(env, makeApply(makeApply(galaxyExpr, state), makePoint(point)));
-    const [syscall, newState, output] = parseList(env, result);
+    const result = makeApply(currentMain, state, makePoint(point));
+    const [syscallExpr, newState, output] = parseList(result);
+    const syscall = evaluate(syscallExpr);
     if (syscall.kind !== 'number') {
         throw new Error('Flag not a number');
     }
@@ -496,7 +479,7 @@ function interactPointOnce(state: Expr, point: Point): Expr | null {
 function detect(): void {
     const { state, pics } = history[historyPos];
     const view = computeView(pics);
-    const prettyState = valueToPrettyData(env, evaluate(env, state));
+    const prettyState = exprToStaticData(state);
 
     const ctx = canvasElem.getContext('2d');
     if (!ctx) {
@@ -511,20 +494,32 @@ function detect(): void {
     function translate(p: Point): Point {
         return {x: ox + d * (p.x - view.minX), y: oy + d * (p.y - view.minY)};
     }
+    console.time('detect');
     for (let y = view.minY; y < view.maxY; y++) {
         for (let x = view.minX; x < view.maxX; x++) {
             const newState = interactPointOnce(state, {x, y});
             if (!newState) {
                 continue;
             }
-            const prettyNewState = valueToPrettyData(env, evaluate(env, newState));
-            if (!prettyDataEqual(prettyNewState, prettyState)) {
+            const prettyNewState = exprToStaticData(newState);
+            if (!staticDataEqual(prettyNewState, prettyState)) {
                 continue;
             }
             const {x: tx, y: ty} = translate({x, y});
             ctx.fillRect(tx, ty, d, d);
         }
     }
+    console.timeEnd('detect');
+}
+
+function resetGalaxy(env: Environment, main: Expr): void {
+    currentEnv = env;
+    currentMain = main;
+    history.splice(0);
+    historyPos = -1;
+
+    const initState = parseExpr(currentEnv, 'ap ap cons 2 ap ap cons ap ap cons 1 ap ap cons -1 nil ap ap cons 0 ap ap cons nil nil');
+    interact(initState, makePoint(FARAWAY_POINT));
 }
 
 function init(): void {
@@ -537,8 +532,7 @@ function init(): void {
     tutorialElem.addEventListener('change', onTutorialSelected);
     galaxyElem.addEventListener('change', onGalaxyChanged);
 
-    const initState = parseExpr('ap ap cons 2 ap ap cons ap ap cons 1 ap ap cons -1 nil ap ap cons 0 ap ap cons nil nil');
-    interactPoint(initState, FARAWAY_POINT);
+    resetGalaxy(currentEnv, currentMain);
 
     const givenState = getQueryParams('state');
     if (givenState) {

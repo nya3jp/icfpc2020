@@ -16,16 +16,19 @@
  */
 
 import {
-    Environment, Expr,
+    evaluate,
+    Expr,
     isNil,
-    makeApply,
+    makeCar,
+    makeCdr,
+    makeCons,
+    makeNil,
     makeNumber,
-    makeReference,
-    Value
+    Value,
 } from './data';
-import {evaluate} from './eval';
 
-export function modulate(env: Environment, value: Value): string {
+export function modulate(expr: Expr): string {
+    const value = evaluate(expr);
     switch (value.kind) {
         case 'number': {
             let n = value.number;
@@ -43,18 +46,18 @@ export function modulate(env: Environment, value: Value): string {
             }
             return sig;
         }
+        case 'nil':
+        case 'cons':
         case 'func': {
-            if (isNil(env, value)) {
+            if (isNil(value)) {
                 return '00';
             }
-            const car = evaluate(env, makeApply(makeReference('car'), value));
-            const cdr = evaluate(env, makeApply(makeReference('cdr'), value));
-            return '11' + modulate(env, car) + modulate(env, cdr);
+            return '11' + modulate(makeCar(value)) + modulate(makeCdr(value));
         }
     }
 }
 
-function demodulateIter(code: string): [Expr, string] {
+function demodulateIter(code: string): [Value, string] {
     const h = code.slice(0, 2);
     code = code.slice(2);
     switch (h) {
@@ -67,21 +70,21 @@ function demodulateIter(code: string): [Expr, string] {
             code = code.slice(w+1);
             const bin = code.slice(0, 4*w);
             code = code.slice(4*w);
-            const expr = makeNumber(w > 0 ? BigInt('0b' + bin) * BigInt(h === '01' ? 1 : -1) : BigInt(0));
-            return [expr, code];
+            const value = makeNumber(w > 0 ? BigInt('0b' + bin) * BigInt(h === '01' ? 1 : -1) : BigInt(0));
+            return [value, code];
         }
         case '00':
-            return [makeReference('nil'), code]
+            return [makeNil(), code]
         case '11':
             const [car, rest1] = demodulateIter(code);
             const [cdr, rest2] = demodulateIter(rest1);
-            return [makeApply(makeApply(makeReference('cons'), car), cdr), rest2];
+            return [makeCons(car, cdr), rest2];
         default:
             throw new Error('demodulate: invalid signal');
     }
 }
 
-export function demodulate(code: string): Expr {
+export function demodulate(code: string): Value {
     const [expr, rest] = demodulateIter(code);
     if (rest !== '') {
         throw new Error('demodulate: invalid signal');
