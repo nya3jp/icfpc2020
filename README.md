@@ -132,6 +132,12 @@ for details.
 
 [`./draftcode/interpreter/cmd`]: ./draftcode/interpreter/cmd
 
+### Galaxy Relambder
+
+To reverse engineer the Galaxy we wrote a program to convert combinator-ful alien codes into human-readable lambda functions. We added annotations to some arithmetic and list functions using them.
+
+[`./chunjp/decomp`]: ./chunjp/decomp
+
 ## Acknowledgments
 
 Fluffy helped the team by meowing, demanding food, and jumping on to the desk.
