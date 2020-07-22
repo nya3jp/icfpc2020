@@ -1,6 +1,6 @@
 # ICFPC 2020, Team Spacecat
 
-![Spacecat](/images/spacecat.jpg?raw=true | width=480)
+![Spacecat](/images/spacecat.jpg?raw=true)
 
 ## Summary
 
