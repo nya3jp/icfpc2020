@@ -47,12 +47,47 @@ TODO(tanakh): Write
 
 Code: [`./infra/play`]
 
-Galaxy Player is our implementation of Galaxy Pad written in TypeScript.
-[A live demo is available](https://nya3jp.github.io/icfpc2020/).
+Demo: https://nya3jp.github.io/icfpc2020/
 
-![Screenshot](/images/galaxy-player.png?raw=true)
+Galaxy Player is our implementation of Galaxy Pad in TypeScript.
 
 [`./infra/play`]: ./infra/play/
+
+#### Features
+
+- Efficient execution of Galaxy assembly
+- Automatic number annotation
+- Clickable area detection
+- Send log analysis
+- State forward/backward navigation like web browsers
+- State save/restore
+- Jump to replay
+- Jump to tutorial stages
+
+#### Gallery
+
+<table>
+<tr>
+<td style="text-align: center">
+<img src="https://github.com/nya3jp/icfpc2020/blob/master/images/galaxy-player.png?raw=true">
+Galaxy Player UI
+</td>
+<td style="text-align: center">
+<img src="https://github.com/nya3jp/icfpc2020/blob/master/images/galaxy-player-annotate.png?raw=true">
+Automatic number annotation
+</td>
+</tr>
+<tr>
+<td style="text-align: center">
+<img src="https://github.com/nya3jp/icfpc2020/blob/master/images/galaxy-player-detect.png?raw=true">
+Clickable area detection
+</td>
+<td style="text-align: center">
+<img src="https://github.com/nya3jp/icfpc2020/blob/master/images/galaxy-player-logs.png?raw=true">
+Send log analysis
+</td>
+</tr>
+</table>
 
 ### Dashboard
 
