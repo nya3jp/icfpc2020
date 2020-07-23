@@ -65,6 +65,7 @@ const sendLogsElem = document.getElementById('sendlogs') as HTMLElement;
 const annotateElem = document.getElementById('annotate') as HTMLInputElement;
 const replayElem = document.getElementById('replay-player-key') as HTMLInputElement;
 const fastElem = document.getElementById('fast') as HTMLInputElement;
+const spaceElem = document.getElementById('space') as HTMLInputElement;
 const tutorialElem = document.getElementById('jump-to-tutorial') as HTMLSelectElement;
 const galaxyElem = document.getElementById('another-galaxy') as HTMLSelectElement;
 
@@ -110,6 +111,8 @@ function computeView(pics: Array<Picture>): View {
 }
 
 function renderCanvas(pics: Array<Picture>): void {
+    const spaceMode = spaceElem.checked;
+
     const view = computeView(pics);
 
     const ctx = canvasElem.getContext('2d');
@@ -117,7 +120,7 @@ function renderCanvas(pics: Array<Picture>): void {
         throw new Error('Canvas context unavailable');
     }
 
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = spaceMode ? 'black' : 'white';
     ctx.fillRect(0, 0, canvasElem.width, canvasElem.height);
 
     const d = getPixelSize(pics)
@@ -138,7 +141,7 @@ function renderCanvas(pics: Array<Picture>): void {
     // annotate
     if (annotateElem.checked) {
         for (const a of annotate(view.minX, view.minY, view.maxX, view.maxY, pics)) {
-            ctx.fillStyle = 'black';
+            ctx.fillStyle = spaceMode ? 'white' : 'black';
             const q = translate({x:a.x, y:a.y});
             ctx.fillText(a.txt, q.x, q.y, (d*a.n)*2);
         }
@@ -433,6 +436,10 @@ function onFastChanged(): void {
     updateUI();
 }
 
+function onSpaceChanged(): void {
+    updateUI();
+}
+
 function onTutorialSelected(): void {
     const selectedStage = tutorialElem.options[tutorialElem.selectedIndex].value;
     const createReq = `ap ap cons 1 ap ap cons ${selectedStage} nil`;
@@ -486,7 +493,8 @@ function detect(): void {
         throw new Error('Canvas context unavailable');
     }
 
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    const spaceMode = spaceElem.checked;
+    ctx.fillStyle = spaceMode ? 'rgba(1, 1, 1, 0.5)' : 'rgba(0, 0, 0, 0.5)';
 
     const d = getPixelSize(pics)
     const ox = (canvasElem.width - d * (view.maxX - view.minX)) / 2;
@@ -529,6 +537,7 @@ function init(): void {
     annotateElem.addEventListener('change', onAnnotateChanged);
     replayElem.addEventListener('change', onReplayPlayerKeyChanged);
     fastElem.addEventListener('change', onFastChanged);
+    spaceElem.addEventListener('change', onSpaceChanged);
     tutorialElem.addEventListener('change', onTutorialSelected);
     galaxyElem.addEventListener('change', onGalaxyChanged);
 
