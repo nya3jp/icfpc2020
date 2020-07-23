@@ -173,7 +173,9 @@ for details.
 
 Code: [`./chunjp/decomp`]
 
-To reverse engineer the Galaxy we wrote a program to convert combinator-ful alien codes into human-readable lambda functions. We added annotations to some arithmetic and list functions using them.
+To reverse engineer the Galaxy we wrote a program to convert combinator-ful alien codes into human-readable lambda functions. We added annotations to some arithmetic and list functions.
+
+[`./chunjp/decomp`]: ./chunjp/decomp
 
 ## Acknowledgments
 
