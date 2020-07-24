@@ -163,7 +163,7 @@ function isNilSlow(value: FuncValue): boolean {
     const bool = evaluate(makeFunc2((a, b) => makeBoolean(false)));
     const trueValue = BigInt(123);
     const falseValue = BigInt(456);
-    const result = evaluate(makeApply(bool, makeNumber(trueValue), makeNumber(falseValue)));
+    const result = evaluate(makeApply(value, bool, makeNumber(trueValue), makeNumber(falseValue)));
     if (result.kind !== 'number') {
         throw new Error('Not nil/cons');
     }
