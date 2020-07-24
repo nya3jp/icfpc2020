@@ -6,7 +6,7 @@ Demo: https://nya3jp.github.io/icfpc2020/
 
 Detailed explanation is available in [the top-level README].
 
-[the top-level README]: /
+[the top-level README]: /README.md
 
 ## How to build
 
