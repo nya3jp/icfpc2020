@@ -28,77 +28,93 @@ import {
     makeFunc,
     makeFunc2,
     makeFunc3,
-    makeNil,
+    makeNil, makeThunk,
 } from './data';
 import {makeNumber} from './data';
 
 function builtinInc(a: Expr): Expr {
-    const x = evaluate(a);
-    if (x.kind !== 'number') {
-        throw new Error(`inc: wrong types: ${x.kind}`);
-    }
-    return makeNumber(x.number + BigInt(1));
+    return makeThunk(() => {
+        const x = evaluate(a);
+        if (x.kind !== 'number') {
+            throw new Error(`inc: wrong types: ${x.kind}`);
+        }
+        return makeNumber(x.number + BigInt(1));
+    });
 }
 
 function builtinDec(a: Expr): Expr {
-    const x = evaluate(a);
-    if (x.kind !== 'number') {
-        throw new Error(`dec: wrong types: ${x.kind}`);
-    }
-    return makeNumber(x.number - BigInt(1));
+    return makeThunk(() => {
+        const x = evaluate(a);
+        if (x.kind !== 'number') {
+            throw new Error(`dec: wrong types: ${x.kind}`);
+        }
+        return makeNumber(x.number - BigInt(1));
+    });
 }
 
 function builtinAdd(a: Expr, b: Expr): Expr {
-    const x = evaluate(a);
-    const y = evaluate(b);
-    if (x.kind !== 'number' || y.kind !== 'number') {
-        throw new Error(`add: wrong types: ${x.kind} ${y.kind}`);
-    }
-    return makeNumber(x.number + y.number);
+    return makeThunk(() => {
+        const x = evaluate(a);
+        const y = evaluate(b);
+        if (x.kind !== 'number' || y.kind !== 'number') {
+            throw new Error(`add: wrong types: ${x.kind} ${y.kind}`);
+        }
+        return makeNumber(x.number + y.number);
+    });
 }
 
 function builtinMul(a: Expr, b: Expr): Expr {
-    const x = evaluate(a);
-    const y = evaluate(b);
-    if (x.kind !== 'number' || y.kind !== 'number') {
-        throw new Error(`mul: wrong types: ${x.kind} ${y.kind}`);
-    }
-    return makeNumber(x.number * y.number);
+    return makeThunk(() => {
+        const x = evaluate(a);
+        const y = evaluate(b);
+        if (x.kind !== 'number' || y.kind !== 'number') {
+            throw new Error(`mul: wrong types: ${x.kind} ${y.kind}`);
+        }
+        return makeNumber(x.number * y.number);
+    });
 }
 
 function builtinDiv(a: Expr, b: Expr): Expr {
-    const x = evaluate(a);
-    const y = evaluate(b);
-    if (x.kind !== 'number' || y.kind !== 'number') {
-        throw new Error(`div: wrong types: ${x.kind} ${y.kind}`);
-    }
-    return makeNumber(x.number / y.number);
+    return makeThunk(() => {
+        const x = evaluate(a);
+        const y = evaluate(b);
+        if (x.kind !== 'number' || y.kind !== 'number') {
+            throw new Error(`div: wrong types: ${x.kind} ${y.kind}`);
+        }
+        return makeNumber(x.number / y.number);
+    });
 }
 
 function builtinEq(a: Expr, b: Expr): Expr {
-    const x = evaluate(a);
-    const y = evaluate(b);
-    if (x.kind !== 'number' || y.kind !== 'number') {
-        throw new Error(`eq: wrong types: ${x.kind} ${y.kind}`);
-    }
-    return makeBoolean(x.number === y.number);
+    return makeThunk(() => {
+        const x = evaluate(a);
+        const y = evaluate(b);
+        if (x.kind !== 'number' || y.kind !== 'number') {
+            throw new Error(`eq: wrong types: ${x.kind} ${y.kind}`);
+        }
+        return makeBoolean(x.number === y.number);
+    });
 }
 
 function builtinLt(a: Expr, b: Expr): Expr {
-    const x = evaluate(a);
-    const y = evaluate(b);
-    if (x.kind !== 'number' || y.kind !== 'number') {
-        throw new Error(`lt: wrong types: ${x.kind} ${y.kind}`);
-    }
-    return makeBoolean(x.number < y.number);
+    return makeThunk(() => {
+        const x = evaluate(a);
+        const y = evaluate(b);
+        if (x.kind !== 'number' || y.kind !== 'number') {
+            throw new Error(`lt: wrong types: ${x.kind} ${y.kind}`);
+        }
+        return makeBoolean(x.number < y.number);
+    });
 }
 
 function builtinNeg(a: Expr): Expr {
-    const x = evaluate(a);
-    if (x.kind !== 'number') {
-        throw new Error(`neg: wrong types: ${x.kind}`);
-    }
-    return makeNumber(-x.number);
+    return makeThunk(() => {
+        const x = evaluate(a);
+        if (x.kind !== 'number') {
+            throw new Error(`neg: wrong types: ${x.kind}`);
+        }
+        return makeNumber(-x.number);
+    });
 }
 
 function builtinS(a: Expr, b: Expr, c: Expr): Expr {
@@ -118,7 +134,9 @@ function builtinI(a: Expr): Expr {
 }
 
 function builtinIsNil(a: Expr): Expr {
-    return makeBoolean(isNil(a));
+    return makeThunk(() => {
+        return makeBoolean(isNil(a));
+    });
 }
 
 function newStandardEnvironment(): Environment {

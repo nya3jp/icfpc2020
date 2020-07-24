@@ -75,7 +75,7 @@ export function makeCons(car: Expr, cdr: Expr): ConsValue {
     return {kind: 'cons', car, cdr};
 }
 
-function makeThunk(func: () => Value): Thunk {
+export function makeThunk(func: () => Value): Thunk {
     return {kind: 'thunk', func};
 }
 
@@ -113,12 +113,28 @@ function apply(lhs: Expr, rhs: Expr): Value {
 
 // Popular constructors.
 
-export function makeApply(lhs: Expr, rhs: Expr, ...args: Array<Expr>): Thunk {
-    const thunk = makeThunk(() => apply(lhs, rhs));
-    return args.length === 0 ? thunk : makeApply(thunk, args[0], ...args.slice(1));
+export function makeApply(...args: Array<Expr>): Expr {
+    return args.reduce((lhs: Expr, rhs: Expr): Expr => {
+        switch (lhs.kind) {
+            case 'number':
+                throw new Error(`Invalid function call: ${lhs.kind}`);
+            case 'nil':
+                return makeBoolean(true);
+            case 'cons':
+                return makeApply(rhs, lhs.car, lhs.cdr);
+            case 'func':
+                return lhs.func(rhs);
+            case 'thunk':
+                return makeThunk(() => apply(lhs, rhs));
+        }
+    });
 }
 
-export function makeReference(env: Environment, name: string): Thunk {
+export function makeReference(env: Environment, name: string): Expr {
+    const resolved = env.lookup(name);
+    if (resolved) {
+        return resolved;
+    }
     return makeThunk(() => {
         const resolved = env.lookup(name);
         if (!resolved) {
